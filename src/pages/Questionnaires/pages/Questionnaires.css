@@ -1,0 +1,25 @@
+.questionnaire {
+    text-decoration: none;
+    color: #333;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+}
+.card {
+    width: 600px;
+    color: grey;
+    margin-bottom: 20px;
+}
+.light-text{
+    color: lightgray;
+}
+.normal-text{
+    color: grey;
+    font-weight: 600;
+}
+.right {
+    float: right;
+    margin-bottom: 20px;
+}
