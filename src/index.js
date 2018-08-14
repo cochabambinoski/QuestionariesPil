@@ -3,7 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App.js';
 import registerServiceWorker from './registerServiceWorker';
-import Questionnaires from './pages/Questionnaires/pages/Questionnaires.js';
+import QuestionnaireList from './pages/QuestionnairesList/pages/QuestionnairesList.js';
+import { BrowserRouter } from 'react-router-dom'
 
-ReactDOM.render(<Questionnaires />, document.getElementById('root'));
+ReactDOM.render(
+    <BrowserRouter>
+        <QuestionnaireList />
+    </BrowserRouter>,
+    document.getElementById('root'));
 registerServiceWorker();
