@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App.js';
+import App from './App.js';
 import registerServiceWorker from './registerServiceWorker';
-import QuestionnaireList from './pages/QuestionnairesList/pages/QuestionnairesList.js';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 ReactDOM.render(
-    <BrowserRouter>
-        <QuestionnaireList />
-    </BrowserRouter>,
+    <Router>
+        <App />
+    </Router>,
     document.getElementById('root'));
 registerServiceWorker();

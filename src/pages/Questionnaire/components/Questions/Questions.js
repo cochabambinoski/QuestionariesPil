@@ -4,8 +4,6 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
 import './Questions.css';
 
 class Questions extends Component {
@@ -15,7 +13,7 @@ class Questions extends Component {
     }
     render() {
         return (
-            <div className="question">
+            <div>
                 {this.props.questions.map((question, index) => {
                     return (
                         <Card title={question.question} subTitle={question.type.nombre} className="card ui-card-shadow" key={question.id}>
@@ -29,11 +27,9 @@ class Questions extends Component {
                     )
                 })
                 }
-
             </div>
         );
     }
-
 }
 
 export default Questions;

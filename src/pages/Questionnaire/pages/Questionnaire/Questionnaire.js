@@ -16,35 +16,7 @@ class Questionnaire extends Component {
             value: null,
             name: null,
             description: '',
-            lsQuestions: [
-                {
-                    "id": 1,
-                    "question": "Pregunta 1",
-                    "type": {
-                        "id": 1,
-                        "nombre": "Opcion multiple"
-                    },
-                    "lsQuestionOptions": []
-                },
-                {
-                    "id": 2,
-                    "question": "Pregunta 2",
-                    "type": {
-                        "id": 1,
-                        "nombre": "Respuesta libre"
-                    },
-                    "lsQuestionOptions": []
-                },
-                {
-                    "id": 3,
-                    "question": "Pregunta 3",
-                    "type": {
-                        "id": 1,
-                        "nombre": "Rango"
-                    },
-                    "lsQuestionOptions": []
-                }
-            ],
+            lsQuestions: [],
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -58,7 +30,6 @@ class Questionnaire extends Component {
         this.growl.show({ severity: 'error', summary: summary, detail: detail });
     }
     saveQuestionnaire() {
-
         if (this.state.name == null) {
             this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario")
             return
