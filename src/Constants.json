@@ -1,5 +1,8 @@
 {
-    "ROUTE_WEB_SERVICES": "http://192.168.241.35:8085/vmovil/serviceRESTMovil/movil/datos/",
+    "ROUTE_WEB_SERVICES": "http://192.168.241.35:8086/vmovil/serviceRESTMovil/movil/datos/",
     "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
-    "SAVE_QUESTIONNAIRE": ""
+    "SAVE_QUESTIONNAIRE": "saveAndEditQuestionary",
+    "SAVE_RANGE": "saveQuestionaryRange/",
+    "GET_ALL_CITIES": "allDepartments/",
+    "GET_ALL_BRANCHES": "getListBranchs/"
 }
