@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Questionnaires.css';
+import './QuestionnairesList.css';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -7,11 +7,14 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Growl } from 'primereact/growl';
 import Constants from '../../../Constants.json';
+import { Link } from 'react-router-dom'
 
 class Questionnaires extends Component {
     constructor() {
         super();
-        this.state = { questionnaires: [] };
+        this.state = {
+            questionnaires: []
+        };
         this.see = this.see.bind(this);
         this.edit = this.edit.bind(this);
     };
@@ -31,8 +34,10 @@ class Questionnaires extends Component {
             })
     }
     render() {
+
         return (
             <div className="questionnaire">
+
                 <Growl ref={(el) => this.growl = el} />
                 {
                     this.state.questionnaires.map((item) => {
@@ -43,7 +48,9 @@ class Questionnaires extends Component {
                                     <div className="normal-text">{item.fechaId} {item.usuarioId}</div>
                                     <br />
                                     <span>
-                                        <Button label="Ver" onClick={this.see} />
+                                        <Link to={`/questionnaires/${item.id}`}>
+                                            <Button label="Ver" />
+                                        </Link>
                                         <Button label="Editar" onClick={this.edit} className="ui-button-info" />
                                     </span>
                                 </div>
@@ -51,6 +58,7 @@ class Questionnaires extends Component {
                         )
                     })
                 }
+
                 <Button label="Nuevo" onClick={this.newQuestionnaire} />
             </div>
         );

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Questionnaires from "../../../Questionnaires/pages/Questionnaires";
+import QuestionnairesList from "../../../QuestionnairesList/pages/QuestionnairesList";
 
 class Container extends Component {
     render() {
         return (
             <div>
-                <Questionnaires/>
+                <QuestionnairesList />
             </div>
         );
     }
