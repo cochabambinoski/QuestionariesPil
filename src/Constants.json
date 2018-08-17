@@ -2,7 +2,17 @@
     "ROUTE_WEB_SERVICES": "http://192.168.241.35:8086/vmovil/serviceRESTMovil/movil/datos/",
     "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
     "SAVE_QUESTIONNAIRE": "saveAndEditQuestionary",
+    "SAVE_QUESTIONNAIRE_AND_RANGE":"saveAndEditQuestionnairesAndQuestionaryRange",
     "SAVE_RANGE": "saveQuestionaryRange/",
     "GET_ALL_CITIES": "allDepartments/",
-    "GET_ALL_BRANCHES": "getListBranchs/"
+    "GET_ALL_BRANCHES": "getListBranchs/",
+    "GET_TYPES_BY_CLASS": "getTypesByClass",
+    "GET_QUESTIONNAIRE_BY_ID": "getQuestionaryById",
+    "GET_RANGES_BY_QUESTIONNAIRE":"getQuestionaryRangeByQuestionaryId",
+
+    "CODSAP_MULTIPLE_OPTION":"TIPPREG1",
+    "CODSAP_MULTIPLE_SELECTION":"TIPPREG2",
+    "CODSAP_FREE_ANSWER":"TIPPREG3",
+    "CODSAP_RANGE":"TIPPREG4",
+    "CODSAP_IMAGE":"TIPPREG5"
 }
