@@ -1,4 +1,5 @@
 {
-    "ROUTE_WEB_SERVICES": "http://192.168.241.35:8085/vmovil/serviceRESTMovil/movil/datos/",
-    "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/"
+    "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
+    "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
+    "GET_MENU_BY_USER": "getMenuByUser?userId=4"
 }
