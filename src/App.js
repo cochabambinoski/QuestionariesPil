@@ -34,9 +34,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Switch className="App">
+         <Switch className="App">
           <Route path="/questionnaires" exact component={QuuestionnairesList} />
-          <Route path="/questionnaires/:questionnaireId" exact component={Quuestionnaire} />
+          <Route path="/questionnaires/new" exact component={Quuestionnaire} />
         </Switch>
       </div>
     );

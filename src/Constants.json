@@ -1,6 +1,9 @@
 {
-    "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
-    "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
-    "GET_MENU_BY_USER": "getMenuByUser?userId=4",
-    "SAVE_QUESTIONNAIRE": ""
+  "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
+  "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
+  "GET_MENU_BY_USER": "getMenuByUser?userId=4",
+  "SAVE_QUESTIONNAIRE": "saveAndEditQuestionary",
+  "SAVE_RANGE": "saveQuestionaryRange/",
+  "GET_ALL_CITIES": "allDepartments/",
+  "GET_ALL_BRANCHES": "getListBranchs/"
 }
