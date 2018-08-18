@@ -8,7 +8,10 @@ import Container from "../components/Container/Container";
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import '../layout.css'
+import '../layout.css';
+import { connect } from 'react-redux';
+import * as actions from '../../../actions/actions'
+import {bindActionCreators} from 'redux';
 
 import AppMenuT from "../components/AppMenu/AppMenuT";
 
@@ -42,7 +45,7 @@ class Home extends Component {
     onToggleMenu(event) {
         this.menuClick = true;
 
-        if (this.isDesktop()) {
+        if (Home.isDesktop()) {
             if (this.state.layoutMode === 'overlay') {
                 this.setState({
                     overlayMenuActive: !this.state.overlayMenuActive
@@ -61,29 +64,29 @@ class Home extends Component {
             });
 
             if (mobileMenuActive)
-                this.removeClass(document.body, 'body-overflow-hidden');
+                Home.removeClass(document.body, 'body-overflow-hidden');
             else
-                this.addClass(document.body, 'body-overflow-hidden');
+                Home.addClass(document.body, 'body-overflow-hidden');
         }
 
         event.preventDefault();
     }
 
-    addClass(element, className) {
+    static addClass(element, className) {
         if (element.classList)
             element.classList.add(className);
         else
             element.className += ' ' + className;
     }
 
-    removeClass(element, className) {
+    static removeClass(element, className) {
         if (element.classList)
             element.classList.remove(className);
         else
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     }
 
-    isDesktop() {
+    static isDesktop() {
         return window.innerWidth > 1024;
     }
 
@@ -97,7 +100,7 @@ class Home extends Component {
                return results.json();
             }).then(data => {
                 this.setState({ menus: data});
-                //console.log("state", this.state.menus)
+                console.log("state", this.state.menus)
         })
     }
 
@@ -117,7 +120,7 @@ class Home extends Component {
 
                 <div className={sidebarClassName}>
                     <ScrollPanel style={{height:'100%'}}>
-                        <div className="logo"></div>
+                        <div className="logo"/>
                         <AppInlineProfile />
                         <AppMenuT menus={this.state.menus} />
                     </ScrollPanel>
@@ -133,4 +136,14 @@ class Home extends Component {
     }
 }
 
-export default Home;
+function mapsStateToProps(state, props) {
+
+}
+
+function initMapDispatchToProps(dispatch) {
+    return{
+        actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(mapsStateToProps, initMapDispatchToProps) (Home);
