@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../actions/actions'
 import {bindActionCreators} from 'redux';
 import AppMenuT from "../components/AppMenu/AppMenuT";
-import {addTimeout} from "redux-timeout";
+import { addTimeout, WATCH_ALL } from 'redux-timeout';
 
 class Home extends Component {
     constructor() {
@@ -26,10 +26,15 @@ class Home extends Component {
             mobileMenuActive: false,
             menus: []
         };
+        this.closeSessionHome = this.closeSessionHome.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
         this.getParameterByName = this.getParameterByName.bind(this);
+    }
+
+    closeSessionHome() {
+        console.log("Sesion Terminada");
     }
 
     getParameterByName(name, url) {
@@ -106,7 +111,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.props.addTimeout(20000, actions, null);
+        this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + this.getParameterByName('user'))
             .then(results => {
                return results.json();
@@ -134,7 +139,9 @@ class Home extends Component {
                     <ScrollPanel style={{height:'100%'}}>
                         <div className="logo"/>
                         <AppInlineProfile />
-                        <AppMenuT menus={this.state.menus} />
+                        <AppMenuT
+                            menus={this.state.menus}
+                            sessionActive={this.props.sessionActive}/>
                     </ScrollPanel>
                 </div>
 
@@ -149,10 +156,13 @@ class Home extends Component {
 }
 
 function mapsStateToProps(state, props) {
-
+    return{
+        sessionActive: state.get('sessionActive'),
+        session: state.get('session'),
+    }
 }
 
-function initMapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return{
         addTimeout: (timeout, action, toDispatch) => {
             dispatch(addTimeout(timeout, action, toDispatch))
@@ -161,4 +171,4 @@ function initMapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapsStateToProps, initMapDispatchToProps) (Home);
+export default connect(mapsStateToProps, mapDispatchToProps) (Home);

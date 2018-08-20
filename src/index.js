@@ -9,8 +9,8 @@ import { createStore, applyMiddleware } from 'redux';
 import reducer from './reducers/index';
 import {Map as map }from 'immutable'
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { reduxTimeout } from 'redux-timeout';
-import logger from 'redux-logger';
+import { reduxTimeout} from 'redux-timeout';
+import {logger} from 'redux-logger';
 
 const store = createStore(
     reducer,
@@ -18,7 +18,7 @@ const store = createStore(
     composeWithDevTools(
         applyMiddleware(
             logger,
-            reduxTimeout
+            reduxTimeout()
         )
     ),
 );
