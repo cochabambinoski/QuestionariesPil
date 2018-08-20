@@ -2,20 +2,14 @@ import React from 'react';
 import {PanelMenu} from 'primereact/panelmenu';
 
 function SubMenu(props) {
-    function openComponent(){
-        console.log("OpenComponent")
-    }
-
-    console.log(props.submenus);
+    /** @namespace props.submenus */
     props.submenus.map((item) => {
             item.items.map((items)=>{
                 if (items.items!=null){
                     if (items.items.length>0){
                         items.items = null;
-                        return(console.log(item.label))
                     } else {
                         items.items = null;
-                        return(console.log(item.label))
                     }
                 }
             })

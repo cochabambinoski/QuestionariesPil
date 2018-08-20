@@ -6,7 +6,6 @@ import 'font-awesome/css/font-awesome.css';
 import '../../layout.css'
 
 function AppMenuT(props) {
-    console.log(props.menus);
         return (
             <div className="Menus">
                 {

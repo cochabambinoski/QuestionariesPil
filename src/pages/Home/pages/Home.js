@@ -12,8 +12,8 @@ import '../layout.css';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions/actions'
 import {bindActionCreators} from 'redux';
-
 import AppMenuT from "../components/AppMenu/AppMenuT";
+import {addTimeout} from "redux-timeout";
 
 class Home extends Component {
     constructor() {
@@ -29,6 +29,17 @@ class Home extends Component {
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
+        this.getParameterByName = this.getParameterByName.bind(this);
+    }
+
+    getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
     onWrapperClick(event) {
@@ -95,7 +106,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER)
+        this.props.addTimeout(20000, actions, null);
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + this.getParameterByName('user'))
             .then(results => {
                return results.json();
             }).then(data => {
@@ -142,6 +154,9 @@ function mapsStateToProps(state, props) {
 
 function initMapDispatchToProps(dispatch) {
     return{
+        addTimeout: (timeout, action, toDispatch) => {
+            dispatch(addTimeout(timeout, action, toDispatch))
+        },
         actions: bindActionCreators(actions, dispatch)
     }
 }
