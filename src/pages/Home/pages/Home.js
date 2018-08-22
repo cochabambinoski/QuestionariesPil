@@ -14,10 +14,25 @@ import * as actions from '../../../actions/actions'
 import {bindActionCreators} from 'redux';
 import AppMenuT from "../components/AppMenu/AppMenuT";
 import { addTimeout, WATCH_ALL } from 'redux-timeout';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 class Home extends Component {
-    constructor() {
-        super();
+    state = {
+        open: false,
+        close_windows: false
+    };
+
+    handleClose = () => {
+        window.open(Constants.ROUTE_SVM);
+    };
+
+    constructor(props) {
+        super(props);
         this.state = {
             layoutMode: 'static',
             layoutColorMode: 'light',
@@ -34,6 +49,7 @@ class Home extends Component {
     }
 
     closeSessionHome() {
+        this.setState({ open: true });
         console.log("Sesion Terminada");
     }
 
@@ -133,6 +149,24 @@ class Home extends Component {
 
         return (
             <div className={wrapperClass}>
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar si sesion en el SVM.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
                 <div className={sidebarClassName}>
