@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
 import './styles.css';
-import Constants from "../../Constants";
-import MobileSellerItem from "../AssignmentScreen/components/MobileSellerItem/MobileSellerItem";
+import Constants from "../../../../Constants";
+import MobileSellerItem from "./components/MobileSellerItem/MobileSellerItem";
 
 class MobileSellerList extends Component {
 
@@ -20,7 +19,6 @@ class MobileSellerList extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.setState({mobilsellers: data});
         });
     };
@@ -30,7 +28,6 @@ class MobileSellerList extends Component {
     }
 
     render() {
-
         return (
             <div>
                 {

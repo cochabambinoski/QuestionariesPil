@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import QuestionnairesList from "../../../QuestionnairesList/pages/QuestionnairesList";
-import AssignmentQuestionary from "../../../AssignmentScreen/AssignmentQuestionary";
+import AssignmentQuestionary from "../../../AssignmentScreen/pages/AssignmentQuestionary";
 
 class Container extends Component {
     render() {

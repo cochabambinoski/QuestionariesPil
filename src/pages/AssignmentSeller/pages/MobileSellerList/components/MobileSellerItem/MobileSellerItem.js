@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
-import {Button} from "../../../../../node_modules/primereact/button";
-import {Card} from "../../../../../node_modules/primereact/card";
+import {Button} from "../../../../../../../node_modules/primereact/button";
+import {Card} from "../../../../../../../node_modules/primereact/card";
 import './styles.css';
 
 class MobileSellerItem extends Component {
     constructor(props) {
         super(props);
-        console.log(props.mobileSeller.id)
         this.state = {
             mobileSeller: props.mobileSeller,
         }

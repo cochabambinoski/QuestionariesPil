@@ -12,7 +12,6 @@ import '../layout.css';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions/actions'
 import {bindActionCreators} from 'redux';
-
 import AppMenuT from "../components/AppMenu/AppMenuT";
 
 class Home extends Component {
@@ -100,7 +99,6 @@ class Home extends Component {
                return results.json();
             }).then(data => {
                 this.setState({ menus: data});
-                console.log("state", this.state.menus)
         })
     }
 
