@@ -10,8 +10,8 @@ import Constants from '../../../Constants.json';
 import { Link } from 'react-router-dom'
 
 class Questionnaires extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             questionnaires: []
         };
@@ -34,10 +34,8 @@ class Questionnaires extends Component {
             })
     }
     render() {
-
         return (
             <div className="questionnaire">
-
                 <Growl ref={(el) => this.growl = el} />
                 {
                     this.state.questionnaires.map((item) => {

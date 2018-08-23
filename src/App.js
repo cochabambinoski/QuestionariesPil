@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { Link, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import QuestionnairesList from './pages/QuestionnairesList/pages/QuestionnairesList.js';
 import Questionnaire from './pages/Questionnaire/pages/Questionnaire/Questionnaire.js'
 
@@ -25,7 +25,6 @@ class App extends Component {
   };
 
   goToQuestionnaire = (questionnaire) => {
-    console.log("app go to questionnaire: " + questionnaire.name);
     this.setState({
       questionnaire: questionnaire,
       toQuestionnaire: true,
