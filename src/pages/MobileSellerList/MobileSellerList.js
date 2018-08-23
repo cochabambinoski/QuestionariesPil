@@ -1,33 +1,43 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
+import './styles.css';
+import Constants from "../../Constants";
+import MobileSellerItem from "../AssignmentScreen/components/MobileSellerItem/MobileSellerItem";
 
 class MobileSellerList extends Component {
 
-    constructor({idQuestionary}){
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            idQuestionary,
-            data: null,
+            idQuestionary: props.idQuestionary,
+            mobilsellers: [],
         }
     }
 
     getMobileSellers = () => {
-        fetch().then(data => {
-            this.setState(data);
-        }).catch({
-
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MOBILE_SELLER_BY_ID_QUESTIONARY + this.state.idQuestionary)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            console.log(data);
+            this.setState({mobilsellers: data});
         });
     };
 
-    componentDidMount(){
-        this.getMobileSellers
+    componentDidMount() {
+        this.getMobileSellers();
     }
 
     render() {
+
         return (
             <div>
-                <h2>Asignacion Cuestionarios</h2>
-                {console.log("asdasdasdasdasdasd")}
+                {
+                    this.state.mobilsellers.map((mobileSeller) =>(
+                        <MobileSellerItem mobileSeller={mobileSeller} key={mobileSeller.id}/>
+                    ))
+                }
             </div>
         );
     }

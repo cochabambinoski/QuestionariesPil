@@ -6,16 +6,15 @@ function SubMenu(props) {
         console.log("OpenComponent")
     }
 
-    console.log(props.submenus);
     props.submenus.map((item) => {
             item.items.map((items)=>{
                 if (items.items!=null){
                     if (items.items.length>0){
                         items.items = null;
-                        return(console.log(item.label))
+                        return null
                     } else {
                         items.items = null;
-                        return(console.log(item.label))
+                        return null
                     }
                 }
             })

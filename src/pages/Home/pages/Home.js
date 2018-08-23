@@ -119,13 +119,12 @@ class Home extends Component {
                 <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
                 <div className={sidebarClassName}>
-                    <ScrollPanel style={{height:'100%'}}>
+                    <ScrollPanel style={{height:'100%', with:'100%'}}>
                         <div className="logo"/>
                         <AppInlineProfile />
                         <AppMenuT menus={this.state.menus} />
                     </ScrollPanel>
                 </div>
-
                 <div className="layout-main">
                     <Container>
 

@@ -40,7 +40,7 @@ class Questionnaires extends Component {
                 {
                     this.state.questionnaires.map((item) => {
                         return (
-                            <Card title={item.name} className="card ui-card-shadow" key={item.id}>
+                            <Card title={item.name}  key={item.id}>
                                 <div>
                                     <div className="light-text">Creado</div>
                                     <div className="normal-text">{item.fechaId} {item.usuarioId}</div>
