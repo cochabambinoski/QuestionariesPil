@@ -1,33 +1,48 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {PanelMenu} from 'primereact/panelmenu';
+import { connect }  from "react-redux";
+import {bindActionCreators} from 'redux';
+import * as actions from '../../../../actions/actions';
 
-function SubMenu(props) {
-    function openComponent(){
-        console.log("OpenComponent")
-    }
+class SubMenu extends Component  {
 
-    console.log(props.submenus);
-    props.submenus.map((item) => {
-            item.items.map((items)=>{
-                if (items.items!=null){
-                    if (items.items.length>0){
-                        items.items = null;
-                        return(console.log(item.label))
-                    } else {
-                        items.items = null;
-                        return(console.log(item.label))
-                    }
-                }
-            })
+   changeMenus(){
+       /** @namespace props.submenus */
+       this.props.submenus.map((item) => {
+           item.items.map((items)=>{
+               if (items.items!=null){
+                   if (items.items.length>0){
+                       items.items = null;
+                   } else {
+                       items.items = null;
+                   }
+               }
+           })
 
-    } );
+       } );
+   }
+    render(){
+        this.changeMenus();
     return(
         <div>
             <div className="content-section implementation">
-                <PanelMenu model={props.submenus} style={{width:'300px'}} />
+                <PanelMenu model={this.props.submenus} style={{width:'300px'}} />
             </div>
         </div>
     )
+    };
 }
 
-export default SubMenu;
+function mapsStateToProps(state, props) {
+    return {
+        submenus: props.submenus
+    }
+}
+
+function initMapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(mapsStateToProps, initMapDispatchToProps) (SubMenu);

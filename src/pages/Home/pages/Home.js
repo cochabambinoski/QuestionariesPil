@@ -12,12 +12,27 @@ import '../layout.css';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions/actions'
 import {bindActionCreators} from 'redux';
-
 import AppMenuT from "../components/AppMenu/AppMenuT";
+import { addTimeout, WATCH_ALL } from 'redux-timeout';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 class Home extends Component {
-    constructor() {
-        super();
+    state = {
+        open: false,
+        close_windows: false
+    };
+
+    handleClose = () => {
+        window.open(Constants.ROUTE_SVM);
+    };
+
+    constructor(props) {
+        super(props);
         this.state = {
             layoutMode: 'static',
             layoutColorMode: 'light',
@@ -26,9 +41,26 @@ class Home extends Component {
             mobileMenuActive: false,
             menus: []
         };
+        this.closeSessionHome = this.closeSessionHome.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
+        this.getParameterByName = this.getParameterByName.bind(this);
+    }
+
+    closeSessionHome() {
+        this.setState({ open: true });
+        console.log("Sesion Terminada");
+    }
+
+    getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
     onWrapperClick(event) {
@@ -95,7 +127,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER)
+        this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + this.getParameterByName('user'))
             .then(results => {
                return results.json();
             }).then(data => {
@@ -116,13 +149,33 @@ class Home extends Component {
 
         return (
             <div className={wrapperClass}>
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar si sesion en el SVM.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
                 <div className={sidebarClassName}>
                     <ScrollPanel style={{height:'100%'}}>
                         <div className="logo"/>
                         <AppInlineProfile />
-                        <AppMenuT menus={this.state.menus} />
+                        <AppMenuT
+                            menus={this.state.menus}
+                            sessionActive={this.props.sessionActive}/>
                     </ScrollPanel>
                 </div>
 
@@ -137,13 +190,19 @@ class Home extends Component {
 }
 
 function mapsStateToProps(state, props) {
-
+    return{
+        sessionActive: state.get('sessionActive'),
+        session: state.get('session'),
+    }
 }
 
-function initMapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return{
+        addTimeout: (timeout, action, toDispatch) => {
+            dispatch(addTimeout(timeout, action, toDispatch))
+        },
         actions: bindActionCreators(actions, dispatch)
     }
 }
 
-export default connect(mapsStateToProps, initMapDispatchToProps) (Home);
+export default connect(mapsStateToProps, mapDispatchToProps) (Home);

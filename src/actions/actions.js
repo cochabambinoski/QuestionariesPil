@@ -1,8 +1,15 @@
-import {CLOSE_SESSION, DATA} from "../action-types/actionTypes";
+import {CLOSE_SESSION, DATA, ADD_TIME} from "../action-types/actionTypes";
 
 export function closeSession() {
     return{
         type: CLOSE_SESSION,
+    }
+}
+
+export function addTime() {
+    console.log("addTime");
+    return{
+        type: ADD_TIME,
     }
 }
 
