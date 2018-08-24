@@ -1,10 +1,11 @@
 {
   "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
-  "GET_MENU_BY_USER": "getMenuByUser?userId=4",
+  "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "SAVE_QUESTIONNAIRE": "saveAndEditQuestionary",
   "SAVE_RANGE": "saveQuestionaryRange/",
   "GET_ALL_CITIES": "allDepartments/",
   "GET_ALL_BRANCHES": "getListBranchs/",
+  "ROUTE_SVM": "http://localhost:8085/vmovil/business/login.jsf",
   "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary="
 }

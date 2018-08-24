@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable'
-import {CLOSE_SESSION} from "../action-types/actionTypes";
+import {CLOSE_SESSION, ADD_TIME} from "../action-types/actionTypes";
 
 const initialState = fromJS({
    sessionActive: true,
@@ -12,6 +12,18 @@ function session(state = initialState, action) {
         }
         default:
             return state;
+    }
+}
+
+function addTime(state = initialState, action){
+    function session(state = initialState, action) {
+        switch (action.type) {
+            case ADD_TIME:{
+                return console.log("ADD sTIME")
+            }
+            default:
+                return state;
+        }
     }
 }
 
