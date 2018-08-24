@@ -10,30 +10,50 @@ class MobileSellerList extends Component {
         super(props);
         this.state = {
             idQuestionary: props.idQuestionary,
-            mobilsellers: [],
+            mobilsellers: null,
+            isEdit: props.isEdit,
         }
     }
 
-    getMobileSellers = () => {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MOBILE_SELLER_BY_ID_QUESTIONARY + this.state.idQuestionary)
+    getMobileSellers = (idQuestionary) => {
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MOBILE_SELLER_BY_ID_QUESTIONARY + idQuestionary)
             .then(results => {
                 return results.json();
             }).then(data => {
-            this.setState({mobilsellers: data});
+            this.setState(prevState => ({
+                mobilsellers: data,
+            }));
         });
     };
 
     componentDidMount() {
-        this.getMobileSellers();
+        this.getMobileSellers(this.state.idQuestionary);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.idQuestionary !== this.props.idQuestionary) {
+
+            this.getMobileSellers(nextProps.idQuestionary);
+        }
+
+    }
+
+    renderMobileSellersItem(mobileSellers) {
+        return mobileSellers.map((mobileSeller) => (
+            <MobileSellerItem
+                mobileSeller={mobileSeller}
+                isEdit={this.state.isEdit}
+                key={mobileSeller.id}/>
+        ))
     }
 
     render() {
+        const {mobilsellers} = this.state;
         return (
             <div>
+
                 {
-                    this.state.mobilsellers.map((mobileSeller) =>(
-                        <MobileSellerItem mobileSeller={mobileSeller} key={mobileSeller.id}/>
-                    ))
+                    mobilsellers ? this.renderMobileSellersItem(mobilsellers) : null
                 }
             </div>
         );
@@ -42,6 +62,7 @@ class MobileSellerList extends Component {
 
 MobileSellerList.propTypes = {
     idQuestionary: PropTypes.string.isRequired,
+    isEdit: PropTypes.bool.isRequired,
 };
 
 export default MobileSellerList;

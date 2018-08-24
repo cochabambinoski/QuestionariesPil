@@ -4,7 +4,7 @@ import AssignmentQuestionary from "../../../AssignmentScreen/pages/AssignmentQue
 class Container extends Component {
     render() {
         return (
-            <div>
+            <div style={{marginTop: '5px'}}>
                 <AssignmentQuestionary/>
             </div>
         );

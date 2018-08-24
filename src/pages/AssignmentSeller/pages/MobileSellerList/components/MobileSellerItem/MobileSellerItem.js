@@ -8,22 +8,25 @@ class MobileSellerItem extends Component {
         super(props);
         this.state = {
             mobileSeller: props.mobileSeller,
+            isEdit: props.isEdit,
         }
     }
 
     render() {
+        const {isEdit} = this.state;
         return (
             <div>
                 <Card className="cardMobileSeller" key={this.state.mobileSeller.id}>
                     <div>
-                        <div className="light-text">Nombre del vendedor</div>
+                        <h2 className="light-text">Nombre del vendedor</h2>
                         <div className="normal-text">{this.state.mobileSeller.vendedor.persona.nombre}</div>
-                        <div className="light-text">Tipo</div>
+                        <h2 className="light-text">Tipo</h2>
                         <div className="normal-text">{this.state.mobileSeller.type.nombre}</div>
                         <br/>
-                        <span>
-                          <Button label="Asignar"/>
-                        </span>
+                        {
+                            isEdit === false ? <Button label="Asignar"/> :
+                                <Button label="Eliminar" className="ui-button-danger"/>
+                        }
                     </div>
                 </Card>
             </div>
