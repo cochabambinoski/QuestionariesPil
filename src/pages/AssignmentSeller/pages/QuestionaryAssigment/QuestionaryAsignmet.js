@@ -3,13 +3,14 @@ import Constants from "../../../../Constants";
 import Questionary from "./index";
 import './styles.css'
 import PropTypes from "prop-types";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class QuestionaryAsignmet extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            questionnaires: [],
+            questionnaires: null,
         }
     }
 
@@ -34,7 +35,7 @@ class QuestionaryAsignmet extends Component {
         return (
             <div>
                 {
-                    questionnaires ? this.stringToComponent(questionnaires) : null
+                    questionnaires ? this.stringToComponent(questionnaires) : <CircularProgress style={{width: '50%', height: '50%'}}/>
                 }
             </div>
         );

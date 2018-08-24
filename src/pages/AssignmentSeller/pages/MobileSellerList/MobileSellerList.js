@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './styles.css';
 import Constants from "../../../../Constants";
 import MobileSellerItem from "./components/MobileSellerItem/MobileSellerItem";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class MobileSellerList extends Component {
 
@@ -53,7 +54,7 @@ class MobileSellerList extends Component {
             <div>
 
                 {
-                    mobilsellers ? this.renderMobileSellersItem(mobilsellers) : null
+                    mobilsellers ? this.renderMobileSellersItem(mobilsellers) : <CircularProgress style={{width: '20%', height: '20%'}}/>
                 }
             </div>
         );
