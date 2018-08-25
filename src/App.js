@@ -25,7 +25,6 @@ class App extends Component {
   };
 
   goToQuestionnaire = (questionnaire) => {
-    console.log("app go to questionnaire: " + questionnaire.name);
     this.setState({
       questionnaire: questionnaire,
       toQuestionnaire: true,

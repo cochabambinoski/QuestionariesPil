@@ -10,8 +10,8 @@ import Constants from '../../../Constants.json';
 import { Link } from 'react-router-dom'
 
 class Questionnaires extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             questionnaires: []
         };
@@ -29,8 +29,8 @@ class Questionnaires extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
+                console.log(data);
                 this.setState({ questionnaires: data });
-                console.log("state", this.state.questionnaires);
             })
     }
     render() {
@@ -40,7 +40,7 @@ class Questionnaires extends Component {
                 {
                     this.state.questionnaires.map((item) => {
                         return (
-                            <Card title={item.name} className="card ui-card-shadow" key={item.id}>
+                            <Card title={item.name}  key={item.id}>
                                 <div>
                                     <div className="light-text">Creado</div>
                                     <div className="normal-text">{item.fechaId} {item.usuarioId}</div>
