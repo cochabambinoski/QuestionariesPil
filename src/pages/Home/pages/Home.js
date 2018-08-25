@@ -133,7 +133,6 @@ class Home extends Component {
                return results.json();
             }).then(data => {
                 this.setState({ menus: data});
-                console.log("state", this.state.menus)
         })
     }
 
@@ -170,7 +169,7 @@ class Home extends Component {
                 <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
                 <div className={sidebarClassName}>
-                    <ScrollPanel style={{height:'100%'}}>
+                    <ScrollPanel style={{height:'100%', with:'100%'}}>
                         <div className="logo"/>
                         <AppInlineProfile />
                         <AppMenuT
@@ -178,7 +177,6 @@ class Home extends Component {
                             sessionActive={this.props.sessionActive}/>
                     </ScrollPanel>
                 </div>
-
                 <div className="layout-main">
                     <Container>
 

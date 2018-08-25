@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import QuestionnairesList from "../../../QuestionnairesList/pages/QuestionnairesList";
+import AssignmentQuestionary from "../../../AssignmentScreen/pages/AssignmentQuestionary";
 
 class Container extends Component {
     render() {
         return (
-            <div>
-                <QuestionnairesList />
+            <div style={{marginTop: '5px'}}>
+                <AssignmentQuestionary/>
             </div>
         );
     }
