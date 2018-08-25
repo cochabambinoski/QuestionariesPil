@@ -3,9 +3,19 @@
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "SAVE_QUESTIONNAIRE": "saveAndEditQuestionary",
+  "SAVE_QUESTIONNAIRE_AND_RANGE":"saveAndEditQuestionnairesAndQuestionaryRange",
   "SAVE_RANGE": "saveQuestionaryRange/",
   "GET_ALL_CITIES": "allDepartments/",
   "GET_ALL_BRANCHES": "getListBranchs/",
   "ROUTE_SVM": "http://localhost:8085/vmovil/business/login.jsf",
-  "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary="
+  "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary=",
+  "GET_TYPES_BY_CLASS": "getTypesByClass",
+  "GET_QUESTIONNAIRE_BY_ID": "getQuestionaryById",
+  "GET_RANGES_BY_QUESTIONNAIRE":"getQuestionaryRangeByQuestionaryId",
+
+  "CODSAP_MULTIPLE_OPTION":"TIPPREG1",
+  "CODSAP_MULTIPLE_SELECTION":"TIPPREG2",
+  "CODSAP_FREE_ANSWER":"TIPPREG3",
+  "CODSAP_RANGE":"TIPPREG4",
+  "CODSAP_IMAGE":"TIPPREG5"
 }

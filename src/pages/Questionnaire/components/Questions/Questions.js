@@ -8,8 +8,10 @@ import './Questions.css';
 
 class Questions extends Component {
     handleRemove = (index) => {
-        console.log("handle remove index: " + index);
         this.props.removeQuestion(index);
+    }
+    handleEdit = (index) => {
+        this.props.editQuestion(index);
     }
     render() {
         return (
@@ -18,10 +20,15 @@ class Questions extends Component {
                     return (
                         <Card title={question.question} subTitle={question.type.nombre} className="card ui-card-shadow" key={question.id}>
                             <div className="buttons">
-                                <span>
-                                    <Button label="Editar" icon="pi pi-trash" iconPos="right" />
-                                    <Button label="Eliminar" onClick={() => { this.handleRemove(index) }} icon="pi pi-pencil" iconPos="right" className="ui-button-danger" />
-                                </span>
+                                {
+                                    this.props.readOnly ?
+                                        <Button label="Ver" onClick={() => { this.props.seeQuestion(index) }}/>
+                                        :
+                                        <span>
+                                            <Button label="Editar" onClick={() => { this.handleEdit(index) }} icon="pi pi-pencil" iconPos="right" />
+                                            <Button label="Eliminar" onClick={() => { this.handleRemove(index) }} icon="pi pi-trash" iconPos="right" className="ui-button-danger" />
+                                        </span>
+                                }
                             </div>
                         </Card>
                     )

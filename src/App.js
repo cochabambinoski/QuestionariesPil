@@ -36,6 +36,8 @@ class App extends Component {
          <Switch className="App">
           <Route path="/questionnaires" exact component={QuuestionnairesList} />
           <Route path="/questionnaires/new" exact component={Quuestionnaire} />
+          <Route path="/questionnaires/:id" exact render={(props) => <Questionnaire {...props} readOnly={true}></Questionnaire>}  />
+          <Route path="/questionnaires/edit/:id" exact render={(props) => <Questionnaire {...props} readOnly={false}></Questionnaire>}  />
         </Switch>
       </div>
     );

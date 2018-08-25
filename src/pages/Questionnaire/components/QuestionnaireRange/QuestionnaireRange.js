@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
 import './QuestionnaireRange.css';
-import { TabView, TabPanel } from 'primereact/tabview';
 import { Checkbox } from 'primereact/checkbox';
 import Constants from '../../../../Constants.json';
 
@@ -18,84 +15,100 @@ class QuestionnaireRange extends Component {
             countrySelected: false,
             lsSelectedBranches: [],
             lsSelectedDepartments: [],
-            lsBranches: [
-                {
-                    "id": 3,
-                    "nombre": "CBA BETA 1",
-                    "direccion": "AVENIDA CAPITÃN USTARIZ KM 9 1/2 NRO. S/N",
-                    "nsucursal": 22,
-                    "fonos": "4260164",
-                    "ubicacion": "COLCAPIRHUA"
-                },
-                {
-                    "id": 5,
-                    "nombre": "LPZ BETA 1",
-                    "direccion": "AVENIDA CAPITÃN USTARIZ KM 9 1/2 NRO. S/N",
-                    "nsucursal": 22,
-                    "fonos": "4260164",
-                    "ubicacion": "COLCAPIRHUA"
-                },
-                {
-                    "id": 7,
-                    "nombre": "SUCRE BETA 1",
-                    "direccion": "AVENIDA CAPITÃN USTARIZ KM 9 1/2 NRO. S/N",
-                    "nsucursal": 22,
-                    "fonos": "4260164",
-                    "ubicacion": "COLCAPIRHUA"
-                }
-            ],
-            lsDepartments: [
-                {
-                    "id": 260,
-                    "nombre": "COCHABAMBA",
-                    "abreviacion": "CB"
-                },
-                {
-                    "id": 262,
-                    "nombre": "LA PAZ",
-                    "abreviacion": "LPZ"
-                },
-                {
-                    "id": 263,
-                    "nombre": "TARIJA",
-                    "abreviacion": "TRJ"
-                }
-            ],
+            received: true,
+            lsBranches: [],
+            lsDepartments: [],
         };
         this.onCityChange = this.onCityChange.bind(this);
         this.onBranchChange = this.onBranchChange.bind(this);
         this.onCountryChange = this.onCountryChange.bind(this);
-        this.selectAllCities = this.selectAllCities.bind(this);
-    }
-    selectAllCities() {
-        let selectedAux = [...this.state.lsDepartments];
-        selectedAux.forEach(function(element) {
-            if(this.state.lsSelectedDepartments.indexOf(element, 0)){
-
-            }
-          });
+        this.addAllCities = this.addAllCities.bind(this);
+        this.addCity = this.addCity.bind(this);
+        this.removeAllCities = this.removeAllCities.bind(this);
+        this.removeCity = this.removeCity.bind(this);
+        this.addRemoveAllBranchesForCity = this.addRemoveAllBranchesForCity.bind(this);
+        this.addBranch = this.addBranch.bind(this);
+        this.removeBranch = this.removeBranch.bind(this);
     }
     onCityChange(e) {
-        let selectedAux = [...this.state.lsSelectedDepartments];
         if (e.checked)
-            selectedAux.push(e.value);
+            this.addCity(e.value);
         else
-            selectedAux.splice(selectedAux.indexOf(e.value, 0), 1);
-        this.setState({ lsSelectedDepartments: selectedAux });
-        this.props.selectCities(selectedAux);
+            this.removeCity(e.value);
     }
     onBranchChange(e) {
-        let selectedAux = [...this.state.lsSelectedBranches];
         if (e.checked)
-            selectedAux.push(e.value);
+            this.addBranch(e.value);
         else
-            selectedAux.splice(selectedAux.indexOf(e.value, 0), 1);
-        this.setState({ lsSelectedBranches: selectedAux });
-        this.props.selectBranches(selectedAux);
+            this.removeBranch(e.value);
     }
     onCountryChange(e) {
         this.setState({ countrySelected: e.checked });
-        this.props.selectCities(this.state.lsDepartments);
+        if (e.checked)
+            this.addAllCities();
+        else
+            this.removeAllCities();
+    }
+    addAllCities() {
+        this.setState(function (prevState, props) {
+            prevState.lsDepartments.forEach((city) => { this.addCity(city); });
+        });
+    }
+    addCity(city) {
+        this.setState(function (prevState, props) {
+            let selectedAux = [...prevState.lsSelectedDepartments];
+            let selected = selectedAux.filter((auxCity) => (auxCity.id == city.id));
+            if (selected.length == 0) {
+                selectedAux.push(city);
+                this.addRemoveAllBranchesForCity(city, true);
+                return { lsSelectedDepartments: selectedAux };
+            }
+        });
+    }
+    removeAllCities() {
+        this.setState(function (prevState, props) {
+            prevState.lsSelectedDepartments.forEach((city) => { this.removeCity(city) });
+        });
+    }
+    removeCity(city) {
+        this.setState(function (prevState, props) {
+            let selectedAux = [...prevState.lsSelectedDepartments];
+            if (selectedAux.indexOf(city, 0) != -1) {
+                selectedAux.splice(selectedAux.indexOf(city, 0), 1);
+                this.addRemoveAllBranchesForCity(city, false);
+                return { lsSelectedDepartments: selectedAux };
+            }
+        });
+    }
+    addRemoveAllBranchesForCity(city, add) {
+        let branches = this.state.lsBranches.filter((branch) => (branch.departamento.id == city.id));
+        branches.forEach((branch) => {
+            if (add)
+                this.addBranch(branch);
+            else
+                this.removeBranch(branch);
+        });
+    }
+    addBranch(branch) {
+        this.setState((prevState, props) => {
+            let selectedAux = [...prevState.lsSelectedBranches];
+            if (selectedAux.indexOf(branch, 0) == -1) {
+                selectedAux.push(branch);
+                this.props.selectBranches(selectedAux);
+                return { lsSelectedBranches: selectedAux };
+            }
+        });
+
+    }
+    removeBranch(branch) {
+        this.setState((prevState, props) => {
+            let selectedAux = [...prevState.lsSelectedBranches];
+            if (selectedAux.indexOf(branch, 0) != -1) {
+                selectedAux.splice(selectedAux.indexOf(branch, 0), 1);
+                this.props.selectBranches(selectedAux);
+                return { lsSelectedBranches: selectedAux };
+            }
+        });
     }
     contains = (list, value) => {
         for (var i = 0; i < list.length; i++) {
@@ -106,11 +119,9 @@ class QuestionnaireRange extends Component {
         return false;
     }
     handleSelectCities = (cities) => {
-        console.log("handle selectCities: " + cities);
         this.props.selectCities(cities);
     }
     handleSelectBranches = (branches) => {
-        console.log("handle selectBranches: " + branches);
         this.props.selectBranches(branches);
     }
     componentDidMount() {
@@ -119,54 +130,57 @@ class QuestionnaireRange extends Component {
                 return results.json();
             }).then(data => {
                 this.setState({ lsDepartments: data });
-                console.log("cities: ", this.state.lsDepartments);
             });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
             .then(results => {
                 return results.json();
             }).then(data => {
                 this.setState({ lsBranches: data });
-                console.log("branches", this.state.lsBranches);
             });
     }
     render() {
+        console.log("range props: " + JSON.stringify(this.props));
+        if (this.props != undefined && this.props.branches != null && this.props.branches.length != this.state.lsSelectedBranches.length) {
+            const branches = this.props.branches;
+            console.log("branches: " + JSON.stringify(branches));
+            const cities = this.props.cities;
+            if (cities.length == 9) this.setState({ countrySelected: true });
+            this.setState({ lsSelectedDepartments: cities });
+            this.setState({ lsSelectedBranches: branches });
+        }
         return (
             <div>
                 <div className="ui-g-12">
                     <div className=" card-w-title">
                         <h4 className="light-text">Alcance</h4>
-                        <TabView className="tab">
-                            <TabPanel header="Sucursal">
-                                {this.state.lsBranches.map((branch, index) => {
-                                    return (
-                                        <div className="ui-g-12">
-                                            <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange} checked={this.contains(this.state.lsSelectedBranches, branch)}></Checkbox>
-                                            <label htmlFor={branch.id}>{branch.nombre}</label>
-                                        </div>
-                                    )
-                                })}
-                            </TabPanel>
-                            <TabPanel header="Regional">
-                                <div>
-                                    {this.state.lsDepartments.map((dep) => {
-                                        return (
-                                            <div className="ui-g-12">
-                                                <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange} checked={this.contains(this.state.lsSelectedDepartments, dep)} ></Checkbox>
-                                                <label htmlFor={dep.id}>{dep.nombre}</label>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
+                        <div className="ui-g-12">
+                            <h5>Pais</h5>
+                            <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange} checked={this.state.countrySelected} disabled={this.props.readOnly} ></Checkbox>
+                            <label htmlFor="country">Bolivia</label>
+                        </div>
 
-                            </TabPanel>
-                            <TabPanel header="Pais">
+                        <h5>Regional</h5>
+                        <div>
+                            {this.state.lsDepartments.map((dep) => {
+                                return (
+                                    <div className="ui-g-12">
+                                       <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange} checked={this.contains(this.state.lsSelectedDepartments, dep)} disabled={this.props.readOnly}></Checkbox>
+                                        <label htmlFor={dep.id}>{dep.nombre}</label>
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        <h5>Sucursal</h5>
+                        {this.state.lsBranches.map((branch, index) => {
+                            return (
                                 <div className="ui-g-12">
-                                    <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange} checked={this.state.countrySelected} ></Checkbox>
-                                    <label htmlFor="country">Bolivia</label>
+                                    <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange} checked={this.contains(this.state.lsSelectedBranches, branch)} disabled={this.props.readOnly}></Checkbox>
+                                    <label htmlFor={branch.id}>{branch.nombre}</label>
                                 </div>
+                            )
+                        })}
 
-                            </TabPanel>
-                        </TabView>
                     </div>
                 </div>
             </div>

@@ -49,7 +49,9 @@ class Questionnaires extends Component {
                                         <Link to={`/questionnaires/${item.id}`}>
                                             <Button label="Ver" />
                                         </Link>
-                                        <Button label="Editar" onClick={this.edit} className="ui-button-info" />
+                                        <Link to={`/questionnaires/edit/${item.id}`}>
+                                            <Button label="Editar" className="ui-button-info" />
+                                        </Link>
                                     </span>
                                 </div>
                             </Card>
