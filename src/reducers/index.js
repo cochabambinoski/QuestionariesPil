@@ -1,10 +1,13 @@
 import data from './data';
-import session from './session';
-import { combineReducers} from 'redux-immutable';
+import {idUser} from './idUser';
+import {idMenu} from './menu';
+import {assignmentUser} from './assignmentUser'
+import {combineReducers} from 'redux';
 
-const rootReducer = combineReducers({
+export default combineReducers({
     data,
-    session
+    idUser, idMenu, assignmentUser
 });
-
-export default rootReducer;
+export const getMenu = state => state.idMenu;
+export const getIdUser = state => state.idUser;
+export const getMobileAssignement = state => state.assignmentUser;

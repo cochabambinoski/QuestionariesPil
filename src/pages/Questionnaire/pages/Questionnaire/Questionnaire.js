@@ -11,7 +11,8 @@ import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
 import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
 import Constants from '../../../../Constants.json';
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class Questionnaire extends Component {
     constructor(props) {
@@ -137,7 +138,8 @@ class Questionnaire extends Component {
             }
         }
         return -1;
-    }
+    };
+
     selectBranches(branches) {
         this.setState((prevState, props) => ({
             lsBranches: branches
@@ -147,7 +149,8 @@ class Questionnaire extends Component {
         this.setState({
             modalVisible: false,
         })
-    }
+    };
+
     componentDidMount() {
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}?classId=${encodeURIComponent('TIPPREG')}`;
         fetch(url)
@@ -161,6 +164,7 @@ class Questionnaire extends Component {
     getQuestionnaire(id) {
         console.log("inside get questionnaire");
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`;
+        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();

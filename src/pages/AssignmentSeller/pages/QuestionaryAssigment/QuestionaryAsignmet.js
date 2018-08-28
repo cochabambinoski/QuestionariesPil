@@ -4,6 +4,27 @@ import Questionary from "./index";
 import './styles.css'
 import PropTypes from "prop-types";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import List from '@material-ui/core/List';
+import MobileSellerItem from "../MobileSellerList/components/MobileSellerItem/MobileSellerItem";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+    root: {
+        width: '100%',
+        position: 'relative',
+        overflow: 'auto',
+        maxHeight: 800,
+        marginBottom: 5,
+    },
+    listSection: {
+        backgroundColor: 'inherit',
+    },
+    ul: {
+        backgroundColor: 'inherit',
+        padding: 0,
+    },
+});
+
 
 class QuestionaryAsignmet extends Component {
 
@@ -23,12 +44,16 @@ class QuestionaryAsignmet extends Component {
         })
     }
 
-    stringToComponent = questionaries => (
-        questionaries.map((questionary) => (
-            <Questionary questionary={questionary} key={questionary.id}
-                         onSelectedQuestionaryClick={this.props.onSelectedQuestionary}/>
-        ))
-    );
+    stringToComponent(questionaries) {
+        return <List className={this.props.classes.root} subheader={<li />}>
+            {
+                questionaries.map((questionary) => (
+                    <Questionary questionary={questionary} key={questionary.id}
+                                 onSelectedQuestionaryClick={this.props.onSelectedQuestionary}/>
+                ))
+            }
+        </List>
+    };
 
     render() {
         const {questionnaires} = this.state
@@ -46,4 +71,4 @@ QuestionaryAsignmet.propTypes = {
     onSelectedQuestionary: PropTypes.func,
 };
 
-export default QuestionaryAsignmet;
+export default withStyles(styles)(QuestionaryAsignmet);
