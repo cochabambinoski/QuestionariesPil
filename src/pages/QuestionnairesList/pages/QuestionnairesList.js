@@ -58,7 +58,6 @@ class Questionnaires extends Component {
                         )
                     })
                 }
-
                 <Link to={`/questionnaires/new`}>
                     <Button label="Nuevo" onClick={this.newQuestionnaire} />
                 </Link>

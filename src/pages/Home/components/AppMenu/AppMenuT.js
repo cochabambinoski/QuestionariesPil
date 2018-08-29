@@ -5,17 +5,20 @@ import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import '../../layout.css'
 
-function AppMenuT(props) {
-        return (
-            <div className="Menus">
-                {
-                    props.menus.map((item)=> {
-                        return <SubMenu
-                            submenus={item.items} key={item.id}/>
+function AppMenuT({menus, onSelectedMenu}) {
+
+    return (
+        <div className="Menus">
+            {
+                menus.map((item) => {
+                    return item.items.map((itemMenu) => {
+                        return  <SubMenu
+                            submenus={itemMenu.items} title={itemMenu.label} key={item.id} />
                     })
-                }
-            </div>
-        );
+                })
+            }
+        </div>
+    );
 }
 
 export default AppMenuT

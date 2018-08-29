@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Button} from "../../../../../../../node_modules/primereact/button";
 import {Card} from "../../../../../../../node_modules/primereact/card";
 import './styles.css';
+import { connect } from 'react-redux';
+import { addAssignementUser, deleteAssignementUser, editAssignementUser } from '../../../../../../actions/index';
 
 class MobileSellerItem extends Component {
     constructor(props) {
@@ -11,6 +13,18 @@ class MobileSellerItem extends Component {
             isEdit: props.isEdit,
         }
     }
+
+    handleAddSeller = (seller) => {
+        this.props.addAssignementUser(seller);
+    };
+
+    handleDeleteSeller = (seller) => {
+        this.props.deleteAssignementUser(seller);
+    };
+
+    handleEditSeller = (seller) => {
+        this.props.editAssignementUser(seller);
+    };
 
     render() {
         const {isEdit} = this.state;
@@ -24,8 +38,15 @@ class MobileSellerItem extends Component {
                         <div className="normal-text">{this.state.mobileSeller.type.nombre}</div>
                         <br/>
                         {
-                            isEdit === false ? <Button label="Asignar"/> :
-                                <Button label="Eliminar" className="ui-button-danger"/>
+                            isEdit === false ?
+                                <Button label="Asignar" onClick={() => {
+                                    this.handleAddSeller(this.state.mobileSeller)
+                                }} /> :
+                                <Button label="Eliminar" className="ui-button-danger"
+                                        onClick={() => {
+                                            this.handleDeleteSeller(this.state.mobileSeller)
+                                        }}
+                                />
                         }
                     </div>
                 </Card>
@@ -36,4 +57,10 @@ class MobileSellerItem extends Component {
 
 MobileSellerItem.propTypes = {};
 
-export default MobileSellerItem;
+const mapDispatchToProps = dispatch => ({
+    addAssignementUser: value => dispatch(addAssignementUser(value)),
+    deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
+    editAssignementUser: value => dispatch(editAssignementUser(value))
+});
+
+export default connect(null , mapDispatchToProps)(MobileSellerItem);
