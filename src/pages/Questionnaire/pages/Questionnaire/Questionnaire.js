@@ -208,6 +208,7 @@ class Questionnaire extends Component {
         this.setState({ selectedQuestion: {id:null} });
         this.setState({ openQuestion: false });
     }
+
     handleNewQuestion(){
         this.setState({ selectedQuestionIndex: -1 });
         this.setState({ selectedQuestion: {id:null} });
