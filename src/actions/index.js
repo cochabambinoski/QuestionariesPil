@@ -5,7 +5,8 @@ import { DATA,
     DELETE_ASSIGNEMENT_USER,
     EDIT_ASSIGNEMENT_USER,
     SEARCH_ASYNC_ENTITIES,
-    DELETE_ALL_ASSIGNEMENT_USER} from "../action-types/actionTypes";
+    DELETE_ALL_ASSIGNEMENT_USER,
+    GET_INITIAL_DATA} from "../action-types/actionTypes";
 
 export function data() {
     return{
@@ -26,3 +27,5 @@ export const deleteAllAssignementUser = payload => ({type: DELETE_ALL_ASSIGNEMEN
 export const editAssignementUser = payload => ({type: EDIT_ASSIGNEMENT_USER, payload});
 
 export const searchEntitiesAsync = payload => ({type: SEARCH_ASYNC_ENTITIES, payload});
+
+export const getInitialData = payload => ({type: GET_INITIAL_DATA, payload});

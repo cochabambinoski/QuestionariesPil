@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MobileSellerList from '../../AssignmentSeller/pages/MobileSellerList/MobileSellerList';
-import {Grid, Row, Col} from 'react-flexbox-grid';
+import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
 import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigment/QuestionaryAsignmet";
 import SearchMobileSeller
@@ -14,8 +14,7 @@ import MobileSellerListAssigment
     from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
 import {deleteAllAssignementUser} from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
-import {getMobileAssignement} from "../../../reducers";
-import moment from '../../../../node_modules/moment';
+import {getMobileAssignement, getTypeByCodSap} from "../../../reducers";
 import Constants from "../../../Constants";
 
 class AssignmentQuestionary extends Component {
@@ -24,53 +23,60 @@ class AssignmentQuestionary extends Component {
         super(props);
         this.state = {
             idQuestionary: null,
-            questionerQuestionaryList: []
+            questionerQuestionaryList: [],
+            dates2: null
         }
     }
 
-    QuestionQuestionaries(mobileSeller, questionary, initialDate, finalDate) {
-        const msec = Date.parse("2012-March-21");
+    QuestionQuestionaries(mobileSeller, questionary, initialDate, finalDate, status) {
+        const dateFormat = require('dateformat');
         this.id = null;
         this.mobileSeller = mobileSeller;
         this.questionary = questionary;
-        this.status = 3;
-        this.initialDate = initialDate;
-        this.finalDate = finalDate;
+        this.status = status;
+        this.initialDate = dateFormat(finalDate, "yyyy-MM-dd HH:mm:ss");
+        this.finalDate = dateFormat(initialDate, "yyyy-MM-dd HH:mm:ss");
         this.sociedadId = "BOB1";
         this.usuarioId = "admin";
         this.operacionId = 1;
-        this.fechaId = new Date(msec).toDateString();
-        // alert('Una instancia de questionQuestionaries');
+        this.fechaId = dateFormat(new Date(), "yyyy-MM-dd HH:mm:ss");
     }
 
     handleSaveAssignment = () =>{
-        const {questionerQuestionaryList} = this.state;
-        for (let seller of this.props.assignmentUser.entities){
-            const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary, this.state.dates2, this.state.dates2);
-            questionerQuestionaryList.push(questionQuestionary)
-        }
-        console.log(questionerQuestionaryList);
-        for (let seller of questionerQuestionaryList){
-            console.log(seller);
-        }
-        let strQQuestionaries = JSON.stringify(questionerQuestionaryList);
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}?questionerQuestionaries=${encodeURIComponent(strQQuestionaries)}`;
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            headers:{
-                'Accept': '*/*',
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
+        if (this.props.assignmentUser.entities.length > 0){
+            if(this.state.dates2 != null){
+                const {questionerQuestionaryList} = this.state;
+                for (let seller of this.props.assignmentUser.entities){
+                    const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
+                        this.state.dates2[0], this.state.dates2[1], this.props.typeQuestionerQuestionary[0]);
+                    questionerQuestionaryList.push(questionQuestionary);
+                    console.log(questionQuestionary);
+                }
+                let strQQuestionaries = JSON.stringify(questionerQuestionaryList);
+                let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
+                fetch(url, {
+                    method: 'POST', // or 'PUT'
+                    body: JSON.stringify(questionerQuestionaryList),
+                    headers:{
+                        'Accept': '*/*',
+                        'Content-type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => console.log('Success:', response));
 
-        this.cancelAssignamentSeller
+                this.cancelAssignamentSeller
+            } else {
+                alert('Seleccione un rango de fechas');
+            }
+        } else {
+            alert('debe tener al menos un vendedor para guardar la asignacion');
+        }
     };
 
     handleSelectedQuestionary = idQuestionary => {
         console.log(idQuestionary);
-        this.setState({idQuestionary: idQuestionary.toString()})
+        this.setState({idQuestionary: idQuestionary})
     };
 
     cancelAssignamentSeller = () => {
@@ -107,12 +113,12 @@ class AssignmentQuestionary extends Component {
                         <div xs>
                             <Row>
                                 <Col xs>
-                                    <SearchMobileSeller/>
-                                    <MobileSellerList idQuestionary={this.state.idQuestionary} isEdit={false}/>
+                                    <SearchMobileSeller idQuestionary={this.state.idQuestionary.id} />
+                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false}/>
                                 </Col>
                                 <Col xs>
                                     <SearchMobileSeller/>
-                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary} isEdit={true}/>
+                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id} isEdit={true}/>
                                 </Col>
                             </Row>
 
@@ -147,7 +153,10 @@ class AssignmentQuestionary extends Component {
     }
 }
 
-const mapStateToProps = state => ({assignmentUser: getMobileAssignement(state)});
+const mapStateToProps = state => ({
+    assignmentUser: getMobileAssignement(state),
+    typeQuestionerQuestionary: getTypeByCodSap(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
+});
 
 const mapDispatchToProps = dispatch => ({
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
