@@ -145,7 +145,7 @@ class Home extends Component {
             }).then(data => {
             this.setState({menus: data});
         });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_TIPPREG)
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_ESTQUEST)
             .then(results => {
                 return results.json();
             }).then(data => {
