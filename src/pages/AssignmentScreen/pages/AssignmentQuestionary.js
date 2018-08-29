@@ -29,30 +29,32 @@ class AssignmentQuestionary extends Component {
     }
 
     QuestionQuestionaries(mobileSeller, questionary, initialDate, finalDate, status) {
-        const dateFormat = require('dateformat');
+        const format = require('date-format');
         this.id = null;
         this.mobileSeller = mobileSeller;
         this.questionary = questionary;
         this.status = status;
-        this.initialDate = dateFormat(finalDate, "yyyy-MM-dd HH:mm:ss");
-        this.finalDate = dateFormat(initialDate, "yyyy-MM-dd HH:mm:ss");
+        this.initialDate = format("yyyy-MM-dd hh:mm:ss", finalDate);
+        this.finalDate = format( "yyyy-MM-dd hh:mm:ss", initialDate);
         this.sociedadId = "BOB1";
         this.usuarioId = "admin";
         this.operacionId = 1;
-        this.fechaId = dateFormat(new Date(), "yyyy-MM-dd HH:mm:ss");
+        this.fechaId = null;
     }
 
     handleSaveAssignment = () =>{
         if (this.props.assignmentUser.entities.length > 0){
             if(this.state.dates2 != null){
+                console.log(this.state.dates2);
+                console.log(this.state.dates2[0]);
+                console.log(this.state.dates2[1]);
                 const {questionerQuestionaryList} = this.state;
                 for (let seller of this.props.assignmentUser.entities){
                     const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
-                        this.state.dates2[0], this.state.dates2[1], this.props.typeQuestionerQuestionary[0]);
+                        this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0]);
                     questionerQuestionaryList.push(questionQuestionary);
                     console.log(questionQuestionary);
                 }
-                let strQQuestionaries = JSON.stringify(questionerQuestionaryList);
                 let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
                 fetch(url, {
                     method: 'POST', // or 'PUT'
@@ -61,11 +63,13 @@ class AssignmentQuestionary extends Component {
                         'Accept': '*/*',
                         'Content-type': 'application/x-www-form-urlencoded'
                     }
-                }).then(res => res.json())
+                }).then(res => res.json().then(data => {
+                    console.log(data);
+                    this.cancelAssignamentSeller();
+                    })
+                )
                     .catch(error => console.error('Error:', error))
                     .then(response => console.log('Success:', response));
-
-                this.cancelAssignamentSeller
             } else {
                 alert('Seleccione un rango de fechas');
             }
