@@ -1,13 +1,15 @@
-import {DATA} from "../action-types/actionTypes";
-import {fromJS} from "immutable";
+import {DATA, SEARCH_ASYNC_ENTITIES} from "../action-types/actionTypes";
 
-const initialState = fromJS({
-    dataTestState: '',
-});
+const initialState = (
+    {
+        search: '',
+        entities: []
+    }
+);
 
 function data(state = initialState, action) {
     switch (action.type) {
-        case DATA:{
+        case SEARCH_ASYNC_ENTITIES:{
             return console.log("DATA")
         }
         default:

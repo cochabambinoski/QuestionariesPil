@@ -15,7 +15,7 @@ const QuestionaryData = ({data, handleQuestionaryLocationDataClick}) => {
                     <br/>
                     <span>
                         <Button label="Iniciar Asignacion" className="ui-button-success" onClick={() => {
-                            handleQuestionaryLocationDataClick(data.id)
+                            handleQuestionaryLocationDataClick(data)
                         }}/>
                     </span>
                 </div>
