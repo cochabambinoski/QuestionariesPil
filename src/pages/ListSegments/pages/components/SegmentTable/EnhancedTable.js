@@ -1,27 +1,28 @@
 /**
  * Created by smirandaz on 08/29/2018.
  */
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import EnhancedTableHead from '../SegmentTable/EnhacedTableHead';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditSeg from '@material-ui/icons/Edit';
-import EditBas from '@material-ui/icons/Edit';
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import EnhancedTableHead from "../SegmentTable/EnhacedTableHead";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import FilterListIcon from '@material-ui/icons/FilterList';
-import {lighten} from '@material-ui/core/styles/colorManipulator';
-import Constants from '../../../../../Constants.json';
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditSeg from "@material-ui/icons/Edit";
+import EditBas from "@material-ui/icons/Edit";
+import {lighten} from "@material-ui/core/styles/colorManipulator";
+import Constants from "../../../../../Constants.json";
+import RangeCalendar from "./../RangeCalendar"
 
 EnhancedTableHead.propTypes = {
     numSelected: PropTypes.number.isRequired,
@@ -31,6 +32,7 @@ EnhancedTableHead.propTypes = {
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
 };
+
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -44,6 +46,12 @@ function desc(a, b, orderBy) {
 
 function getSorting(order, orderBy) {
     return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+}
+
+function getDate(date) {
+    let now = new Date(date);
+    let dateFormat = require('dateformat');
+    return dateFormat(now, "dd-mm-yyyy");
 }
 
 const toolbarStyles = theme => ({
@@ -73,6 +81,15 @@ const toolbarStyles = theme => ({
 let EnhancedTableToolbar = props => {
     const {numSelected, classes} = props;
 
+    const es = {
+        firstDayOfWeek: 1,
+        dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+        dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+        dayNamesMin: ["D", "L", "M", "X", "J", "V", "S"],
+        monthNames: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+        monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    };
+
     return (
         <Toolbar
             className={classNames(classes.root, {
@@ -90,10 +107,13 @@ let EnhancedTableToolbar = props => {
                 )}
             </div>
             <div className={classes.spacer}/>
+            <div>
+                <RangeCalendar/>
+            </div>
             <div className={classes.actions}>
                 <Tooltip title="Filter list">
                     <IconButton aria-label="Filter list">
-                        <FilterListIcon />
+                        <FilterListIcon onClick={this.handleFilter}/>
                     </IconButton>
                 </Tooltip>
             </div>
@@ -131,6 +151,12 @@ class EnhancedTable extends React.Component {
         page: 0,
         rowsPerPage: 5,
     };
+
+    handleFilter = (event, property) => {
+        const range = RangeCalendar;
+        let dates = range.state.dates
+
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -194,7 +220,6 @@ class EnhancedTable extends React.Component {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
         return (
             <Paper className={classes.root}>
                 <EnhancedTableToolbar numSelected={selected.length}/>
@@ -218,21 +243,21 @@ class EnhancedTable extends React.Component {
                                             <TableCell component="th" scope="row" numeric>
                                                 {n.idClientKiloliter}
                                             </TableCell>
-                                            <TableCell>{n.dateRegister}</TableCell>
+                                            <TableCell>{getDate(n.dateRegister)}</TableCell>
                                             <TableCell>{n.description}</TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Delete">
-                                                    <EditBas />
+                                                    <EditBas/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Delete">
-                                                    <EditSeg />
+                                                    <EditSeg/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Delete">
-                                                    <DeleteIcon />
+                                                    <DeleteIcon/>
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
