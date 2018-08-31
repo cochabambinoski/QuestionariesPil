@@ -12,10 +12,16 @@ import {Toolbar} from '../../../../node_modules/primereact/toolbar';
 import {connect} from 'react-redux';
 import MobileSellerListAssigment
     from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
-import {deleteAllAssignementUser} from '../../../actions/index';
+import {
+    deleteAllAssignementUser,
+    editQueryTextAssignedQuestionary,
+    editQueryTextMobileSellerAssignedList
+} from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {getMobileAssignement, getTypeByCodSap} from "../../../reducers";
 import Constants from "../../../Constants";
+import {InputText} from 'primereact/inputtext';
+import {editQueryTextMobileSellerList} from "../../../actions";
 
 class AssignmentQuestionary extends Component {
 
@@ -107,7 +113,7 @@ class AssignmentQuestionary extends Component {
                 {
                     !idQuestionary ?
                         <div xs>
-                            <SearchQuestionary style={{elevation: '50px', with: '100%', height: '100%'}}/>
+                            <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)} />
                             <QuestionaryAsignmet onSelectedQuestionary={this.handleSelectedQuestionary}/>
                         </div> : null
                 }
@@ -117,11 +123,11 @@ class AssignmentQuestionary extends Component {
                         <div xs>
                             <Row>
                                 <Col xs>
-                                    <SearchMobileSeller idQuestionary={this.state.idQuestionary.id} />
+                                    <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextMobileSellerList(e.target.value)} />
                                     <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false}/>
                                 </Col>
                                 <Col xs>
-                                    <SearchMobileSeller/>
+                                    <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextMobileSellerAssignedList(e.target.value)} />
                                     <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id} isEdit={true}/>
                                 </Col>
                             </Row>
@@ -160,10 +166,14 @@ class AssignmentQuestionary extends Component {
 const mapStateToProps = state => ({
     assignmentUser: getMobileAssignement(state),
     typeQuestionerQuestionary: getTypeByCodSap(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
+    querySearchView: state.queryMobileSeller,
 });
 
 const mapDispatchToProps = dispatch => ({
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
+    editQueryTextMobileSellerList: value => dispatch(editQueryTextMobileSellerList(value)),
+    editQueryTextMobileSellerAssignedList: value => dispatch(editQueryTextMobileSellerAssignedList(value)),
+    editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssignmentQuestionary);

@@ -5,7 +5,7 @@ import MobileSellerItem from "../../components/MobileSellerItem/MobileSellerItem
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
-import {getMobileAssignement} from "../../../../../../reducers";
+import {getMobileAssignement, getQueryMobileSellerAssigment} from "../../../../../../reducers";
 
 const styles = theme => ({
     root: {
@@ -36,9 +36,19 @@ class MobileSellerListAssigment extends Component {
         }
     }
 
+    filterItems = (mobileSellers ,query) => {
+        return mobileSellers.filter((el) =>
+            el.vendedor.persona.nombre.toLowerCase().indexOf(query.toLowerCase()) > -1
+        );
+    };
+
     renderMobileSellersItem() {
+        let filterList = this.props.assignmentUser.entities;
+        if(this.props.queryMobileSeller !== ""){
+            filterList = this.filterItems(this.props.assignmentUser.entities, this.props.queryMobileSellerAssigment);
+        }
         return <List className={this.props.classes.root} subheader={<li />}>
-            {this.props.assignmentUser.entities.map(mobileSeller => (
+            {filterList.map(mobileSeller => (
                 <MobileSellerItem
                     mobileSeller={mobileSeller}
                     isEdit={this.state.isEdit}
@@ -70,6 +80,7 @@ MobileSellerListAssigment.propTypes = {
     isEdit: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({assignmentUser: getMobileAssignement(state)});
+const mapStateToProps = state => ({assignmentUser: getMobileAssignement(state),
+    queryMobileSellerAssigment: getQueryMobileSellerAssigment(state)});
 
 export default connect(mapStateToProps, null)( withStyles(styles)(MobileSellerListAssigment));
