@@ -6,7 +6,14 @@ import { DATA,
     EDIT_ASSIGNEMENT_USER,
     SEARCH_ASYNC_ENTITIES,
     DELETE_ALL_ASSIGNEMENT_USER,
-    GET_INITIAL_DATA} from "../action-types/actionTypes";
+    GET_INITIAL_DATA,
+    SAVE_MOBILE_LIST_AUX,
+    DELETE_MOBILE_LIST_AUX,
+    EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
+    EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST,
+    EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST,
+    ADD_MOBILE_SELLERS,
+    ADD_MOBILE_SELLER} from "../action-types/actionTypes";
 
 export function data() {
     return{
@@ -29,3 +36,17 @@ export const editAssignementUser = payload => ({type: EDIT_ASSIGNEMENT_USER, pay
 export const searchEntitiesAsync = payload => ({type: SEARCH_ASYNC_ENTITIES, payload});
 
 export const getInitialData = payload => ({type: GET_INITIAL_DATA, payload});
+
+export const saveMobileSellerListAux = payload => ({type : SAVE_MOBILE_LIST_AUX, payload});
+
+export const deleteSaveMobileSellerListAux = payload => ({type : DELETE_MOBILE_LIST_AUX, payload});
+
+export const editQueryTextMobileSellerList = payload => ({type : EDIT_QUERY_TEXT_MOBILE_SELLER_LIST, payload});
+
+export const editQueryTextMobileSellerAssignedList = payload => ({type : EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST, payload});
+
+export const editQueryTextAssignedQuestionary = payload => ({type : EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST, payload});
+
+export const addMobileSellers= payload => ({type : ADD_MOBILE_SELLERS, payload});
+
+export const addMobileSeller = payload => ({type : ADD_MOBILE_SELLER, payload});
