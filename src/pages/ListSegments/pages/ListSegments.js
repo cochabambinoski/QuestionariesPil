@@ -2,7 +2,7 @@
  * Created by smirandaz on 08/28/2018.
  */
 import React, {Component} from "react";
-
+import PropTypes from "prop-types";
 import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
 import TableSegment from "./components/SegmentTable/EnhancedTable";
@@ -10,25 +10,17 @@ import TableSegment from "./components/SegmentTable/EnhancedTable";
 class ListSegments extends Component {
 
     handleClick = (event, id) => {
-        /*const {selected} = this.state;
-         const selectedIndex = selected.indexOf(id);
-         let newSelected = [];
 
-         if (selectedIndex === -1) {
-         newSelected = newSelected.concat(selected, id);
-         } else if (selectedIndex === 0) {
-         newSelected = newSelected.concat(selected.slice(1));
-         } else if (selectedIndex === selected.length - 1) {
-         newSelected = newSelected.concat(selected.slice(0, -1));
-         } else if (selectedIndex > 0) {
-         newSelected = newSelected.concat(
-         selected.slice(0, selectedIndex),
-         selected.slice(selectedIndex + 1),
-         );
-         }
-
-         this.setState({selected: newSelected});*/
     };
+
+    constructor() {
+        super();
+
+        this.state = {
+
+        };
+
+    }
 
     render() {
         return (
@@ -48,7 +40,8 @@ class ListSegments extends Component {
     }
 }
 
-ListSegments.propTypes = {};
+ListSegments.propTypes = {
+};
 
 export default ListSegments;
 
