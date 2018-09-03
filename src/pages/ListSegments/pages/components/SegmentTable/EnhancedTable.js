@@ -141,12 +141,15 @@ class EnhancedTable extends Component {
     };
 
     updateDates = (init, end) => {
-        console.log("recived: "+init, end);
-        //if (init !== this.state.startDate && end !== this.state.endDate) {
+        var start = init.getTime() === this.state.startDate.getTime();
+        var finish = end.getTime() === this.state.endDate.getTime();
+        console.log(start, finish);
+        if (!start || !finish) {
+            console.log("recived: "+init, end);
             this.state.startDate = init;
             this.state.endDate = end;
             this.chargeTable(this.state.startDate, this.state.endDate)
-        //}
+        }
     }
 
     handleChangePage = (event, page) => {
