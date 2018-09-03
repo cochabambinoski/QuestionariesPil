@@ -6,7 +6,8 @@ import {
     SAVE_MOBILE_LIST_AUX,
     DELETE_MOBILE_LIST_AUX,
     ADD_MOBILE_SELLERS,
-    ADD_MOBILE_SELLER
+    ADD_MOBILE_SELLER,
+    DELETE_MOBILE_SELLERS
 } from "../action-types/actionTypes";
 
 const initialState = (
@@ -62,6 +63,11 @@ export function assignmentUser(state = initialState, action) {
         case DELETE_MOBILE_LIST_AUX: {
             {
                 return {...state, entitiesAux: []};
+            }
+        }
+        case DELETE_MOBILE_SELLERS: {
+            {
+                return {...state, mobileSellers: []};
             }
         }
         case ADD_MOBILE_SELLERS: {

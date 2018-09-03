@@ -2,6 +2,7 @@
   "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
+  "GET_USER_BY_ID": "getUserById?idUser=",
   "SAVE_QUESTIONNAIRE": "saveAndEditQuestionary",
   "SAVE_QUESTIONNAIRE_AND_RANGE":"saveAndEditQuestionnairesAndQuestionaryRange",
   "SAVE_RANGE": "saveQuestionaryRange/",

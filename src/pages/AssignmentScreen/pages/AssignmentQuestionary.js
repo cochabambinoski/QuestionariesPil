@@ -3,10 +3,6 @@ import MobileSellerList from '../../AssignmentSeller/pages/MobileSellerList/Mobi
 import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
 import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigment/QuestionaryAsignmet";
-import SearchMobileSeller
-    from "../../AssignmentSeller/pages/MobileSellerList/components/SearchMobileSeller/SearchMobileSeller";
-import SearchQuestionary
-    from "../../AssignmentSeller/pages/QuestionaryAssigment/components/SearchQuestionary/SearchQuestionary";
 import {Button} from "../../../../node_modules/primereact/button";
 import {Toolbar} from '../../../../node_modules/primereact/toolbar';
 import {connect} from 'react-redux';
@@ -14,11 +10,12 @@ import MobileSellerListAssigment
     from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
 import {
     deleteAllAssignementUser,
+    deleteMobileSellers,
     editQueryTextAssignedQuestionary,
     editQueryTextMobileSellerAssignedList
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
-import {getMobileAssignement, getTypeByCodSap} from "../../../reducers";
+import {getMobileAssignement, getTypeByCodSap, getUser} from "../../../reducers";
 import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {editQueryTextMobileSellerList} from "../../../actions";
@@ -34,7 +31,7 @@ class AssignmentQuestionary extends Component {
         }
     }
 
-    QuestionQuestionaries(mobileSeller, questionary, initialDate, finalDate, status) {
+    QuestionQuestionaries(mobileSeller, questionary, initialDate, finalDate, status, user) {
         const format = require('date-format');
         this.id = null;
         this.mobileSeller = mobileSeller;
@@ -43,7 +40,7 @@ class AssignmentQuestionary extends Component {
         this.initialDate = format("yyyy-MM-dd hh:mm:ss", finalDate);
         this.finalDate = format( "yyyy-MM-dd hh:mm:ss", initialDate);
         this.sociedadId = "BOB1";
-        this.usuarioId = "admin";
+        this.usuarioId = user;
         this.operacionId = 1;
         this.fechaId = null;
     }
@@ -55,9 +52,11 @@ class AssignmentQuestionary extends Component {
                 console.log(this.state.dates2[0]);
                 console.log(this.state.dates2[1]);
                 const {questionerQuestionaryList} = this.state;
+                console.log(this.props.user.username);
                 for (let seller of this.props.assignmentUser.entities){
                     const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
-                        this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0]);
+                        this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
+                        this.props.user.username);
                     questionerQuestionaryList.push(questionQuestionary);
                     console.log(questionQuestionary);
                 }
@@ -91,6 +90,7 @@ class AssignmentQuestionary extends Component {
 
     cancelAssignamentSeller = () => {
         this.props.deleteAllAssignementUser();
+        this.props.deleteMobileSeller(null);
         this.setState({idQuestionary: null})
     };
 
@@ -100,6 +100,7 @@ class AssignmentQuestionary extends Component {
 
     render() {
         const {idQuestionary} = this.state;
+        console.log(this.props.user);
         const es = {
             firstDayOfWeek: 1,
             dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
@@ -167,10 +168,12 @@ const mapStateToProps = state => ({
     assignmentUser: getMobileAssignement(state),
     typeQuestionerQuestionary: getTypeByCodSap(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
     querySearchView: state.queryMobileSeller,
+    user: getUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
+    deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
     editQueryTextMobileSellerList: value => dispatch(editQueryTextMobileSellerList(value)),
     editQueryTextMobileSellerAssignedList: value => dispatch(editQueryTextMobileSellerAssignedList(value)),
     editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
