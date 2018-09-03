@@ -52,14 +52,7 @@ class EnhancedTable extends Component {
         this.chargeTable(this.state.startDate, this.state.endDate)
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.dateStart !== this.state.startDate)
-            console.log(this.props, nextProps.dateStart);
-        this.chargeTable(nextProps.dateStart, nextProps.dateEnd)
-    };
-
     chargeTable = (start, end) => {
-        console.log("change table: "+start + " and " + end);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}${this.dateToISO(start)}${this.dateToISO(end)}`;
         fetch(url)
             .then(results => {
@@ -140,14 +133,12 @@ class EnhancedTable extends Component {
         this.setState({selected: newSelected});
     };
 
-    updateDates = (init, end) => {
-        var start = init.getTime() === this.state.startDate.getTime();
-        var finish = end.getTime() === this.state.endDate.getTime();
-        console.log(start, finish);
+    updateDates = (fromDate, todate) => {
+        var start = fromDate.getTime() === this.state.startDate.getTime();
+        var finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
-            console.log("recived: "+init, end);
-            this.state.startDate = init;
-            this.state.endDate = end;
+            this.state.startDate = fromDate;
+            this.state.endDate = todate;
             this.chargeTable(this.state.startDate, this.state.endDate)
         }
     }

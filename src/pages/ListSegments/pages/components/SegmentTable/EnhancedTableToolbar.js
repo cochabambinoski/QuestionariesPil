@@ -57,7 +57,6 @@ class EnhancedTableToolbar extends Component {
         let maxDate = new Date();
         maxDate.setMonth(nextMonth);
         maxDate.setFullYear(nextYear);
-        let range = null;
 
         this.state = {
             minDate: minDate,
@@ -65,7 +64,7 @@ class EnhancedTableToolbar extends Component {
             invalidDates: [today],
             startDate: props.dateStart,
             endDate: props.dateEnd,
-            dates: range,
+            dates: null,
         };
     }
 
@@ -76,7 +75,7 @@ class EnhancedTableToolbar extends Component {
     handlerClick = event => {
         this.state.startDate = this.state.dates[0];
         this.state.enDate = this.state.dates[1];
-        this.props.updateDates(this.state.startDate, this.state.endDate);
+        this.props.updateDates(this.state.startDate, this.state.enDate);
     };
 
     render() {
