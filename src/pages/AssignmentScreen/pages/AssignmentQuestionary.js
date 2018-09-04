@@ -12,7 +12,9 @@ import {
     deleteAllAssignementUser,
     deleteMobileSellers,
     editQueryTextAssignedQuestionary,
-    editQueryTextMobileSellerAssignedList
+    editQueryTextMobileSellerAssignedList,
+    addAssignementUser,
+    deleteAssignementUser
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {getAllCity, getMobileAssignement, getTypeByCodSap, getTypesSeller, getUser} from "../../../reducers";
@@ -69,6 +71,7 @@ const styles = theme => ({
     },
 });
 
+
 class AssignmentQuestionary extends Component {
 
     constructor(props) {
@@ -79,6 +82,7 @@ class AssignmentQuestionary extends Component {
             dates2: null,
             expandFirstSellerSearch: false,
             expandSecondSearch: false,
+            hasNewAssignments: false,
 
         }
     }
@@ -97,43 +101,54 @@ class AssignmentQuestionary extends Component {
         this.fechaId = null;
     }
 
-    handleSaveAssignment = () =>{
-        if (this.props.assignmentUser.entities.length > 0){
-            if(this.state.dates2 != null){
-                console.log(this.state.dates2);
-                console.log(this.state.dates2[0]);
-                console.log(this.state.dates2[1]);
-                const {questionerQuestionaryList} = this.state;
-                console.log(this.props.user.username);
-                for (let seller of this.props.assignmentUser.entities){
-                    const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
-                        this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
-                        this.props.user.username);
-                    questionerQuestionaryList.push(questionQuestionary);
-                    console.log(questionQuestionary);
-                }
-                let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
-                fetch(url, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(questionerQuestionaryList),
-                    headers:{
-                        'Accept': '*/*',
-                        'Content-type': 'application/x-www-form-urlencoded'
-                    }
-                }).then(res => res.json().then(data => {
-                    console.log(data);
-                    this.cancelAssignamentSeller();
-                    })
-                )
-                    .catch(error => console.error('Error:', error))
-                    .then(response => console.log('Success:', response));
-            } else {
-                alert('Seleccione un rango de fechas');
+    alredyHasAssignment = (seller) => {
+        const {questionerQuestionaryList} = this.state;
+        let assignments = questionerQuestionaryList.filter((assignment) => (assignment.mobileSeller.id == seller.id && assignment.operacionId == 1));
+        return assignments.length > 0;
+    }
+
+    handleSaveAssignment = () => {
+        const {questionerQuestionaryList} = this.state;
+        if (this.props.assignmentUser.entities.length == 0){
+            if(questionerQuestionaryList.length > 0){
+                this.saveAssignments();
+            }else{
+                alert('Debe tener al menos un vendedor para guardar la asignacion');
             }
-        } else {
-            alert('debe tener al menos un vendedor para guardar la asignacion');
+        }else{
+            if(this.state.hasNewAssignments && this.state.dates2 == null){
+                alert('Seleccione un rango de fechas');
+            }else{
+                this.saveAssignments();
+            }
         }
     };
+
+    saveAssignments = () => {
+        const {questionerQuestionaryList} = this.state;
+        for (let seller of this.props.assignmentUser.entities){
+            if (!this.alredyHasAssignment(seller)){
+                const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
+                    this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
+                    this.props.user.username);
+                questionerQuestionaryList.push(questionQuestionary);
+            }
+        }
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(questionerQuestionaryList),
+            headers:{
+                'Accept': '*/*',
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }).then(res => res.json().then(data => {
+            this.cancelAssignamentSeller();
+            })
+        )
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+    }
 
     handleSelectedQuestionary = idQuestionary => {
         console.log(idQuestionary);
@@ -150,14 +165,55 @@ class AssignmentQuestionary extends Component {
         this.props.deleteAllAssignementUser();
     };
 
+    handleAddSeller = (seller) => {
+        if(!this.alredyHasAssignment(seller)){
+            this.setState({hasNewAssignments: true});
+        }
+        this.props.addAssignementUser(seller);
+    };
+
+    loadAssignments = (assignments) => {
+        assignments.forEach((assignment) => {
+            const {questionerQuestionaryList} = this.state;
+            questionerQuestionaryList.push(assignment);
+            const mobileSeller = assignment.mobileSeller;
+            this.handleAddSeller(mobileSeller);
+        });
+    };
+
+    handleDeleteSeller = (seller) => {
+        const {questionerQuestionaryList} = this.state;
+        this.props.deleteAssignementUser(seller);
+    };
+
+    deleteAssignement = (seller) => {
+        const {questionerQuestionaryList} = this.state;
+        questionerQuestionaryList.forEach((assignment)=>{
+            if(assignment.id != null && assignment.operacionId == 1 && assignment.mobileSeller.id == seller.id){
+                assignment.operacionId = 0;
+            }
+        });
+        this.handleDeleteSeller(seller);
+    }
+
+    getAssignment = (seller) => {
+        let res = null;
+        const {questionerQuestionaryList} = this.state;
+        let assignments = questionerQuestionaryList.filter((assignment) => {
+            return assignment.mobileSeller.id == seller.id && assignment.operacionId == 1});
+        if (assignments.length > 0)
+            res = assignments[0];
+        return res;
+    }
+
     handleSetStateFirstSellerSearch = () =>{
         console.log("Expanded");
-      const isExpanded = this.state.expandFirstSellerSearch;
-      if (isExpanded) {
-          this.setState({expandFirstSellerSearch: false});
-      } else {
-          this.setState({expandFirstSellerSearch: true});
-      }
+        const isExpanded = this.state.expandFirstSellerSearch;
+        if (isExpanded) {
+            this.setState({expandFirstSellerSearch: false});
+        } else {
+            this.setState({expandFirstSellerSearch: true});
+        }
     };
 
     handleSetStateSecondSellerSearch = () =>{
@@ -264,8 +320,7 @@ class AssignmentQuestionary extends Component {
                                             <Button label="Filtrar"/>
                                         </ExpansionPanelActions>
                                     </ExpansionPanel>
-
-                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false}/>
+                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false} getAssignment={this.getAssignment} handleAddSeller={this.handleAddSeller}/>
                                 </Col>
 
                                 <Col xs>
@@ -334,8 +389,8 @@ class AssignmentQuestionary extends Component {
                                             <Button label="Filtrar"/>
                                         </ExpansionPanelActions>
                                     </ExpansionPanel>
-
-                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id} isEdit={true}/>
+                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id} isEdit={true} loadAssignments={this.loadAssignments}
+                                                               deleteAssignement={this.deleteAssignement} getAssignment={this.getAssignment}/>
                                 </Col>
                             </Row>
 
@@ -387,6 +442,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+    addAssignementUser: value => dispatch(addAssignementUser(value)),
+    deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
     deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
     editQueryTextMobileSellerList: value => dispatch(editQueryTextMobileSellerList(value)),
