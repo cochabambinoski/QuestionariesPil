@@ -6,6 +6,7 @@ import './QuestionnaireRange.css';
 import { Checkbox } from 'primereact/checkbox';
 import Constants from '../../../../Constants.json';
 
+
 class QuestionnaireRange extends Component {
     constructor(props) {
         super(props);
@@ -60,8 +61,8 @@ class QuestionnaireRange extends Component {
     addCity(city) {
         this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
-            let selected = selectedAux.filter((auxCity) => (auxCity.id == city.id));
-            if (selected.length == 0) {
+            let selected = selectedAux.filter((auxCity) => (auxCity.id === city.id));
+            if (selected.length === 0) {
                 selectedAux.push(city);
                 this.addRemoveAllBranchesForCity(city, true);
                 return { lsSelectedDepartments: selectedAux };
@@ -76,7 +77,7 @@ class QuestionnaireRange extends Component {
     removeCity(city) {
         this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
-            if (selectedAux.indexOf(city, 0) != -1) {
+            if (selectedAux.indexOf(city, 0) !== -1) {
                 selectedAux.splice(selectedAux.indexOf(city, 0), 1);
                 this.addRemoveAllBranchesForCity(city, false);
                 return { lsSelectedDepartments: selectedAux };
@@ -84,7 +85,7 @@ class QuestionnaireRange extends Component {
         });
     }
     addRemoveAllBranchesForCity(city, add) {
-        let branches = this.state.lsBranches.filter((branch) => (branch.departamento.id == city.id));
+        let branches = this.state.lsBranches.filter((branch) => (branch.departamento.id === city.id));
         branches.forEach((branch) => {
             if (add)
                 this.addBranch(branch);
@@ -100,7 +101,7 @@ class QuestionnaireRange extends Component {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
 
-            if (index == -1) {
+            if (index === -1) {
                 const range = {
                     id: null,
                     questionary: null,
@@ -114,7 +115,7 @@ class QuestionnaireRange extends Component {
                 rangesAux.push(range);
             } else {
                 if (rangesAux[index].id != null) {
-                    if (rangesAux[index].operacionId == 0) {
+                    if (rangesAux[index].operacionId === 0) {
                         //this.state.ranges[index].operacionId = 1;
                         rangesAux[index].operacionId = 1;
                     }
@@ -128,7 +129,7 @@ class QuestionnaireRange extends Component {
         this.setState((prevState, props) => {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
-            if (index != -1) {
+            if (index !== -1) {
                 if (rangesAux[index].id == null) {
                     rangesAux.splice(index, 1);
                 } else {
@@ -141,38 +142,38 @@ class QuestionnaireRange extends Component {
     }
     contains = (list, value) => {
         for (var i = 0; i < list.length; i++) {
-            if (list[i].id == value.id) {
+            if (list[i].id === value.id) {
                 return true;
             }
         }
         return false;
-    }
+    };
     containsCityRange = (list, city) => {
         for (var i = 0; i < list.length; i++) {
-            if (list[i].city.id == city.id) {
+            if (list[i].city.id === city.id) {
                 return true;
             }
         }
         return false;
-    }
+    };
     containsBranchRange = (list, branch) => {
         for (var i = 0; i < list.length; i++) {
-            if (list[i].branch.id == branch.id) {
+            if (list[i].branch.id === branch.id) {
                 return i;
             }
         }
         return -1;
-    }
+    };
     containsBranch = (branch) => {
-        const contained = this.state.ranges.filter((range) => (range.branch.id == branch.id));
-        return contained.length != 0;
-    }
+        const contained = this.state.ranges.filter((range) => (range.branch.id === branch.id));
+        return contained.length !== 0;
+    };
     handleSelectCities = (cities) => {
         this.props.selectCities(cities);
-    }
+    };
     handleSelectBranches = (branches) => {
         this.props.selectBranches(branches);
-    }
+    };
     componentDidMount() {
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_CITIES)
             .then(results => {
@@ -198,10 +199,10 @@ class QuestionnaireRange extends Component {
 
     }
     render() {
-        if (this.props != undefined && this.props.branches != null && this.props.branches.length != this.state.lsSelectedBranches.length) {
+        if (this.props !== undefined && this.props.branches != null && this.props.branches.length !== this.state.lsSelectedBranches.length) {
             const branches = this.props.branches;
             const cities = this.props.cities;
-            if (cities.length == 9) this.setState({ countrySelected: true });
+            if (cities.length === 9) this.setState({ countrySelected: true });
             this.setState({ lsSelectedDepartments: cities });
             this.setState({ lsSelectedBranches: branches });
         }

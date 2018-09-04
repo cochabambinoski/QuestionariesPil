@@ -10,7 +10,7 @@ class QuestionaryContainer extends Component {
     render() {
 
         const {questionarySelected} = this.props;
-        console.log(questionarySelected)
+        console.log(questionarySelected);
         return (
             <div>
                 {
