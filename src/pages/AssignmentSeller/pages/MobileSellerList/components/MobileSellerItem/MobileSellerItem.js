@@ -17,7 +17,7 @@ class MobileSellerItem extends Component {
     }
 
     handleAddSeller = (seller) => {
-        this.props.addAssignementUser(seller);
+        this.props.handleAddSeller(seller);
     };
 
     handleDeleteSeller = (seller) => {

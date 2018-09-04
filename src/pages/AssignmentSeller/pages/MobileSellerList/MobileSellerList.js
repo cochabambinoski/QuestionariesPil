@@ -81,7 +81,8 @@ class MobileSellerList extends Component {
                     mobileSeller={mobileSeller}
                     isEdit={this.state.isEdit}
                     key={mobileSeller.id}
-                    getAssignment={this.props.getAssignment}/>
+                    getAssignment={this.props.getAssignment}
+                    handleAddSeller={this.props.handleAddSeller}/>
             ))}
         </List>
     }

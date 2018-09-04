@@ -12,14 +12,15 @@ import {
     deleteAllAssignementUser,
     deleteMobileSellers,
     editQueryTextAssignedQuestionary,
-    editQueryTextMobileSellerAssignedList
+    editQueryTextMobileSellerAssignedList,
+    addAssignementUser, 
+    deleteAssignementUser
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {getMobileAssignement, getTypeByCodSap, getUser} from "../../../reducers";
 import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {editQueryTextMobileSellerList} from "../../../actions";
-import { addAssignementUser, deleteAssignementUser } from '../../../actions/index';
 
 
 class AssignmentQuestionary extends Component {
@@ -54,42 +55,48 @@ class AssignmentQuestionary extends Component {
         return assignments.length > 0;
     }
 
-    handleSaveAssignment = () =>{
-        if (this.props.assignmentUser.entities.length > 0){
-            if(this.state.dates2 != null || (this.state.dates2 == null && !this.state.hasNewAssignments)){
-                console.log(this.state.dates2);
-                const {questionerQuestionaryList} = this.state;
-                console.log(this.props.user.username);
-                for (let seller of this.props.assignmentUser.entities){
-                    if (!this.alredyHasAssignment(seller)){
-                        const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
-                            this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
-                            this.props.user.username);
-                        questionerQuestionaryList.push(questionQuestionary);
-                    }
-                }
-                let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
-                fetch(url, {
-                    method: 'POST', // or 'PUT'
-                    body: JSON.stringify(questionerQuestionaryList),
-                    headers:{
-                        'Accept': '*/*',
-                        'Content-type': 'application/x-www-form-urlencoded'
-                    }
-                }).then(res => res.json().then(data => {
-                    console.log(data);
-                    this.cancelAssignamentSeller();
-                    })
-                )
-                    .catch(error => console.error('Error:', error))
-                    .then(response => console.log('Success:', response));
-            } else {
-                alert('Seleccione un rango de fechas');
+    handleSaveAssignment = () => {
+        const {questionerQuestionaryList} = this.state;
+        if (this.props.assignmentUser.entities.length == 0){
+            if(questionerQuestionaryList.length > 0){
+                this.saveAssignments();
+            }else{
+                alert('Debe tener al menos un vendedor para guardar la asignacion');
             }
-        } else {
-            alert('Debe tener al menos un vendedor para guardar la asignacion');
+        }else{
+            if(this.state.hasNewAssignments && this.state.dates2 == null){
+                alert('Seleccione un rango de fechas');
+            }else{
+                this.saveAssignments();
+            }
         }
     };
+
+    saveAssignments = () => {
+        const {questionerQuestionaryList} = this.state;
+        for (let seller of this.props.assignmentUser.entities){
+            if (!this.alredyHasAssignment(seller)){
+                const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
+                    this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
+                    this.props.user.username);
+                questionerQuestionaryList.push(questionQuestionary);
+            }
+        }
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(questionerQuestionaryList),
+            headers:{
+                'Accept': '*/*',
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }).then(res => res.json().then(data => {
+            this.cancelAssignamentSeller();
+            })
+        )
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+    }
 
     handleSelectedQuestionary = idQuestionary => {
         console.log(idQuestionary);
@@ -110,7 +117,7 @@ class AssignmentQuestionary extends Component {
         if(!this.alredyHasAssignment(seller)){
             this.setState({hasNewAssignments: true});
         }
-        this.props.addAssignmentUser(seller);
+        this.props.addAssignementUser(seller);
     };
 
     loadAssignments = (assignments) => {
@@ -174,7 +181,7 @@ class AssignmentQuestionary extends Component {
                             <Row>
                                 <Col xs>
                                     <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextMobileSellerList(e.target.value)} />
-                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false} getAssignment={this.getAssignment}/>
+                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false} getAssignment={this.getAssignment} handleAddSeller={this.handleAddSeller}/>
                                 </Col>
                                 <Col xs>
                                     <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextMobileSellerAssignedList(e.target.value)} />
@@ -222,7 +229,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    addAssignmentUser: value => dispatch(addAssignementUser(value)),
+    addAssignementUser: value => dispatch(addAssignementUser(value)),
     deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
     deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
