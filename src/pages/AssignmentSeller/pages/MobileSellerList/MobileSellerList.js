@@ -80,7 +80,9 @@ class MobileSellerList extends Component {
                 <MobileSellerItem
                     mobileSeller={mobileSeller}
                     isEdit={this.state.isEdit}
-                    key={mobileSeller.id}/>
+                    key={mobileSeller.id}
+                    getAssignment={this.props.getAssignment}
+                    handleAddSeller={this.props.handleAddSeller}/>
             ))}
         </List>
     }
