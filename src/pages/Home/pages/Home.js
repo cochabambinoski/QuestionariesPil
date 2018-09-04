@@ -153,11 +153,32 @@ class Home extends Component {
             console.log(data);
             this.props.setTypesQuestionerQuestionary(data);
         });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_CARGOPER)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            console.log(data);
+            this.props.setTypeSeller(data);
+        });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
             .then(results => {
                 return results.json();
             }).then(data => {
             this.props.setUser(data);
+        });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_DEPARTAMENTS)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            console.log(data);
+            this.props.setInitDepataments(data);
+        });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            console.log(data);
+            this.props.setInitialBranches(data);
         });
     }
 
@@ -224,9 +245,12 @@ const mapDispatchToProps = dispatch => ({
     },
     actions: bindActionCreators(actions, dispatch),
     setIdUser: value => dispatch(actions.setIdUser(value)),
-    setTypesQuestionerQuestionary: value => dispatch(actions.getInitialData(value)),
+    setTypesQuestionerQuestionary: value => dispatch(actions.setInitialDataQuestionerQuestionary(value)),
+    setTypeSeller: value => dispatch(actions.setInitialDataTypesSeller(value)),
     setMenu : value => dispatch(actions.setMenu(value)),
     setUser: value => dispatch(actions.setUser(value)),
+    setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
+    setInitialBranches: value => dispatch(actions.getAllBranches(value))
 });
 
 const mapStateToProps = state => (

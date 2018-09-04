@@ -42,7 +42,7 @@ class MobileSellerItem extends Component {
                                 <Button label="Asignar" onClick={() => {
                                     this.handleAddSeller(this.state.mobileSeller)
                                 }} /> :
-                                <Button label="Eliminar" className="ui-button-danger"
+                                <Button label="Quitar" className="ui-button-danger"
                                         onClick={() => {
                                             this.handleDeleteSeller(this.state.mobileSeller)
                                         }}

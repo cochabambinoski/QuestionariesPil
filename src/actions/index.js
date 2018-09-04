@@ -29,7 +29,11 @@ import {
     CREATE_QUESTIONARY_RANGE, DELETE_QUESTIONARY_RANGE,
     FILL_OUT_QUESTIONARY_RANGE_ALL,
     CHANGE_ID_EXISTING_QUESTIONARY,
-    DELETE_MOBILE_SELLERS
+    DELETE_MOBILE_SELLERS,
+    SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
+    SET_INITIAL_DATA_TYPES_SELLER,
+    GET_ALL_DEPARTAMENTS,
+    GET_ALL_BRANCHES
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -58,7 +62,7 @@ export const editAssignementUser = payload => ({type: EDIT_ASSIGNEMENT_USER, pay
 
 export const searchEntitiesAsync = payload => ({type: SEARCH_ASYNC_ENTITIES, payload});
 
-export const getInitialData = payload => ({type: GET_INITIAL_DATA, payload});
+export const setInitialData = payload => ({type: GET_INITIAL_DATA, payload});
 
 export const saveMobileSellerListAux = payload => ({type : SAVE_MOBILE_LIST_AUX, payload});
 
@@ -99,3 +103,11 @@ export const deleteQuestionaryRange = payload => ({type: DELETE_QUESTIONARY_RANG
 export const fillOutQuestionaryRangeAll = payload => ({type: FILL_OUT_QUESTIONARY_RANGE_ALL, payload});
 
 export const changeIdExistingQuestionary = payload => ({type: CHANGE_ID_EXISTING_QUESTIONARY, payload});
+
+export const setInitialDataQuestionerQuestionary = payload => ({type: SET_INITIAL_DATA_QUESTIONER_QUESTIONARY, payload});
+
+export const setInitialDataTypesSeller = payload => ({type: SET_INITIAL_DATA_TYPES_SELLER, payload});
+
+export const getAllDepartaments = payload => ({type: GET_ALL_DEPARTAMENTS, payload});
+
+export const getAllBranches = payload => ({type: GET_ALL_BRANCHES, payload});

@@ -13,7 +13,7 @@ const styles = theme => ({
         height: '20%',
         position: 'relative',
         overflow: 'auto',
-        maxHeight: 820,
+        maxHeight: 800,
         marginBottom: 5,
     },
     listSection: {

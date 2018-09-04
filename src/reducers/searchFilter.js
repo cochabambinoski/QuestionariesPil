@@ -7,6 +7,11 @@ const initialState = (
     {
         queryMobileSeller: "",
         queryMobileSellerAssigned: "",
+        queryAdvancedMobileSellerType: [],
+        queryAdvancedMobileSellerBranch: [],
+        queryAdvanceMobileSellerAssigned: "",
+        queryAdvancedMobileSellerAssignedType: [],
+        queryAdvancedMobileSellerAssignedBranch: [],
         queryQuestionaryAssigned: "",
     }
 );

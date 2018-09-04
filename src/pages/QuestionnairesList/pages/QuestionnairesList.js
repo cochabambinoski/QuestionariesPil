@@ -49,6 +49,8 @@ class Questionnaires extends Component {
     render() {
         return (
             <div className="questionnaire">
+                <Button label="Nuevo"
+                        onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))}}/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     <Growl ref={(el) => this.growl = el} />
                     {
@@ -73,10 +75,6 @@ class Questionnaires extends Component {
                         })
                     }
                 </ScrollPanel>
-
-                    <Button label="Nuevo"
-                            onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))}}/>
-
             </div>
         );
     }

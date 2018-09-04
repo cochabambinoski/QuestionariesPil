@@ -11,14 +11,14 @@ import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
 import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
 import Constants from '../../../../Constants.json';
-import {Redirect, withRouter} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import {getCreateQuestionary, getQuestionarySelected} from "../../../../reducers";
-import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll} from "../../../../actions";
+import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
 import {Toolbar} from '../../../../../node_modules/primereact/toolbar';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
 
 const styles = theme => ({
@@ -81,10 +81,10 @@ class Questionnaire extends Component {
 
     saveQuestionnaire() {
         if (this.state.name == null) {
-            this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario")
+            this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
             return
         }
-        let ranges = []
+        let ranges = [];
         this.state.lsBranches.forEach((branch, index) => {
             ranges.push(
                 {
@@ -111,9 +111,8 @@ class Questionnaire extends Component {
                 fechaId: null,
             },
         ];
-        let strRanges = JSON.stringify(ranges);
-        let strQuestionaries = JSON.stringify(questionaries);
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}?questionaries=&questionaryRange=`;
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
+        console.log(url);
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
@@ -126,7 +125,8 @@ class Questionnaire extends Component {
         }).then(data => {
             if (data === "Ok") {
                 this.showSuccess("Transaccion exitosa", "Cuestionario guardado");
-                this.setState({savedSuccessfully: true});
+                alert("Cuestionario guardado");
+                this.props.setIdMenu(1);
             }
             else {
                 this.showError("Error al guardar", data)
@@ -136,14 +136,14 @@ class Questionnaire extends Component {
     }
 
     removeQuestion(index) {
-        let aux = this.state.lsQuestions
-        aux.splice(index, 1)
+        let aux = this.state.lsQuestions;
+        aux.splice(index, 1);
         this.setState({lsQuestions: aux});
     }
 
     addQuestion(question, index) {
         let auxQuestions = [...this.state.lsQuestions];
-        if (index == -1) {
+        if (index === -1) {
             auxQuestions.push(question);
         } else {
             auxQuestions[question];
@@ -153,7 +153,7 @@ class Questionnaire extends Component {
 
     contains = (list, value) => {
         for (var i = 0; i < list.length; i++) {
-            if (list[i].id == value.id) {
+            if (list[i].id === value.id) {
                 return i;
             }
         }
@@ -301,7 +301,7 @@ class Questionnaire extends Component {
 
                         <div className="content-section button-save">
                             {this.props.readOnly ?
-                                <div></div>
+                                <div/>
                                 :
                                 <Toolbar>
                                     <div className="p-toolbar-group-left">
@@ -342,7 +342,7 @@ class Questionnaire extends Component {
                                               selectedQuestionIndex={this.state.selectedQuestionIndex}/>
 
                                 </div>
-                            </div> : <div></div>
+                            </div> : <div/>
                     }
                 </div>
             </div>
@@ -362,6 +362,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fillOutQuestionaryRangeAll: value => dispatch(fillOutQuestionaryRangeAll(value)),
     changeIdExistingQuestionary: value => dispatch(changeIdExistingQuestionary(value)),
+    setIdMenu: value => dispatch(setMenuContainer(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)( withStyles(styles)(Questionnaire));

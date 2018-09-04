@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { Button } from 'primereact/button';
-import { Checkbox } from 'primereact/checkbox';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import { RadioButton } from 'primereact/radiobutton';
+import {Button} from 'primereact/button';
+import {Checkbox} from 'primereact/checkbox';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
+import {RadioButton} from 'primereact/radiobutton';
 import Constants from '../../../../Constants.json';
+import {connect} from 'react-redux';
+import {getUser} from "../../../../reducers";
 
 const MultipleOption = (props) => (
 
@@ -128,9 +130,9 @@ class Question extends Component {
                 question: null,
                 required: 1,
                 lsQuestionOptions: [],
-                sociedadId: null,
+                sociedadId: "BO81",
                 usuarioId: null,
-                operacionId: null,
+                operacionId: 1,
                 fechaId: null,
             },
         };
@@ -146,7 +148,7 @@ class Question extends Component {
     }
     onTypeChange(e) {
         let question = this.state.squestion;
-        if (e.value.codigoSap == Constants.CODSAP_FREE_ANSWER) {
+        if (e.value.codigoSap === Constants.CODSAP_FREE_ANSWER) {
             question.lsQuestionOptions = [{ option: 'Sin validacion' }];
         } else {
             question.lsQuestionOptions = [];
@@ -219,7 +221,7 @@ class Question extends Component {
             required: this.state.squestion.required,
             lsQuestionOptions: this.state.squestion.lsQuestionOptions,
             sociedadId: this.state.squestion.sociedadId,
-            usuarioId: this.state.squestion.usuarioId,
+            usuarioId: this.props.user.username,
             operacionId: this.state.squestion.operacionId,
             fechaId: this.state.squestion.fechaId,
         };
@@ -260,7 +262,7 @@ class Question extends Component {
             { option: 'Decimal' }
         ];
         console.log(this.props.question.type + "Recibiendo Pregunta Test 1")
-        if (this.props != undefined && this.props.question != null && this.props.question.id != this.state.squestion.id) {
+        if (this.props !== undefined && this.props.question != null && this.props.question.id !== this.state.squestion.id) {
             console.log("props: " + JSON.stringify(this.props));
             let question = this.props.question;
             
@@ -275,10 +277,10 @@ class Question extends Component {
                 this.setState({ lsOptions: question.lsQuestionOptions });
                 this.setState({ questionOption: question.questionOption });
                 this.setState({ sociedadId: question.sociedadId });
-                this.setState({ userId: question.usuarioId });
+                this.setState({ userId: this.props.user.username });
                 this.setState({ operacionId: question.operacionId });
                 this.setState({ fechaId: question.fechaId });
-                if (question.type!= null && question.type.codigoSap == Constants.CODSAP_FREE_ANSWER) {
+                if (question.type!= null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {
                     this.setState({ selectedValidation: question.lsQuestionOptions[0] });
                 }
             }
@@ -352,4 +354,8 @@ class Question extends Component {
     }
 }
 
-export default Question;
+const mapStateToProps = state => ({
+    user: getUser(state),
+});
+
+export default connect(mapStateToProps, null)(Question);

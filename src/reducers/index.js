@@ -2,7 +2,7 @@ import data from './data';
 import {user} from './user';
 import {idMenu} from './menu';
 import {searchFilter} from './searchFilter';
-import {initialData, getTypeByCodSap as _getTypeCodeSap} from "./initialData";
+import {initialData, getTypeByCodSap as _getTypeCodeSap, getBrancgesByIdCity as _getBrancgesByIdCity} from "./initialData";
 import {assignmentUser} from './assignmentUser'
 import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
@@ -23,3 +23,6 @@ export const getMobileSellers = state => state.assignmentUser.mobileSellers;
 export const getQuestionarySelected = state => state.createQuestionary.idQuestionary;
 export const getCreateQuestionary = state => state.createQuestionary;
 export const getUser = state => state.user.user;
+export const getTypesSeller = state => state.initialData.typeSeller;
+export const getAllCity = state => state.initialData.cities;
+export const getBranchesById = (state, idCity) => (_getBrancgesByIdCity(state.initialData.lsBranches, idCity));

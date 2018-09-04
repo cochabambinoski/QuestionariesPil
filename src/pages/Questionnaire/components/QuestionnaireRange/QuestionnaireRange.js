@@ -58,8 +58,8 @@ class QuestionnaireRange extends Component {
     addCity(city) {
         this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
-            let selected = selectedAux.filter((auxCity) => (auxCity.id == city.id));
-            if (selected.length == 0) {
+            let selected = selectedAux.filter((auxCity) => (auxCity.id === city.id));
+            if (selected.length === 0) {
                 selectedAux.push(city);
                 this.addRemoveAllBranchesForCity(city, true);
                 return { lsSelectedDepartments: selectedAux };
@@ -74,7 +74,7 @@ class QuestionnaireRange extends Component {
     removeCity(city) {
         this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
-            if (selectedAux.indexOf(city, 0) != -1) {
+            if (selectedAux.indexOf(city, 0) !== -1) {
                 selectedAux.splice(selectedAux.indexOf(city, 0), 1);
                 this.addRemoveAllBranchesForCity(city, false);
                 return { lsSelectedDepartments: selectedAux };
@@ -82,7 +82,7 @@ class QuestionnaireRange extends Component {
         });
     }
     addRemoveAllBranchesForCity(city, add) {
-        let branches = this.state.lsBranches.filter((branch) => (branch.departamento.id == city.id));
+        let branches = this.state.lsBranches.filter((branch) => (branch.departamento.id === city.id));
         branches.forEach((branch) => {
             if (add)
                 this.addBranch(branch);
@@ -93,7 +93,7 @@ class QuestionnaireRange extends Component {
     addBranch(branch) {
         this.setState((prevState, props) => {
             let selectedAux = [...prevState.lsSelectedBranches];
-            if (selectedAux.indexOf(branch, 0) == -1) {
+            if (selectedAux.indexOf(branch, 0) === -1) {
                 selectedAux.push(branch);
                 this.props.selectBranches(selectedAux);
                 return { lsSelectedBranches: selectedAux };
@@ -104,7 +104,7 @@ class QuestionnaireRange extends Component {
     removeBranch(branch) {
         this.setState((prevState, props) => {
             let selectedAux = [...prevState.lsSelectedBranches];
-            if (selectedAux.indexOf(branch, 0) != -1) {
+            if (selectedAux.indexOf(branch, 0) !== -1) {
                 selectedAux.splice(selectedAux.indexOf(branch, 0), 1);
                 this.props.selectBranches(selectedAux);
                 return { lsSelectedBranches: selectedAux };
@@ -140,12 +140,10 @@ class QuestionnaireRange extends Component {
             });
     }
     render() {
-        console.log("range props: " + JSON.stringify(this.props));
-        if (this.props != undefined && this.props.branches != null && this.props.branches.length != this.state.lsSelectedBranches.length) {
+        if (this.props !== undefined && this.props.branches != null && this.props.branches.length !== this.state.lsSelectedBranches.length) {
             const branches = this.props.branches;
-            console.log("branches: " + JSON.stringify(branches));
             const cities = this.props.cities;
-            if (cities.length == 9) this.setState({ countrySelected: true });
+            if (cities.length === 9) this.setState({ countrySelected: true });
             this.setState({ lsSelectedDepartments: cities });
             this.setState({ lsSelectedBranches: branches });
         }
@@ -156,7 +154,7 @@ class QuestionnaireRange extends Component {
                         <h4 className="light-text">Alcance</h4>
                         <div className="ui-g-12">
                             <h5>Pais</h5>
-                            <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange} checked={this.state.countrySelected} disabled={this.props.readOnly} ></Checkbox>
+                            <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange} checked={this.state.countrySelected} disabled={this.props.readOnly} />
                             <label htmlFor="country">Bolivia</label>
                         </div>
 
@@ -165,7 +163,7 @@ class QuestionnaireRange extends Component {
                             {this.state.lsDepartments.map((dep) => {
                                 return (
                                     <div className="ui-g-12">
-                                       <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange} checked={this.contains(this.state.lsSelectedDepartments, dep)} disabled={this.props.readOnly}></Checkbox>
+                                       <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange} checked={this.contains(this.state.lsSelectedDepartments, dep)} disabled={this.props.readOnly}/>
                                         <label htmlFor={dep.id}>{dep.nombre}</label>
                                     </div>
                                 )
@@ -176,7 +174,7 @@ class QuestionnaireRange extends Component {
                         {this.state.lsBranches.map((branch, index) => {
                             return (
                                 <div className="ui-g-12">
-                                    <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange} checked={this.contains(this.state.lsSelectedBranches, branch)} disabled={this.props.readOnly}></Checkbox>
+                                    <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange} checked={this.contains(this.state.lsSelectedBranches, branch)} disabled={this.props.readOnly}/>
                                     <label htmlFor={branch.id}>{branch.nombre}</label>
                                 </div>
                             )
