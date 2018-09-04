@@ -6,6 +6,7 @@ import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
 import {getMobileAssignement, getQueryMobileSellerAssigment} from "../../../../../../reducers";
+import Constants from "../../../../../../Constants.json";
 
 const styles = theme => ({
     root: {
@@ -52,9 +53,24 @@ class MobileSellerListAssigment extends Component {
                 <MobileSellerItem
                     mobileSeller={mobileSeller}
                     isEdit={this.state.isEdit}
-                    key={mobileSeller.id}/>
+                    key={mobileSeller.id}
+                    deleteAssignement={this.props.deleteAssignement}
+                    getAssignment={this.props.getAssignment} />
             ))}
         </List>
+    }
+
+    getAssignedMobileSellers = (idQuestionary) => {
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ASSIGNMENTS_BY_ID_QUESTIONARY + idQuestionary)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.loadAssignments(data);
+        });
+    };
+
+    componentDidMount() {
+        this.getAssignedMobileSellers(this.state.idQuestionary);
     }
 
     componentWillReceiveProps(nextProps) {

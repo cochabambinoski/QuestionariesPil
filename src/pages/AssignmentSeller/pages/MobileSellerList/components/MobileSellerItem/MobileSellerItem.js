@@ -11,6 +11,8 @@ class MobileSellerItem extends Component {
         this.state = {
             mobileSeller: props.mobileSeller,
             isEdit: props.isEdit,
+            initialDate:null,
+            finalDate:null,
         }
     }
 
@@ -19,12 +21,25 @@ class MobileSellerItem extends Component {
     };
 
     handleDeleteSeller = (seller) => {
-        this.props.deleteAssignementUser(seller);
+        this.props.deleteAssignement(seller);
     };
 
     handleEditSeller = (seller) => {
         this.props.editAssignementUser(seller);
     };
+
+    getDates = (seller) => {
+        const format = require('date-format');
+        const assignment = this.props.getAssignment(seller);
+        if(assignment != null){
+            this.setState({initialDate: format("yyyy-MM-dd", new Date(assignment.initialDate))});
+            this.setState({finalDate: format("yyyy-MM-dd", new Date(assignment.finalDate))});
+       }
+    };
+
+    componentDidMount() {
+        this.getDates(this.props.mobileSeller);
+    }
 
     render() {
         const {isEdit} = this.state;
@@ -36,6 +51,14 @@ class MobileSellerItem extends Component {
                         <div className="normal-text">{this.state.mobileSeller.vendedor.persona.nombre}</div>
                         <h2 className="light-text">Tipo</h2>
                         <div className="normal-text">{this.state.mobileSeller.type.nombre}</div>
+                        {
+                            this.state.initialDate != null && this.state.finalDate != null ?
+                                <div>
+                                    <h2 className="light-text">Validez</h2>
+                                    <div className="normal-text">Del {this.state.initialDate} al {this.state.finalDate}</div>
+                                </div>:null
+                        }
+                        
                         <br/>
                         {
                             isEdit === false ?

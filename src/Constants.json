@@ -1,5 +1,5 @@
 {
-  "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_WEB_SERVICES": "http://192.168.241.35:8086/vmovil/serviceRESTMovil/movil/datos/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "GET_USER_BY_ID": "getUserById?idUser=",
@@ -10,6 +10,7 @@
   "GET_ALL_BRANCHES": "getListBranchs/",
   "ROUTE_SVM": "http://localhost:8085/vmovil/business/login.jsf",
   "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary=",
+  "GET_ASSIGNMENTS_BY_ID_QUESTIONARY": "getAssignmentsByIdQuestionary?idQuestionary=",
   "GET_TYPES_BY_CLASS": "getTypesByClass?classId=",
   "GET_QUESTIONNAIRE_BY_ID": "getQuestionaryById",
   "GET_RANGES_BY_QUESTIONNAIRE":"getQuestionaryRangeByQuestionaryId",
