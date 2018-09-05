@@ -16,12 +16,12 @@ class MultipleOption extends Component {
         this.validateFields = this.validateFields.bind(this);
     }
     validateFields() {
-        if (this.props.lsOptions.length == 0) {
+        if (this.props.lsOptions.length === 0) {
             this.props.showError("Añada una opcion", "");
             return false;
         } else {
-            let emptyOptions = this.props.lsOptions.filter((option) => (option.option == ""));
-            if (emptyOptions.length == 0) {
+            let emptyOptions = this.props.lsOptions.filter((option) => (option.option !== ""));
+            if (emptyOptions.length === 0) {
                 return false;
             }
         }
@@ -32,7 +32,7 @@ class MultipleOption extends Component {
             "id": null,
             "question": null,
             "option": "Opcion"
-        }
+        };
         this.props.addOption(newOption);
     }
     addQuestion() {

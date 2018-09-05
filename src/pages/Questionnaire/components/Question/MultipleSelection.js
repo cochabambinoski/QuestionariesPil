@@ -20,7 +20,7 @@ class MultipleSelection extends Component {
             this.props.showError("Añada una opcion", "");
             return false;
         } else {
-            let emptyOptions = this.props.lsOptions.filter((option) => (option.option === ""));
+            let emptyOptions = this.props.lsOptions.filter((option) => (option.option !== ""));
             if (emptyOptions.length === 0) {
                 return false;
             }

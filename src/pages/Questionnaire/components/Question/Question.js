@@ -149,26 +149,28 @@ class Question extends Component {
                         handleClose={this.handleClose}
                         assigned={this.props.assigned}
                         showError={this.showError}
-                    />
+                    />;
                     break;
                 case Constants.CODSAP_MULTIPLE_SELECTION:
                     innerComponent = <MultipleSelection lsOptions={this.state.squestion.lsQuestionOptions}
                         addOption={this.addOption}
                         updateOption={this.updateOption}
-                        removeOption={this.removeOption} readOnly={this.props.readOnly}
+                        removeOption={this.removeOption}
+                        readOnly={this.props.readOnly}
                         addQuestion={this.addQuestion}
                         handleClose={this.handleClose}
                         assigned={this.props.assigned}
                         showError={this.showError}
-                    />
+                    />;
                     break;
                 case Constants.CODSAP_FREE_ANSWER:
                     innerComponent = <FreeAnswer
-                        updateOption={this.updateOption} readOnly={this.props.readOnly}
+                        updateOption={this.updateOption}
+                        readOnly={this.props.readOnly}
                         lsOptions={this.state.squestion.lsQuestionOptions}
                         addQuestion={this.addQuestion}
                         handleClose={this.handleClose}
-                        addOption={this.addOption} />
+                        addOption={this.addOption} />;
                     break;
                 case Constants.CODSAP_RANGE:
                     innerComponent = <Range updateOption={this.updateOption} lsOptions={this.state.squestion.lsQuestionOptions}
@@ -176,12 +178,12 @@ class Question extends Component {
                         addQuestion={this.addQuestion}
                         handleClose={this.handleClose}
                         addOption={this.addOption}
-                        showError={this.showError} />
+                        showError={this.showError} />;
                     break;
                 case Constants.CODSAP_IMAGE:
                     innerComponent = <Image readOnly={this.props.readOnly}
                         addQuestion={this.addQuestion}
-                        handleClose={this.handleClose} />
+                        handleClose={this.handleClose} />;
                     break;
             }
         }
