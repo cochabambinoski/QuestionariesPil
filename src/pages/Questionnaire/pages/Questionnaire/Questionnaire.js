@@ -87,13 +87,13 @@ class Questionnaire extends Component {
             return
         }
         let ranges = [];
-        this.state.lsBranches.forEach((branch, index) => {
+        this.state.ranges.forEach((branch, index) => {
             ranges.push(
                 {
                     id: null,
                     questionary: null,
-                    city: branch.departamento,
-                    branch: branch,
+                    city: branch.city,
+                    branch: branch.branch,
                     sociedadId: 'BO81',
                     usuarioId: this.state.userId,
                     operacionId: 1,
@@ -114,7 +114,7 @@ class Questionnaire extends Component {
             },
         ];
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
-        console.log(url);
+        console.log(JSON.stringify({questionaries: questionaries,questionaryRange: ranges }));
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
@@ -186,7 +186,6 @@ class Questionnaire extends Component {
                 return results.json();
             }).then(data => {
                 this.setState({ questionTypes: data });
-                console.log("types", this.state.questionTypes);
             });
         const {questionnaireId1} = this.props;
         console.log(questionnaireId1);
@@ -203,7 +202,6 @@ class Questionnaire extends Component {
                 .then(results => {
                     return results.json();
                 }).then(data => {
-                    console.log(data);
                     this.setState({ questionnaireId: data.id });
                     this.setState({ name: data.name });
                     this.setState({ description: data.description });
@@ -254,7 +252,7 @@ class Questionnaire extends Component {
     }
     setOptionDependency(option, question) { }
     componentWillMount() {
-        if (this.props != undefined && this.props.match != undefined) {
+        if (this.props !== undefined && this.props.match !== undefined) {
             const questionnaireId = this.props.match.params.id;
             this.getQuestionnaire(questionnaireId)
         }
@@ -337,7 +335,7 @@ class Questionnaire extends Component {
                             <ScrollPanel style={{width: '100%', height: '700px'}}>
                                 <QuestionnaireRange updateRanges={this.updateRanges}
                                                     readOnly={this.props.readOnly}
-                                                    questionnaireId={this.props.questionarySelected.id} />
+                                                    questionnaireId={this.props.questionarySelected !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
                             </ScrollPanel>
                         </Paper>
                     </div>

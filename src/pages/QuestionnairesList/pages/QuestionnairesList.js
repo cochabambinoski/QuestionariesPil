@@ -42,7 +42,6 @@ class Questionnaires extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-                console.log(data);
                 this.setState({ questionnaires: data });
             })
     }

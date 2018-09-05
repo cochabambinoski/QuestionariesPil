@@ -10,8 +10,8 @@ class Image extends Component {
         this.addQuestion = this.addQuestion.bind(this);
     }
     validateFields(options) {
-        let emptyOptions = options.filter((option) => (option.option == ""));
-        if (emptyOptions.length == 0)
+        let emptyOptions = options.filter((option) => (option.option === ""));
+        if (emptyOptions.length === 0)
             this.props.addQuestion();
 
     }
@@ -22,7 +22,7 @@ class Image extends Component {
         return (
             <div className="ui-g" style={{ width: '250px', marginBottom: '10px' }}>
                 {
-                    this.props.readOnly ? <div></div> :
+                    this.props.readOnly ? <div/> :
                         <div>
                             <span>
                                 <Button label="Aceptar" onClick={this.addQuestion} />

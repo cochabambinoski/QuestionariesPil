@@ -103,13 +103,13 @@ class AssignmentQuestionary extends Component {
 
     alredyHasAssignment = (seller) => {
         const {questionerQuestionaryList} = this.state;
-        let assignments = questionerQuestionaryList.filter((assignment) => (assignment.mobileSeller.id == seller.id && assignment.operacionId == 1));
+        let assignments = questionerQuestionaryList.filter((assignment) => (assignment.mobileSeller.id === seller.id && assignment.operacionId === 1));
         return assignments.length > 0;
-    }
+    };
 
     handleSaveAssignment = () => {
         const {questionerQuestionaryList} = this.state;
-        if (this.props.assignmentUser.entities.length == 0){
+        if (this.props.assignmentUser.entities.length === 0){
             if(questionerQuestionaryList.length > 0){
                 this.saveAssignments();
             }else{
@@ -148,7 +148,7 @@ class AssignmentQuestionary extends Component {
         )
             .catch(error => console.error('Error:', error))
             .then(response => console.log('Success:', response));
-    }
+    };
 
     handleSelectedQuestionary = idQuestionary => {
         console.log(idQuestionary);
@@ -189,7 +189,7 @@ class AssignmentQuestionary extends Component {
     deleteAssignement = (seller) => {
         const {questionerQuestionaryList} = this.state;
         questionerQuestionaryList.forEach((assignment)=>{
-            if(assignment.id != null && assignment.operacionId == 1 && assignment.mobileSeller.id == seller.id){
+            if(assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === seller.id){
                 assignment.operacionId = 0;
             }
         });
@@ -200,7 +200,7 @@ class AssignmentQuestionary extends Component {
         let res = null;
         const {questionerQuestionaryList} = this.state;
         let assignments = questionerQuestionaryList.filter((assignment) => {
-            return assignment.mobileSeller.id == seller.id && assignment.operacionId == 1});
+            return assignment.mobileSeller.id === seller.id && assignment.operacionId === 1});
         if (assignments.length > 0)
             res = assignments[0];
         return res;

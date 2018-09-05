@@ -110,28 +110,26 @@ class Question extends Component {
     showOptions() {
 
     }
-    showError(summary, detail) {
-        this.growl.show({ severity: 'error', summary: summary, detail: detail });
-    }
+
     componentWillMount() {
         console.log("Component will mount");
-        if (this.props != undefined && this.props.question != null) {
+        if (this.props !== undefined && this.props.question != null) {
             let question = this.props.question;
             this.setState({ squestion: question });
-            if (question.type != null && question.type.codigoSap == Constants.CODSAP_FREE_ANSWER) {
+            if (question.type != null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {
                 this.setState({ selectedValidation: question.lsQuestionOptions[0] });
             }
         }
     }
     componentWillReceiveProps(nextProps) {
         console.log("componentWillReceiveProps");
-        if (nextProps != undefined && nextProps.question != null) {
+        if (nextProps !== undefined && nextProps.question != null) {
             let question = nextProps.question;
             console.log("quesion: " + JSON.stringify(question));
             this.setState((prevState, props) => ({
                 squestion: question
             }));
-            if (question.type != null && question.type.codigoSap == Constants.CODSAP_FREE_ANSWER) {
+            if (question.type != null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {
                 this.setState({ selectedValidation: question.lsQuestionOptions[0] });
             }
         }

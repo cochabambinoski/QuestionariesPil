@@ -31,7 +31,6 @@ class Home extends Component {
     };
 
     handleChangeContainer = idMenu => {
-        console.log(idMenu);
         this.setState({idMenuContainer: idMenu})
     };
 
@@ -58,7 +57,6 @@ class Home extends Component {
 
     closeSessionHome() {
         this.setState({open: true});
-        console.log("Sesion Terminada");
     }
 
     getParameterByName(name, url) {
@@ -150,14 +148,12 @@ class Home extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setTypesQuestionerQuestionary(data);
         });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_CARGOPER)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setTypeSeller(data);
         });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
@@ -170,14 +166,12 @@ class Home extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setInitDepataments(data);
         });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setInitialBranches(data);
         });
     }

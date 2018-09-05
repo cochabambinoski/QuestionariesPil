@@ -13,11 +13,11 @@ class Range extends Component {
         this.validateFields = this.validateFields.bind(this);
     }
     validateFields() {
-        let emptyOptions = this.props.lsOptions.filter((option) => (option.option == ""));
-        if (emptyOptions.length == 0){
+        let emptyOptions = this.props.lsOptions.filter((option) => (option.option === ""));
+        if (emptyOptions.length === 0){
             const min = this.props.lsOptions[0].option;
             const max = this.props.lsOptions[1].option;
-            if(min < max){
+            if(min > max){
                 this.props.showError("El maximo debe ser mayor al minimo", "");
                 return false;
             }else{
@@ -73,7 +73,7 @@ class Range extends Component {
                 </div>
 
                 {
-                    this.props.readOnly ? <div></div> :
+                    this.props.readOnly ? <div/> :
                         <div>
                             <span>
                                 <Button label="Aceptar" onClick={this.addQuestion} />

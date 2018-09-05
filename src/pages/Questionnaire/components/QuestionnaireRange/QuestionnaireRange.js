@@ -100,12 +100,12 @@ class QuestionnaireRange extends Component {
             //  selectedAux.push(branch);
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
-
+            console.log(index === -1);
             if (index === -1) {
                 const range = {
                     id: null,
                     questionary: null,
-                    city: branch.city,
+                    city: branch.departamento,
                     branch: branch,
                     sociedadId: 'BO81',
                     operacionId: 1,
@@ -114,6 +114,7 @@ class QuestionnaireRange extends Component {
                 };
                 rangesAux.push(range);
             } else {
+                console.log(rangesAux[index]);
                 if (rangesAux[index].id != null) {
                     if (rangesAux[index].operacionId === 0) {
                         //this.state.ranges[index].operacionId = 1;
@@ -121,7 +122,7 @@ class QuestionnaireRange extends Component {
                     }
                 }
             }
-            this.props.updateRanges(rangesAux)
+            this.props.updateRanges(rangesAux);
             return { ranges: rangesAux };
         });
     }
@@ -188,12 +189,18 @@ class QuestionnaireRange extends Component {
                 this.setState({ lsBranches: data });
             });
         const id = this.props.questionnaireId;
+        console.log( this.props.questionnaireId);
+        console.log( this.props);
         if (id !== undefined) {
             let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_RANGES_BY_QUESTIONNAIRE}?idQuestionary=${encodeURIComponent(id)}`;
+            console.log(url);
+            console.log(id);
             fetch(url).then(results => {
                 return results.json();
             }).then(data => {
+                console.log(data);
                 this.setState({ ranges: data });
+                this.props.updateRanges(data);
             });
         }
 
@@ -214,7 +221,7 @@ class QuestionnaireRange extends Component {
                         <div className="ui-g-6">
                             <div >
                                 <h5>Pais</h5>
-                                <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange} checked={this.state.countrySelected} disabled={this.props.readOnly} ></Checkbox>
+                                <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange} checked={this.state.countrySelected} disabled={this.props.readOnly} />
                                 <label htmlFor="country">Bolivia</label>
                             </div>
 
@@ -223,7 +230,7 @@ class QuestionnaireRange extends Component {
                                 {this.state.lsDepartments.map((dep) => {
                                     return (
                                         <div className="ui-g-12">
-                                            <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange} checked={this.contains(this.state.lsSelectedDepartments, dep)} disabled={this.props.readOnly}></Checkbox>
+                                            <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange} checked={this.contains(this.state.lsSelectedDepartments, dep)} disabled={this.props.readOnly}/>
                                             <label htmlFor={dep.id}>{dep.nombre}</label>
                                         </div>
                                     )
@@ -237,7 +244,7 @@ class QuestionnaireRange extends Component {
                             {this.state.lsBranches.map((branch, index) => {
                                 return (
                                     <div className="ui-g-12">
-                                        <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange} checked={this.containsBranch(branch)} disabled={this.props.readOnly}></Checkbox>
+                                        <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange} checked={this.containsBranch(branch)} disabled={this.props.readOnly}/>
                                         <label htmlFor={branch.id}>{branch.nombre}</label>
                                     </div>
                                 )
