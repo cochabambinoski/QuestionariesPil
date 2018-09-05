@@ -17,7 +17,14 @@ import {
     deleteAssignementUser
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
-import {getAllCity, getMobileAssignement, getTypeByCodSap, getTypesSeller, getUser} from "../../../reducers";
+import {
+    getAllCity,
+    getMobileAssignement,
+    getTypeByCodSap,
+    getTypeByCodSapQuestionerQuestionary,
+    getTypesSeller,
+    getUser
+} from "../../../reducers";
 import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {editQueryTextMobileSellerList} from "../../../actions";
@@ -126,6 +133,7 @@ class AssignmentQuestionary extends Component {
 
     saveAssignments = () => {
         const {questionerQuestionaryList} = this.state;
+
         for (let seller of this.props.assignmentUser.entities){
             if (!this.alredyHasAssignment(seller)){
                 const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
@@ -229,6 +237,7 @@ class AssignmentQuestionary extends Component {
     render() {
         const {idQuestionary} = this.state;
         console.log(this.props.user);
+        console.log(this.props);
         const es = {
             firstDayOfWeek: 1,
             dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
@@ -434,7 +443,7 @@ class AssignmentQuestionary extends Component {
 
 const mapStateToProps = state => ({
     assignmentUser: getMobileAssignement(state),
-    typeQuestionerQuestionary: getTypeByCodSap(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
+    typeQuestionerQuestionary: getTypeByCodSapQuestionerQuestionary(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
     querySearchView: state.queryMobileSeller,
     user: getUser(state),
     typeSeller: getTypesSeller(state),
