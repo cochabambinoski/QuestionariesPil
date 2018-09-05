@@ -4,13 +4,15 @@
 
 import React, {Component} from "react";
 import {Card} from "primereact/card";
-import {withStyles} from '@material-ui/core/styles';
-import {Grid, Row, Col} from 'react-flexbox-grid';
-import {InputText} from 'primereact/inputtext';
+import {withStyles} from "@material-ui/core/styles";
+import {Col, Grid, Row} from "react-flexbox-grid";
+import {InputText} from "primereact/inputtext";
 import {Calendar} from "primereact/calendar";
-import {Dropdown} from 'primereact/dropdown';
-import {Button} from 'primereact/button';
-import Constants from './../../../Constants.json'
+import {Dropdown} from "primereact/dropdown";
+import {Button} from "primereact/button";
+import Constants from "./../../../Constants.json";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 const styles = theme => ({
     row: {
@@ -23,6 +25,34 @@ const styles = theme => ({
 });
 
 class BaseGenerator extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            codeSeg: null,
+            description: null,
+            dates: null,
+            city: null,
+            bussines: null,
+            market: null,
+            line: null,
+            material: null,
+            cities: [],
+            bussiness: [],
+            markets: [],
+            lines: [],
+            materials: [],
+            isEdit: false,
+            succes: 1,
+        };
+
+        this.onCityChange = this.onCityChange.bind(this);
+        this.onBussinesChange = this.onBussinesChange.bind(this);
+        this.onMarketChange = this.onMarketChange.bind(this);
+        this.onLineChange = this.onLineChange.bind(this);
+        this.onMaterialChange = this.onMaterialChange.bind(this);
+    }
 
     componentDidMount() {
         this.getCities(0, Constants.GET_CITIES);
@@ -88,29 +118,22 @@ class BaseGenerator extends Component {
         });
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-            city: null,
-            bussines: null,
-            market: null,
-            line: null,
-            material: null,
-            cities: [],
-            bussiness: [],
-            markets: [],
-            lines: [],
-            materials: [],
-            isEdit: false,
-        };
-
-        this.onCityChange = this.onCityChange.bind(this);
-        this.onBussinesChange = this.onBussinesChange.bind(this);
-        this.onMarketChange = this.onMarketChange.bind(this);
-        this.onLineChange = this.onLineChange.bind(this);
-        this.onMaterialChange = this.onMaterialChange.bind(this);
-    }
+    setBase = (data) => {
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_BASE}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log(response, response.codeResul);
+                this.setState({succes: response});
+            });
+    };
 
     onCityChange(e) {
         console.log(e);
@@ -208,48 +231,55 @@ class BaseGenerator extends Component {
         }
     }
 
+    dateToISO = (date) => {
+        let newDate = new Date(date);
+        let dateFormat = require('dateformat');
+        return dateFormat(newDate, "yyyymmdd");
+    }
+
     handleClick = (event) => {
         console.log('click' + event);
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_BASE}`;
-
-        (async () => {
-            const rawResponse = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "description": "Segementacion Agosto Tarija SVM 6",
-                    "dateStart": "20180801",
-                    "dateEnd": "20180831",
-                    "originSystem": "SVM",
-                    "codeCity": "TJ",
-                    "codeMarket": "BO0701",
-                    "codeTypeBusiness": "0",
-                    "linePlan": "0",
-                    "codeMaterial":"0"
-                })
+        if (this.state.description !== null && this.state.dates !== null) {
+            this.setState({succes: 0});
+            const city = this.state.city;
+            const market = this.state.market;
+            const bussines = this.state.bussines;
+            const line = this.state.line;
+            const material = this.state.material;
+            this.setBase({
+                "description": this.state.description.toString(),
+                "dateStart": this.dateToISO(this.state.dates[0]),
+                "dateEnd": this.dateToISO(this.state.dates[1]),
+                "originSystem": "SVM",
+                "codeCity": city === null ? 0 : city.codeDataType.toString(),
+                "codeMarket": market === null ? 0 : market.codeDataType.toString(),
+                "codeTypeBusiness": bussines === null ? 0 : bussines.codeDataType.toString(),
+                "linePlan": line === null ? 0 : line.linePlan.toString(),
+                "codeMaterial": material === null ? 0 : material.codeMaterial.toString(),
             });
-            const content = await rawResponse.json();
-
-            console.log(content);
-        })();
-
-        /*fetch(url, {
-         method: 'POST',
-         body: JSON.stringify(data), // data can be `string` or {object}!
-         headers: {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json'
-         }
-         }).then(res => res.json())
-         .catch(error => console.error('Error:', error))
-         .then(response => console.log('Success:', response));*/
-
+            this.setState({dates: null});
+        }
     };
 
     render() {
+        const {succes} = this.state;
+        return (
+            <div>
+                <div className="content-section introduction">
+                    <div className="feature-intro">
+                        <h1>Generación de Segmentación Base</h1>
+                        <p></p>
+                    </div>
+                </div>
+                {
+                    succes ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                }
+            </div>
+        );
+    }
+
+    renderForm() {
+
         return (
             <div>
                 <Card>
@@ -261,9 +291,9 @@ class BaseGenerator extends Component {
                                         <label htmlFor="float-input">Codigo: </label>
                                     </Col>
                                     <Col xs={6} lg={4}>
-                                        <InputText id="code" type="text" size="30" value={this.state.value1}
-                                                   onChange={(e) => this.setState({value1: e.target.value})}
-                                                   disabled="disabled"/>
+                                        <InputText id="code" type="text" size="30" value={this.state.codeSeg}
+                                                   onChange={(e) => this.setState({codeSeg: e.target.value})}
+                                                   disabled="disabled" style={{margin: '.25em'}}/>
                                     </Col>
                                     <Col xs={6} lg={2}>
                                     </Col>
@@ -275,8 +305,9 @@ class BaseGenerator extends Component {
                                         <label htmlFor="float-input">Descripción: </label>
                                     </Col>
                                     <Col xs={6} lg={4}>
-                                        <InputText id="description" type="text" size="30" value={this.state.value2}
-                                                   onChange={(e) => this.setState({value2: e.target.value})}/>
+                                        <InputText id="description" type="text" size="45" value={this.state.description}
+                                                   onChange={(e) => this.setState({description: e.target.value})}
+                                                   style={{margin: '.25em'}}/>
                                     </Col>
                                     <Col xs={6} lg={2}>
                                     </Col>
@@ -288,9 +319,9 @@ class BaseGenerator extends Component {
                                         <label htmlFor="float-input">Rango de Fechas: </label>
                                     </Col>
                                     <Col xs={6} lg={4}>
-                                        <Calendar value={this.state.dates}
+                                        <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                                                   onChange={(e) => this.setState({dates: e.value})}
-                                                  selectionMode="range" readonlyInput={true}/>
+                                                  selectionMode="range" readonlyInput={true} style={{margin: '.25em'}}/>
                                     </Col>
                                     <Col xs={6} lg={2}>
                                     </Col>
@@ -305,7 +336,7 @@ class BaseGenerator extends Component {
                                         <Dropdown value={this.state.city} options={this.state.cities}
                                                   onChange={this.onCityChange}
                                                   itemTemplate={this.cityTemplate}
-                                                  style={{width: '250px'}} placeholder="Todos"
+                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
                                                   optionLabel="nameDataType" filter={true}
                                                   filterPlaceholder="Seleccione Ciudad"
                                                   filterBy="nameDataType" showClear={true}/>
@@ -323,7 +354,7 @@ class BaseGenerator extends Component {
                                         <Dropdown value={this.state.market} options={this.state.markets}
                                                   onChange={this.onMarketChange}
                                                   itemTemplate={this.marketTemplate}
-                                                  style={{width: '350px'}} placeholder="Todos"
+                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
                                                   optionLabel="nameDataType" filter={true}
                                                   filterPlaceholder="Seleccione Mercado"
                                                   filterBy="nameDataType" showClear={true}/>
@@ -341,7 +372,7 @@ class BaseGenerator extends Component {
                                         <Dropdown value={this.state.bussines} options={this.state.bussiness}
                                                   onChange={this.onBussinesChange}
                                                   itemTemplate={this.bussinesTemplate}
-                                                  style={{width: '350px'}} placeholder="Todos"
+                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
                                                   optionLabel="nameDataType" filter={true}
                                                   filterPlaceholder="Seleccione Negocio"
                                                   filterBy="nameDataType" showClear={true}/>
@@ -358,8 +389,10 @@ class BaseGenerator extends Component {
                                     <Col xs={6} lg={4}>
                                         <Dropdown value={this.state.line} options={this.state.lines}
                                                   onChange={this.onLineChange} itemTemplate={this.lineTemplate}
-                                                  style={{width: '350px'}} placeholder="Todos" optionLabel="linePlan"
-                                                  filter={true} filterPlaceholder="Seleccione Linea" filterBy="linePlan"
+                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
+                                                  optionLabel="linePlan"
+                                                  filter={true} filterPlaceholder="Seleccione Linea"
+                                                  filterBy="linePlan"
                                                   showClear={true}/>
                                     </Col>
                                     <Col xs={6} lg={2}>
@@ -367,8 +400,10 @@ class BaseGenerator extends Component {
                                     </Col>
                                     <Col xs={6} lg={4}>
                                         <Dropdown value={this.state.material} options={this.state.materials}
-                                                  onChange={this.onMaterialChange} itemTemplate={this.materialTemplate}
-                                                  style={{width: '350px'}} placeholder="Todos" optionLabel="material"
+                                                  onChange={this.onMaterialChange}
+                                                  itemTemplate={this.materialTemplate}
+                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
+                                                  optionLabel="material"
                                                   filter={true} filterPlaceholder="Seleccione Material"
                                                   filterBy="material"
                                                   showClear={true}/>
@@ -384,7 +419,7 @@ class BaseGenerator extends Component {
                                     <Col xs={6} lg={2}>
                                     </Col>
                                     <Col xs={6} lg={4}>
-                                        <Button label="Generar" onClick={this.handleClick}/>
+                                        <Button label="Generar" onClick={this.handleClick} style={{margin: '.25em'}}/>
                                     </Col>
                                 </Row>
                             </Col>
@@ -396,7 +431,8 @@ class BaseGenerator extends Component {
     }
 }
 
-BaseGenerator.propTypes = {};
+BaseGenerator
+    .propTypes = {};
 
-export default withStyles(styles)(BaseGenerator);
+export default withStyles(styles) (BaseGenerator);
 
