@@ -16,12 +16,12 @@ class MultipleSelection extends Component {
         this.validateFields = this.validateFields.bind(this);
     }
     validateFields() {
-        if (this.props.lsOptions.length == 0) {
+        if (this.props.lsOptions.length === 0) {
             this.props.showError("Añada una opcion", "");
             return false;
         } else {
-            let emptyOptions = this.props.lsOptions.filter((option) => (option.option == ""));
-            if (emptyOptions.length == 0) {
+            let emptyOptions = this.props.lsOptions.filter((option) => (option.option === ""));
+            if (emptyOptions.length === 0) {
                 return false;
             }
         }
@@ -69,7 +69,7 @@ class MultipleSelection extends Component {
                     this.props.lsOptions.map((option, index) => {
                         return (
                             <div className="ui-g-12">
-                                <Checkbox checked={false}></Checkbox>
+                                <Checkbox checked={false}/>
                                 <span>
                                     {
                                         this.props.readOnly ?
@@ -85,7 +85,7 @@ class MultipleSelection extends Component {
                     })
                 }
                 {
-                    this.props.readOnly ? <div></div> :
+                    this.props.readOnly ? <div/> :
                         <div>
                             <Button label="Añadir opcion" onClick={this.addOption} className="ui-button-secondary" />
 

@@ -91,10 +91,12 @@ class Questionnaire extends Component {
     }
 
     saveQuestionnaire() {
-        if (this.state.name == null) {
+        console.log(this.state.name);
+        if (this.state.name == null || this.state.name === "") {
             this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
             return
         }
+
         let ranges = [];
         this.state.ranges.forEach((branch, index) => {
             ranges.push(
@@ -122,8 +124,15 @@ class Questionnaire extends Component {
                 fechaId: null,
             },
         ];
+        if (questionaries[0].lsQuestions.length === 0){
+            this.showError("Campo obligatorio", "Debe tener almenos una pregunta creada");
+            return
+        }
+        if (ranges.length === 0){
+            this.showError("Campo obligatorio", "Debes establecer el rango del cuestionario");
+            return
+        }
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
-        console.log(JSON.stringify({questionaries: questionaries,questionaryRange: ranges }));
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
@@ -138,7 +147,7 @@ class Questionnaire extends Component {
                 this.showSuccess("Transaccion exitosa", "Cuestionario guardado");
                 alert("Cuestionario guardado");
                 this.handleCancel();
-                // this.props.setIdMenu(0);
+                this.props.setIdMenu(0);
             }
             else {
                 this.showError("Error al guardar", data)
@@ -154,6 +163,7 @@ class Questionnaire extends Component {
     }
 
     addQuestion(question, index) {
+        console.log(question);
         let auxQuestions = [...this.state.lsQuestions];
         if (index === -1) {
             auxQuestions.push(question);
@@ -347,7 +357,7 @@ class Questionnaire extends Component {
                                 <ExpansionPanel expanded={this.state.expandPanelRange}>
                                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStatePanelRange()}}  />} >
                                         <div className={classes.column}>
-                                            <Typography className={classes.heading}>Alcanse del Cuestionario</Typography>
+                                            <Typography className={classes.heading}>Rango del Cuestionario</Typography>
                                         </div>
                                     </ExpansionPanelSummary>
                                     <Divider />
