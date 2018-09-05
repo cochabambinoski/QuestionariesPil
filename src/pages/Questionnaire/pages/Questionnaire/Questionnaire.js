@@ -128,7 +128,8 @@ class Questionnaire extends Component {
             if (data === "Ok") {
                 this.showSuccess("Transaccion exitosa", "Cuestionario guardado");
                 alert("Cuestionario guardado");
-                this.props.setIdMenu(1);
+                this.handleCancel();
+                // this.props.setIdMenu(0);
             }
             else {
                 this.showError("Error al guardar", data)
@@ -335,7 +336,7 @@ class Questionnaire extends Component {
                             <ScrollPanel style={{width: '100%', height: '700px'}}>
                                 <QuestionnaireRange updateRanges={this.updateRanges}
                                                     readOnly={this.props.readOnly}
-                                                    questionnaireId={this.props.questionarySelected !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
+                                                    questionnaireId={this.props.questionarySelected.id !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
                             </ScrollPanel>
                         </Paper>
                     </div>
