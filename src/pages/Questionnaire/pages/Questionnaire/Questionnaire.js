@@ -14,7 +14,7 @@ import Constants from '../../../../Constants.json';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
-import {getCreateQuestionary, getQuestionarySelected} from "../../../../reducers";
+import {getCreateQuestionary, getQuestionarySelected, getUser} from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
 import {Toolbar} from '../../../../../node_modules/primereact/toolbar';
 import Paper from '@material-ui/core/Paper';
@@ -104,7 +104,7 @@ class Questionnaire extends Component {
                     city: branch.city,
                     branch: branch.branch,
                     sociedadId: 'BO81',
-                    usuarioId: this.state.userId,
+                    usuarioId: this.props.user.username,
                     operacionId: 1,
                     fechaId: null,
                 },
@@ -117,7 +117,7 @@ class Questionnaire extends Component {
                 description: this.state.description,
                 lsQuestions: this.state.lsQuestions,
                 sociedadId: 'BO81',
-                usuarioId: this.state.userId,
+                usuarioId: this.props.user.username,
                 operacionId: 1,
                 fechaId: null,
             },
@@ -200,6 +200,7 @@ class Questionnaire extends Component {
         const {questionnaireId1} = this.props;
         console.log(questionnaireId1);
         console.log(this.state.initialUpload);
+        console.log(this.props.questionarySelected);
         if (questionnaireId1 != null) {
             this.getQuestionnaire(questionnaireId1)
         }
@@ -354,7 +355,7 @@ class Questionnaire extends Component {
                                             <ScrollPanel style={{width: '100%', height: '600px'}}>
                                                 <QuestionnaireRange updateRanges={this.updateRanges}
                                                                     readOnly={this.props.readOnly}
-                                                                    questionnaireId={this.props.questionarySelected.id !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
+                                                                    questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id: undefined} />
                                             </ScrollPanel>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
@@ -407,7 +408,8 @@ Questionnaire.propTypes = {
 
 const mapStateToProps = state => ({
     questionarySelected: getQuestionarySelected(state),
-    constCreateQuestionary: getCreateQuestionary(state)
+    constCreateQuestionary: getCreateQuestionary(state),
+    user: getUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({
