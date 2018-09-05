@@ -33,7 +33,7 @@ import {
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
     GET_ALL_DEPARTAMENTS,
-    GET_ALL_BRANCHES
+    GET_ALL_BRANCHES, ADD_PARAM_FILTER_MOBILE_SELLER_TYPE
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -111,3 +111,5 @@ export const setInitialDataTypesSeller = payload => ({type: SET_INITIAL_DATA_TYP
 export const getAllDepartaments = payload => ({type: GET_ALL_DEPARTAMENTS, payload});
 
 export const getAllBranches = payload => ({type: GET_ALL_BRANCHES, payload});
+
+export const addParamFilterMobileSellerType = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_TYPE, payload});
