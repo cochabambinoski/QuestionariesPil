@@ -351,7 +351,7 @@ class Questionnaire extends Component {
                                     </ExpansionPanelSummary>
                                     <Divider />
                                     <ExpansionPanelDetails>
-                                            <ScrollPanel style={{width: '100%', height: '500px'}}>
+                                            <ScrollPanel style={{width: '100%', height: '600px'}}>
                                                 <QuestionnaireRange updateRanges={this.updateRanges}
                                                                     readOnly={this.props.readOnly}
                                                                     questionnaireId={this.props.questionarySelected.id !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
