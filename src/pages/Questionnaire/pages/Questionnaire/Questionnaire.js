@@ -20,6 +20,7 @@ import {Toolbar} from '../../../../../node_modules/primereact/toolbar';
 import Paper from '@material-ui/core/Paper';
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
+import {Col, Row, Grid} from 'react-flexbox-grid';
 
 const styles = theme => ({
     root: {
@@ -273,89 +274,98 @@ class Questionnaire extends Component {
                 <Growl ref={(el) => this.growl = el}/>
 
                 <div className="ui-g">
-                    <div className="ui-g-6">
-                        <div className="content-section implementation">
-                            <div className=" card-w-title">
-                                <div>
-                                    {this.props.readOnly ?
-                                        <p>{this.state.name}</p>
-                                        :
-                                        <InputText id="float-input" placeholder="Nombre del cuestionario" type="text"
-                                                   required maxLength="50" size="32" value={this.state.name}
-                                                   onChange={(e) => this.setState({ name: e.target.value })} />
-                                    }
+
+                    <Row xs>
+                        <Col xs>
+                            <div >
+                                <div className="content-section implementation">
+                                    <div className=" card-w-title">
+                                        <div>
+                                            {this.props.readOnly ?
+                                                <p>{this.state.name}</p>
+                                                :
+                                                <InputText id="float-input" placeholder="Nombre del cuestionario" type="text"
+                                                           required maxLength="50" size="32" value={this.state.name}
+                                                           onChange={(e) => this.setState({ name: e.target.value })} />
+                                            }
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            {this.props.readOnly ?
+                                                <p>{this.state.description}</p>
+                                                :
+                                                <InputTextarea className="description" placeholder="Descripcion (opcional)"
+                                                               type="text" maxLength="255" size="32" value={this.state.description}
+                                                               onChange={(e) => this.setState({ description: e.target.value })}
+                                                               rows={5} cols={20} autoResize={false} />
+                                            }
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <br/>
-                                <div>
+
+                                <div className="content-section">
+                                    <ScrollPanel style={{width: '100%', height: '400px'}}>
+                                        <Questions questions={this.state.lsQuestions}
+                                                   removeQuestion={this.removeQuestion}
+                                                   readOnly={this.props.readOnly}
+                                                   assigned={this.state.assigned}
+                                                   showError={this.showError}
+                                                   seeQuestion={this.seeQuestion}
+                                                   editQuestion={this.editQuestion}
+                                                   disableQuestion={this.disableQuestion} />
+                                    </ScrollPanel>
+                                </div>
+
+                                <div className="content-section button-save">
                                     {this.props.readOnly ?
-                                        <p>{this.state.description}</p>
+                                        <div/>
                                         :
-                                        <InputTextarea className="description" placeholder="Descripcion (opcional)"
-                                                       type="text" maxLength="255" size="32" value={this.state.description}
-                                                       onChange={(e) => this.setState({ description: e.target.value })}
-                                                       rows={5} cols={20} autoResize={false} />
+                                        <Toolbar>
+                                            <div className="p-toolbar-group-left">
+                                                <Button label="Guardar" className="p-button-success"  onClick={() => {this.saveQuestionnaire()}}/>
+                                                <Button label="Cancelar" className="p-button-danger" onClick={() => {
+                                                    this.handleCancel()
+                                                }}/>
+                                                <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
+                                            </div>
+                                        </Toolbar>
+
                                     }
                                 </div>
                             </div>
-
-                        </div>
-
-                        <div className="content-section">
-                            <ScrollPanel style={{width: '100%', height: '400px'}}>
-                                <Questions questions={this.state.lsQuestions}
-                                           removeQuestion={this.removeQuestion}
-                                           readOnly={this.props.readOnly}
-                                           assigned={this.state.assigned}
-                                           showError={this.showError}
-                                           seeQuestion={this.seeQuestion}
-                                           editQuestion={this.editQuestion}
-                                           disableQuestion={this.disableQuestion} />
-                            </ScrollPanel>
-                        </div>
-
-                        <div className="content-section button-save">
-                            {this.props.readOnly ?
-                                <div/>
-                                :
-                                <Toolbar>
-                                    <div className="p-toolbar-group-left">
-                                        <Button label="Guardar" className="p-button-success"  onClick={() => {this.saveQuestionnaire()}}/>
-                                        <Button label="Cancelar" className="p-button-danger" onClick={() => {
-                                            this.handleCancel()
-                                        }}/>
-                                        <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
-                                    </div>
-                                </Toolbar>
-
+                            {
+                                this.state.openQuestion ?
+                                    <div>
+                                        <div >
+                                            <Question questionTypes={this.state.questionTypes}
+                                                      readOnly={this.props.readOnly}
+                                                      questions={this.state.lsQuestions}
+                                                      addQuestion={this.addQuestion}
+                                                      question={this.state.selectedQuestion}
+                                                      closeQuestion={this.closeQuestion}
+                                                      assigned={this.state.assigned}
+                                                      setOptionDependency={this.setOptionDependency}
+                                                      selectedQuestionIndex={this.state.selectedQuestionIndex} />
+                                        </div>
+                                    </div> : <div/>
                             }
-                        </div>
-                    </div>
+                        </Col>
 
-                    <div className="ui-g-6">
-                        <Paper className={classes.root} elevation={1}>
-                            <ScrollPanel style={{width: '100%', height: '700px'}}>
-                                <QuestionnaireRange updateRanges={this.updateRanges}
-                                                    readOnly={this.props.readOnly}
-                                                    questionnaireId={this.props.questionarySelected.id !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
-                            </ScrollPanel>
-                        </Paper>
-                    </div>
-                    {
-                        this.state.openQuestion ?
-                            <div>
-                                <div className="ui-g-12">
-                                    <Question questionTypes={this.state.questionTypes}
-                                        readOnly={this.props.readOnly}
-                                        questions={this.state.lsQuestions}
-                                        addQuestion={this.addQuestion}
-                                        question={this.state.selectedQuestion}
-                                        closeQuestion={this.closeQuestion}
-                                        assigned={this.state.assigned}
-                                        setOptionDependency={this.setOptionDependency}
-                                        selectedQuestionIndex={this.state.selectedQuestionIndex} />
-                                </div>
-                            </div> : <div/>
-                    }
+                        <Col xs>
+
+                                <Paper className={classes.root} elevation={1}>
+                                    <ScrollPanel style={{width: '100%', height: '700px'}}>
+                                        <QuestionnaireRange updateRanges={this.updateRanges}
+                                                            readOnly={this.props.readOnly}
+                                                            questionnaireId={this.props.questionarySelected.id !== undefined ? this.props.questionarySelected.idQuestionary.id: undefined} />
+                                    </ScrollPanel>
+                                </Paper>
+
+                        </Col>
+
+                    </Row>
+
                 </div>
             </div>
         );
