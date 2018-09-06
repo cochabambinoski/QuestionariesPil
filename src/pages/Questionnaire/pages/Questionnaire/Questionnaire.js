@@ -91,7 +91,9 @@ class Questionnaire extends Component {
     }
 
     saveQuestionnaire() {
+        console.log(this.state.assigned)
         console.log(this.state.name);
+        console.log(this.state);
         if (this.state.name == null || this.state.name === "") {
             this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
             return
@@ -112,16 +114,17 @@ class Questionnaire extends Component {
                 },
             )
         });
+
         let questionaries = [
             {
-                id: null,
+                id: this.state.assigned === true ? null : this.state.questionnaireId,
                 name: this.state.name,
                 description: this.state.description,
                 lsQuestions: this.state.lsQuestions,
                 sociedadId: 'BO81',
                 usuarioId: this.props.user.username,
                 operacionId: 1,
-                fechaId: null,
+                fechaId: this.state.assigned === true ? null : this.state.fechaId,
             },
         ];
         if (questionaries[0].lsQuestions.length === 0){
@@ -133,6 +136,7 @@ class Questionnaire extends Component {
             return
         }
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
+        console.log(JSON.stringify({questionaries: questionaries,questionaryRange: ranges }));
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
@@ -223,6 +227,7 @@ class Questionnaire extends Component {
                 .then(results => {
                     return results.json();
                 }).then(data => {
+                    console.log(data);
                     this.setState({ questionnaireId: data.id });
                     this.setState({ name: data.name });
                     this.setState({ description: data.description });

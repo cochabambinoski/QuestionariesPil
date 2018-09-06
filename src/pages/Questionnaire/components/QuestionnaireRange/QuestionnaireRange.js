@@ -166,7 +166,8 @@ class QuestionnaireRange extends Component {
         return -1;
     };
     containsBranch = (branch) => {
-        const contained = this.state.ranges.filter((range) => (range.branch.id === branch.id));
+        console.log(branch);
+        const contained = this.state.ranges.filter((range) => (range.branch.id === branch.id && branch.operacionId === 1));
         return contained.length !== 0;
     };
     handleSelectCities = (cities) => {
