@@ -16,6 +16,7 @@
   "ASSING_QUESTIONARIES":"assignQuestionaries",
   "GET_CLIENT_KILOLITERS":"clientkiloliters",
   "GET_CLIENT_KILOLITERS_RANGE":"clientkilolitersbydaterange",
+  "DEL_CLIENT_KILOLITER":"clientkiloliterdelete",
 
   "CODSAP_MULTIPLE_OPTION":"TIPPREG1",
   "CODSAP_MULTIPLE_SELECTION":"TIPPREG2",

@@ -19,6 +19,13 @@ import EditSeg from "@material-ui/icons/Edit";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {Button} from 'primereact/button';
+
 
 const styles = theme => ({
     root: {
@@ -47,11 +54,47 @@ class EnhancedTable extends Component {
             filter: null,
             startDate: utilDate.firstDayOfMonth(),
             endDate: utilDate.getNow(),
+            deleteOpen: false,
+            todelete: null,
         };
     }
 
     componentDidMount() {
         this.chargeTable(this.state.startDate, this.state.endDate)
+    };
+
+    handleClose = () => {
+        this.setState({deleteOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    handleClick = (event, id) => {
+        this.setState({deleteOpen: true});
+        this.setState({toDelete: id})
+    };
+
+    handleDelete = () => {
+        this.deleteSegment();
+    };
+
+    deleteSegment = () => {
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.DEL_CLIENT_KILOLITER}/${this.state.toDelete}`;
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log("Success: ", response.codeResult);
+                if (response.codeResult === 1) {
+                    this.chargeTable(this.state.startDate, this.state.endDate)
+                    this.handleClose();
+                }
+            });
     };
 
     /**
@@ -114,27 +157,6 @@ class EnhancedTable extends Component {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
     }
 
-    handleClick = (event, id) => {
-        const {selected} = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({selected: newSelected});
-    };
-
     /**
      * update table with range dates
      * @param fromDate
@@ -166,82 +188,115 @@ class EnhancedTable extends Component {
     handleChangeRowsPerPage = event => {
         this.setState({rowsPerPage: event.target.value});
     };
-    
+
+    renderDeleteDialog() {
+        return (
+            <Dialog
+                open={this.state.deleteOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Alerta"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Esta seguro de eliminar esta Segmentacion Base?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Eliminar" icon="pi pi-check" onClick={this.handleDelete}
+                            className="ui-button-danger"/>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+        );
+    }
+
     render() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
         return (
-            <Paper className={classes.root}>
-                <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
-                                      dateEnd={this.state.endDate} updateDates={this.updateDates}/>
-                <div className={classes.tableWrapper}>
-                    <Table className={classes.table} aria-labelledby="tableTitle">
-                        <EnhancedTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={this.handleRequestSort}
-                            rowCount={data.length}
-                        />
-                        <TableBody>
-                            {data
-                                .sort(this.getSorting(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map(n => {
-                                    return (
-                                        <TableRow>
-                                            <TableCell component="th" scope="row" numeric>
-                                                {n.idClientKiloliter}
-                                            </TableCell>
-                                            <TableCell>{utilDate.getDateFormat(n.dateRegister)}</TableCell>
-                                            <TableCell>{n.description}</TableCell>
-                                            <TableCell >
-                                                <IconButton aria-label="Delete">
-                                                    <EditBas/>
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell >
-                                                <IconButton aria-label="Delete">
-                                                    <EditSeg/>
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell >
-                                                <IconButton aria-label="Delete">
-                                                    <ReportIcon/>
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell >
-                                                <IconButton aria-label="Delete">
-                                                    <DeleteIcon/>
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{height: 49 * emptyRows}}>
-                                    <TableCell colSpan={6}/>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+            <div>
+                <div>
+                    {this.renderDeleteDialog()}
                 </div>
-                <TablePagination
-                    component="div"
-                    count={data.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-            </Paper>
+                <Paper className={classes.root}>
+                    <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
+                                          dateEnd={this.state.endDate} updateDates={this.updateDates}/>
+                    <div className={classes.tableWrapper}>
+                        <Table className={classes.table} aria-labelledby="tableTitle">
+                            <EnhancedTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onRequestSort={this.handleRequestSort}
+                                rowCount={data.length}
+                            />
+                            <TableBody>
+                                {data
+                                    .sort(this.getSorting(order, orderBy))
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map(n => {
+                                        return (
+                                            <TableRow
+                                                hover
+                                                tabIndex={-1}
+                                                key={n.id}>
+                                                <TableCell component="th" scope="row" numeric>
+                                                    {n.idClientKiloliter}
+                                                </TableCell>
+                                                <TableCell>{utilDate.getDateFormat(n.dateRegister)}</TableCell>
+                                                <TableCell>{n.description}</TableCell>
+                                                <TableCell >
+                                                    <IconButton aria-label="Delete">
+                                                        <EditBas/>
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell >
+                                                    <IconButton aria-label="Delete">
+                                                        <EditSeg/>
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell >
+                                                    <IconButton aria-label="Delete">
+                                                        <ReportIcon/>
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell >
+                                                    <IconButton aria-label="Delete"
+                                                                onClick={event => this.handleClick(event, n.idClientKiloliter)}>
+                                                        <DeleteIcon/>
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                {emptyRows > 0 && (
+                                    <TableRow style={{height: 49 * emptyRows}}>
+                                        <TableCell colSpan={6}/>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
+                    <TablePagination
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        backIconButtonProps={{
+                            'aria-label': 'Previous Page',
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'Next Page',
+                        }}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </div>
         );
     }
 }
