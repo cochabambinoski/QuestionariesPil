@@ -55,7 +55,8 @@ class BaseGenerator extends Component {
     }
 
     shouldComponentUpdate(next_props, next_state) {
-        return true;
+        if (next_state.description === this.state.description)
+            return true;
     }
 
     componentDidMount() {
@@ -438,5 +439,5 @@ class BaseGenerator extends Component {
 BaseGenerator
     .propTypes = {};
 
-export default withStyles(styles) (BaseGenerator);
+export default withStyles(styles)(BaseGenerator);
 
