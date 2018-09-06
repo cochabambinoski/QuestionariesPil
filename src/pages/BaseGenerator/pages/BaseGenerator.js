@@ -141,8 +141,7 @@ class BaseGenerator extends Component {
     };
 
     onCityChange(e) {
-        console.log(e);
-        if (e.value === undefined) {
+        if (e.value === undefined || e.value === null) {
             e.value = null;
             this.setState({markets: []});
             this.getMarkets(0, Constants.GET_MARKETS);
@@ -201,9 +200,16 @@ class BaseGenerator extends Component {
     }
 
     onLineChange(e) {
-        this.setState({line: e.value});
-        this.setState({materials: []});
-        this.getMaterials(e.value.linePlan.split(" ").join("_"));
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+            this.setState({line: []});
+            this.getMaterials(0);
+        }
+        else {
+            this.setState({line: e.value});
+            this.setState({materials: []});
+            this.getMaterials(e.value.linePlan.split(" ").join("_"));
+        }
     }
 
     lineTemplate(option) {
