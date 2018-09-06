@@ -27,6 +27,10 @@ class SegmentationGenerator extends Component {
         }
     }
 
+    shouldComponentUpdate(next_props, next_state) {
+        return true;
+    }
+
     setSegmentation = (data) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_SEGMENT}`;
         fetch(url, {
