@@ -48,10 +48,10 @@ class EnhancedTableHead extends Component {
                         );
                     }, this)}
                     <TableCell>
-                        Segmentación
+                        Base
                     </TableCell>
                     <TableCell>
-                        Base
+                        Segmentación
                     </TableCell>
                     <TableCell>
                         Borrar
