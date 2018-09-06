@@ -9,18 +9,17 @@ import {connect} from 'react-redux';
 import MobileSellerListAssigment
     from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
 import {
+    addAssignementUser,
     deleteAllAssignementUser,
+    deleteAssignementUser,
     deleteMobileSellers,
     editQueryTextAssignedQuestionary,
-    editQueryTextMobileSellerAssignedList,
-    addAssignementUser,
-    deleteAssignementUser
+    editQueryTextMobileSellerAssignedList
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {
     getAllCity,
     getMobileAssignement,
-    getTypeByCodSap,
     getTypeByCodSapQuestionerQuestionary,
     getTypesSeller,
     getUser
@@ -28,20 +27,8 @@ import {
 import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {editQueryTextMobileSellerList} from "../../../actions";
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import classNames from 'classnames';
-import List from "@material-ui/core/List/List";
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItem from "@material-ui/core/ListItem/ListItem";
+import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
 
 const styles = theme => ({
     root: {
@@ -234,6 +221,8 @@ class AssignmentQuestionary extends Component {
         }
     };
 
+
+
     render() {
         const {idQuestionary} = this.state;
         console.log(this.props.user);
@@ -264,140 +253,13 @@ class AssignmentQuestionary extends Component {
                             <Row>
                                 <Col xs>
 
-                                    <ExpansionPanel expanded={this.state.expandFirstSellerSearch} >
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStateFirstSellerSearch()}}  />} >
-                                            <div className={classes.column}>
-                                                <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextMobileSellerList(e.target.value)} />
-                                            </div>
-                                            <div className={classes.column}>
-                                                <Typography className={classes.heading}>Vendedores Disponibles</Typography>
-                                            </div>
-                                        </ExpansionPanelSummary>
-                                        <Divider />
-                                        <ExpansionPanelDetails className={classes.details}>
-
-                                            <div className={classes.column}>
-                                                <h2>Tipos de Usuario</h2>
-                                                <List className={this.props.classes.root} subheader={<li />}>
-                                                    {this.props.typeSeller.map(typeSeller => (
-                                                        <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                                            <ListItemText primary={typeSeller.nombre } />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            </div>
-
-                                            <div className={classNames(classes.column, classes.helper)}>
-                                                <h2>Ciudades</h2>
-                                                <List className={this.props.classes.root} subheader={<li />}>
-                                                    {this.props.cities.map(typeSeller => (
-                                                        <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                                            <ListItemText primary={typeSeller.nombre } />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            </div>
-
-                                            <div className={classNames(classes.column, classes.helper)}>
-                                                <h2>Sucursales</h2>
-                                                <List className={this.props.classes.root} subheader={<li />}>
-                                                    {this.props.typeSeller.map(typeSeller => (
-                                                        <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                                            <ListItemText primary={typeSeller.nombre } />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            </div>
-                                        </ExpansionPanelDetails>
-                                        <Divider />
-                                        <ExpansionPanelActions>
-                                            <Button label="Filtrar"/>
-                                        </ExpansionPanelActions>
-                                    </ExpansionPanel>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER} />
                                     <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false} getAssignment={this.getAssignment} handleAddSeller={this.handleAddSeller}/>
                                 </Col>
 
                                 <Col xs>
 
-                                    <ExpansionPanel expanded={this.state.expandSecondSearch}>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStateSecondSellerSearch()}} />} >
-                                            <div className={classes.column}>
-                                                <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextMobileSellerAssignedList(e.target.value)} />
-                                            </div>
-                                            <div className={classes.column}>
-                                                <Typography className={classes.heading}>Vendedores Asignados</Typography>
-                                            </div>
-                                        </ExpansionPanelSummary>
-                                        <Divider />
-                                        <ExpansionPanelDetails className={classes.details}>
-                                            <div className={classes.column}>
-                                                <h2>Tipos de Usuario</h2>
-                                                <List className={this.props.classes.root} subheader={<li />}>
-                                                    {this.props.typeSeller.map(typeSeller => (
-                                                        <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                                            <ListItemText primary={typeSeller.nombre } />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            </div>
-
-                                            <div className={classNames(classes.column, classes.helper)}>
-                                                <h2>Ciudades</h2>
-                                                <List className={this.props.classes.root} subheader={<li />}>
-                                                    {this.props.cities.map(typeSeller => (
-                                                        <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                                            <ListItemText primary={typeSeller.nombre } />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            </div>
-
-                                            <div className={classNames(classes.column, classes.helper)}>
-                                                <h2>Sucursales</h2>
-                                                <List className={this.props.classes.root} subheader={<li />}>
-                                                    {this.props.typeSeller.map(typeSeller => (
-                                                        <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                                            <ListItemText primary={typeSeller.nombre } />
-                                                            <ListItemSecondaryAction>
-                                                                <Checkbox
-
-                                                                />
-                                                            </ListItemSecondaryAction>
-                                                        </ListItem>
-                                                    ))}
-                                                </List>
-                                            </div>
-                                        </ExpansionPanelDetails>
-                                        <Divider />
-                                        <ExpansionPanelActions>
-                                            <Button label="Filtrar"/>
-                                        </ExpansionPanelActions>
-                                    </ExpansionPanel>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED }/>
                                     <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id} isEdit={true} loadAssignments={this.loadAssignments}
                                                                deleteAssignement={this.deleteAssignement} getAssignment={this.getAssignment}/>
                                 </Col>

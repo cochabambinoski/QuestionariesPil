@@ -10,3 +10,8 @@ export const getIndexQuestionary = (list, item) => {
     }
     return -1;
 };
+
+export function remove(array, element) {
+    const index = array.indexOf(element);
+    array.splice(index, 1);
+}
