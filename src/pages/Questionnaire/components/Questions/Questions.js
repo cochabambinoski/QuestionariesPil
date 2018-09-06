@@ -20,17 +20,17 @@ class Questions extends Component {
                 this.props.removeQuestion(index);
             }
         }
-    }
+    };
     handleEdit = (index) => {
         this.props.editQuestion(index);
-    }
+    };
     render() {
         return (
             <ScrollPanel style={{ width: '100%', height: '400px' }} className="custombar1">
                 <div style={{  lineHeight: '1.5' }}>
                     {this.props.questions.map((question, index) => {
                         return (
-                            question.operacionId == 1 ?
+                            question.operacionId === 1 ?
                                 <Card title={question.question} subTitle={question.type.nombre} className="card ui-card-shadow" key={question.id}>
                                     <div >
                                         {
@@ -44,7 +44,7 @@ class Questions extends Component {
                                         }
                                     </div>
                                 </Card> :
-                                <div></div>
+                                <div/>
                         )
                     })
                     }

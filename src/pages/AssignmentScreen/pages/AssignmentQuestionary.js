@@ -17,7 +17,14 @@ import {
     deleteAssignementUser
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
-import {getAllCity, getMobileAssignement, getTypeByCodSap, getTypesSeller, getUser} from "../../../reducers";
+import {
+    getAllCity,
+    getMobileAssignement,
+    getTypeByCodSap,
+    getTypeByCodSapQuestionerQuestionary,
+    getTypesSeller,
+    getUser
+} from "../../../reducers";
 import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {editQueryTextMobileSellerList} from "../../../actions";
@@ -103,13 +110,13 @@ class AssignmentQuestionary extends Component {
 
     alredyHasAssignment = (seller) => {
         const {questionerQuestionaryList} = this.state;
-        let assignments = questionerQuestionaryList.filter((assignment) => (assignment.mobileSeller.id == seller.id && assignment.operacionId == 1));
+        let assignments = questionerQuestionaryList.filter((assignment) => (assignment.mobileSeller.id === seller.id && assignment.operacionId === 1));
         return assignments.length > 0;
-    }
+    };
 
     handleSaveAssignment = () => {
         const {questionerQuestionaryList} = this.state;
-        if (this.props.assignmentUser.entities.length == 0){
+        if (this.props.assignmentUser.entities.length === 0){
             if(questionerQuestionaryList.length > 0){
                 this.saveAssignments();
             }else{
@@ -126,6 +133,7 @@ class AssignmentQuestionary extends Component {
 
     saveAssignments = () => {
         const {questionerQuestionaryList} = this.state;
+
         for (let seller of this.props.assignmentUser.entities){
             if (!this.alredyHasAssignment(seller)){
                 const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
@@ -148,7 +156,7 @@ class AssignmentQuestionary extends Component {
         )
             .catch(error => console.error('Error:', error))
             .then(response => console.log('Success:', response));
-    }
+    };
 
     handleSelectedQuestionary = idQuestionary => {
         console.log(idQuestionary);
@@ -189,7 +197,7 @@ class AssignmentQuestionary extends Component {
     deleteAssignement = (seller) => {
         const {questionerQuestionaryList} = this.state;
         questionerQuestionaryList.forEach((assignment)=>{
-            if(assignment.id != null && assignment.operacionId == 1 && assignment.mobileSeller.id == seller.id){
+            if(assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === seller.id){
                 assignment.operacionId = 0;
             }
         });
@@ -200,7 +208,7 @@ class AssignmentQuestionary extends Component {
         let res = null;
         const {questionerQuestionaryList} = this.state;
         let assignments = questionerQuestionaryList.filter((assignment) => {
-            return assignment.mobileSeller.id == seller.id && assignment.operacionId == 1});
+            return assignment.mobileSeller.id === seller.id && assignment.operacionId === 1});
         if (assignments.length > 0)
             res = assignments[0];
         return res;
@@ -229,6 +237,7 @@ class AssignmentQuestionary extends Component {
     render() {
         const {idQuestionary} = this.state;
         console.log(this.props.user);
+        console.log(this.props);
         const es = {
             firstDayOfWeek: 1,
             dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
@@ -434,7 +443,7 @@ class AssignmentQuestionary extends Component {
 
 const mapStateToProps = state => ({
     assignmentUser: getMobileAssignement(state),
-    typeQuestionerQuestionary: getTypeByCodSap(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
+    typeQuestionerQuestionary: getTypeByCodSapQuestionerQuestionary(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
     querySearchView: state.queryMobileSeller,
     user: getUser(state),
     typeSeller: getTypesSeller(state),

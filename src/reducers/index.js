@@ -15,6 +15,7 @@ export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
 export const getMobileAssignement = state => state.assignmentUser;
 export const getTypeQuestionerQuestionary = state => state.typeQuestionerQuestionary;
+export const getTypeByCodSapQuestionerQuestionary = (state, codSap) => (_getTypeCodeSap(state.initialData.typeQuestionerQuestionary, codSap));
 export const getTypeByCodSap = (state, codSap) => (_getTypeCodeSap(state.initialData, codSap));
 export const getQueryMobileSeller = state => state.searchFilter.queryMobileSeller;
 export const getQueryMobileSellerAssigment = state => state.searchFilter.queryMobileSellerAssigned;

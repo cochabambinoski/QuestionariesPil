@@ -14,12 +14,17 @@ import Constants from '../../../../Constants.json';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
-import {getCreateQuestionary, getQuestionarySelected} from "../../../../reducers";
+import {getCreateQuestionary, getQuestionarySelected, getUser} from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
-import {Toolbar} from '../../../../../node_modules/primereact/toolbar';
-import Paper from '@material-ui/core/Paper';
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
+import {Col, Row} from 'react-flexbox-grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from "@material-ui/core/Typography/Typography";
+import Divider from "@material-ui/core/Divider/Divider";
 
 const styles = theme => ({
     root: {
@@ -55,6 +60,7 @@ class Questionnaire extends Component {
             opened: true,
             selectedQuestionIndex: -1,
             ranges: [],
+            expandPanelRange: false,
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -82,39 +88,48 @@ class Questionnaire extends Component {
     }
 
     saveQuestionnaire() {
-        if (this.state.name == null) {
+        if (this.state.name == null || this.state.name === "") {
             this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
             return
         }
+
         let ranges = [];
-        this.state.lsBranches.forEach((branch, index) => {
+        this.state.ranges.forEach((branch, index) => {
             ranges.push(
                 {
-                    id: null,
-                    questionary: null,
-                    city: branch.departamento,
-                    branch: branch,
+                    id: this.state.assigned === true ?null : branch.id,
+                    questionary: this.state.assigned === true ?null : branch.questionary,
+                    city: branch.city,
+                    branch: branch.branch,
                     sociedadId: 'BO81',
-                    usuarioId: this.state.userId,
-                    operacionId: 1,
-                    fechaId: null,
+                    usuarioId: this.props.user.username,
+                    operacionId: this.state.assigned === true ? 1 : branch.operacionId,
+                    fechaId: this.state.assigned === true ?null : branch.fechaId,
                 },
             )
         });
+
         let questionaries = [
             {
-                id: null,
+                id: this.state.assigned === true ? null : this.state.questionnaireId,
                 name: this.state.name,
                 description: this.state.description,
                 lsQuestions: this.state.lsQuestions,
                 sociedadId: 'BO81',
-                usuarioId: this.state.userId,
+                usuarioId: this.props.user.username,
                 operacionId: 1,
-                fechaId: null,
+                fechaId: this.state.assigned === true ? null : this.state.fechaId,
             },
         ];
+        if (questionaries[0].lsQuestions.length === 0){
+            this.showError("Campo obligatorio", "Debe tener almenos una pregunta creada");
+            return
+        }
+        if (ranges.length === 0){
+            this.showError("Campo obligatorio", "Debes establecer el rango del cuestionario");
+            return
+        }
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
-        console.log(url);
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
@@ -128,7 +143,8 @@ class Questionnaire extends Component {
             if (data === "Ok") {
                 this.showSuccess("Transaccion exitosa", "Cuestionario guardado");
                 alert("Cuestionario guardado");
-                this.props.setIdMenu(1);
+                this.handleCancel();
+                this.props.setIdMenu(0);
             }
             else {
                 this.showError("Error al guardar", data)
@@ -180,17 +196,13 @@ class Questionnaire extends Component {
 
     componentDidMount() {
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent('TIPPREG')}`;
-        console.log('Component did mount types');
         fetch(url)
             .then(results => {
                 return results.json();
             }).then(data => {
                 this.setState({ questionTypes: data });
-                console.log("types", this.state.questionTypes);
             });
         const {questionnaireId1} = this.props;
-        console.log(questionnaireId1);
-        console.log(this.state.initialUpload);
         if (questionnaireId1 != null) {
             this.getQuestionnaire(questionnaireId1)
         }
@@ -203,7 +215,6 @@ class Questionnaire extends Component {
                 .then(results => {
                     return results.json();
                 }).then(data => {
-                    console.log(data);
                     this.setState({ questionnaireId: data.id });
                     this.setState({ name: data.name });
                     this.setState({ description: data.description });
@@ -253,8 +264,9 @@ class Questionnaire extends Component {
         this.setState({ openQuestion: true });
     }
     setOptionDependency(option, question) { }
+
     componentWillMount() {
-        if (this.props != undefined && this.props.match != undefined) {
+        if (this.props !== undefined && this.props.match !== undefined) {
             const questionnaireId = this.props.match.params.id;
             this.getQuestionnaire(questionnaireId)
         }
@@ -263,8 +275,17 @@ class Questionnaire extends Component {
     handleCancel() {
         this.props.changeIdExistingQuestionary(null);
     }
+
+    handleSetStatePanelRange = () =>{
+        const isExpanded = this.state.expandPanelRange;
+        if (isExpanded) {
+            this.setState({expandPanelRange: false});
+        } else {
+            this.setState({expandPanelRange: true});
+        }
+    };
+
     render() {
-        let readOnly = false;
         const { classes } = this.props;
         if (this.state.savedSuccessfully) {
             return <Redirect to='/questionnaires'/>
@@ -274,89 +295,108 @@ class Questionnaire extends Component {
                 <Growl ref={(el) => this.growl = el}/>
 
                 <div className="ui-g">
-                    <div className="ui-g-6">
-                        <div className="content-section implementation">
-                            <div className=" card-w-title">
-                                <div>
+
+                    <Row xs>
+                        <Col xs>
+                            <div >
+
+                                <div style={{margin: '5px'}} >
                                     {this.props.readOnly ?
-                                        <p>{this.state.name}</p>
+                                        <div/>
                                         :
-                                        <InputText id="float-input" placeholder="Nombre del cuestionario" type="text"
-                                                   required maxLength="50" size="32" value={this.state.name}
-                                                   onChange={(e) => this.setState({ name: e.target.value })} />
+                                        <Row>
+                                            <Col>
+                                                <Button label="Guardar" className="ui-button-success"  onClick={() => {this.saveQuestionnaire()}}/>
+                                            </Col>
+                                            <Col>
+                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {this.handleCancel()
+                                                }}/>
+                                            </Col>
+                                            <Col>
+                                                <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
+                                            </Col>
+                                        </Row>
                                     }
                                 </div>
-                                <br/>
-                                <div>
-                                    {this.props.readOnly ?
-                                        <p>{this.state.description}</p>
-                                        :
-                                        <InputTextarea className="description" placeholder="Descripcion (opcional)"
-                                                       type="text" maxLength="255" size="32" value={this.state.description}
-                                                       onChange={(e) => this.setState({ description: e.target.value })}
-                                                       rows={5} cols={20} autoResize={false} />
-                                    }
+
+                                <div className="content-section implementation">
+                                    <div className=" card-w-title">
+                                        <div>
+                                            {this.props.readOnly ?
+                                                <p>{this.state.name}</p>
+                                                :
+                                                <InputText id="float-input" placeholder="Titulo" type="text"
+                                                           required maxLength="50" size="32" value={this.state.name}
+                                                           onChange={(e) => this.setState({ name: e.target.value })} />
+                                            }
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            {this.props.readOnly ?
+                                                <p>{this.state.description}</p>
+                                                :
+                                                <InputTextarea className="description" placeholder="Descripcion (opcional)"
+                                                               type="text" maxLength="255" size="32" value={this.state.description}
+                                                               onChange={(e) => this.setState({ description: e.target.value })}
+                                                               rows={5} cols={20} autoResize={false} />
+                                            }
+                                        </div>
+                                    </div>
+
                                 </div>
+
+                                <ExpansionPanel expanded={this.state.expandPanelRange}>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStatePanelRange()}}  />} >
+                                        <div className={classes.column}>
+                                            <Typography className={classes.heading}>Rango del Cuestionario</Typography>
+                                        </div>
+                                    </ExpansionPanelSummary>
+                                    <Divider />
+                                    <ExpansionPanelDetails>
+                                            <ScrollPanel style={{width: '100%', height: '600px'}}>
+                                                <QuestionnaireRange updateRanges={this.updateRanges}
+                                                                    readOnly={this.props.readOnly}
+                                                                    questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id: undefined} />
+                                            </ScrollPanel>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
                             </div>
 
-                        </div>
+                        </Col>
 
-                        <div className="content-section">
-                            <ScrollPanel style={{width: '100%', height: '400px'}}>
-                                <Questions questions={this.state.lsQuestions}
-                                           removeQuestion={this.removeQuestion}
-                                           readOnly={this.props.readOnly}
-                                           assigned={this.state.assigned}
-                                           showError={this.showError}
-                                           seeQuestion={this.seeQuestion}
-                                           editQuestion={this.editQuestion}
-                                           disableQuestion={this.disableQuestion} />
-                            </ScrollPanel>
-                        </div>
-
-                        <div className="content-section button-save">
-                            {this.props.readOnly ?
-                                <div/>
-                                :
-                                <Toolbar>
-                                    <div className="p-toolbar-group-left">
-                                        <Button label="Guardar" className="p-button-success"  onClick={() => {this.saveQuestionnaire()}}/>
-                                        <Button label="Cancelar" className="p-button-danger" onClick={() => {
-                                            this.handleCancel()
-                                        }}/>
-                                        <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
-                                    </div>
-                                </Toolbar>
-
+                        <Col xs>
+                            {
+                                this.state.openQuestion ?
+                                    <div>
+                                        <div >
+                                            <Question questionTypes={this.state.questionTypes}
+                                                      readOnly={this.props.readOnly}
+                                                      questions={this.state.lsQuestions}
+                                                      addQuestion={this.addQuestion}
+                                                      question={this.state.selectedQuestion}
+                                                      closeQuestion={this.closeQuestion}
+                                                      assigned={this.state.assigned}
+                                                      setOptionDependency={this.setOptionDependency}
+                                                      selectedQuestionIndex={this.state.selectedQuestionIndex} />
+                                        </div>
+                                    </div> : <div/>
                             }
-                        </div>
-                    </div>
+                            <div className="content-section">
+                                <ScrollPanel style={{width: '100%', height: '400px'}}>
+                                    <Questions questions={this.state.lsQuestions}
+                                               removeQuestion={this.removeQuestion}
+                                               readOnly={this.props.readOnly}
+                                               assigned={this.state.assigned}
+                                               showError={this.showError}
+                                               seeQuestion={this.seeQuestion}
+                                               editQuestion={this.editQuestion}
+                                               disableQuestion={this.disableQuestion} />
+                                </ScrollPanel>
+                            </div>
+                        </Col>
 
-                    <div className="ui-g-6">
-                        <Paper className={classes.root} elevation={1}>
-                            <ScrollPanel style={{width: '100%', height: '700px'}}>
-                                <QuestionnaireRange updateRanges={this.updateRanges}
-                                                    readOnly={this.props.readOnly}
-                                                    questionnaireId={this.props.questionarySelected.id} />
-                            </ScrollPanel>
-                        </Paper>
-                    </div>
-                    {
-                        this.state.openQuestion ?
-                            <div>
-                                <div className="ui-g-12">
-                                    <Question questionTypes={this.state.questionTypes}
-                                        readOnly={this.props.readOnly}
-                                        questions={this.state.lsQuestions}
-                                        addQuestion={this.addQuestion}
-                                        question={this.state.selectedQuestion}
-                                        closeQuestion={this.closeQuestion}
-                                        assigned={this.state.assigned}
-                                        setOptionDependency={this.setOptionDependency}
-                                        selectedQuestionIndex={this.state.selectedQuestionIndex} />
-                                </div>
-                            </div> : <div/>
-                    }
+                    </Row>
+
                 </div>
             </div>
         );
@@ -369,7 +409,8 @@ Questionnaire.propTypes = {
 
 const mapStateToProps = state => ({
     questionarySelected: getQuestionarySelected(state),
-    constCreateQuestionary: getCreateQuestionary(state)
+    constCreateQuestionary: getCreateQuestionary(state),
+    user: getUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,12 +10,14 @@ import Constants from '../../../Constants.json';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
+import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
 
 class Questionnaires extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            questionnaires: []
+            questionnaires: [],
+            updateView: true,
         };
         this.see = this.see.bind(this);
         this.edit = this.edit.bind(this);
@@ -42,10 +44,33 @@ class Questionnaires extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-                console.log(data);
                 this.setState({ questionnaires: data });
             })
     }
+
+    deleteQuestionary(item) {
+        console.log(item);
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            let index = getIndexQuestionary(this.state.questionnaires, item);
+            let questionaries = this.state.questionnaires;
+            if (data === "Ok" && index !== undefined) {
+                questionaries.splice(index, 1)
+            }
+            this.setState({questionaries: questionaries});
+            this.setState({updateView: true});
+        });
+    }
+
     render() {
         return (
             <div className="questionnaire">
@@ -67,6 +92,8 @@ class Questionnaires extends Component {
 
 
                                             <Button label="Editar" onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}} />
+
+                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {this.deleteQuestionary(item)}} />
 
                                     </span>
                                     </div>
