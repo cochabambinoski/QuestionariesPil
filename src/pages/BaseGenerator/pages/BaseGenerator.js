@@ -44,7 +44,7 @@ class BaseGenerator extends Component {
             lines: [],
             materials: [],
             isEdit: false,
-            succes: 1,
+            process: 1,
         };
 
         this.onCityChange = this.onCityChange.bind(this);
@@ -52,6 +52,10 @@ class BaseGenerator extends Component {
         this.onMarketChange = this.onMarketChange.bind(this);
         this.onLineChange = this.onLineChange.bind(this);
         this.onMaterialChange = this.onMaterialChange.bind(this);
+    }
+
+    shouldComponentUpdate(next_props, next_state) {
+        return true;
     }
 
     componentDidMount() {
@@ -130,8 +134,8 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response, response.codeResul);
-                this.setState({succes: response});
+                console.log(response, response.codeResult);
+                this.setState({process: response.codeResult});
             });
     };
 
@@ -238,9 +242,9 @@ class BaseGenerator extends Component {
     }
 
     handleClick = (event) => {
-        console.log('click' + event);
+        console.log("click: ", this.state.process);
         if (this.state.description !== null && this.state.dates !== null) {
-            this.setState({succes: 0});
+            this.setState({process: 0});
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
@@ -262,7 +266,7 @@ class BaseGenerator extends Component {
     };
 
     render() {
-        const {succes} = this.state;
+        const {process} = this.state;
         return (
             <div>
                 <div className="content-section introduction">
@@ -272,7 +276,7 @@ class BaseGenerator extends Component {
                     </div>
                 </div>
                 {
-                    succes ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                    process ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
                 }
             </div>
         );
