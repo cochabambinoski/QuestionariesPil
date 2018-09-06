@@ -19,11 +19,11 @@ class SegmentationGenerator extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: null,
+            code: props.code,
             level: 1,
             k1: 0.5,
             k2: 0.5,
-            succes: 1,
+            process: 1,
         }
     }
 
@@ -43,15 +43,15 @@ class SegmentationGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response, response.codeResul);
-                this.setState({succes: response});
+                console.log(response, response.codeResult);
+                this.setState({process: response.codeResult});
             });
     };
 
     handleClick = (event) => {
         console.log('click' + event);
         if (this.state.description !== null && this.state.dates !== null) {
-            this.setState({succes: 0});
+            this.setState({process: 0});
             const level = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
@@ -68,7 +68,7 @@ class SegmentationGenerator extends Component {
     };
 
     render() {
-        const {succes} = this.state;
+        const {process} = this.state;
         return (
             <div>
                 <div className="content-section introduction">
@@ -78,7 +78,7 @@ class SegmentationGenerator extends Component {
                     </div>
                 </div>
                 {
-                    succes ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                    process ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
                 }
             </div>
         );
