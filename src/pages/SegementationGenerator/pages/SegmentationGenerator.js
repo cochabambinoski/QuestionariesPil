@@ -8,6 +8,8 @@ import {withStyles} from '@material-ui/core/styles';
 import {Grid, Row, Col} from 'react-flexbox-grid';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
+import {Card} from "primereact/card";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({});
 
@@ -15,64 +17,99 @@ class SegmentationGenerator extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            level: 1,
+            k1: 0.5,
+            k2: 0.5,
+            succes: 1,
+        }
     }
 
+
     render() {
+        const {succes} = this.state;
         return (
             <div>
-                <Grid>
-                    <Row>
-                        <Col>
-                            <Row>
-                                <Col>
-                                    <label>Codigo:</label>
-                                </Col>
-                                <Col >
-                                    <InputText value={this.state.code}
-                                               onChange={(e) => this.setState({value: e.target.value})}/>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <label>Numero de Niveles:</label>
-                                </Col>
-                                <Col>
-                                    <InputText value={this.state.nivel}
-                                               onChange={(e) => this.setState({value: e.target.value})}/></Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <label>Factor K1:</label>
-                                </Col>
-                                <Col>
-                                    <InputText value={this.state.fack1}
-                                               onChange={(e) => this.setState({value: e.target.value})}/>
-                                </Col>
-                                <Col>
-                                    <label>Para limite inferior</label>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <label>Factor K2:</label>
-                                </Col>
-                                <Col>
-                                    <InputText value={this.state.fack2}
-                                               onChange={(e) => this.setState({value: e.target.value})}/>
-                                </Col>
-                                <Col>
-                                    <label>Para limite superior</label>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Button label="Generar" onClick={this.handleClick}/>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Grid>
+                <div className="content-section introduction">
+                    <div className="feature-intro">
+                        <h1>Generación de Segmentación Base</h1>
+                        <p></p>
+                    </div>
+                </div>
+                {
+                    succes ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                }
+            </div>
+        );
+    }
+
+    renderForm() {
+        return (
+            <div>
+                <Card>
+                    <Grid>
+                        <Row>
+                            <Col xs={9}>
+                                <Row>
+                                    <Col xs={2}>
+                                        <label style={{width: '5em', margin: '.30em'}}>Codigo:</label>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <InputText value={this.state.code}
+                                                   onChange={(e) => this.setState({value: e.target.value})}
+                                                   disabled="disabled"
+                                                   style={{width: '5em', margin: '.25em'}}/>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={2}>
+                                        <label style={{width: '5em', margin: '.30em'}}>Numero de Niveles:</label>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <InputText value={this.state.level}
+                                                   onChange={(e) => this.setState({value: e.target.value})}
+                                                   style={{width: '5em', margin: '.25em'}}/>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={2}>
+                                        <label style={{width: '5em', margin: '.30em'}}>Factor K1:</label>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <InputText value={this.state.k1}
+                                                   onChange={(e) => this.setState({value: e.target.value})}
+                                                   style={{width: '5em', margin: '.25em'}}/>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <label style={{width: '5em', margin: '.30em'}}>Para limite inferior</label>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={2}>
+                                        <label style={{width: '5em', margin: '.30em'}}>Factor K2:</label>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <InputText value={this.state.k2}
+                                                   onChange={(e) => this.setState({value: e.target.value})}
+                                                   style={{width: '5em', margin: '.25em'}}/>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <label style={{width: '5em', margin: '.30em'}}>Para limite superior</label>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={2}>
+                                    </Col>
+                                    <Col xs={2}>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <Button label="Generar" onClick={this.handleClick}/>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </Card>
             </div>
         );
     }
