@@ -73,10 +73,13 @@ class EnhancedTableToolbar extends Component {
     }
 
     handlerClick = event => {
-        this.state.startDate = this.state.dates[0];
-        this.state.enDate = this.state.dates[1];
-        this.props.updateDates(this.state.startDate, this.state.enDate);
-    };
+        if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
+            this.state.startDate = this.state.dates[0];
+            this.state.enDate = this.state.dates[1];
+            this.props.updateDates(this.state.startDate, this.state.enDate);
+        }
+    }
+    ;
 
     render() {
         const {classes, numSelected} = this.props;
@@ -112,9 +115,7 @@ class EnhancedTableToolbar extends Component {
     }
 }
 
-EnhancedTableToolbar.propTypes = {
-
-};
+EnhancedTableToolbar.propTypes = {};
 
 export default withStyles(styles)(EnhancedTableToolbar);
 

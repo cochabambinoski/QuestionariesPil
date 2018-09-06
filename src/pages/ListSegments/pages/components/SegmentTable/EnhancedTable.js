@@ -44,7 +44,7 @@ class EnhancedTable extends Component {
             rowsPerPage: 5,
             filter: null,
             startDate: this.firstDayOfMonth(),
-            endDate: this. getNow(),
+            endDate: this.getNow(),
         };
     }
 
@@ -158,7 +158,8 @@ class EnhancedTable extends Component {
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
         return (
             <Paper className={classes.root}>
-                <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate} dateEnd={this.state.endDate} updateDates={this.updateDates}/>
+                <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
+                                      dateEnd={this.state.endDate} updateDates={this.updateDates}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <EnhancedTableHead
