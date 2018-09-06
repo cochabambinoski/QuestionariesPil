@@ -14,6 +14,7 @@ import EnhancedTableHead from "../SegmentTable/EnhacedTableHead";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ReportIcon from "@material-ui/icons/FileCopy";
 import EditSeg from "@material-ui/icons/Edit";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
@@ -204,6 +205,11 @@ class EnhancedTable extends Component {
                                             <TableCell >
                                                 <IconButton aria-label="Delete">
                                                     <EditSeg/>
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell >
+                                                <IconButton aria-label="Delete">
+                                                    <ReportIcon/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >

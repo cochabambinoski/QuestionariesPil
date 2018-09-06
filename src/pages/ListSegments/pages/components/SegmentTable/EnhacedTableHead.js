@@ -54,6 +54,9 @@ class EnhancedTableHead extends Component {
                         Segmentación
                     </TableCell>
                     <TableCell>
+                        Reporte
+                    </TableCell>
+                    <TableCell>
                         Borrar
                     </TableCell>
                 </TableRow>
