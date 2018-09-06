@@ -17,6 +17,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditSeg from "@material-ui/icons/Edit";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
+import * as utilDate from "../../../../../utils/dateUtils";
 
 const styles = theme => ({
     root: {
@@ -43,8 +44,8 @@ class EnhancedTable extends Component {
             page: 0,
             rowsPerPage: 5,
             filter: null,
-            startDate: this.firstDayOfMonth(),
-            endDate: this.getNow(),
+            startDate: utilDate.firstDayOfMonth(),
+            endDate: utilDate.getNow(),
         };
     }
 
@@ -52,8 +53,13 @@ class EnhancedTable extends Component {
         this.chargeTable(this.state.startDate, this.state.endDate)
     };
 
+    /**
+     * get data for table
+     * @param start
+     * @param end
+     */
     chargeTable = (start, end) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}${this.dateToISO(start)}${this.dateToISO(end)}`;
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
         fetch(url)
             .then(results => {
                 return results.json();
@@ -64,6 +70,11 @@ class EnhancedTable extends Component {
         });
     };
 
+    /**
+     * change order by columns
+     * @param event
+     * @param property
+     */
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -75,6 +86,13 @@ class EnhancedTable extends Component {
         this.setState({order, orderBy});
     };
 
+    /**
+     * controller by order ascending or descending
+     * @param a
+     * @param b
+     * @param orderBy
+     * @returns {number}
+     */
     desc(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -85,31 +103,14 @@ class EnhancedTable extends Component {
         return 0;
     }
 
+    /**
+     * order list
+     * @param order
+     * @param orderBy
+     * @returns {*}
+     */
     getSorting(order, orderBy) {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
-    }
-
-    getDate(date) {
-        let now = new Date(date);
-        let dateFormat = require('dateformat');
-        return dateFormat(now, "dd-mm-yyyy");
-    }
-
-    dateToISO(date) {
-        let newDate = new Date(date);
-        let dateFormat = require('dateformat');
-        return dateFormat(newDate, "/yyyymmdd");
-    }
-
-    getNow() {
-        let now = new Date();
-        return now;
-    }
-
-    firstDayOfMonth() {
-        let date = new Date(), y = date.getFullYear(), m = date.getMonth();
-        let firstDay = new Date(y, m, 1);
-        return firstDay;
     }
 
     handleClick = (event, id) => {
@@ -133,6 +134,11 @@ class EnhancedTable extends Component {
         this.setState({selected: newSelected});
     };
 
+    /**
+     * update table with range dates
+     * @param fromDate
+     * @param todate
+     */
     updateDates = (fromDate, todate) => {
         var start = fromDate.getTime() === this.state.startDate.getTime();
         var finish = todate.getTime() === this.state.endDate.getTime();
@@ -143,10 +149,19 @@ class EnhancedTable extends Component {
         }
     }
 
+    /**
+     * change page
+     * @param event
+     * @param page
+     */
     handleChangePage = (event, page) => {
         this.setState({page});
     };
 
+    /**
+     * change num rows per page
+     * @param event
+     */
     handleChangeRowsPerPage = event => {
         this.setState({rowsPerPage: event.target.value});
     };
@@ -179,7 +194,7 @@ class EnhancedTable extends Component {
                                             <TableCell component="th" scope="row" numeric>
                                                 {n.idClientKiloliter}
                                             </TableCell>
-                                            <TableCell>{this.getDate(n.dateRegister)}</TableCell>
+                                            <TableCell>{utilDate.getDateFormat(n.dateRegister)}</TableCell>
                                             <TableCell>{n.description}</TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Delete">

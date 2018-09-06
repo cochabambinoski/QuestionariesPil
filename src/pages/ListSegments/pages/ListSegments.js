@@ -19,7 +19,6 @@ class ListSegments extends Component {
         this.state = {
 
         };
-
     }
 
     render() {
