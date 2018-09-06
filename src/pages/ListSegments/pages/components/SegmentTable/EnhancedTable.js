@@ -89,11 +89,9 @@ class EnhancedTable extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log("Success: ", response.codeResult);
-                if (response.codeResult === 1) {
-                    this.chargeTable(this.state.startDate, this.state.endDate)
-                    this.handleClose();
-                }
+                console.log("Success: ", response);
+                this.chargeTable(this.state.startDate, this.state.endDate)
+                this.handleClose();
             });
     };
 
