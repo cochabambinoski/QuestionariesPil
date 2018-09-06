@@ -4,7 +4,10 @@ import {connect} from 'react-redux';
 import {getMenu} from '../../../../reducers'
 import PropTypes from 'prop-types';
 import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
-import FloatingActionButtonZoom from "../../../FloatingActionButtonZoom";
+//import FloatingActionButtonZoom from "../../../FloatingActionButtonZoom";
+//import SegmentList from "../../../ListSegments/pages/ListSegments";
+//import BaseGenerator from "../../../BaseGenerator/pages/BaseGenerator"
+import SegmentationGenerator from "../../../SegementationGenerator/pages/SegmentationGenerator";
 
 class Container extends Component {
     render() {
@@ -12,7 +15,7 @@ class Container extends Component {
             <div style={{marginTop: '5px'}}>
                 {
                    this.props.idMenu === 1 || this.props.idMenu === 0   ?
-                       <QuestionaryContainer/>
+                       <SegmentationGenerator/>
                        :<AssignmentQuestionary/>
                 }
 
