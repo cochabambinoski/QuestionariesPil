@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
+import {Messages} from 'primereact/messages';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -44,6 +45,7 @@ class EnhancedTable extends Component {
 
     constructor() {
         super();
+
         this.state = {
             order: 'asc',
             orderBy: 'id',
@@ -57,26 +59,82 @@ class EnhancedTable extends Component {
             deleteOpen: false,
             todelete: null,
         };
+
+        this.showSuccess = this.showSuccess.bind(this);
+        this.showInfo = this.showInfo.bind(this);
+        this.showWarn = this.showWarn.bind(this);
+        this.showError = this.showError.bind(this);
     }
 
     componentDidMount() {
         this.chargeTable(this.state.startDate, this.state.endDate)
     };
 
+    /**
+     * show message success
+     * @param title
+     * @param message
+     */
+    showSuccess = (title, message) => {
+        this.messages.show({severity: 'success', summary: title, detail: message});
+    };
+
+    /**
+     * show message info
+     * @param title
+     * @param message
+     */
+    showInfo = (title, message) => {
+        this.messages.show({severity: 'info', summary: title, detail: message});
+    };
+
+    /**
+     * show message warn
+     * @param title
+     * @param message
+     */
+    showWarn = (title, message) => {
+        this.messages.show({severity: 'warn', summary: title, detail: message});
+    };
+
+    /**
+     * show message error
+     * @param title
+     * @param message
+     */
+    showError = (title, message) => {
+        this.messages.show({severity: 'error', summary: title, detail: message});
+    };
+
+    /**
+     * close dialog and cancel delete
+     */
     handleClose = () => {
         this.setState({deleteOpen: false});
         this.setState({toDelete: null})
     };
 
+    /**
+     * init order delete
+     * @param event
+     * @param id
+     */
     handleClick = (event, id) => {
+        this.showWarn('Alerta', 'esta iniciando una funcion de eliminación')
         this.setState({deleteOpen: true});
         this.setState({toDelete: id})
     };
 
+    /**
+     *Accpet delete from dialog
+     */
     handleDelete = () => {
         this.deleteSegment();
     };
 
+    /**
+     * deleteDialog
+     */
     deleteSegment = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DEL_CLIENT_KILOLITER}/${this.state.toDelete}`;
         console.log(url);
@@ -87,11 +145,17 @@ class EnhancedTable extends Component {
                 'Content-Type': 'application/json'
             },
         }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
+            .catch(error => {
+                console.error('Error:', error)
+                this.showError('Error', 'No se pudo eliminar la segmentación');
+            })
             .then(response => {
                 console.log("Success: ", response);
+
                 this.chargeTable(this.state.startDate, this.state.endDate)
                 this.handleClose();
+                if (response !== undefined || response !== null)
+                    this.showSuccess('Eliminado', 'Se elimino una segmentación');
             });
     };
 
@@ -187,6 +251,10 @@ class EnhancedTable extends Component {
         this.setState({rowsPerPage: event.target.value});
     };
 
+    /**
+     * render for Dialog
+     * @returns {XML}
+     */
     renderDeleteDialog() {
         return (
             <Dialog
@@ -219,6 +287,9 @@ class EnhancedTable extends Component {
             <div>
                 <div>
                     {this.renderDeleteDialog()}
+                </div>
+                <div>
+                    <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <Paper className={classes.root}>
                     <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
