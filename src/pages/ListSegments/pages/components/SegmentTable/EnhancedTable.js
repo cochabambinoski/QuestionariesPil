@@ -166,8 +166,7 @@ class EnhancedTable extends Component {
     handleChangeRowsPerPage = event => {
         this.setState({rowsPerPage: event.target.value});
     };
-
-
+    
     render() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;

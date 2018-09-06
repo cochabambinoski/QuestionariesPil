@@ -24,6 +24,12 @@ class ListSegments extends Component {
     render() {
         return (
             <div>
+                <div className="content-section introduction">
+                    <div className="feature-intro">
+                        <h1>List de Segmentación Base</h1>
+                        <p>Generación de reportes, creación, edición y eliminacion de segmentación.</p>
+                    </div>
+                </div>
                 <Toolbar>
                     <div className="p-toolbar-group-left">
                         <Button label="Nuevo" className="p-button-rounded" onClick={this.handleClick}/>
