@@ -16,15 +16,12 @@ import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import {getCreateQuestionary, getQuestionarySelected, getUser} from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
-import {Toolbar} from '../../../../../node_modules/primereact/toolbar';
-import Paper from '@material-ui/core/Paper';
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
-import {Col, Row, Grid} from 'react-flexbox-grid';
+import {Col, Row} from 'react-flexbox-grid';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from "@material-ui/core/Typography/Typography";
 import Divider from "@material-ui/core/Divider/Divider";
@@ -91,9 +88,6 @@ class Questionnaire extends Component {
     }
 
     saveQuestionnaire() {
-        console.log(this.state.assigned)
-        console.log(this.state.name);
-        console.log(this.state);
         if (this.state.name == null || this.state.name === "") {
             this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
             return
@@ -103,14 +97,14 @@ class Questionnaire extends Component {
         this.state.ranges.forEach((branch, index) => {
             ranges.push(
                 {
-                    id: null,
-                    questionary: null,
+                    id: this.state.assigned === true ?null : branch.id,
+                    questionary: this.state.assigned === true ?null : branch.questionary,
                     city: branch.city,
                     branch: branch.branch,
                     sociedadId: 'BO81',
                     usuarioId: this.props.user.username,
-                    operacionId: 1,
-                    fechaId: null,
+                    operacionId: this.state.assigned === true ? 1 : branch.operacionId,
+                    fechaId: this.state.assigned === true ?null : branch.fechaId,
                 },
             )
         });
@@ -136,7 +130,6 @@ class Questionnaire extends Component {
             return
         }
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
-        console.log(JSON.stringify({questionaries: questionaries,questionaryRange: ranges }));
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
@@ -167,7 +160,6 @@ class Questionnaire extends Component {
     }
 
     addQuestion(question, index) {
-        console.log(question);
         let auxQuestions = [...this.state.lsQuestions];
         if (index === -1) {
             auxQuestions.push(question);
@@ -204,7 +196,6 @@ class Questionnaire extends Component {
 
     componentDidMount() {
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent('TIPPREG')}`;
-        console.log('Component did mount types');
         fetch(url)
             .then(results => {
                 return results.json();
@@ -212,9 +203,6 @@ class Questionnaire extends Component {
                 this.setState({ questionTypes: data });
             });
         const {questionnaireId1} = this.props;
-        console.log(questionnaireId1);
-        console.log(this.state.initialUpload);
-        console.log(this.props.questionarySelected);
         if (questionnaireId1 != null) {
             this.getQuestionnaire(questionnaireId1)
         }
@@ -227,7 +215,6 @@ class Questionnaire extends Component {
                 .then(results => {
                     return results.json();
                 }).then(data => {
-                    console.log(data);
                     this.setState({ questionnaireId: data.id });
                     this.setState({ name: data.name });
                     this.setState({ description: data.description });
@@ -277,6 +264,7 @@ class Questionnaire extends Component {
         this.setState({ openQuestion: true });
     }
     setOptionDependency(option, question) { }
+
     componentWillMount() {
         if (this.props !== undefined && this.props.match !== undefined) {
             const questionnaireId = this.props.match.params.id;
@@ -289,7 +277,6 @@ class Questionnaire extends Component {
     }
 
     handleSetStatePanelRange = () =>{
-        console.log("Expanded");
         const isExpanded = this.state.expandPanelRange;
         if (isExpanded) {
             this.setState({expandPanelRange: false});
@@ -299,7 +286,6 @@ class Questionnaire extends Component {
     };
 
     render() {
-        let readOnly = false;
         const { classes } = this.props;
         if (this.state.savedSuccessfully) {
             return <Redirect to='/questionnaires'/>

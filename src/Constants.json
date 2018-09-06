@@ -16,6 +16,7 @@
   "GET_RANGES_BY_QUESTIONNAIRE":"getQuestionaryRangeByQuestionaryId",
   "ASSING_QUESTIONARIES":"assignQuestionaries",
   "GET_ALL_DEPARTAMENTS":"allDepartments",
+  "DELETE_QUESTIONARY":"deleteQuestionary",
   "GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE": "getQuestionerQuestionaryByQuestionary",
 
   "CODSAP_MULTIPLE_OPTION":"TIPPREG1",

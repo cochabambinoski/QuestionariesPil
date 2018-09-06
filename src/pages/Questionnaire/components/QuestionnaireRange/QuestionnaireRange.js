@@ -130,11 +130,14 @@ class QuestionnaireRange extends Component {
         this.setState((prevState, props) => {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
+            console.log(index !== -1)
             if (index !== -1) {
+                console.log(rangesAux[index].id == null)
                 if (rangesAux[index].id == null) {
                     rangesAux.splice(index, 1);
                 } else {
                     rangesAux[index].operacionId = 0;
+                    console.log(rangesAux[index])
                 }
                 this.props.updateRanges(rangesAux);
                 return { ranges: rangesAux };
@@ -166,8 +169,8 @@ class QuestionnaireRange extends Component {
         return -1;
     };
     containsBranch = (branch) => {
-        console.log(branch);
-        const contained = this.state.ranges.filter((range) => (range.branch.id === branch.id && branch.operacionId === 1));
+
+        const contained = this.state.ranges.filter((range) => (range.branch.id === branch.id && range.operacionId === 1));
         return contained.length !== 0;
     };
     handleSelectCities = (cities) => {
@@ -199,7 +202,6 @@ class QuestionnaireRange extends Component {
             fetch(url).then(results => {
                 return results.json();
             }).then(data => {
-                console.log(data);
                 this.setState({ ranges: data });
                 this.props.updateRanges(data);
             });

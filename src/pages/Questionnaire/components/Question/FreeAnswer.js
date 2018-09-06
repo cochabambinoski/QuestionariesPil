@@ -16,8 +16,8 @@ class FreeAnswer extends Component {
         this.addOption = this.addOption.bind(this);
     }
     validateFields(options) {
-        let emptyOptions = options.filter((option) => (option.option == ""));
-        if (emptyOptions.length == 0)
+        let emptyOptions = options.filter((option) => (option.option === ""));
+        if (emptyOptions.length === 0)
             this.props.addQuestion();
 
     }
@@ -50,7 +50,7 @@ class FreeAnswer extends Component {
                     }
                 </div>
                 {
-                    this.props.readOnly ? <div></div> :
+                    this.props.readOnly ? <div/> :
                         <div>
                             <span>
                                 <Button label="Aceptar" onClick={this.addQuestion} />
