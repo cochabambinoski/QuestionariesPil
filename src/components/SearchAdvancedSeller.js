@@ -88,6 +88,14 @@ class SearchAdvancedSeller extends Component {
         }
     };
 
+    typeSearchAdvances = () => {
+        if ( this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER){
+            return Constants.TYPE_SEARCH_MOBILE_SELLER
+        } else {
+            return Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED
+        }
+    };
+
     render() {
         const {classes} = this.props;
         return (
@@ -109,15 +117,14 @@ class SearchAdvancedSeller extends Component {
                     <Divider />
                     <ExpansionPanelDetails className={classes.details}>
 
-                        <ListSearchAdvancedSeller list={this.props.typeSeller} type={Constants.LIST_TYPE_SELLERS}/>
-                        <ListSearchAdvancedSeller list={this.props.cities} type={Constants.LIST_CITY}/>
-                        <ListSearchAdvancedSeller list={this.props.typeSeller} type={Constants.LIST_BRANCHES}/>
+                        <ListSearchAdvancedSeller
+                            typeSearch={this.props.typeSearch} list={this.props.typeSeller} type={Constants.LIST_TYPE_SELLERS}/>
+                        <ListSearchAdvancedSeller
+                            typeSearch={this.props.typeSearch} list={this.props.cities} type={Constants.LIST_CITY}/>
+                        <ListSearchAdvancedSeller
+                            typeSearch={this.props.typeSearch} list={this.props.typeSeller} type={Constants.LIST_BRANCHES}/>
 
                     </ExpansionPanelDetails>
-                    <Divider />
-                    <ExpansionPanelActions>
-                        <Button label="Filtrar"/>
-                    </ExpansionPanelActions>
                 </ExpansionPanel>
             </div>
         );

@@ -71,7 +71,7 @@ export function searchFilter(state = initialState, action) {
 
         case CONCAT_FILTER_MOBILE_SELLER_BRANCH: {
             {
-                queryAdvancedMobileSellerBranch.concat(action.payload);
+                queryAdvancedMobileSellerBranch.unshift(action.payload);
                 return {
                     ...state,
                     queryAdvancedMobileSellerBranch: queryAdvancedMobileSellerBranch,

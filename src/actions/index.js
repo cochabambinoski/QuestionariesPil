@@ -138,6 +138,6 @@ export const deleteParamFilterMobileSellerType = payload => ({type: DELETE_PARAM
 
 export const deleteParamFilterMobileSellerBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH, payload});
 
-export const deleteParamFilterMObileSelledeleterAssignedType = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, payload});
+export const deleteParamFilterMobileSellerAssignedType = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, payload});
 
 export const deleteParamFilterMobileSellerAssignedBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, payload});

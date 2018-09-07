@@ -8,9 +8,13 @@ import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 import classNames from "classnames";
 import {withStyles} from '@material-ui/core/styles';
 import connect from "react-redux/es/connect/connect";
+import {ScrollPanel} from "primereact/scrollpanel";
+
+
 import {
     getAllBranch,
-    getAllCity, getBranchByIdCity, getBranchesById,
+    getAllCity,
+    getBranchByIdCity,
     getMobileAssignement,
     getQueryMobileSellerAssignedBranch,
     getQueryMobileSellerAssignedType,
@@ -25,8 +29,11 @@ import {
     addParamFilterMobileSellerAssignedBranch,
     addParamFilterMobileSellerAssignedType,
     addParamFilterMobileSellerBranch,
-    addParamFilterMobileSellerType, concatFilterMobileSellerAssignedBranch, concatFilterMobileSellerBranch,
-    deleteParamFilterMObileSelledeleterAssignedType, deleteParamFilterMobileSellerAssignedBranch,
+    addParamFilterMobileSellerType,
+    concatFilterMobileSellerAssignedBranch,
+    concatFilterMobileSellerBranch,
+    deleteParamFilterMobileSellerAssignedBranch,
+    deleteParamFilterMobileSellerAssignedType,
     deleteParamFilterMobileSellerBranch,
     deleteParamFilterMobileSellerType
 } from "../actions";
@@ -78,49 +85,79 @@ class ListSearchAdvancedSeller extends Component {
         }
     }
 
+    typeSearchAdvances = () => {
+        if ( this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER){
+            console.log(this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER);
+            return true
+        } else {
+            return false
+        }
+    };
+
     handleCheck(item, typeList){
         switch (typeList) {
             case Constants.SELLER_LIST: {
-                if (!existElementInList(item, this.props.querySearchSellerByType)){
-                    this.props.addParamFilterMobileSellerType(item)
+                if (!existElementInList(item, this.props.querySearchSellerByType) || !existElementInList(item, this.props.querySearchSellerAssignedByType)){
+                    this.typeSearchAdvances() ? this.props.addParamFilterMobileSellerType(item): this.props.addParamFilterMobileSellerAssignedType(item);
+                    return
                 } else {
-                    this.props.deleteParamFilterMobileSellerType(item)
+                    this.typeSearchAdvances() ? this.props.deleteParamFilterMobileSellerType(item) : this.props.deleteParamFilterMObileSelledeleterAssignedType(item);
+                    return
                 }
             }
             case Constants.CITIES_LIST: {
                 const citiesSelected = this.state.citiesSelectedList;
                 if (existElementInList(item, citiesSelected)){
-                    remove(citiesSelected, item)
+                    remove(citiesSelected, item);
+                    const branchListCity = getBranchByIdCity(this.props.branches ,item.id);
+                    branchListCity.forEach((branch)=> ( this.typeSearchAdvances() ? this.props.deleteParamFilterMobileSellerBranch(branch) :
+                    this.props.deleteParamFilterMobileSellerAssignedBranch(branch)));
                 } else {
-                    citiesSelected.push(item)
+                    citiesSelected.push(item);
+                    const branchListCity = getBranchByIdCity(this.props.branches ,item.id);
+                    branchListCity.forEach((branch)=> ( this.typeSearchAdvances() ? this.props.addParamFilterMobileSellerBranch(branch):
+                    this.props.addParamFilterMobileSellerAssignedBranch(branch)));
                 }
                 this.setState({citiesSelectedList: citiesSelected});
-                const branchListCity = getBranchByIdCity(this.props.branches ,item.id);
-                this.handleCheck(branchListCity, Constants.ADD_BRANCHES_LIST);
-
-                console.log(branchListCity);
-                console.log(this.state.citiesSelectedList)
+                return;
             }
             case Constants.BRANCHES_LIST:{
-                if (!existElementInList(item, this.props.querySearchSellerByBranch)){
-                    this.props.addParamFilterMobileSellerBranch(item)
+                console.log(!existElementInList(item, this.props.querySearchSellerByBranch) || !existElementInList(item, this.props.querySearchSellerAssignedByBranch));
+                if (!existElementInList(item, this.props.querySearchSellerByBranch) || !existElementInList(item, this.props.querySearchSellerAssignedByBranch)){
+                    this.typeSearchAdvances() ?  this.props.deleteParamFilterMobileSellerBranch(item) : this.props.deleteParamFilterMobileSellerAssignedBranch(item)
                 } else {
-                    this.props.deleteParamFilterMobileSellerBranch(item)
+                    this.typeSearchAdvances() ?  this.props.deleteParamFilterMobileSellerBranch(item) : this.props.deleteParamFilterMobileSellerAssignedBranch(item)
                 }
-            }
-            case Constants.ADD_BRANCHES_LIST:{
-                this.props.concatParamFilterMobileSellerBranch(item)
+                return;
             }
             default:{
-
+                console.log("error");
+                return;
             }
         }
-        return this.isChecked(item)
     }
 
     isChecked(item){
        let exist = getIndexQuestionary(this.props.querySearchSellerByType,item);
        return exist !== -1;
+    }
+
+    existBranchInTheList(city){
+        let branches = null;
+        console.log(this.props.querySearchSellerByBranch);
+        if ( this.typeSearchAdvances()) {
+            branches = filter.call(this.props.querySearchSellerByBranch, function (branch) {return branch.departamento.id === city.id
+        })} else {
+                branches = filter.call(this.props.querySearchSellerAssignedByBranch, function (branch) {return branch.departamento.id === city.id
+                })
+        }
+
+            if (branches.length > 0) {
+                return true
+            } else {
+                return false
+            }
+
     }
 
     render() {
@@ -130,55 +167,76 @@ class ListSearchAdvancedSeller extends Component {
             case Constants.LIST_TYPE_SELLERS:{
                 innerComponent = <div className={classes.column}>
                     <h2>Tipos de Usuario</h2>
-                    <List className={this.props.classes.root} subheader={<li />}>
-                        {this.props.list.map(typeSeller => (
-                            <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                <ListItemText primary={typeSeller.nombre } />
-                                <ListItemSecondaryAction>
-                                    <Checkbox
-                                        onChange={() => this.handleCheck(typeSeller, Constants.SELLER_LIST)}
-                                        checked={this.isChecked(typeSeller)}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
+                        <List className={this.props.classes.root} subheader={<li />}>
+                            {this.props.list.map(typeSeller => (
+                                <ListItem key={typeSeller.id} dense button className={classes.listItem}>
+                                    <ListItemText primary={typeSeller.nombre } />
+                                    <ListItemSecondaryAction>
+                                        <Checkbox
+                                            onChange={() => this.handleCheck(typeSeller, Constants.SELLER_LIST)}
+                                        />
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </ScrollPanel>
                 </div>;
                 break;
             }
             case Constants.LIST_CITY:{
                 innerComponent = <div className={classNames(classes.column, classes.helper)}>
                     <h2>Ciudades</h2>
-                    <List className={this.props.classes.root} subheader={<li />}>
-                        {this.props.list.map(typeSeller => (
-                            <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                <ListItemText primary={typeSeller.nombre } />
-                                <ListItemSecondaryAction>
-                                    <Checkbox
-                                        onChange={() => this.handleCheck(typeSeller, Constants.CITIES_LIST)}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
+                        <List className={this.props.classes.root} subheader={<li />}>
+                            {this.props.list.map(city => (
+                                <ListItem key={city.id} dense button className={classes.listItem}>
+                                    <ListItemText primary={city.nombre } />
+                                    <ListItemSecondaryAction>
+                                        <Checkbox
+                                            checked={this.existBranchInTheList(city)}
+                                            onChange={() => this.handleCheck(city, Constants.CITIES_LIST)}
+                                        />
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </ScrollPanel>
                 </div>;
                     break;
             }
             case Constants.LIST_BRANCHES:{
                 innerComponent = <div className={classNames(classes.column, classes.helper)}>
                     <h2>Sucursales</h2>
-                    <List className={this.props.classes.root} subheader={<li />}>
-                        {this.state.branchesList.map(typeSeller => (
-                            <ListItem key={typeSeller.id} dense button className={classes.listItem}>
-                                <ListItemText primary={typeSeller.nombre } />
-                                <ListItemSecondaryAction>
-                                    <Checkbox
-                                        onChange={() => this.handleCheck(typeSeller, Constants.BRANCHES_LIST)}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
+                        <List className={this.props.classes.root} subheader={<li />}>
+                            {
+                                this.typeSearchAdvances() ?
+                                    this.props.querySearchSellerByBranch.map(branch => (
+                                        <ListItem key={branch.id} dense button className={classes.listItem}>
+                                            <ListItemText primary={branch.nombre } />
+                                            <ListItemSecondaryAction>
+                                                <Checkbox
+                                                    checked={existElementInList(branch, this.props.querySearchSellerByBranch)}
+                                                    onChange={() => this.handleCheck(branch, Constants.BRANCHES_LIST)}
+                                                />
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    )) :
+                                    this.props.querySearchSellerAssignedByBranch.map(branch => (
+                                        <ListItem key={branch.id} dense button className={classes.listItem}>
+                                            <ListItemText primary={branch.nombre } />
+                                            <ListItemSecondaryAction>
+                                                <Checkbox
+                                                    checked={existElementInList(branch, this.props.querySearchSellerAssignedByBranch)}
+                                                    onChange={() => this.handleCheck(branch, Constants.BRANCHES_LIST)}
+                                                />
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    ))
+                            }
+                        </List>
+                    </ScrollPanel>
                 </div>;
                     break;
             }
@@ -216,7 +274,7 @@ const mapDispatchToProps = dispatch => ({
     concatParamFilterMobileSellerAssignedBranch: value => dispatch(concatFilterMobileSellerAssignedBranch(value)),
     deleteParamFilterMobileSellerType: value => dispatch(deleteParamFilterMobileSellerType(value)),
     deleteParamFilterMobileSellerBranch: value => dispatch(deleteParamFilterMobileSellerBranch(value)),
-    deleteParamFilterMObileSelledeleterAssignedType: value => dispatch(deleteParamFilterMObileSelledeleterAssignedType(value)),
+    deleteParamFilterMObileSelledeleterAssignedType: value => dispatch(deleteParamFilterMobileSellerAssignedType(value)),
     deleteParamFilterMobileSellerAssignedBranch: value => dispatch(deleteParamFilterMobileSellerAssignedBranch(value)),
 
 });
