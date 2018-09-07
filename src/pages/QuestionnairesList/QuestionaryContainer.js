@@ -19,7 +19,7 @@ class QuestionaryContainer extends Component {
                         <Questionnaire questionary={null} /> :
                         questionarySelected.action === "EDIT" ?
                             <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}/> :
-                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}/>
+                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id} readOnly={true}/>
 
                 }
             </div>

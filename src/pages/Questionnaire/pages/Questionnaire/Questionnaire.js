@@ -60,7 +60,7 @@ class Questionnaire extends Component {
             opened: true,
             selectedQuestionIndex: -1,
             ranges: [],
-            expandPanelRange: false,
+            expandPanelRange: true,
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -77,7 +77,7 @@ class Questionnaire extends Component {
         this.handleNewQuestion = this.handleNewQuestion.bind(this);
         this.updateRanges = this.updateRanges.bind(this);
         this.disableQuestion = this.disableQuestion.bind(this);
-    };
+    }
 
     showSuccess(summary, detail) {
         this.growl.show({severity: 'success', summary: summary, detail: detail});
@@ -144,7 +144,7 @@ class Questionnaire extends Component {
                 this.showSuccess("Transaccion exitosa", "Cuestionario guardado");
                 alert("Cuestionario guardado");
                 this.handleCancel();
-                this.props.setIdMenu(0);
+                this.props.changeIdQuestionarySelected(null);
             }
             else {
                 this.showError("Error al guardar", data)
@@ -302,7 +302,12 @@ class Questionnaire extends Component {
 
                                 <div style={{margin: '5px'}} >
                                     {this.props.readOnly ?
-                                        <div/>
+                                        <Row>
+                                            <Col>
+                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {this.handleCancel()
+                                                }}/>
+                                            </Col>
+                                        </Row>
                                         :
                                         <Row>
                                             <Col>
@@ -416,7 +421,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fillOutQuestionaryRangeAll: value => dispatch(fillOutQuestionaryRangeAll(value)),
     changeIdExistingQuestionary: value => dispatch(changeIdExistingQuestionary(value)),
-    setIdMenu: value => dispatch(setMenuContainer(value))
+    setIdMenu: value => dispatch(setMenuContainer(value)),
+    changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)( withStyles(styles)(Questionnaire));
