@@ -87,7 +87,6 @@ class ListSearchAdvancedSeller extends Component {
 
     typeSearchAdvances = () => {
         if ( this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER){
-            console.log(this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER);
             return true
         } else {
             return false
@@ -97,12 +96,28 @@ class ListSearchAdvancedSeller extends Component {
     handleCheck(item, typeList){
         switch (typeList) {
             case Constants.SELLER_LIST: {
-                if (!existElementInList(item, this.props.querySearchSellerByType) || !existElementInList(item, this.props.querySearchSellerAssignedByType)){
-                    this.typeSearchAdvances() ? this.props.addParamFilterMobileSellerType(item): this.props.addParamFilterMobileSellerAssignedType(item);
-                    return
-                } else {
-                    this.typeSearchAdvances() ? this.props.deleteParamFilterMobileSellerType(item) : this.props.deleteParamFilterMObileSelledeleterAssignedType(item);
-                    return
+                switch (this.props.typeSearch) {
+                    case Constants.TYPE_SEARCH_MOBILE_SELLER:{
+                        if (!existElementInList(item, this.props.querySearchSellerByType)){
+                            this.props.addParamFilterMobileSellerType(item)
+                            return;
+                        } else {
+                            this.props.deleteParamFilterMobileSellerType(item)
+                            return;
+                        }
+                    }
+                    case Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED:{
+                        if (!existElementInList(item, this.props.querySearchSellerAssignedByType)) {
+                            this.props.addParamFilterMobileSellerAssignedType(item)
+                            return;
+                        } else {
+                            this.props.deleteParamFilterMObileSelledeleterAssignedType(item)
+                            return;
+                        }
+                    }
+                    default:{
+                        return;
+                    }
                 }
             }
             case Constants.CITIES_LIST: {
@@ -122,7 +137,6 @@ class ListSearchAdvancedSeller extends Component {
                 return;
             }
             case Constants.BRANCHES_LIST:{
-                console.log(!existElementInList(item, this.props.querySearchSellerByBranch) || !existElementInList(item, this.props.querySearchSellerAssignedByBranch));
                 if (!existElementInList(item, this.props.querySearchSellerByBranch) || !existElementInList(item, this.props.querySearchSellerAssignedByBranch)){
                     this.typeSearchAdvances() ?  this.props.deleteParamFilterMobileSellerBranch(item) : this.props.deleteParamFilterMobileSellerAssignedBranch(item)
                 } else {
@@ -144,7 +158,6 @@ class ListSearchAdvancedSeller extends Component {
 
     existBranchInTheList(city){
         let branches = null;
-        console.log(this.props.querySearchSellerByBranch);
         if ( this.typeSearchAdvances()) {
             branches = filter.call(this.props.querySearchSellerByBranch, function (branch) {return branch.departamento.id === city.id
         })} else {

@@ -5,7 +5,10 @@ import MobileSellerItem from "../../components/MobileSellerItem/MobileSellerItem
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
-import {getMobileAssignement, getQueryMobileSellerAssigment} from "../../../../../../reducers";
+import {
+    getMobileAssignement,
+    getQueryMobileSellerAssigment, getQueryMobileSellerAssignedBranch, getQueryMobileSellerAssignedType
+} from "../../../../../../reducers";
 import Constants from "../../../../../../Constants.json";
 
 const styles = theme => ({
@@ -37,25 +40,58 @@ class MobileSellerListAssigment extends Component {
         }
     }
 
-    filterItems = (mobileSellers ,query) => {
+    filterItems = (mobileSellers, query) => {
         return mobileSellers.filter((el) =>
             el.vendedor.persona.nombre.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
     };
 
+    filterTypeSeller = (mobileSellers, typesSeller) => {
+        let list = [];
+        typesSeller.forEach(function (typeSeller) {
+            let listAux = mobileSellers;
+            list = list.concat(listAux.filter((mobileSeller) =>
+                mobileSeller.type.id === typeSeller.id
+            ));
+        });
+        if (typesSeller.length > 0) {
+            return list
+        } else {
+            return mobileSellers
+        }
+
+    };
+
+    filterSellerByBranch = (mobileSellers, branches) => {
+        let list = [];
+        branches.forEach(function (branch) {
+            list = list.concat(mobileSellers.filter((mobileSeller) =>
+                mobileSeller.vendedor.sucursal.id === branch.id
+            ));
+        });
+        if (branches.length > 0) {
+            return list
+        } else {
+            return mobileSellers
+        }
+    };
+
     renderMobileSellersItem() {
         let filterList = this.props.assignmentUser.entities;
-        if(this.props.queryMobileSeller !== ""){
+        if (this.props.queryMobileSeller !== "") {
             filterList = this.filterItems(this.props.assignmentUser.entities, this.props.queryMobileSellerAssigment);
         }
-        return <List className={this.props.classes.root} subheader={<li />}>
+        filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerAssignedType);
+        filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerAssignedBranch);
+
+        return <List className={this.props.classes.root} subheader={<li/>}>
             {filterList.map(mobileSeller => (
                 <MobileSellerItem
                     mobileSeller={mobileSeller}
                     isEdit={this.state.isEdit}
                     key={mobileSeller.id}
                     deleteAssignement={this.props.deleteAssignement}
-                    getAssignment={this.props.getAssignment} />
+                    getAssignment={this.props.getAssignment}/>
             ))}
         </List>
     }
@@ -73,18 +109,11 @@ class MobileSellerListAssigment extends Component {
         this.getAssignedMobileSellers(this.state.idQuestionary);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.assignmentUser.entities !== this.props.entities) {
-            this.renderMobileSellersItem();
-        }
-
-    }
-
     render() {
         return (
             <div>
                 {
-                   this.renderMobileSellersItem()
+                    this.renderMobileSellersItem()
                 }
             </div>
         );
@@ -96,7 +125,11 @@ MobileSellerListAssigment.propTypes = {
     isEdit: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({assignmentUser: getMobileAssignement(state),
-    queryMobileSellerAssigment: getQueryMobileSellerAssigment(state)});
+const mapStateToProps = state => ({
+    assignmentUser: getMobileAssignement(state),
+    queryMobileSellerAssigment: getQueryMobileSellerAssigment(state),
+    queryMobileSellerAssignedType: getQueryMobileSellerAssignedType(state),
+    queryMobileSellerAssignedBranch: getQueryMobileSellerAssignedBranch(state)
+});
 
-export default connect(mapStateToProps, null)( withStyles(styles)(MobileSellerListAssigment));
+export default connect(mapStateToProps, null)(withStyles(styles)(MobileSellerListAssigment));

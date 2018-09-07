@@ -8,7 +8,12 @@ import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
 import {addAssignementUser, addMobileSellers, deleteAssignementUser, editAssignementUser} from "../../../../actions";
-import {getMobileAssignement, getMobileSellers, getQueryMobileSeller} from "../../../../reducers";
+import {
+    getMobileAssignement,
+    getMobileSellers,
+    getQueryMobileSeller,
+    getQueryMobileSellerAssignedType, getQueryMobileSellerBranch, getQueryMobileSellerType
+} from "../../../../reducers";
 
 const styles = theme => ({
     root: {
@@ -60,18 +65,49 @@ class MobileSellerList extends Component {
 
     }
 
-    filterItems = (mobileSellers ,query) => {
+    filterItems = (mobileSellers, query) => {
         return mobileSellers.filter((el) =>
             el.vendedor.persona.nombre.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
     };
 
+    filterTypeSeller = (mobileSellers, typesSeller) => {
+        let list = [];
+        typesSeller.forEach(function (typeSeller) {
+            list = list.concat(mobileSellers.filter((mobileSeller) =>
+                mobileSeller.type.id === typeSeller.id
+            ));
+        });
+        if (typesSeller.length > 0) {
+            return list
+        } else {
+            return mobileSellers
+        }
+
+    };
+    filterSellerByBranch = (mobileSellers, branches) => {
+        let list = [];
+        branches.forEach(function (branch) {
+            list = list.concat(mobileSellers.filter((mobileSeller) =>
+                mobileSeller.vendedor.sucursal.id === branch.id
+            ));
+        });
+        if (branches.length > 0) {
+            return list
+        } else {
+            return mobileSellers
+        }
+    };
+
     renderMobileSellersItem() {
         let filterList = this.props.mobileSellers;
-        if(this.props.mobileSellers !== ""){
+        if (this.props.mobileSellers !== "") {
             filterList = this.filterItems(this.props.mobileSellers, this.props.queryMobileSeller);
         }
-        return <List className={this.props.classes.root} subheader={<li />}>
+        filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerType);
+        filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerBranch);
+
+        return <List className={this.props.classes.root} subheader={<li/>}>
             {filterList.map(mobileSeller => (
                 <MobileSellerItem
                     mobileSeller={mobileSeller}
@@ -83,19 +119,12 @@ class MobileSellerList extends Component {
         </List>
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.mobileSellers !== []) {
-            this.renderMobileSellersItem();
-        }
-
-    }
-
     render() {
-        const {mobilsellers} = this.state;
         return (
             <div>
                 {
-                    this.props.mobileSellers.length >0 ? this.renderMobileSellersItem() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                    this.props.mobileSellers.length > 0 ? this.renderMobileSellersItem() :
+                        <CircularProgress style={{width: '20%', height: '20%'}}/>
                 }
             </div>
         );
@@ -110,7 +139,9 @@ MobileSellerList.propTypes = {
 const mapStateToProps = state => ({
     queryMobileSeller: getQueryMobileSeller(state),
     assignmentUser: getMobileAssignement(state),
-    mobileSellers: getMobileSellers(state)
+    mobileSellers: getMobileSellers(state),
+    queryMobileSellerType: getQueryMobileSellerType(state),
+    queryMobileSellerBranch: getQueryMobileSellerBranch(state),
 });
 
 const mapDispatchToProps = dispatch => ({
