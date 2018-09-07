@@ -5,17 +5,21 @@ import {getMenu} from '../../../../reducers'
 import PropTypes from 'prop-types';
 import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
 import {Start} from "../../../Start/Start";
+import ListSegment from "../../../ListSegments/pages/ListSegments";
 
 class Container extends Component {
     render() {
+        console.log("Container", this.props.idMenu === '1080500');
         return (
             <div style={{marginTop: '5px'}}>
                 {
-                    this.props.idMenu ===0 ?
-                        <Start/>:
-                   this.props.idMenu === 1   ?
-                       <QuestionaryContainer/>
-                       :<AssignmentQuestionary/>
+                    this.props.idMenu === '1080500' ?
+                        <Start/> :
+                        this.props.idMenu === '1080501' ?
+                            <QuestionaryContainer/>
+                            : this.props.idMenu === '1080502' ? <AssignmentQuestionary/> :
+                            this.props.idMenu === '1080600' ? <ListSegment/> : null
+
                 }
 
             </div>
