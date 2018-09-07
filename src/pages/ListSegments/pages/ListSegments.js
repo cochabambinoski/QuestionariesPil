@@ -3,9 +3,14 @@
  */
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core/styles";
 import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
 import TableSegment from "./components/SegmentTable/EnhancedTable";
+
+const styles = theme => ({
+
+});
 
 class ListSegments extends Component {
 
@@ -16,17 +21,16 @@ class ListSegments extends Component {
     constructor() {
         super();
 
-        this.state = {
-
-        };
+        this.state = {};
     }
 
     render() {
+        const {classes} = this.props;
         return (
             <div>
-                <div className="content-section introduction">
+                <div className={classes.title}>
                     <div className="feature-intro">
-                        <h1>List de Segmentación Base</h1>
+                        <h1>Lista de Segmentación Base</h1>
                         <p>Generación de reportes, creación, edición y eliminacion de segmentación.</p>
                     </div>
                 </div>
@@ -45,8 +49,8 @@ class ListSegments extends Component {
     }
 }
 
-ListSegments.propTypes = {
-};
+ListSegments.propTypes = {};
 
-export default ListSegments;
+export default withStyles(styles)(ListSegments);
+
 

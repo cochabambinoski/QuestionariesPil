@@ -63,6 +63,7 @@ class EnhancedTable extends Component {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
         fetch(url)
             .then(results => {
+                console.log(results);
                 return results.json();
             }).then(data => {
             this.setState(prevState => ({
@@ -166,7 +167,7 @@ class EnhancedTable extends Component {
     handleChangeRowsPerPage = event => {
         this.setState({rowsPerPage: event.target.value});
     };
-    
+
     render() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
@@ -194,8 +195,12 @@ class EnhancedTable extends Component {
                                             <TableCell component="th" scope="row" numeric>
                                                 {n.idClientKiloliter}
                                             </TableCell>
-                                            <TableCell>{utilDate.getDateFormat(n.dateRegister)}</TableCell>
-                                            <TableCell>{n.description}</TableCell>
+                                            <TableCell>
+                                                {utilDate.getDateFormat(n.dateRegister)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {n.description}
+                                            </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Delete">
                                                     <EditBas/>
