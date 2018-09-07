@@ -27,7 +27,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {Button} from 'primereact/button';
 
-
 const styles = theme => ({
     root: {
         width: '100%',
@@ -57,6 +56,7 @@ class EnhancedTable extends Component {
             startDate: utilDate.firstDayOfMonth(),
             endDate: utilDate.getNow(),
             deleteOpen: false,
+            reportOpen: false,
             todelete: null,
         };
 
@@ -109,7 +109,7 @@ class EnhancedTable extends Component {
     /**
      * close dialog and cancel delete
      */
-    handleClose = () => {
+    handleCloseDelete = () => {
         this.setState({deleteOpen: false});
         this.setState({toDelete: null})
     };
@@ -119,9 +119,19 @@ class EnhancedTable extends Component {
      * @param event
      * @param id
      */
-    handleClick = (event, id) => {
+    handleDeleteClick = (event, id) => {
         this.showWarn('Alerta', 'esta iniciando una funcion de eliminación')
         this.setState({deleteOpen: true});
+        this.setState({toDelete: id})
+    };
+
+    handleCloseReport = () => {
+        this.setState({reportOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    handleReportClick = (event, id) => {
+        this.setState({reportOpen: true});
         this.setState({toDelete: id})
     };
 
@@ -225,8 +235,8 @@ class EnhancedTable extends Component {
      * @param todate
      */
     updateDates = (fromDate, todate) => {
-        var start = fromDate.getTime() === this.state.startDate.getTime();
-        var finish = todate.getTime() === this.state.endDate.getTime();
+        let start = fromDate.getTime() === this.state.startDate.getTime();
+        let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
             this.state.startDate = fromDate;
             this.state.endDate = todate;
@@ -272,7 +282,34 @@ class EnhancedTable extends Component {
                 <DialogActions>
                     <Button label="Eliminar" icon="pi pi-check" onClick={this.handleDelete}
                             className="ui-button-danger"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseDelete}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+        );
+    }
+
+    renderReportDialog() {
+        return (
+            <Dialog
+                open={this.state.reportOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Generación de Reportes"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <Button label="PDF" onClick={this.handleCloseReport}
+                                className="ui-button-danger" ico="IcoExcel"/>
+                        <Button label="EXCEL" onClick={this.handleCloseReport}
+                                className="ui-button-success"/>
+                        <Button label="TEXTO" onClick={this.handleCloseReport}
+                                className="ui-button-info"/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseReport}
                             className="ui-button-secondary"/>
                 </DialogActions>
             </Dialog>
@@ -287,6 +324,7 @@ class EnhancedTable extends Component {
             <div>
                 <div>
                     {this.renderDeleteDialog()}
+                    {this.renderReportDialog()}
                 </div>
                 <div>
                     <Messages ref={(el) => this.messages = el}/>
@@ -319,23 +357,24 @@ class EnhancedTable extends Component {
                                                 <TableCell>{utilDate.getDateFormat(n.dateRegister)}</TableCell>
                                                 <TableCell>{n.description}</TableCell>
                                                 <TableCell >
-                                                    <IconButton aria-label="Delete">
+                                                    <IconButton aria-label="Editar Base">
                                                         <EditBas/>
                                                     </IconButton>
                                                 </TableCell>
                                                 <TableCell >
-                                                    <IconButton aria-label="Delete">
+                                                    <IconButton aria-label="Editar Segmentación">
                                                         <EditSeg/>
                                                     </IconButton>
                                                 </TableCell>
                                                 <TableCell >
-                                                    <IconButton aria-label="Delete">
+                                                    <IconButton aria-label="Reporte"
+                                                                onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
                                                         <ReportIcon/>
                                                     </IconButton>
                                                 </TableCell>
                                                 <TableCell >
-                                                    <IconButton aria-label="Delete"
-                                                                onClick={event => this.handleClick(event, n.idClientKiloliter)}>
+                                                    <IconButton aria-label="Borrar"
+                                                                onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
                                                         <DeleteIcon/>
                                                     </IconButton>
                                                 </TableCell>
