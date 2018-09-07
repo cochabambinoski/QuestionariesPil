@@ -11,7 +11,9 @@ import MultipleSelection from './MultipleSelection.js';
 import FreeAnswer from './FreeAnswer.js';
 import Range from './Range.js';
 import Image from './Image.js';
-
+import {connect} from 'react-redux';
+import {getUser} from "../../../../reducers";
+import {Button} from "../../../../../node_modules/primereact/button";
 
 class Question extends Component {
     constructor(props) {
@@ -77,7 +79,7 @@ class Question extends Component {
             required: 1,
             lsQuestionOptions: this.state.squestion.lsQuestionOptions,
             sociedadId: 'BO81',
-            usuarioId: 'jarispe',
+            usuarioId: this.props.user.username,
             operacionId: 1,
             fechaId: null,
         };
@@ -112,7 +114,6 @@ class Question extends Component {
     }
 
     componentWillMount() {
-        console.log("Component will mount");
         if (this.props !== undefined && this.props.question != null) {
             let question = this.props.question;
             this.setState({ squestion: question });
@@ -122,10 +123,8 @@ class Question extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        console.log("componentWillReceiveProps");
         if (nextProps !== undefined && nextProps.question != null) {
             let question = nextProps.question;
-            console.log("quesion: " + JSON.stringify(question));
             this.setState((prevState, props) => ({
                 squestion: question
             }));
@@ -201,6 +200,7 @@ class Question extends Component {
                                         <p>{'Pregunta: ' + this.state.squestion.question}</p>
                                         <p>{this.state.squestion.type != null ? 'Tipo: ' + this.state.squestion.type.nombre : ''}</p>
                                         {innerComponent}
+                                        <Button label="Cerrar" onClick={this.handleClose} />
                                     </div>
                                     :
                                     <div>
@@ -209,14 +209,17 @@ class Question extends Component {
                                                 <InputText id="float-input" placeholder="Pregunta" type="text" required maxLength="255" size="40" value={this.state.squestion.question} onChange={(e) => this.setQuestion(e.target.value)} />
                                                 <p></p>
                                                 {
-                                                    this.props.assigned && this.state.squestion.type != null && this.state.squestion.id != null ?
+                                                     this.state.squestion.type != null && this.state.squestion.id != null ?
                                                         <p>{'Tipo: ' + this.state.squestion.type.nombre}</p> :
                                                         <Dropdown value={this.state.squestion.type} options={this.props.questionTypes} onChange={this.onTypeChange} style={{ width: '300px' }} placeholder="Seleccione un tipo" optionLabel="nombre" />
                                                 }
                                                 {innerComponent}
                                             </div>
                                         </div>
-
+                                        {
+                                            this.state.squestion.type == null?
+                                                <Button label="Cerrar" onClick={this.handleClose} />:null
+                                        }
                                     </div>
                             }
                         </div>
@@ -228,5 +231,7 @@ class Question extends Component {
         );
     }
 }
-
-export default Question;
+const mapStateToProps = state => ({
+    user: getUser(state),
+});
+export default connect(mapStateToProps, null)(Question);

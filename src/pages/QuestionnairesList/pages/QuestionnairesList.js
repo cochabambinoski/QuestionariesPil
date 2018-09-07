@@ -21,13 +21,17 @@ class Questionnaires extends Component {
         };
         this.see = this.see.bind(this);
         this.edit = this.edit.bind(this);
-    };
+    }
     see() {
         this.growl.show({ severity: 'info', summary: 'See questionnaire', detail: '' });
     }
     edit() {
 
         this.growl.show({ severity: 'info', summary: 'Edit questionnaire', detail: '' });
+    }
+
+    showError(summary, detail) {
+        this.growl.show({severity: 'error', summary: summary, detail: detail});
     }
 
     changeIdQuestionaryClick(value){
@@ -49,7 +53,21 @@ class Questionnaires extends Component {
     }
 
     deleteQuestionary(item) {
-        console.log(item);
+        let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(item.id)}`;
+        fetch(rangeUrl)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            const questionerQuestionnaires = data;
+            if (questionerQuestionnaires.length > 0){
+                this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado")
+            }else{
+                this.sendDeleteRequest(item);
+            }
+        });
+    }
+
+    sendDeleteRequest(item){
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
         fetch(url, {
             method: 'POST',
@@ -74,10 +92,10 @@ class Questionnaires extends Component {
     render() {
         return (
             <div className="questionnaire">
+                <Growl ref={(el) => this.growl = el} />
                 <Button label="Nuevo"
                         onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))}}/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
-                    <Growl ref={(el) => this.growl = el} />
                     {
                         this.state.questionnaires.map((item) => {
                             return (
