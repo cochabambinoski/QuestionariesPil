@@ -7,6 +7,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import MobileSellerItem from "../MobileSellerList/components/MobileSellerItem/MobileSellerItem";
 import {withStyles} from "@material-ui/core";
+import {connect} from 'react-redux';
+import {getMobileAssignement, getQueryMobileSeller, getQueryQuestionerAssigment} from "../../../../reducers";
+import {addAssignementUser, deleteAssignementUser, editAssignementUser} from "../../../../actions";
 
 const styles = theme => ({
     root: {
@@ -44,10 +47,20 @@ class QuestionaryAsignmet extends Component {
         })
     }
 
+    filterItems = (questionaries ,query) => {
+        return questionaries.filter((el) =>
+            el.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+        );
+    };
+
     stringToComponent(questionaries) {
+        let filterList = questionaries;
+        if(this.props.queryMobileSeller !== ""){
+            filterList = this.filterItems(questionaries, this.props.queryQuestionaerAssigment);
+        }
         return <List className={this.props.classes.root} subheader={<li />}>
             {
-                questionaries.map((questionary) => (
+                filterList.map((questionary) => (
                     <Questionary questionary={questionary} key={questionary.id}
                                  onSelectedQuestionaryClick={this.props.onSelectedQuestionary}/>
                 ))
@@ -71,4 +84,8 @@ QuestionaryAsignmet.propTypes = {
     onSelectedQuestionary: PropTypes.func,
 };
 
-export default withStyles(styles)(QuestionaryAsignmet);
+const mapStateToProps = state => ({
+    queryQuestionaerAssigment: getQueryQuestionerAssigment(state)
+});
+
+export default connect(mapStateToProps, null)(withStyles(styles)(QuestionaryAsignmet));

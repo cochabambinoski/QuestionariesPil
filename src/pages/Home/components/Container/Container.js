@@ -4,14 +4,16 @@ import {connect} from 'react-redux';
 import {getMenu} from '../../../../reducers'
 import PropTypes from 'prop-types';
 import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
-import FloatingActionButtonZoom from "../../../FloatingActionButtonZoom";
+import {Start} from "../../../Start/Start";
 
 class Container extends Component {
     render() {
         return (
             <div style={{marginTop: '5px'}}>
                 {
-                   this.props.idMenu === 1 || this.props.idMenu === 0   ?
+                    this.props.idMenu ===0 ?
+                        <Start/>:
+                   this.props.idMenu === 1   ?
                        <QuestionaryContainer/>
                        :<AssignmentQuestionary/>
                 }
