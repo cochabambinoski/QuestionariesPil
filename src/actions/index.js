@@ -41,7 +41,9 @@ import {
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
-    DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH
+    DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
+    DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
+    CONCAT_FILTER_MOBILE_SELLER_BRANCH, CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -124,15 +126,18 @@ export const addParamFilterMobileSellerType = payload => ({type: ADD_PARAM_FILTE
 
 export const addParamFilterMobileSellerBranch = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_BRANCH, payload});
 
-export const addParamFilterMObileSellerAssignedType = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE});
+export const concatFilterMobileSellerBranch = payload => ({type: CONCAT_FILTER_MOBILE_SELLER_BRANCH, payload});
 
-export const addParamFilterMobileSellerAssignedBranch = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH});
+export const addParamFilterMobileSellerAssignedType = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, payload});
 
+export const addParamFilterMobileSellerAssignedBranch = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, payload});
+
+export const concatFilterMobileSellerAssignedBranch = payload => ({type: CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, payload});
 
 export const deleteParamFilterMobileSellerType = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE, payload});
 
 export const deleteParamFilterMobileSellerBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH, payload});
 
-export const deleteParamFilterMObileSelledeleterAssignedType = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE});
+export const deleteParamFilterMObileSelledeleterAssignedType = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, payload});
 
-export const deleteParamFilterMobileSellerAssignedBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH});
+export const deleteParamFilterMobileSellerAssignedBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, payload});

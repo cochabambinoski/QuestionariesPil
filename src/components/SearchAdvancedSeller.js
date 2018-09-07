@@ -136,13 +136,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    addAssignementUser: value => dispatch(addAssignementUser(value)),
-    deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
-    deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
-    deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
     editQueryTextMobileSellerList: value => dispatch(editQueryTextMobileSellerList(value)),
     editQueryTextMobileSellerAssignedList: value => dispatch(editQueryTextMobileSellerAssignedList(value)),
-    editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SearchAdvancedSeller));

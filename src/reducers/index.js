@@ -26,4 +26,10 @@ export const getCreateQuestionary = state => state.createQuestionary;
 export const getUser = state => state.user.user;
 export const getTypesSeller = state => state.initialData.typeSeller;
 export const getAllCity = state => state.initialData.cities;
-export const getBranchesById = (state, idCity) => (_getBrancgesByIdCity(state.initialData.lsBranches, idCity));
+export const getAllBranch = state => state.initialData.lsBranches;
+export const getBranchByIdCity = (lsBranch, idCity) => (_getBrancgesByIdCity(lsBranch, idCity));
+
+export const getQueryMobileSellerType = (state) => state.searchFilter.queryAdvancedMobileSellerType;
+export const getQueryMobileSellerBranch = (state) => state.searchFilter.queryAdvancedMobileSellerBranch;
+export const getQueryMobileSellerAssignedType = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedType;
+export const getQueryMobileSellerAssignedBranch = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedBranch;

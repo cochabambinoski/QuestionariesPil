@@ -13,8 +13,7 @@ import {
     deleteAllAssignementUser,
     deleteAssignementUser,
     deleteMobileSellers,
-    editQueryTextAssignedQuestionary,
-    editQueryTextMobileSellerAssignedList
+    editQueryTextAssignedQuestionary
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {
@@ -26,7 +25,6 @@ import {
 } from "../../../reducers";
 import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
-import {editQueryTextMobileSellerList} from "../../../actions";
 import {withStyles} from '@material-ui/core/styles';
 import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
 
@@ -189,7 +187,7 @@ class AssignmentQuestionary extends Component {
             }
         });
         this.handleDeleteSeller(seller);
-    }
+    };
 
     getAssignment = (seller) => {
         let res = null;
@@ -199,7 +197,7 @@ class AssignmentQuestionary extends Component {
         if (assignments.length > 0)
             res = assignments[0];
         return res;
-    }
+    };
 
     handleSetStateFirstSellerSearch = () =>{
         console.log("Expanded");
@@ -225,8 +223,6 @@ class AssignmentQuestionary extends Component {
 
     render() {
         const {idQuestionary} = this.state;
-        console.log(this.props.user);
-        console.log(this.props);
         const es = {
             firstDayOfWeek: 1,
             dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
@@ -317,8 +313,6 @@ const mapDispatchToProps = dispatch => ({
     deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
     deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
-    editQueryTextMobileSellerList: value => dispatch(editQueryTextMobileSellerList(value)),
-    editQueryTextMobileSellerAssignedList: value => dispatch(editQueryTextMobileSellerAssignedList(value)),
     editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
 });
 

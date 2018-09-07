@@ -9,21 +9,28 @@ import classNames from "classnames";
 import {withStyles} from '@material-ui/core/styles';
 import connect from "react-redux/es/connect/connect";
 import {
-    getAllCity,
+    getAllBranch,
+    getAllCity, getBranchByIdCity, getBranchesById,
     getMobileAssignement,
+    getQueryMobileSellerAssignedBranch,
+    getQueryMobileSellerAssignedType,
+    getQueryMobileSellerBranch,
+    getQueryMobileSellerType,
     getTypeByCodSapQuestionerQuestionary,
     getTypesSeller,
     getUser
 } from "../reducers";
 import {
     addAssignementUser,
-    deleteAllAssignementUser,
-    deleteAssignementUser,
-    deleteMobileSellers,
-    editQueryTextAssignedQuestionary,
-    editQueryTextMobileSellerAssignedList,
-    editQueryTextMobileSellerList
+    addParamFilterMobileSellerAssignedBranch,
+    addParamFilterMobileSellerAssignedType,
+    addParamFilterMobileSellerBranch,
+    addParamFilterMobileSellerType, concatFilterMobileSellerAssignedBranch, concatFilterMobileSellerBranch,
+    deleteParamFilterMObileSelledeleterAssignedType, deleteParamFilterMobileSellerAssignedBranch,
+    deleteParamFilterMobileSellerBranch,
+    deleteParamFilterMobileSellerType
 } from "../actions";
+import {existElementInList, getIndexQuestionary, remove, filter} from '../Util/ArrayFilterUtil';
 
 const styles = theme => ({
     root: {
@@ -62,13 +69,58 @@ const styles = theme => ({
 
 class ListSearchAdvancedSeller extends Component {
 
-    state = {
-        checked: [0],
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            checked: [0],
+            citiesSelectedList: [],
+            branchesList:[]
+        }
+    }
 
-    handleCheck(item, checked){
-        console.log(item.nombre);
-        console.log(checked)
+    handleCheck(item, typeList){
+        switch (typeList) {
+            case Constants.SELLER_LIST: {
+                if (!existElementInList(item, this.props.querySearchSellerByType)){
+                    this.props.addParamFilterMobileSellerType(item)
+                } else {
+                    this.props.deleteParamFilterMobileSellerType(item)
+                }
+            }
+            case Constants.CITIES_LIST: {
+                const citiesSelected = this.state.citiesSelectedList;
+                if (existElementInList(item, citiesSelected)){
+                    remove(citiesSelected, item)
+                } else {
+                    citiesSelected.push(item)
+                }
+                this.setState({citiesSelectedList: citiesSelected});
+                const branchListCity = getBranchByIdCity(this.props.branches ,item.id);
+                this.handleCheck(branchListCity, Constants.ADD_BRANCHES_LIST);
+
+                console.log(branchListCity);
+                console.log(this.state.citiesSelectedList)
+            }
+            case Constants.BRANCHES_LIST:{
+                if (!existElementInList(item, this.props.querySearchSellerByBranch)){
+                    this.props.addParamFilterMobileSellerBranch(item)
+                } else {
+                    this.props.deleteParamFilterMobileSellerBranch(item)
+                }
+            }
+            case Constants.ADD_BRANCHES_LIST:{
+                this.props.concatParamFilterMobileSellerBranch(item)
+            }
+            default:{
+
+            }
+        }
+        return this.isChecked(item)
+    }
+
+    isChecked(item){
+       let exist = getIndexQuestionary(this.props.querySearchSellerByType,item);
+       return exist !== -1;
     }
 
     render() {
@@ -84,7 +136,8 @@ class ListSearchAdvancedSeller extends Component {
                                 <ListItemText primary={typeSeller.nombre } />
                                 <ListItemSecondaryAction>
                                     <Checkbox
-                                        onChange={() => this.handleCheck(typeSeller, this.state.checked.indexOf(typeSeller) !== -1)}
+                                        onChange={() => this.handleCheck(typeSeller, Constants.SELLER_LIST)}
+                                        checked={this.isChecked(typeSeller)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -102,7 +155,7 @@ class ListSearchAdvancedSeller extends Component {
                                 <ListItemText primary={typeSeller.nombre } />
                                 <ListItemSecondaryAction>
                                     <Checkbox
-                                        onChange={() => this.handleCheck(typeSeller, this.checked)}
+                                        onChange={() => this.handleCheck(typeSeller, Constants.CITIES_LIST)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -115,12 +168,12 @@ class ListSearchAdvancedSeller extends Component {
                 innerComponent = <div className={classNames(classes.column, classes.helper)}>
                     <h2>Sucursales</h2>
                     <List className={this.props.classes.root} subheader={<li />}>
-                        {this.props.list.map(typeSeller => (
+                        {this.state.branchesList.map(typeSeller => (
                             <ListItem key={typeSeller.id} dense button className={classes.listItem}>
                                 <ListItemText primary={typeSeller.nombre } />
                                 <ListItemSecondaryAction>
                                     <Checkbox
-                                        onChange={() => this.handleCheck(typeSeller, this.checked)}
+                                        onChange={() => this.handleCheck(typeSeller, Constants.BRANCHES_LIST)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -145,17 +198,27 @@ const mapStateToProps = state => ({
     querySearchView: state.queryMobileSeller,
     user: getUser(state),
     typeSeller: getTypesSeller(state),
-    cities: getAllCity(state)
+    cities: getAllCity(state),
+    branches: getAllBranch(state),
+    querySearchSellerByType: getQueryMobileSellerType(state),
+    querySearchSellerByBranch: getQueryMobileSellerBranch(state),
+    querySearchSellerAssignedByType: getQueryMobileSellerAssignedType(state),
+    querySearchSellerAssignedByBranch: getQueryMobileSellerAssignedBranch(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     addAssignementUser: value => dispatch(addAssignementUser(value)),
-    deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
-    deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
-    deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
-    editQueryTextMobileSellerList: value => dispatch(editQueryTextMobileSellerList(value)),
-    editQueryTextMobileSellerAssignedList: value => dispatch(editQueryTextMobileSellerAssignedList(value)),
-    editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
+    addParamFilterMobileSellerType: value => dispatch(addParamFilterMobileSellerType(value)),
+    addParamFilterMobileSellerBranch: value => dispatch(addParamFilterMobileSellerBranch(value)),
+    concatParamFilterMobileSellerBranch: value => dispatch(concatFilterMobileSellerBranch(value)),
+    addParamFilterMobileSellerAssignedType: value => dispatch(addParamFilterMobileSellerAssignedType(value)),
+    addParamFilterMobileSellerAssignedBranch: value => dispatch(addParamFilterMobileSellerAssignedBranch(value)),
+    concatParamFilterMobileSellerAssignedBranch: value => dispatch(concatFilterMobileSellerAssignedBranch(value)),
+    deleteParamFilterMobileSellerType: value => dispatch(deleteParamFilterMobileSellerType(value)),
+    deleteParamFilterMobileSellerBranch: value => dispatch(deleteParamFilterMobileSellerBranch(value)),
+    deleteParamFilterMObileSelledeleterAssignedType: value => dispatch(deleteParamFilterMObileSelledeleterAssignedType(value)),
+    deleteParamFilterMobileSellerAssignedBranch: value => dispatch(deleteParamFilterMobileSellerAssignedBranch(value)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ListSearchAdvancedSeller));

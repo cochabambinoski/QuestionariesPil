@@ -8,7 +8,9 @@ import {
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
-    DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH
+    DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
+    DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
+    CONCAT_FILTER_MOBILE_SELLER_BRANCH, CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH
 } from "../action-types/actionTypes";
 import {remove} from '../Util/ArrayFilterUtil'
 
@@ -66,6 +68,17 @@ export function searchFilter(state = initialState, action) {
                 }
             }
         }
+
+        case CONCAT_FILTER_MOBILE_SELLER_BRANCH: {
+            {
+                queryAdvancedMobileSellerBranch.concat(action.payload);
+                return {
+                    ...state,
+                    queryAdvancedMobileSellerBranch: queryAdvancedMobileSellerBranch,
+                }
+            }
+        }
+
         case ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE: {
             {
                 queryAdvancedMobileSellerAssignedType.push(action.payload);
@@ -84,6 +97,17 @@ export function searchFilter(state = initialState, action) {
                 }
             }
         }
+
+        case CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH : {
+            {
+                queryAdvancedMobileSellerAssignedBranch.concat(action.payload);
+                return {
+                    ...state,
+                    queryAdvancedMobileSellerAssignedBranch: queryAdvancedMobileSellerAssignedBranch,
+                }
+            }
+        }
+
         case DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE: {
             remove(queryAdvancedMobileSellerType, action.payload);
             return {

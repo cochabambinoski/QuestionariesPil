@@ -40,13 +40,11 @@ class MobileSellerList extends Component {
     }
 
     getMobileSellers = (idQuestionary) => {
-        console.log(this.props.queryMobileSeller);
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MOBILE_SELLER_BY_ID_QUESTIONARY + idQuestionary)
             .then(results => {
                 return results.json();
             }).then(data => {
             this.props.addMobileSellers(data);
-            console.log(this.state.filterListMobileSeller)
         });
     };
 
@@ -63,14 +61,12 @@ class MobileSellerList extends Component {
     }
 
     filterItems = (mobileSellers ,query) => {
-        console.log(mobileSellers)
         return mobileSellers.filter((el) =>
             el.vendedor.persona.nombre.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
     };
 
     renderMobileSellersItem() {
-        console.log(this.props.mobileSellers);
         let filterList = this.props.mobileSellers;
         if(this.props.mobileSellers !== ""){
             filterList = this.filterItems(this.props.mobileSellers, this.props.queryMobileSeller);

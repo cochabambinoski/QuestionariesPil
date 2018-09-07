@@ -36,7 +36,6 @@ export const initialData = (state = initialState, action) => {
 };
 const filter   = Array.prototype.filter;
 export const getTypeByCodSap = (types, codSap) => filter.call(types, function(item) {
-    console.log(types);
     return item.codigoSap === codSap;
 });
 export const getBrancgesByIdCity =(branches, idCity) => filter.call(branches, function (item) {
