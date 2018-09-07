@@ -9,7 +9,6 @@ import ListSegment from "../../../ListSegments/pages/ListSegments";
 
 class Container extends Component {
     render() {
-        console.log("Container", this.props.idMenu === '1080500');
         return (
             <div style={{marginTop: '5px'}}>
                 {

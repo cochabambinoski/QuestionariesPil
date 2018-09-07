@@ -31,7 +31,6 @@ class Home extends Component {
     };
 
     handleChangeContainer = idMenu => {
-        console.log(idMenu);
         this.setState({idMenuContainer: idMenu})
     };
 
@@ -150,7 +149,6 @@ class Home extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setTypesQuestionerQuestionary(data);
         });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
