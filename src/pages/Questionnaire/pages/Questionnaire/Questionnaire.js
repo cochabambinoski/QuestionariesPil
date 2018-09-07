@@ -92,47 +92,31 @@ class Questionnaire extends Component {
             this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
             return
         }
-
-        let ranges = [];
-        this.state.ranges.forEach((branch, index) => {
-            ranges.push(
-                {
-                    id: this.state.assigned === true ?null : branch.id,
-                    questionary: this.state.assigned === true ?null : branch.questionary,
-                    city: branch.city,
-                    branch: branch.branch,
-                    sociedadId: 'BO81',
-                    usuarioId: this.props.user.username,
-                    operacionId: this.state.assigned === true ? 1 : branch.operacionId,
-                    fechaId: this.state.assigned === true ?null : branch.fechaId,
-                },
-            )
-        });
-
+        let ranges = this.state.ranges;
         let questionaries = [
             {
-                id: this.state.assigned === true ? null : this.state.questionnaireId,
+                id: this.state.questionnaireId,
                 name: this.state.name,
                 description: this.state.description,
                 lsQuestions: this.state.lsQuestions,
                 sociedadId: 'BO81',
                 usuarioId: this.props.user.username,
                 operacionId: 1,
-                fechaId: this.state.assigned === true ? null : this.state.fechaId,
+                fechaId: this.state.fechaId,
             },
         ];
-        if (questionaries[0].lsQuestions.length === 0){
+        if (questionaries[0].lsQuestions.length === 0) {
             this.showError("Campo obligatorio", "Debe tener almenos una pregunta creada");
             return
         }
-        if (ranges.length === 0){
+        if (ranges.length === 0) {
             this.showError("Campo obligatorio", "Debes establecer el rango del cuestionario");
             return
         }
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
         fetch(url, {
             method: 'POST',
-            body: JSON.stringify({questionaries: questionaries,questionaryRange: ranges }),
+            body: JSON.stringify({questionaries: questionaries, questionaryRange: ranges}),
             headers: {
                 'Accept': '*/*',
                 'Content-type': 'application/x-www-form-urlencoded'
@@ -183,11 +167,13 @@ class Questionnaire extends Component {
             lsBranches: branches
         }));
     }
+
     updateRanges(ranges) {
         this.setState((prevState, props) => ({
             ranges: ranges
         }));
     }
+
     handleCloseModal = (event) => {
         this.setState({
             modalVisible: false,
@@ -200,8 +186,8 @@ class Questionnaire extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-                this.setState({ questionTypes: data });
-            });
+            this.setState({questionTypes: data});
+        });
         const {questionnaireId1} = this.props;
         if (questionnaireId1 != null) {
             this.getQuestionnaire(questionnaireId1)
@@ -215,25 +201,25 @@ class Questionnaire extends Component {
                 .then(results => {
                     return results.json();
                 }).then(data => {
-                    this.setState({ questionnaireId: data.id });
-                    this.setState({ name: data.name });
-                    this.setState({ description: data.description });
-                    this.setState({ lsQuestions: data.lsQuestions });
-                    this.setState({ sociedadId: data.sociedadId });
-                    this.setState({ usuarioId: data.usuarioId });
-                    this.setState({ operacionId: data.operacionId });
-                    this.setState({ fechaId: data.fechaId });
-                    this.setState({ received: false });
-                });
+                this.setState({questionnaireId: data.id});
+                this.setState({name: data.name});
+                this.setState({description: data.description});
+                this.setState({lsQuestions: data.lsQuestions});
+                this.setState({sociedadId: data.sociedadId});
+                this.setState({usuarioId: data.usuarioId});
+                this.setState({operacionId: data.operacionId});
+                this.setState({fechaId: data.fechaId});
+                this.setState({received: false});
+            });
             let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(id)}`;
             fetch(rangeUrl)
                 .then(results => {
                     return results.json();
                 }).then(data => {
-                    const questionerQuestionnaires = data;
-                    if (questionerQuestionnaires.length > 0)
-                        this.setState({ assigned: true });
-                });
+                const questionerQuestionnaires = data;
+                if (questionerQuestionnaires.length > 0)
+                    this.setState({assigned: true});
+            });
         }
     }
 
@@ -242,28 +228,34 @@ class Questionnaire extends Component {
         this.setState({selectedQuestion: question});
         this.setState({openQuestion: true});
     }
+
     disableQuestion(index, question) {
         let auxQuestions = this.state.lsQuestions;
         auxQuestions[index] = question;
-        this.setState({ lsQuestions: auxQuestions });
+        this.setState({lsQuestions: auxQuestions});
     }
+
     editQuestion(index) {
         let question = this.state.lsQuestions[index];
-        this.setState({ selectedQuestionIndex: index });
-        this.setState({ selectedQuestion: question });
-        this.setState({ openQuestion: true });
+        this.setState({selectedQuestionIndex: index});
+        this.setState({selectedQuestion: question});
+        this.setState({openQuestion: true});
     }
+
     closeQuestion() {
-        this.setState({ selectedQuestionIndex: -1 });
-        this.setState({ selectedQuestion: { id: null, question: null } });
-        this.setState({ openQuestion: false });
+        this.setState({selectedQuestionIndex: -1});
+        this.setState({selectedQuestion: {id: null, question: null}});
+        this.setState({openQuestion: false});
     }
+
     handleNewQuestion() {
-        this.setState({ selectedQuestionIndex: -1 });
-        this.setState({ selectedQuestion: { id: null, question: null } });
-        this.setState({ openQuestion: true });
+        this.setState({selectedQuestionIndex: -1});
+        this.setState({selectedQuestion: {id: null, question: null}});
+        this.setState({openQuestion: true});
     }
-    setOptionDependency(option, question) { }
+
+    setOptionDependency(option, question) {
+    }
 
     componentWillMount() {
         if (this.props !== undefined && this.props.match !== undefined) {
@@ -276,7 +268,7 @@ class Questionnaire extends Component {
         this.props.changeIdExistingQuestionary(null);
     }
 
-    handleSetStatePanelRange = () =>{
+    handleSetStatePanelRange = () => {
         const isExpanded = this.state.expandPanelRange;
         if (isExpanded) {
             this.setState({expandPanelRange: false});
@@ -286,7 +278,7 @@ class Questionnaire extends Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
         if (this.state.savedSuccessfully) {
             return <Redirect to='/questionnaires'/>
         }
@@ -298,23 +290,27 @@ class Questionnaire extends Component {
 
                     <Row xs>
                         <Col xs>
-                            <div >
+                            <div>
 
-                                <div style={{margin: '5px'}} >
+                                <div style={{margin: '5px'}}>
                                     {this.props.readOnly ?
                                         <Row>
                                             <Col>
-                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {this.handleCancel()
+                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                                    this.handleCancel()
                                                 }}/>
                                             </Col>
                                         </Row>
                                         :
                                         <Row>
                                             <Col>
-                                                <Button label="Guardar" className="ui-button-success"  onClick={() => {this.saveQuestionnaire()}}/>
+                                                <Button label="Guardar" className="ui-button-success" onClick={() => {
+                                                    this.saveQuestionnaire()
+                                                }}/>
                                             </Col>
                                             <Col>
-                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {this.handleCancel()
+                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                                    this.handleCancel()
                                                 }}/>
                                             </Col>
                                             <Col>
@@ -332,7 +328,7 @@ class Questionnaire extends Component {
                                                 :
                                                 <InputText id="float-input" placeholder="Titulo" type="text"
                                                            required maxLength="50" size="32" value={this.state.name}
-                                                           onChange={(e) => this.setState({ name: e.target.value })} />
+                                                           onChange={(e) => this.setState({name: e.target.value})}/>
                                             }
                                         </div>
                                         <br/>
@@ -340,10 +336,12 @@ class Questionnaire extends Component {
                                             {this.props.readOnly ?
                                                 <p>{this.state.description}</p>
                                                 :
-                                                <InputTextarea className="description" placeholder="Descripcion (opcional)"
-                                                               type="text" maxLength="255" size="32" value={this.state.description}
-                                                               onChange={(e) => this.setState({ description: e.target.value })}
-                                                               rows={5} cols={20} autoResize={false} />
+                                                <InputTextarea className="description"
+                                                               placeholder="Descripcion (opcional)"
+                                                               type="text" maxLength="255" size="32"
+                                                               value={this.state.description}
+                                                               onChange={(e) => this.setState({description: e.target.value})}
+                                                               rows={5} cols={20} autoResize={false}/>
                                             }
                                         </div>
                                     </div>
@@ -351,18 +349,20 @@ class Questionnaire extends Component {
                                 </div>
 
                                 <ExpansionPanel expanded={this.state.expandPanelRange}>
-                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStatePanelRange()}}  />} >
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
+                                        this.handleSetStatePanelRange()
+                                    }}/>}>
                                         <div className={classes.column}>
                                             <Typography className={classes.heading}>Rango del Cuestionario</Typography>
                                         </div>
                                     </ExpansionPanelSummary>
-                                    <Divider />
+                                    <Divider/>
                                     <ExpansionPanelDetails>
-                                            <ScrollPanel style={{width: '100%', height: '600px'}}>
-                                                <QuestionnaireRange updateRanges={this.updateRanges}
-                                                                    readOnly={this.props.readOnly}
-                                                                    questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id: undefined} />
-                                            </ScrollPanel>
+                                        <ScrollPanel style={{width: '100%', height: '600px'}}>
+                                            <QuestionnaireRange updateRanges={this.updateRanges}
+                                                                readOnly={this.props.readOnly}
+                                                                questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id : undefined}/>
+                                        </ScrollPanel>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
                             </div>
@@ -373,7 +373,7 @@ class Questionnaire extends Component {
                             {
                                 this.state.openQuestion ?
                                     <div>
-                                        <div >
+                                        <div>
                                             <Question questionTypes={this.state.questionTypes}
                                                       readOnly={this.props.readOnly}
                                                       questions={this.state.lsQuestions}
@@ -382,7 +382,7 @@ class Questionnaire extends Component {
                                                       closeQuestion={this.closeQuestion}
                                                       assigned={this.state.assigned}
                                                       setOptionDependency={this.setOptionDependency}
-                                                      selectedQuestionIndex={this.state.selectedQuestionIndex} />
+                                                      selectedQuestionIndex={this.state.selectedQuestionIndex}/>
                                         </div>
                                     </div> : <div/>
                             }
@@ -395,7 +395,7 @@ class Questionnaire extends Component {
                                                showError={this.showError}
                                                seeQuestion={this.seeQuestion}
                                                editQuestion={this.editQuestion}
-                                               disableQuestion={this.disableQuestion} />
+                                               disableQuestion={this.disableQuestion}/>
                                 </ScrollPanel>
                             </div>
                         </Col>
@@ -425,4 +425,4 @@ const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)( withStyles(styles)(Questionnaire));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Questionnaire));
