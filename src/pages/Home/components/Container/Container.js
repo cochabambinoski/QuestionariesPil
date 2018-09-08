@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import AssignmentQuestionary from "../../../AssignmentScreen/pages/AssignmentQuestionary";
 import {connect} from 'react-redux';
 import {getMenu} from '../../../../reducers'
-import PropTypes from 'prop-types';
 import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
 import {Start} from "../../../Start/Start";
 
@@ -22,10 +21,6 @@ class Container extends Component {
         );
     }
 }
-
-Container.propTypes = {
-    idMenu: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = state => ({idMenu: getMenu(state)});
 

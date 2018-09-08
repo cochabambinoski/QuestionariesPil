@@ -207,7 +207,6 @@ class ListSearchAdvancedSeller extends Component {
                                     <ListItemText primary={city.nombre } />
                                     <ListItemSecondaryAction>
                                         <Checkbox
-                                            checked={this.existBranchInTheList(city)}
                                             onChange={() => this.handleCheck(city, Constants.CITIES_LIST)}
                                         />
                                     </ListItemSecondaryAction>
@@ -252,6 +251,9 @@ class ListSearchAdvancedSeller extends Component {
                     </ScrollPanel>
                 </div>;
                     break;
+            }
+            default:{
+               return null;
             }
         }
 

@@ -8,24 +8,14 @@ import {
 } from "../reducers";
 import Constants from "../Constants";
 import {InputText} from 'primereact/inputtext';
-import {
-    addAssignementUser,
-    deleteAllAssignementUser,
-    deleteAssignementUser,
-    deleteMobileSellers,
-    editQueryTextAssignedQuestionary,
-    editQueryTextMobileSellerAssignedList,
-    editQueryTextMobileSellerList
-} from "../actions";
+import {editQueryTextMobileSellerAssignedList, editQueryTextMobileSellerList} from "../actions";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
-import {Button} from "primereact/button";
 import {connect} from 'react-redux';
 import ListSearchAdvancedSeller from "./ListSearchAdvancedSeller";
 
@@ -78,8 +68,7 @@ class SearchAdvancedSeller extends Component {
         }
     }
 
-    handleSetStateFirstSellerSearch = () =>{
-        console.log("Expanded");
+    handleSetStateFirstSellerSearch = () => {
         const isExpanded = this.state.expandFirstSellerSearch;
         if (isExpanded) {
             this.setState({expandFirstSellerSearch: false});
@@ -89,7 +78,7 @@ class SearchAdvancedSeller extends Component {
     };
 
     typeSearchAdvances = () => {
-        if ( this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER){
+        if (this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER) {
             return Constants.TYPE_SEARCH_MOBILE_SELLER
         } else {
             return Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED
@@ -100,29 +89,33 @@ class SearchAdvancedSeller extends Component {
         const {classes} = this.props;
         return (
             <div>
-                <ExpansionPanel expanded={this.state.expandFirstSellerSearch} >
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStateFirstSellerSearch()}}  />} >
+                <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
+                        this.handleSetStateFirstSellerSearch()
+                    }}/>}>
                         <div className={classes.column}>
                             <InputText value={this.state.value1} onChange={(e) =>
                                 this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER ? this.props.editQueryTextMobileSellerList(e.target.value) :
-                                this.props.editQueryTextMobileSellerAssignedList(e.target.value)} />
+                                    this.props.editQueryTextMobileSellerAssignedList(e.target.value)}/>
                         </div>
                         <div className={classes.column}>
                             {this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER ?
-                                <Typography className={classes.heading}>Vendedores Disponibles</Typography>:
+                                <Typography className={classes.heading}>Vendedores Disponibles</Typography> :
                                 <Typography className={classes.heading}>Vendedores Asignados</Typography>}
 
                         </div>
                     </ExpansionPanelSummary>
-                    <Divider />
+                    <Divider/>
                     <ExpansionPanelDetails className={classes.details}>
 
                         <ListSearchAdvancedSeller
-                            typeSearch={this.props.typeSearch} list={this.props.typeSeller} type={Constants.LIST_TYPE_SELLERS}/>
+                            typeSearch={this.props.typeSearch} list={this.props.typeSeller}
+                            type={Constants.LIST_TYPE_SELLERS}/>
                         <ListSearchAdvancedSeller
                             typeSearch={this.props.typeSearch} list={this.props.cities} type={Constants.LIST_CITY}/>
                         <ListSearchAdvancedSeller
-                            typeSearch={this.props.typeSearch} list={this.props.typeSeller} type={Constants.LIST_BRANCHES}/>
+                            typeSearch={this.props.typeSearch} list={this.props.typeSeller}
+                            type={Constants.LIST_BRANCHES}/>
 
                     </ExpansionPanelDetails>
                 </ExpansionPanel>

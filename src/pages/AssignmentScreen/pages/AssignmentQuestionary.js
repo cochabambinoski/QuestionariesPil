@@ -19,6 +19,7 @@ import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {
     getAllCity,
     getMobileAssignement,
+    getMobileSellers,
     getTypeByCodSapQuestionerQuestionary,
     getTypesSeller,
     getUser
@@ -144,7 +145,6 @@ class AssignmentQuestionary extends Component {
     };
 
     handleSelectedQuestionary = idQuestionary => {
-        console.log(idQuestionary);
         this.setState({idQuestionary: idQuestionary})
     };
 
@@ -175,7 +175,6 @@ class AssignmentQuestionary extends Component {
     };
 
     handleDeleteSeller = (seller) => {
-        const {questionerQuestionaryList} = this.state;
         this.props.deleteAssignementUser(seller);
     };
 
@@ -199,27 +198,23 @@ class AssignmentQuestionary extends Component {
         return res;
     };
 
-    handleSetStateFirstSellerSearch = () =>{
-        console.log("Expanded");
-        const isExpanded = this.state.expandFirstSellerSearch;
-        if (isExpanded) {
-            this.setState({expandFirstSellerSearch: false});
-        } else {
-            this.setState({expandFirstSellerSearch: true});
-        }
+    assignAllSeller = () => {
+
+        this.props.mobileSellers.forEach((mobileSeller, index) => {
+            this.handleAddSeller(mobileSeller);
+        })
     };
 
-    handleSetStateSecondSellerSearch = () =>{
-        console.log("Expanded");
-        const isExpanded = this.state.expandSecondSearch;
-        if (isExpanded) {
-            this.setState({expandSecondSearch: false});
-        } else {
-            this.setState({expandSecondSearch: true});
-        }
+    promiseAssignAllSeller = () => {
+        setTimeout(this.assignAllSeller)
+    }
+
+    unassignAllSeller = () =>{
+        console.log(this.props.assignmentUser.entities.length);
+        this.props.assignmentUser.entities.forEach((mobileSeller) => {
+            this.deleteAssignement(mobileSeller);
+        })
     };
-
-
 
     render() {
         const {idQuestionary} = this.state;
@@ -231,12 +226,11 @@ class AssignmentQuestionary extends Component {
             monthNames: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
             monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
         };
-        const {classes} = this.props;
         return (
             <div className="bodyContainer">
                 {
                     !idQuestionary ?
-                        <div xs>
+                        <div >
                             <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)} />
                             <QuestionaryAsignmet onSelectedQuestionary={this.handleSelectedQuestionary}/>
                         </div> : null
@@ -245,19 +239,25 @@ class AssignmentQuestionary extends Component {
                 {
                     idQuestionary ?
 
-                        <div xs>
+                        <div >
                             <Row>
                                 <Col xs>
 
                                     <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER} />
-                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id} isEdit={false} getAssignment={this.getAssignment} handleAddSeller={this.handleAddSeller}/>
+                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id}
+                                                      isEdit={false}
+                                                      getAssignment={this.getAssignment}
+                                                      handleAddSeller={this.handleAddSeller}/>
                                 </Col>
 
                                 <Col xs>
 
                                     <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED }/>
-                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id} isEdit={true} loadAssignments={this.loadAssignments}
-                                                               deleteAssignement={this.deleteAssignement} getAssignment={this.getAssignment}/>
+                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id}
+                                                               isEdit={true}
+                                                               loadAssignments={this.loadAssignments}
+                                                               deleteAssignement={this.deleteAssignement}
+                                                               getAssignment={this.getAssignment}/>
                                 </Col>
                             </Row>
 
@@ -281,10 +281,10 @@ class AssignmentQuestionary extends Component {
                                                         style={{margin: '5px', verticalAlign: 'middle'}}/>
 
                                                 <Button label="Asignar Todos"
-
+                                                        onClick={() => {this.promiseAssignAllSeller()}}
                                                         style={{margin: '5px', verticalAlign: 'middle'}}/>
                                                 <Button label="Desasignar Todos" className="ui-button-danger"
-
+                                                        onClick={() => {this.unassignAllSeller()}}
                                                         style={{margin: '5px', verticalAlign: 'left'}}/>
                                             </div>
                                         </Toolbar> :
@@ -301,6 +301,7 @@ class AssignmentQuestionary extends Component {
 
 const mapStateToProps = state => ({
     assignmentUser: getMobileAssignement(state),
+    mobileSellers: getMobileSellers(state),
     typeQuestionerQuestionary: getTypeByCodSapQuestionerQuestionary(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
     querySearchView: state.queryMobileSeller,
     user: getUser(state),

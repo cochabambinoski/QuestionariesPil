@@ -12,7 +12,8 @@ import {
     getMobileAssignement,
     getMobileSellers,
     getQueryMobileSeller,
-    getQueryMobileSellerAssignedType, getQueryMobileSellerBranch, getQueryMobileSellerType
+    getQueryMobileSellerBranch,
+    getQueryMobileSellerType,
 } from "../../../../reducers";
 
 const styles = theme => ({
@@ -41,7 +42,7 @@ class MobileSellerList extends Component {
             idQuestionary: props.idQuestionary,
             isEdit: props.isEdit,
             filterListMobileSeller: null,
-        }
+        };
     }
 
     getMobileSellers = (idQuestionary) => {
@@ -52,18 +53,6 @@ class MobileSellerList extends Component {
             this.props.addMobileSellers(data);
         });
     };
-
-    componentDidMount() {
-        this.getMobileSellers(this.state.idQuestionary);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.idQuestionary !== this.props.idQuestionary) {
-
-            this.getMobileSellers(nextProps.idQuestionary);
-        }
-
-    }
 
     filterItems = (mobileSellers, query) => {
         return mobileSellers.filter((el) =>
@@ -117,6 +106,20 @@ class MobileSellerList extends Component {
                     handleAddSeller={this.props.handleAddSeller}/>
             ))}
         </List>
+    }
+
+    componentDidMount() {
+        this.getMobileSellers(this.state.idQuestionary);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.idQuestionary !== this.props.idQuestionary) {
+            this.getMobileSellers(nextProps.idQuestionary);
+        }
+        if (nextProps.queryMobileSellerType.length !== this.props.queryMobileSellerType.length ||
+            nextProps.queryMobileSellerBranch.length !== this.props.queryMobileSellerBranch.length) {
+            this.renderMobileSellersItem()
+        }
     }
 
     render() {

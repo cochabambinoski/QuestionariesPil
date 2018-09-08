@@ -28,112 +28,78 @@ const initialState = (
 );
 
 export function searchFilter(state = initialState, action) {
-    const queryAdvancedMobileSellerType = state.queryAdvancedMobileSellerType;
-    const queryAdvancedMobileSellerBranch = state.queryAdvancedMobileSellerBranch;
-
-    const queryAdvancedMobileSellerAssignedType = state.queryAdvancedMobileSellerAssignedType;
-    const queryAdvancedMobileSellerAssignedBranch = state.queryAdvancedMobileSellerAssignedBranch;
-
     switch (action.type) {
         case EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST: {
-            {
-                return {...state, queryQuestionaryAssigned: action.payload};
-            }
+            return {...state, queryQuestionaryAssigned: action.payload};
         }
         case EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST: {
-            {
-                return {...state, queryMobileSellerAssigned: action.payload};
-            }
+            return {...state, queryMobileSellerAssigned: action.payload};
         }
         case EDIT_QUERY_TEXT_MOBILE_SELLER_LIST: {
-            {
-                return {...state, queryMobileSeller: action.payload};
-            }
+            return {...state, queryMobileSeller: action.payload};
         }
         case ADD_PARAM_FILTER_MOBILE_SELLER_TYPE: {
-            {
-                queryAdvancedMobileSellerType.push(action.payload);
-                return {
-                    ...state,
-                    queryAdvancedMobileSellerType: queryAdvancedMobileSellerType,
-                }
+            return {
+                ...state,
+                queryAdvancedMobileSellerType: [...state.queryAdvancedMobileSellerType, action.payload],
             }
         }
         case ADD_PARAM_FILTER_MOBILE_SELLER_BRANCH: {
-            {
-                queryAdvancedMobileSellerBranch.push(action.payload);
-                return {
-                    ...state,
-                    queryAdvancedMobileSellerBranch: queryAdvancedMobileSellerBranch,
-                }
+            return {
+                ...state,
+                queryAdvancedMobileSellerBranch: [...state.queryAdvancedMobileSellerBranch, action.payload],
             }
         }
 
         case CONCAT_FILTER_MOBILE_SELLER_BRANCH: {
-            {
-                queryAdvancedMobileSellerBranch.unshift(action.payload);
-                return {
-                    ...state,
-                    queryAdvancedMobileSellerBranch: queryAdvancedMobileSellerBranch,
-                }
+            return {
+                ...state,
+                queryAdvancedMobileSellerBranch: [...state.queryAdvancedMobileSellerBranch, action.payload],
             }
         }
 
         case ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE: {
-            {
-                queryAdvancedMobileSellerAssignedType.push(action.payload);
-                return {
-                    ...state,
-                    queryAdvancedMobileSellerAssignedType: queryAdvancedMobileSellerAssignedType,
-                }
+            return {
+                ...state,
+                queryAdvancedMobileSellerAssignedType: [...state.queryAdvancedMobileSellerAssignedType, action.payload],
             }
         }
         case ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH : {
-            {
-                queryAdvancedMobileSellerAssignedBranch.push(action.payload);
-                return {
-                    ...state,
-                    queryAdvancedMobileSellerAssignedBranch: queryAdvancedMobileSellerAssignedBranch,
-                }
+            return {
+                ...state,
+                queryAdvancedMobileSellerAssignedBranch: [...state.queryAdvancedMobileSellerAssignedBranch, action.payload],
             }
         }
 
         case CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH : {
-            {
-                queryAdvancedMobileSellerAssignedBranch.concat(action.payload);
-                return {
-                    ...state,
-                    queryAdvancedMobileSellerAssignedBranch: queryAdvancedMobileSellerAssignedBranch,
-                }
+            return {
+                ...state,
+                queryAdvancedMobileSellerAssignedBranch: [...state.queryAdvancedMobileSellerAssignedBranch, action.payload ],
             }
         }
 
         case DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE: {
-            remove(queryAdvancedMobileSellerType, action.payload);
             return {
                 ...state,
-                queryAdvancedMobileSellerType: queryAdvancedMobileSellerType,
+                queryAdvancedMobileSellerType: state.queryAdvancedMobileSellerType.filter(item => item !== action.payload),
             }
         }
         case DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH: {
-            remove(queryAdvancedMobileSellerBranch, action.payload);
             return {
                 ...state,
-                queryAdvancedMobileSellerBranch: queryAdvancedMobileSellerBranch,
+                queryAdvancedMobileSellerBranch: state.queryAdvancedMobileSellerBranch.filter(item => item !== action.payload),
             }
         }
         case DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE: {
-            remove(queryAdvancedMobileSellerAssignedType, action.payload);
             return {
                 ...state,
-                queryAdvancedMobileSellerAssignedType: queryAdvancedMobileSellerAssignedType,
+                queryAdvancedMobileSellerAssignedType: state.queryAdvancedMobileSellerAssignedType.filter(item => item !== action.payload),
             }
         }
         case DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH: {
-            remove(queryAdvancedMobileSellerAssignedBranch, action.payload);
             return {
                 ...state,
-                queryAdvancedMobileSellerAssignedBranch: queryAdvancedMobileSellerAssignedBranch,
+                queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.filter(item => item !== action.payload),
             }
         }
         default:

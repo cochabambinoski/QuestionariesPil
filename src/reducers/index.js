@@ -29,6 +29,7 @@ export const getAllCity = state => state.initialData.cities;
 export const getAllBranch = state => state.initialData.lsBranches;
 export const getBranchByIdCity = (lsBranch, idCity) => (_getBrancgesByIdCity(lsBranch, idCity));
 
+
 export const getQueryMobileSellerType = (state) => state.searchFilter.queryAdvancedMobileSellerType;
 export const getQueryMobileSellerBranch = (state) => state.searchFilter.queryAdvancedMobileSellerBranch;
 export const getQueryMobileSellerAssignedType = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedType;

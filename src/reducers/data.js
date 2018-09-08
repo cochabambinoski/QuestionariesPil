@@ -10,7 +10,7 @@ const initialState = (
 function data(state = initialState, action) {
     switch (action.type) {
         case SEARCH_ASYNC_ENTITIES:{
-            return console.log("DATA")
+            return console.log(DATA)
         }
         default:
             return state;

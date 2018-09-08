@@ -109,6 +109,16 @@ class MobileSellerListAssigment extends Component {
         this.getAssignedMobileSellers(this.state.idQuestionary);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.idQuestionary !== this.props.idQuestionary) {
+            this.getMobileSellers(nextProps.idQuestionary);
+        }
+        if (nextProps.queryMobileSellerAssignedType.length !== this.props.queryMobileSellerAssignedType.length ||
+            nextProps.queryMobileSellerAssignedBranch.length !== this.props.queryMobileSellerAssignedBranch.length) {
+            this.renderMobileSellersItem()
+        }
+    }
+
     render() {
         return (
             <div>

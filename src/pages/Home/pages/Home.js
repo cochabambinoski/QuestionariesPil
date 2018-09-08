@@ -20,7 +20,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import Login from "../../Login/Login";
 import {getIdUser} from "../../../reducers";
 
 class Home extends Component {
@@ -185,48 +184,47 @@ class Home extends Component {
             'layout-mobile-sidebar-active': this.state.mobileMenuActive
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
-        const {idUser} = this.props;
         return (
             <div>
                 {
-                        <div className={wrapperClass}>
-                            <Dialog
-                                open={this.state.open}
-                                onClose={this.handleClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description">
-                                <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
-                                        en el SVM.
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={this.handleClose} color="primary" autoFocus>
-                                        Aceptar
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
+                    <div className={wrapperClass}>
+                        <Dialog
+                            open={this.state.open}
+                            onClose={this.handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description">
+                            <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
+                                    en el SVM.
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.handleClose} color="primary" autoFocus>
+                                    Aceptar
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
 
-                            <AppTopbar onToggleMenu={this.onToggleMenu}/>
+                        <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
-                            <div className={sidebarClassName}>
-                                <ScrollPanel style={{height: '100%', with: '100%'}}>
-                                    <div className="logo"/>
-                                    <AppInlineProfile/>
-                                    <AppMenuT
-                                        menus={this.state.menus}
-                                        sessionActive={this.props.sessionActive}
-                                        onSelectedMenu={this.handleChangeContainer}/>
-                                </ScrollPanel>
-                            </div>
-                            <div className="layout-main">
-                                <Container>
-
-                                </Container>
-                            </div>
+                        <div className={sidebarClassName}>
+                            <ScrollPanel style={{height: '100%', with: '100%'}}>
+                                <div className="logo"/>
+                                <AppInlineProfile/>
+                                <AppMenuT
+                                    menus={this.state.menus}
+                                    sessionActive={this.props.sessionActive}
+                                    onSelectedMenu={this.handleChangeContainer}/>
+                            </ScrollPanel>
                         </div>
+                        <div className="layout-main">
+                            <Container>
+
+                            </Container>
+                        </div>
+                    </div>
                 }
             </div>
         );
@@ -241,7 +239,7 @@ const mapDispatchToProps = dispatch => ({
     setIdUser: value => dispatch(actions.setIdUser(value)),
     setTypesQuestionerQuestionary: value => dispatch(actions.setInitialDataQuestionerQuestionary(value)),
     setTypeSeller: value => dispatch(actions.setInitialDataTypesSeller(value)),
-    setMenu : value => dispatch(actions.setMenu(value)),
+    setMenu: value => dispatch(actions.setMenu(value)),
     setUser: value => dispatch(actions.setUser(value)),
     setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
     setInitialBranches: value => dispatch(actions.getAllBranches(value))
