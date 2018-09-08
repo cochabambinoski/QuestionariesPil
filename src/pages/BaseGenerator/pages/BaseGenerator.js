@@ -16,10 +16,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
     row: {
-        margin: "5px"
+        margin: ".1em"
     },
     col: {
-        margin: '5px',
+        margin: '.1em',
     },
     with: '50%',
 });
@@ -159,7 +159,7 @@ class BaseGenerator extends Component {
         else {
             return (
                 <div className="p-clearfix">
-                    <span style={{float: 'right', margin: '.5em .25em 0 0'}}>{option.nameDataType}</span>
+                    <span style={{float: 'right', margin: '.5em .5em 0 0'}}>{option.nameDataType}</span>
                 </div>
             );
         }
@@ -176,7 +176,7 @@ class BaseGenerator extends Component {
         else {
             return (
                 <div className="p-clearfix">
-                    <span style={{float: 'right', margin: '.5em .25em 0 0'}}>{option.nameDataType}</span>
+                    <span style={{float: 'right', margin: '.5em .5em 0 0'}}>{option.nameDataType}</span>
                 </div>
             );
         }
@@ -193,7 +193,7 @@ class BaseGenerator extends Component {
         else {
             return (
                 <div className="p-clearfix">
-                    <span style={{float: 'right', margin: '.5em .25em 0 0'}}>{option.nameDataType}</span>
+                    <span style={{float: 'right', margin: '.5em .5em 0 0'}}>{option.nameDataType}</span>
                 </div>
             );
         }
@@ -219,7 +219,7 @@ class BaseGenerator extends Component {
         else {
             return (
                 <div className="p-clearfix">
-                    <span style={{float: 'right', margin: '.5em .25em 0 0'}}>{option.linePlan}</span>
+                    <span style={{float: 'right', margin: '.5em .5em 0 0'}}>{option.linePlan}</span>
                 </div>
             );
         }
@@ -236,7 +236,7 @@ class BaseGenerator extends Component {
         else {
             return (
                 <div className="p-clearfix">
-                    <span style={{float: 'right', margin: '.5em .25em 0 0'}}>{option.material}</span>
+                    <span style={{float: 'right', margin: '.5em .5em 0 0'}}>{option.material}</span>
                 </div>
             );
         }
@@ -276,14 +276,14 @@ class BaseGenerator extends Component {
         const {process} = this.state;
         return (
             <div>
-                <div className="content-section introduction">
+                {/*<div className="content-section introduction">
                     <div className="feature-intro">
                         <h1>Generación de Segmentación Base</h1>
                         <p></p>
                     </div>
-                </div>
+                </div>*/}
                 {
-                    process ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                    process ? this.renderForm() : <CircularProgress style={{width: '100%', height: '100%'}}/>
                 }
             </div>
         );
@@ -293,146 +293,143 @@ class BaseGenerator extends Component {
 
         return (
             <div>
-                <Card>
-                    <Grid>
+                <Card style={{width: '100%'}} classes="">
+                    <Grid classes="">
+                        <Row between="xs">
+                            <Col xs={6} lg={6} md={4} sd={3}>
+                                <label htmlFor="float-input">Codigo: </label>
+                            </Col>
+                            <Col xs={6} lg={6} md={4} sd={3}>
+                                <InputText id="code" type="text" size="30" value={this.state.codeSeg}
+                                           onChange={(e) => this.setState({codeSeg: e.target.value})}
+                                           disabled="disabled" style={{width:'200px', marginBottom:'.5em'}}/>
+                            </Col>
+                            <Col xs={6} lg={6} md={4} sd={3}>
+                            </Col>
+                            <Col xs={6} lg={6} md={4} sd={3}>
+                            </Col>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Descripción: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <InputText id="description" type="text" size="45" value={this.state.description}
+                                           onChange={(e) => this.setState({description: e.target.value})} style={{width:'200px', marginBottom:'.5em'}}/>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Rango de Fechas: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
+                                          onChange={(e) => this.setState({dates: e.value})}
+                                          selectionMode="range" readonlyInput={true} style={{width:'200px', marginBottom:'.5em'}}/>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Ciudad: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Dropdown value={this.state.city} options={this.state.cities}
+                                          onChange={this.onCityChange}
+                                          itemTemplate={this.cityTemplate}
+                                          placeholder="Todos"
+                                          optionLabel="nameDataType" filter={true}
+                                          filterPlaceholder="Seleccione Ciudad"
+                                          filterBy="nameDataType" style={{width:'200px', marginBottom:'.5em'}}
+                                          showClear={true}/>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Mercado: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Dropdown value={this.state.market} options={this.state.markets}
+                                          onChange={this.onMarketChange}
+                                          itemTemplate={this.marketTemplate}
+                                          placeholder="Todos"
+                                          optionLabel="nameDataType" filter={true}
+                                          filterPlaceholder="Seleccione Mercado"
+                                          filterBy="nameDataType" style={{width:'200px', marginBottom:'.5em'}}
+                                          showClear={true}/>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Tipo de Negocio: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Dropdown value={this.state.bussines} options={this.state.bussiness}
+                                          onChange={this.onBussinesChange}
+                                          itemTemplate={this.bussinesTemplate}
+                                          placeholder="Todos"
+                                          optionLabel="nameDataType" filter={true}
+                                          filterPlaceholder="Seleccione Negocio"
+                                          filterBy="nameDataType" style={{width:'200px', marginBottom:'.5em'}}
+                                          showClear={true}/>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Linea: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Dropdown value={this.state.line} options={this.state.lines}
+                                          onChange={this.onLineChange} itemTemplate={this.lineTemplate}
+                                          placeholder="Todos"
+                                          optionLabel="linePlan"
+                                          filter={true} filterPlaceholder="Seleccione Linea"
+                                          filterBy="linePlan" style={{width:'200px', marginBottom:'.5em'}}
+                                          showClear={true}/>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <label htmlFor="float-input">Material: </label>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Dropdown value={this.state.material} options={this.state.materials}
+                                          onChange={this.onMaterialChange}
+                                          itemTemplate={this.materialTemplate}
+                                          placeholder="Todos" optionLabel="material"
+                                          filter={true} filterPlaceholder="Seleccione Material"
+                                          filterBy="material" style={{width:'200px', marginBottom:'.5em'}}
+                                          showClear={true}/>
+                            </Col>
+                        </Row>
                         <Row>
-                            <Col xs={12} lg={12}>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Codigo: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <InputText id="code" type="text" size="30" value={this.state.codeSeg}
-                                                   onChange={(e) => this.setState({codeSeg: e.target.value})}
-                                                   disabled="disabled" style={{margin: '.25em'}}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Descripción: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <InputText id="description" type="text" size="45" value={this.state.description}
-                                                   onChange={(e) => this.setState({description: e.target.value})}
-                                                   style={{margin: '.25em'}}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Rango de Fechas: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
-                                                  onChange={(e) => this.setState({dates: e.value})}
-                                                  selectionMode="range" readonlyInput={true} style={{margin: '.25em'}}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Ciudad: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Dropdown value={this.state.city} options={this.state.cities}
-                                                  onChange={this.onCityChange}
-                                                  itemTemplate={this.cityTemplate}
-                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
-                                                  optionLabel="nameDataType" filter={true}
-                                                  filterPlaceholder="Seleccione Ciudad"
-                                                  filterBy="nameDataType" showClear={true}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Mercado: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Dropdown value={this.state.market} options={this.state.markets}
-                                                  onChange={this.onMarketChange}
-                                                  itemTemplate={this.marketTemplate}
-                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
-                                                  optionLabel="nameDataType" filter={true}
-                                                  filterPlaceholder="Seleccione Mercado"
-                                                  filterBy="nameDataType" showClear={true}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Tipo de Negocio: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Dropdown value={this.state.bussines} options={this.state.bussiness}
-                                                  onChange={this.onBussinesChange}
-                                                  itemTemplate={this.bussinesTemplate}
-                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
-                                                  optionLabel="nameDataType" filter={true}
-                                                  filterPlaceholder="Seleccione Negocio"
-                                                  filterBy="nameDataType" showClear={true}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Linea: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Dropdown value={this.state.line} options={this.state.lines}
-                                                  onChange={this.onLineChange} itemTemplate={this.lineTemplate}
-                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
-                                                  optionLabel="linePlan"
-                                                  filter={true} filterPlaceholder="Seleccione Linea"
-                                                  filterBy="linePlan"
-                                                  showClear={true}/>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                        <label htmlFor="float-input">Material: </label>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Dropdown value={this.state.material} options={this.state.materials}
-                                                  onChange={this.onMaterialChange}
-                                                  itemTemplate={this.materialTemplate}
-                                                  style={{width: '350px', margin: '.25em'}} placeholder="Todos"
-                                                  optionLabel="material"
-                                                  filter={true} filterPlaceholder="Seleccione Material"
-                                                  filterBy="material"
-                                                  showClear={true}/>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                </Row>
-                                <Row between="xs">
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                    </Col>
-                                    <Col xs={6} lg={2}>
-                                    </Col>
-                                    <Col xs={6} lg={4}>
-                                        <Button label="Generar" onClick={this.handleClick} style={{margin: '.25em'}}/>
-                                    </Col>
-                                </Row>
+                        </Row>
+                        <Row between="xs">
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                            </Col>
+                            <Col xs={6} lg={6}>
+                                <Button label="Generar" onClick={this.handleClick}/>
                             </Col>
                         </Row>
                     </Grid>
