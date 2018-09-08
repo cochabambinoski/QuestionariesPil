@@ -20,8 +20,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import Login from "../../Login/Login";
-import {getIdUser} from "../../../reducers";
+import LandingPage from '../../LandingPage/pages/LandingPage.js'
+import {getIdUser, getUser} from "../../../reducers";
 
 class Home extends Component {
     state = {
@@ -31,7 +31,6 @@ class Home extends Component {
     };
 
     handleChangeContainer = idMenu => {
-        console.log(idMenu);
         this.setState({idMenuContainer: idMenu})
     };
 
@@ -58,7 +57,6 @@ class Home extends Component {
 
     closeSessionHome() {
         this.setState({open: true});
-        console.log("Sesion Terminada");
     }
 
     getParameterByName(name, url) {
@@ -150,7 +148,6 @@ class Home extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setTypesQuestionerQuestionary(data);
         });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
@@ -174,6 +171,9 @@ class Home extends Component {
         return (
             <div>
                 {
+                    this.props.user === null ?
+                        <LandingPage/>
+                        :
                         <div className={wrapperClass}>
                             <Dialog
                                 open={this.state.open}
@@ -183,7 +183,7 @@ class Home extends Component {
                                 <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
+                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
                                         en el SVM.
                                     </DialogContentText>
                                 </DialogContent>
@@ -232,6 +232,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => (
     {
         idUser: getIdUser(state),
+        user: getUser(state),
     }
 );
 
