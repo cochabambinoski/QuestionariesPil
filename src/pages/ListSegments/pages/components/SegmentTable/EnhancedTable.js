@@ -57,7 +57,8 @@ class EnhancedTable extends Component {
             endDate: utilDate.getNow(),
             deleteOpen: false,
             reportOpen: false,
-            todelete: null,
+            toDelete: null,
+            toReport: null,
         };
 
         this.showSuccess = this.showSuccess.bind(this);
@@ -132,7 +133,7 @@ class EnhancedTable extends Component {
 
     handleReportClick = (event, id) => {
         this.setState({reportOpen: true});
-        this.setState({toDelete: id})
+        this.setState({toReport: id})
     };
 
     /**
@@ -184,6 +185,32 @@ class EnhancedTable extends Component {
                 data: data,
             }));
         });
+    };
+
+    getReport = (url) => {
+        let win = window.open(url, '_blank');
+        win.focus();
+    };
+
+    handlePDFReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    handleXLSReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    handleTXTReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
     };
 
     /**
@@ -300,12 +327,18 @@ class EnhancedTable extends Component {
                 <DialogTitle id="alert-dialog-title">{"Generación de Reportes"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <Button label="PDF" onClick={this.handleCloseReport}
-                                className="ui-button-danger" ico="IcoExcel"/>
-                        <Button label="EXCEL" onClick={this.handleCloseReport}
-                                className="ui-button-success"/>
-                        <Button label="TEXTO" onClick={this.handleCloseReport}
-                                className="ui-button-info"/>
+                        <Button label="PDF" onClick={this.handlePDFReport}
+                                className="ui-button-danger" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/pdf.svg')} style={{height: '45px'}}/>
+                        </Button>
+                        <Button label="EXCEL" onClick={this.handleXLSReport}
+                                className="ui-button-success" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/excel.svg')} style={{height: '45px'}}/>
+                        </Button>
+                        <Button label="TEXTO" onClick={this.handleTXTReport}
+                                className="ui-button-info" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/txt.svg')} style={{height: '45px'}}/>
+                        </Button>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

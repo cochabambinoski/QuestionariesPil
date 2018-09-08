@@ -17,7 +17,9 @@
   "GET_CLIENT_KILOLITERS":"clientkiloliters",
   "GET_CLIENT_KILOLITERS_RANGE":"clientkilolitersbydaterange",
   "DEL_CLIENT_KILOLITER":"clientkiloliterdelete",
-
+  "REPORT_PDF": "reportpdf",
+  "REPORT_XLS": "reportxls",
+  "REPORT_TXT": "reporttxt",
   "CODSAP_MULTIPLE_OPTION":"TIPPREG1",
   "CODSAP_MULTIPLE_SELECTION":"TIPPREG2",
   "CODSAP_FREE_ANSWER":"TIPPREG3",
