@@ -20,13 +20,14 @@ import EditSeg from "@material-ui/icons/Edit";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
+import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
+import {Button} from "primereact/button";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {Button} from 'primereact/button';
-
 
 const styles = theme => ({
     root: {
@@ -56,6 +57,7 @@ class EnhancedTable extends Component {
             filter: null,
             startDate: utilDate.firstDayOfMonth(),
             endDate: utilDate.getNow(),
+            segment: null,
             deleteOpen: false,
             todelete: null,
         };
@@ -219,6 +221,27 @@ class EnhancedTable extends Component {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
     }
 
+    handleClick = (event, id) => {
+        const {selected} = this.state;
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+
+        this.setState({selected: newSelected});
+    };
+
     /**
      * update table with range dates
      * @param fromDate
@@ -251,6 +274,40 @@ class EnhancedTable extends Component {
         this.setState({rowsPerPage: event.target.value});
     };
 
+    handleBase= (event, id) => {
+        this.setState({segment:id});
+        this.setState({baseOpen: true});
+    };
+
+    handleClose = () => {
+        this.setState({baseOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    renderBase() {
+        const {classes} = this.props;
+        return (
+            <Dialog
+                open={this.state.baseOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <BaseGenerator segment={this.state.segment}/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+
+        );
+    }
+
     /**
      * render for Dialog
      * @returns {XML}
@@ -279,7 +336,7 @@ class EnhancedTable extends Component {
         );
     }
 
-    render() {
+    renderCell() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -291,80 +348,96 @@ class EnhancedTable extends Component {
                 <div>
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
-                <Paper className={classes.root}>
-                    <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
-                                          dateEnd={this.state.endDate} updateDates={this.updateDates}/>
-                    <div className={classes.tableWrapper}>
-                        <Table className={classes.table} aria-labelledby="tableTitle">
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onRequestSort={this.handleRequestSort}
-                                rowCount={data.length}
-                            />
-                            <TableBody>
-                                {data
-                                    .sort(this.getSorting(order, orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map(n => {
-                                        return (
-                                            <TableRow
-                                                hover
-                                                tabIndex={-1}
-                                                key={n.id}>
-                                                <TableCell component="th" scope="row" numeric>
-                                                    {n.idClientKiloliter}
-                                                </TableCell>
-                                                <TableCell>{utilDate.getDateFormat(n.dateRegister)}</TableCell>
-                                                <TableCell>{n.description}</TableCell>
-                                                <TableCell >
-                                                    <IconButton aria-label="Delete">
-                                                        <EditBas/>
-                                                    </IconButton>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <IconButton aria-label="Delete">
-                                                        <EditSeg/>
-                                                    </IconButton>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <IconButton aria-label="Delete">
-                                                        <ReportIcon/>
-                                                    </IconButton>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <IconButton aria-label="Delete"
-                                                                onClick={event => this.handleClick(event, n.idClientKiloliter)}>
-                                                        <DeleteIcon/>
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                {emptyRows > 0 && (
-                                    <TableRow style={{height: 49 * emptyRows}}>
-                                        <TableCell colSpan={6}/>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    />
-                </Paper>
+            <Paper className={classes.root}>
+                <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
+                                      dateEnd={this.state.endDate} updateDates={this.updateDates}/>
+                <div className={classes.tableWrapper}>
+                    <Table className={classes.table} aria-labelledby="tableTitle">
+                        <EnhancedTableHead
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={this.handleRequestSort}
+                            rowCount={data.length}
+                        />
+                        <TableBody>
+                            {data
+                                .sort(this.getSorting(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map(n => {
+                                    return (
+                                        <TableRow
+                                            hover
+                                            tabIndex={-1}
+                                            key={n.id}>
+                                            <TableCell component="th" scope="row" numeric>
+                                                {n.idClientKiloliter}
+                                            </TableCell>
+                                            <TableCell>
+                                                {utilDate.getDateFormat(n.dateRegister)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {n.description}
+                                            </TableCell>
+                                            <TableCell >
+                                                <IconButton aria-label="Editar Base" onClick={event => this.handleBase(event, n)}>
+                                                    <EditBas/>
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell >
+                                                <IconButton aria-label="Delete">
+                                                    <EditSeg/>
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell >
+                                                <IconButton aria-label="Delete">
+                                                    <ReportIcon/>
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell >
+                                                <IconButton aria-label="Delete"
+                                                            onClick={event => this.handleClick(event, n.idClientKiloliter)}>
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            {emptyRows > 0 && (
+                                <TableRow style={{height: 49 * emptyRows}}>
+                                    <TableCell colSpan={6}/>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+                <TablePagination
+                    component="div"
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    backIconButtonProps={{
+                        'aria-label': 'Previous Page',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Next Page',
+                    }}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+            </Paper>
+            </div>
+        );
+    }
+
+    render() {
+        const {classes} = this.props;
+        return (
+            <div>
+                <div>
+                    {this.renderBase()}
+                </div>
+                {this.renderCell()}
             </div>
         );
     }

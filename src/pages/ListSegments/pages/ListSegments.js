@@ -3,30 +3,76 @@
  */
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core/styles";
 import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
-import TableSegment from "./components/SegmentTable/EnhancedTable";
+import EnhancedTable from "./components/SegmentTable/EnhancedTable";
+import BaseGenerator from "../../BaseGenerator/pages/BaseGenerator";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+const styles = theme => ({});
 
 class ListSegments extends Component {
 
-    handleClick = (event, id) => {
-
-    };
-
     constructor() {
         super();
-
         this.state = {
-
+            option: null,
+            baseOpen: false,
+            segment:null,
         };
     }
 
-    render() {
+    /**
+     * open base generator
+     * @param event
+     * @param id
+     */
+    handleClick = (event, id) => {
+        this.setState({baseOpen: true});
+    };
+
+    handleClose = () => {
+        this.setState({baseOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    renderBase() {
+        const {classes} = this.props;
+        return (
+            <Dialog
+                open={this.state.baseOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <BaseGenerator segment="null"/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+
+        );
+    }
+
+
+    renderList() {
+        const {classes} = this.props;
         return (
             <div>
-                <div className="content-section introduction">
+                <div className={classes.title}>
                     <div className="feature-intro">
-                        <h1>List de Segmentación Base</h1>
+                        <h1>Lista de Segmentación Base</h1>
                         <p>Generación de reportes, creación, edición y eliminacion de segmentación.</p>
                     </div>
                 </div>
@@ -37,9 +83,21 @@ class ListSegments extends Component {
                 </Toolbar>
                 <div>
                     <div>
-                        <TableSegment/>
+                        <EnhancedTable/>
                     </div>
                 </div>
+            </div>
+        );
+    }
+
+    render() {
+        const {classes} = this.props;
+        return (
+            <div>
+                <div>
+                    {this.renderBase()}
+                </div>
+                {this.renderList()}
             </div>
         );
     }
@@ -48,5 +106,6 @@ class ListSegments extends Component {
 ListSegments.propTypes = {
 };
 
-export default ListSegments;
+export default withStyles(styles)(ListSegments);
+
 
