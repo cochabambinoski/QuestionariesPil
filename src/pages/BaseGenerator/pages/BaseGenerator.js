@@ -73,7 +73,9 @@ class BaseGenerator extends Component {
     }
 
     componentDidMount() {
-        this.setState({dates: [utilDate.getDate(this.state.startDate), utilDate.getDate(this.state.endDate)]});
+        if (this.state.startDate !== undefined && this.state.endDate !== undefined) {
+            this.setState({dates: [utilDate.getDate(this.state.startDate), utilDate.getDate(this.state.endDate)]});
+        }
         this.getCities(0, Constants.GET_CITIES);
         this.getMarkets(0, Constants.GET_MARKETS);
         this.getBussiness(0, Constants.GET_BUSSINESS);
