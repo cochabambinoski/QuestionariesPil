@@ -19,6 +19,13 @@ import EditSeg from "@material-ui/icons/Edit";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
+import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
+import {Button} from "primereact/button";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
     root: {
@@ -47,6 +54,7 @@ class EnhancedTable extends Component {
             filter: null,
             startDate: utilDate.firstDayOfMonth(),
             endDate: utilDate.getNow(),
+            segment: null,
         };
     }
 
@@ -63,7 +71,6 @@ class EnhancedTable extends Component {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
         fetch(url)
             .then(results => {
-                console.log(results);
                 return results.json();
             }).then(data => {
             this.setState(prevState => ({
@@ -168,7 +175,41 @@ class EnhancedTable extends Component {
         this.setState({rowsPerPage: event.target.value});
     };
 
-    render() {
+    handleBase= (event, id) => {
+        this.setState({segment:id});
+        this.setState({baseOpen: true});
+    };
+
+    handleClose = () => {
+        this.setState({baseOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    renderBase() {
+        const {classes} = this.props;
+        return (
+            <Dialog
+                open={this.state.baseOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <BaseGenerator segment={this.state.segment}/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+
+        );
+    }
+
+    renderCell() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -202,7 +243,7 @@ class EnhancedTable extends Component {
                                                 {n.description}
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Editar Base" onClick={event => this.handleBase(event, n)}>
                                                     <EditBas/>
                                                 </IconButton>
                                             </TableCell>
@@ -247,6 +288,18 @@ class EnhancedTable extends Component {
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 />
             </Paper>
+        );
+    }
+
+    render() {
+        const {classes} = this.props;
+        return (
+            <div>
+                <div>
+                    {this.renderBase()}
+                </div>
+                {this.renderCell()}
+            </div>
         );
     }
 }

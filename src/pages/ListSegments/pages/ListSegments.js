@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
-import TableSegment from "./components/SegmentTable/EnhancedTable";
+import EnhancedTable from "./components/SegmentTable/EnhancedTable";
 import BaseGenerator from "../../BaseGenerator/pages/BaseGenerator";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -23,6 +23,7 @@ class ListSegments extends Component {
         this.state = {
             option: null,
             baseOpen: false,
+            segment:null,
         };
     }
 
@@ -52,7 +53,7 @@ class ListSegments extends Component {
                 <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <BaseGenerator idBase="null"/>
+                        <BaseGenerator segment="null"/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -82,7 +83,7 @@ class ListSegments extends Component {
                 </Toolbar>
                 <div>
                     <div>
-                        <TableSegment/>
+                        <EnhancedTable/>
                     </div>
                 </div>
             </div>
@@ -102,7 +103,8 @@ class ListSegments extends Component {
     }
 }
 
-ListSegments.propTypes = {};
+ListSegments.propTypes = {
+};
 
 export default withStyles(styles)(ListSegments);
 

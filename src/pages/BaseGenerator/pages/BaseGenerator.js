@@ -12,7 +12,7 @@ import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import * as DateUtils from "../../../utils/dateUtils";
+import * as utilDate from "../../../utils/dateUtils";
 
 const styles = theme => ({
     row: {
@@ -33,9 +33,8 @@ class BaseGenerator extends Component {
         this.state = {
             codeSeg: segment.idClientKiloliter,
             description: segment.description,
-            dates: null,
-            startDate: props.dateStart,
-            endDate: props.dateEnd,
+            startDate: segment.dateStart,
+            endDate: segment.dateEnd,
             city: null,
             bussines: null,
             market: null,
@@ -54,6 +53,7 @@ class BaseGenerator extends Component {
             idTypeMarket: segment.idTypeMarket,
             idLine: segment.line,
             codeMaterial: segment.codeMaterial,
+            dates: null,
         };
 
         this.onCityChange = this.onCityChange.bind(this);
@@ -65,15 +65,15 @@ class BaseGenerator extends Component {
 
     componentWillReceiveProps() {
         this.setState({city: this.getValueType(this.state.cities, this.state.idTypeCity)});
+        this.onCityChange.bind(this.state.city);
         this.setState({market: this.getValueType(this.state.markets, this.state.idTypeMarket)});
         this.setState({bussines: this.getValueType(this.state.bussiness, this.state.idTypeBusiness)});
         this.setState({line: this.getValueLine()});
         this.setState({material: this.getValueMaterial()});
-        this.setState({dates:[this.state.startDate, this.state.endDate]});
     }
 
     componentDidMount() {
-        this.setState({dates: [this.state.startDate, this.state.endDate]});
+        this.setState({dates: [utilDate.getDate(this.state.startDate), utilDate.getDate(this.state.endDate)]});
         this.getCities(0, Constants.GET_CITIES);
         this.getMarkets(0, Constants.GET_MARKETS);
         this.getBussiness(0, Constants.GET_BUSSINESS);
@@ -191,6 +191,7 @@ class BaseGenerator extends Component {
     };
 
     onCityChange(e) {
+        console.log('value e city: ', e);
         if (e.value === undefined || e.value === null) {
             e.value = null;
             this.setState({markets: []});
@@ -250,6 +251,7 @@ class BaseGenerator extends Component {
     }
 
     onLineChange(e) {
+        console.log(e.value);
         if (e.value === undefined || e.value === null) {
             e.value = null;
             this.setState({line: []});
@@ -334,7 +336,6 @@ class BaseGenerator extends Component {
     }
 
     renderForm() {
-
         return (
             <div>
                 <Card style={{width: '100%'}} classes="">
