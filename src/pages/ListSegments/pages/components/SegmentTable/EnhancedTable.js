@@ -126,11 +126,19 @@ class EnhancedTable extends Component {
         this.setState({toDelete: id})
     };
 
+    /**
+     * close dialog report
+     */
     handleCloseReport = () => {
         this.setState({reportOpen: false});
         this.setState({toDelete: null})
     };
 
+    /**
+     * open dialog report
+     * @param event
+     * @param id
+     */
     handleReportClick = (event, id) => {
         this.setState({reportOpen: true});
         this.setState({toReport: id})
@@ -187,11 +195,18 @@ class EnhancedTable extends Component {
         });
     };
 
+    /**
+     * get report
+     * @param url
+     */
     getReport = (url) => {
         let win = window.open(url, '_blank');
         win.focus();
     };
 
+    /**
+     * click PDF
+     */
     handlePDFReport = () => {
         console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
@@ -199,6 +214,9 @@ class EnhancedTable extends Component {
         this.getReport(url);
     };
 
+    /**
+     * click XLS
+     */
     handleXLSReport = () => {
         console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
@@ -206,6 +224,9 @@ class EnhancedTable extends Component {
         this.getReport(url);
     };
 
+    /**
+     * click TXT
+     */
     handleTXTReport = () => {
         console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
@@ -316,6 +337,10 @@ class EnhancedTable extends Component {
         );
     }
 
+    /**
+     * show dialog Report
+     * @returns {XML}
+     */
     renderReportDialog() {
         return (
             <Dialog
@@ -349,6 +374,10 @@ class EnhancedTable extends Component {
         );
     }
 
+    /**
+     * show Table
+     * @returns {XML}
+     */
     render() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
@@ -444,10 +473,6 @@ class EnhancedTable extends Component {
 
 EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    startDate: PropTypes.any.isRequired,
-    endDate: PropTypes.any.isRequired,
-    dates: PropTypes.any.isRequired,
     updateDates: PropTypes.func.isRequired,
 };
 
