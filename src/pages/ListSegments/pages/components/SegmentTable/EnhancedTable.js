@@ -202,6 +202,7 @@ class EnhancedTable extends Component {
     getReport = (url) => {
         let win = window.open(url, '_blank');
         win.focus();
+        this.showSuccess('Reporte', 'Se descargo su reporte correctamente');
     };
 
     /**
