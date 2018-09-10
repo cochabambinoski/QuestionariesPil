@@ -252,10 +252,11 @@ class QuestionnaireRange extends Component {
             fetch(url).then(results => {
                 return results.json();
             }).then(data => {
-                data.forEach((range) => {
-                    this.addBranch(range.branch)
-                });
+                this.setState({ranges: data});
                 this.props.updateRanges(data);
+                data.forEach((range) => {
+                    this.verifyCity(range.branch, true);
+                });
             });
         }
     }
