@@ -46,7 +46,7 @@ import {
     CONCAT_FILTER_MOBILE_SELLER_BRANCH,
     CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     ADD_ALL_ASSIGNEMENT_USER,
-    REMOVE_ALL_ASSIGNEMENT_USER
+    REMOVE_ALL_ASSIGNEMENT_USER, CLEAN_FILTER
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -148,3 +148,5 @@ export const deleteParamFilterMobileSellerBranch = payload => ({type: DELETE_PAR
 export const deleteParamFilterMobileSellerAssignedType = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE, payload});
 
 export const deleteParamFilterMobileSellerAssignedBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, payload});
+
+export const cleanFilter = payload => ({type: CLEAN_FILTER, payload });

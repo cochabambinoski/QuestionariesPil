@@ -10,7 +10,7 @@ import {
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    CONCAT_FILTER_MOBILE_SELLER_BRANCH, CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH
+    CONCAT_FILTER_MOBILE_SELLER_BRANCH, CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, CLEAN_FILTER
 } from "../action-types/actionTypes";
 import {remove} from '../Util/ArrayFilterUtil'
 
@@ -100,6 +100,18 @@ export function searchFilter(state = initialState, action) {
             return {
                 ...state,
                 queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.filter(item => item !== action.payload),
+            }
+        }
+        case CLEAN_FILTER: {
+            return{
+                ...state,queryMobileSeller: "",
+                queryMobileSellerAssigned: "",
+                queryAdvancedMobileSellerType: [],
+                queryAdvancedMobileSellerBranch: [],
+                queryAdvanceMobileSellerAssigned: "",
+                queryAdvancedMobileSellerAssignedType: [],
+                queryAdvancedMobileSellerAssignedBranch: [],
+                queryQuestionaryAssigned: "",
             }
         }
         default:

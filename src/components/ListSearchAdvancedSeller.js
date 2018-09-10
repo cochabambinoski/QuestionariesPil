@@ -29,7 +29,7 @@ import {
     addParamFilterMobileSellerAssignedBranch,
     addParamFilterMobileSellerAssignedType,
     addParamFilterMobileSellerBranch,
-    addParamFilterMobileSellerType,
+    addParamFilterMobileSellerType, cleanFilter,
     concatFilterMobileSellerAssignedBranch,
     concatFilterMobileSellerBranch,
     deleteParamFilterMobileSellerAssignedBranch,
@@ -71,6 +71,9 @@ const styles = theme => ({
         '&:hover': {
             textDecoration: 'underline',
         },
+    },
+    listItem: {
+        marginBottom: '5px',
     },
 });
 
@@ -173,6 +176,10 @@ class ListSearchAdvancedSeller extends Component {
 
     }
 
+    componentWillUnmount(){
+        this.props.cleanFilter()
+    }
+
     render() {
         const {classes} = this.props;
         let innerComponent = null;
@@ -207,6 +214,7 @@ class ListSearchAdvancedSeller extends Component {
                                     <ListItemText primary={city.nombre } />
                                     <ListItemSecondaryAction>
                                         <Checkbox
+                                            checked={this.existBranchInTheList(city)}
                                             onChange={() => this.handleCheck(city, Constants.CITIES_LIST)}
                                         />
                                     </ListItemSecondaryAction>
@@ -291,7 +299,7 @@ const mapDispatchToProps = dispatch => ({
     deleteParamFilterMobileSellerBranch: value => dispatch(deleteParamFilterMobileSellerBranch(value)),
     deleteParamFilterMObileSelledeleterAssignedType: value => dispatch(deleteParamFilterMobileSellerAssignedType(value)),
     deleteParamFilterMobileSellerAssignedBranch: value => dispatch(deleteParamFilterMobileSellerAssignedBranch(value)),
-
+    cleanFilter: () => dispatch(cleanFilter(null)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ListSearchAdvancedSeller));
