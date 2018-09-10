@@ -6,6 +6,7 @@ import './QuestionnaireRange.css';
 import { Checkbox } from 'primereact/checkbox';
 import Constants from '../../../../Constants.json';
 
+
 class QuestionnaireRange extends Component {
     constructor(props) {
         super(props);
@@ -112,7 +113,7 @@ class QuestionnaireRange extends Component {
     }
     contains = (list, value) => {
         for (var i = 0; i < list.length; i++) {
-            if (list[i].id == value.id) {
+            if (list[i].id === value.id) {
                 return true;
             }
         }
