@@ -111,7 +111,6 @@ class BaseGenerator extends Component {
         let one = this.state.codeMaterial;
         let finded = list.filter(function (value) {
             if (value.codeMaterial === one) {
-                console.log(value);
                 return value;
             }
         });
@@ -318,11 +317,11 @@ class BaseGenerator extends Component {
                 "dateStart": this.dateToISO(this.state.dates[0]),
                 "dateEnd": this.dateToISO(this.state.dates[1]),
                 "originSystem": "SVM",
-                "codeCity": city === null ? 0 : city.codeDataType.toString(),
-                "codeMarket": market === null ? 0 : market.codeDataType.toString(),
-                "codeTypeBusiness": (bussines === null || bussines === 0) ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === null ? 0 : line.linePlan.toString(),
-                "codeMaterial": (material === null || material=== 0) ? 0 : material.codeMaterial.toString(),
+                "codeCity": (city === undefined || city === null) ? 0 : city.codeDataType.toString(),
+                "codeMarket": (market === undefined || market === null) ? 0 : market.codeDataType.toString(),
+                "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
+                "linePlan": (line === undefined || line === null) ? 0 : line.linePlan.toString(),
+                "codeMaterial": (material === undefined || material === null) ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }

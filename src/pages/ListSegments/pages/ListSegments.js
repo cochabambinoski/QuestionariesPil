@@ -53,7 +53,7 @@ class ListSegments extends Component {
                 <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <BaseGenerator segment="null"/>
+                        <BaseGenerator segment="null" refresh = {this.handleClose}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
