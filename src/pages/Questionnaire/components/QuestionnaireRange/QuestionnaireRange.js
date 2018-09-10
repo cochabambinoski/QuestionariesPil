@@ -231,24 +231,33 @@ class QuestionnaireRange extends Component {
                 return results.json();
             }).then(data => {
             this.setState({lsDepartments: data});
+            this.getAllBranches();
         });
+    }
+
+    getAllBranches(){
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
             .then(results => {
                 return results.json();
             }).then(data => {
             this.setState({lsBranches: data});
+            this.getRanges();
         });
+    }
+
+    getRanges(){
         const id = this.props.questionnaireId;
         if (id !== undefined) {
             let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_RANGES_BY_QUESTIONNAIRE}?idQuestionary=${encodeURIComponent(id)}`;
             fetch(url).then(results => {
                 return results.json();
             }).then(data => {
-                this.setState({ranges: data});
+                data.forEach((range) => {
+                    this.addBranch(range.branch)
+                });
                 this.props.updateRanges(data);
             });
         }
-
     }
 
     render() {

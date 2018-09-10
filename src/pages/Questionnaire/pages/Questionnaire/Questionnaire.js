@@ -386,8 +386,8 @@ class Questionnaire extends Component {
                                         </div>
                                     </div> : <div/>
                             }
-                            <div className="content-section">
-                                <ScrollPanel style={{width: '100%', height: '400px'}}>
+                            <div>
+                                <ScrollPanel style={{ width: '100%', height: '700px' }}>
                                     <Questions questions={this.state.lsQuestions}
                                                removeQuestion={this.removeQuestion}
                                                readOnly={this.props.readOnly}
@@ -399,9 +399,7 @@ class Questionnaire extends Component {
                                 </ScrollPanel>
                             </div>
                         </Col>
-
                     </Row>
-
                 </div>
             </div>
         );

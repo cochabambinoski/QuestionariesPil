@@ -26,7 +26,6 @@ class Questions extends Component {
     };
     render() {
         return (
-            <ScrollPanel style={{ width: '100%', height: '400px' }} className="custombar1">
                 <div style={{  lineHeight: '1.5' }}>
                     {this.props.questions.map((question, index) => {
                         return (
@@ -49,7 +48,6 @@ class Questions extends Component {
                     })
                     }
                 </div>
-            </ScrollPanel>
         );
     }
 }
