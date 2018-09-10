@@ -27,7 +27,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {Button} from 'primereact/button';
+//import {Button} from 'primereact/button';
 
 const styles = theme => ({
     root: {
@@ -221,27 +221,6 @@ class EnhancedTable extends Component {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
     }
 
-    handleClick = (event, id) => {
-        const {selected} = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({selected: newSelected});
-    };
-
     /**
      * update table with range dates
      * @param fromDate
@@ -281,7 +260,8 @@ class EnhancedTable extends Component {
 
     handleClose = () => {
         this.setState({baseOpen: false});
-        this.setState({toDelete: null})
+        this.setState({deleteOpen:false});
+        this.setState({toDelete: null});
     };
 
     renderBase() {
