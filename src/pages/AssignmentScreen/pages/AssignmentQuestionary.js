@@ -28,6 +28,7 @@ import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {withStyles} from '@material-ui/core/styles';
 import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
+import {addAllAssignementUser, removeAllAssignmentUser} from "../../../actions";
 
 const styles = theme => ({
     root: {
@@ -87,7 +88,7 @@ class AssignmentQuestionary extends Component {
         this.questionary = questionary;
         this.status = status;
         this.initialDate = format("yyyy-MM-dd hh:mm:ss", finalDate);
-        this.finalDate = format( "yyyy-MM-dd hh:mm:ss", initialDate);
+        this.finalDate = format("yyyy-MM-dd hh:mm:ss", initialDate);
         this.sociedadId = "BOB1";
         this.usuarioId = user;
         this.operacionId = 1;
@@ -102,16 +103,16 @@ class AssignmentQuestionary extends Component {
 
     handleSaveAssignment = () => {
         const {questionerQuestionaryList} = this.state;
-        if (this.props.assignmentUser.entities.length === 0){
-            if(questionerQuestionaryList.length > 0){
+        if (this.props.assignmentUser.entities.length === 0) {
+            if (questionerQuestionaryList.length > 0) {
                 this.saveAssignments();
-            }else{
+            } else {
                 alert('Debe tener al menos un vendedor para guardar la asignacion');
             }
-        }else{
-            if(this.state.hasNewAssignments && this.state.dates2 == null){
+        } else {
+            if (this.state.hasNewAssignments && this.state.dates2 == null) {
                 alert('Seleccione un rango de fechas');
-            }else{
+            } else {
                 this.saveAssignments();
             }
         }
@@ -120,8 +121,8 @@ class AssignmentQuestionary extends Component {
     saveAssignments = () => {
         const {questionerQuestionaryList} = this.state;
 
-        for (let seller of this.props.assignmentUser.entities){
-            if (!this.alredyHasAssignment(seller)){
+        for (let seller of this.props.assignmentUser.entities) {
+            if (!this.alredyHasAssignment(seller)) {
                 const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
                     this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
                     this.props.user.username);
@@ -132,12 +133,12 @@ class AssignmentQuestionary extends Component {
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(questionerQuestionaryList),
-            headers:{
+            headers: {
                 'Accept': '*/*',
                 'Content-type': 'application/x-www-form-urlencoded'
             }
         }).then(res => res.json().then(data => {
-            this.cancelAssignamentSeller();
+                this.cancelAssignamentSeller();
             })
         )
             .catch(error => console.error('Error:', error))
@@ -158,13 +159,6 @@ class AssignmentQuestionary extends Component {
         this.props.deleteAllAssignementUser();
     };
 
-    handleAddSeller = (seller) => {
-        if(!this.alredyHasAssignment(seller)){
-            this.setState({hasNewAssignments: true});
-        }
-        this.props.addAssignementUser(seller);
-    };
-
     loadAssignments = (assignments) => {
         assignments.forEach((assignment) => {
             const {questionerQuestionaryList} = this.state;
@@ -174,46 +168,65 @@ class AssignmentQuestionary extends Component {
         });
     };
 
+    getAssignment = (seller) => {
+        let res = null;
+        const {questionerQuestionaryList} = this.state;
+        let assignments = questionerQuestionaryList.filter((assignment) => {
+            return assignment.mobileSeller.id === seller.id && assignment.operacionId === 1
+        });
+        if (assignments.length > 0)
+            res = assignments[0];
+        return res;
+    };
+
     handleDeleteSeller = (seller) => {
         this.props.deleteAssignementUser(seller);
     };
 
+    handleAddSeller = (seller) => {
+        if (!this.alredyHasAssignment(seller)) {
+            this.setState({hasNewAssignments: true});
+        }
+        this.props.addAssignementUser(seller);
+    };
+
     deleteAssignement = (seller) => {
         const {questionerQuestionaryList} = this.state;
-        questionerQuestionaryList.forEach((assignment)=>{
-            if(assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === seller.id){
+        questionerQuestionaryList.forEach((assignment) => {
+            if (assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === seller.id) {
                 assignment.operacionId = 0;
             }
         });
         this.handleDeleteSeller(seller);
     };
 
-    getAssignment = (seller) => {
-        let res = null;
-        const {questionerQuestionaryList} = this.state;
-        let assignments = questionerQuestionaryList.filter((assignment) => {
-            return assignment.mobileSeller.id === seller.id && assignment.operacionId === 1});
-        if (assignments.length > 0)
-            res = assignments[0];
-        return res;
-    };
-
     assignAllSeller = () => {
-
-        this.props.mobileSellers.forEach((mobileSeller, index) => {
-            this.handleAddSeller(mobileSeller);
-        })
+        let sellers =  [];
+        let changeHasNewAssignments = false;
+        this.props.mobileSellers.forEach((mobileSeller) => {
+            if (!this.alredyHasAssignment(mobileSeller)) {
+               changeHasNewAssignments = true;
+            }
+            sellers.push(mobileSeller);
+        });
+        this.props.addAllAssignementUser(sellers);
+        if (changeHasNewAssignments === true) {
+            this.setState({hasNewAssignments: true});
+        }
     };
 
-    promiseAssignAllSeller = () => {
-        setTimeout(this.assignAllSeller)
-    }
-
-    unassignAllSeller = () =>{
-        console.log(this.props.assignmentUser.entities.length);
+    unassignAllSeller = () => {
+        let sellersAssignement =  [];
         this.props.assignmentUser.entities.forEach((mobileSeller) => {
-            this.deleteAssignement(mobileSeller);
-        })
+            const {questionerQuestionaryList} = this.state;
+            questionerQuestionaryList.forEach((assignment) => {
+                if (assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === mobileSeller.id) {
+                    assignment.operacionId = 0;
+                }
+            });
+            sellersAssignement.push(mobileSeller);
+        });
+        this.props.removeAllAssignmentUser(sellersAssignement);
     };
 
     render() {
@@ -230,8 +243,9 @@ class AssignmentQuestionary extends Component {
             <div className="bodyContainer">
                 {
                     !idQuestionary ?
-                        <div >
-                            <InputText value={this.state.value1} onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)} />
+                        <div>
+                            <InputText value={this.state.value1}
+                                       onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)}/>
                             <QuestionaryAsignmet onSelectedQuestionary={this.handleSelectedQuestionary}/>
                         </div> : null
                 }
@@ -239,11 +253,11 @@ class AssignmentQuestionary extends Component {
                 {
                     idQuestionary ?
 
-                        <div >
+                        <div>
                             <Row>
                                 <Col xs>
 
-                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER} />
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}/>
                                     <MobileSellerList idQuestionary={this.state.idQuestionary.id}
                                                       isEdit={false}
                                                       getAssignment={this.getAssignment}
@@ -252,7 +266,7 @@ class AssignmentQuestionary extends Component {
 
                                 <Col xs>
 
-                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED }/>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}/>
                                     <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id}
                                                                isEdit={true}
                                                                loadAssignments={this.loadAssignments}
@@ -272,7 +286,9 @@ class AssignmentQuestionary extends Component {
                                                         }}
                                                         style={{margin: '5px', verticalAlign: 'left'}}/>
 
-                                                <Calendar value={this.state.dates2} onChange={(e) => this.setState({dates2: e.value})} selectionMode="range" readonlyInput={true} locale={es} />
+                                                <Calendar value={this.state.dates2}
+                                                          onChange={(e) => this.setState({dates2: e.value})}
+                                                          selectionMode="range" readonlyInput={true} locale={es}/>
 
                                                 <Button label="Completar Asignacion"
                                                         onClick={() => {
@@ -281,10 +297,14 @@ class AssignmentQuestionary extends Component {
                                                         style={{margin: '5px', verticalAlign: 'middle'}}/>
 
                                                 <Button label="Asignar Todos"
-                                                        onClick={() => {this.promiseAssignAllSeller()}}
+                                                        onClick={() => {
+                                                            this.assignAllSeller()
+                                                        }}
                                                         style={{margin: '5px', verticalAlign: 'middle'}}/>
                                                 <Button label="Desasignar Todos" className="ui-button-danger"
-                                                        onClick={() => {this.unassignAllSeller()}}
+                                                        onClick={() => {
+                                                            this.unassignAllSeller()
+                                                        }}
                                                         style={{margin: '5px', verticalAlign: 'left'}}/>
                                             </div>
                                         </Toolbar> :
@@ -311,9 +331,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addAssignementUser: value => dispatch(addAssignementUser(value)),
+    addAllAssignementUser: value => dispatch(addAllAssignementUser(value)),
     deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
     deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
+    removeAllAssignmentUser: value => dispatch(removeAllAssignmentUser(value)),
     editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
 });
 

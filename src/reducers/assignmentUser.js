@@ -7,7 +7,7 @@ import {
     DELETE_MOBILE_LIST_AUX,
     ADD_MOBILE_SELLERS,
     ADD_MOBILE_SELLER,
-    DELETE_MOBILE_SELLERS
+    DELETE_MOBILE_SELLERS, ADD_ALL_ASSIGNEMENT_USER, REMOVE_ALL_ASSIGNEMENT_USER
 } from "../action-types/actionTypes";
 
 const initialState = (
@@ -33,6 +33,15 @@ export function assignmentUser(state = initialState, action) {
                 mobileSellers: mobileSellers
             }
         }
+
+        case ADD_ALL_ASSIGNEMENT_USER: {
+            return {
+                ...state,
+                entities: action.payload,
+                mobileSellers: []
+            }
+        }
+
         case DELETE_ASSIGNEMENT_USER: {
             mobileSellers.push(action.payload);
             remove(sellers, action.payload);
@@ -42,6 +51,15 @@ export function assignmentUser(state = initialState, action) {
                 mobileSellers: mobileSellers
             };
         }
+
+        case REMOVE_ALL_ASSIGNEMENT_USER: {
+            return {
+                ...state
+                , entities: [],
+                mobileSellers: action.payload,
+            };
+        }
+
         case DELETE_ALL_ASSIGNEMENT_USER: {
             return {...state, entities: []};
         }

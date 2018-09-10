@@ -43,7 +43,10 @@ import {
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    CONCAT_FILTER_MOBILE_SELLER_BRANCH, CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH
+    CONCAT_FILTER_MOBILE_SELLER_BRANCH,
+    CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
+    ADD_ALL_ASSIGNEMENT_USER,
+    REMOVE_ALL_ASSIGNEMENT_USER
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -62,7 +65,11 @@ export  const setMenuContainer = payload => ({type: SET_MENU_CONTAINER, payload}
 
 export const addAssignementUser = payload => ({type: ADD_ASSIGNEMENT_USER, payload});
 
+export const addAllAssignementUser = payload => ({type: ADD_ALL_ASSIGNEMENT_USER, payload});
+
 export const deleteAssignementUser = payload => ({type: DELETE_ASSIGNEMENT_USER, payload});
+
+export const removeAllAssignmentUser = payload => ({type: REMOVE_ALL_ASSIGNEMENT_USER, payload});
 
 export const deleteAllAssignementUser = payload => ({type: DELETE_ALL_ASSIGNEMENT_USER, payload});
 

@@ -126,8 +126,7 @@ class MobileSellerList extends Component {
         return (
             <div>
                 {
-                    this.props.mobileSellers.length > 0 ? this.renderMobileSellersItem() :
-                        <CircularProgress style={{width: '20%', height: '20%'}}/>
+                 this.renderMobileSellersItem()
                 }
             </div>
         );
