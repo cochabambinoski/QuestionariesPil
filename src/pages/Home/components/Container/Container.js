@@ -18,7 +18,6 @@ class Container extends Component {
                             <QuestionaryContainer/>
                             : this.props.idMenu === '1080502' ? <AssignmentQuestionary/> :
                             this.props.idMenu === '1080600' ? <ListSegment/> : null
-
                 }
 
             </div>

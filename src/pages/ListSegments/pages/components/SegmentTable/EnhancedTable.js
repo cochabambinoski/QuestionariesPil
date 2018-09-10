@@ -20,6 +20,7 @@ import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
 import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
+import SegmentationGenerator from "../../../../SegementationGenerator/pages/SegmentationGenerator";
 import {Button} from "primereact/button";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -175,13 +176,19 @@ class EnhancedTable extends Component {
         this.setState({rowsPerPage: event.target.value});
     };
 
-    handleBase= (event, id) => {
-        this.setState({segment:id});
+    handleBase = (event, id) => {
+        this.setState({segment: id});
         this.setState({baseOpen: true});
+    };
+
+    handleSegment = (event, id) => {
+        this.setState({segment: id});
+        this.setState({segmentOpen: true});
     };
 
     handleClose = () => {
         this.setState({baseOpen: false});
+        this.setState({segmentOpen: false});
         this.setState({toDelete: null})
     };
 
@@ -194,10 +201,36 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title"
+                             style={{backgroundColor: '#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <BaseGenerator segment={this.state.segment}/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+
+        );
+    }
+
+    renderSegment() {
+        const {classes} = this.props;
+        return (
+            <Dialog
+                open={this.state.segmentOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title"
+                             style={{backgroundColor: '#5B5D74'}}>{"Generación de parametros para la segmentación"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <SegmentationGenerator segment={this.state.segment}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -243,12 +276,14 @@ class EnhancedTable extends Component {
                                                 {n.description}
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Editar Base" onClick={event => this.handleBase(event, n)}>
+                                                <IconButton aria-label="Editar Base"
+                                                            onClick={event => this.handleBase(event, n)}>
                                                     <EditBas/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Editar Segmentación"
+                                                            onClick={event => this.handleSegment(event, n)}>
                                                     <EditSeg/>
                                                 </IconButton>
                                             </TableCell>
@@ -297,6 +332,7 @@ class EnhancedTable extends Component {
             <div>
                 <div>
                     {this.renderBase()}
+                    {this.renderSegment()}
                 </div>
                 {this.renderCell()}
             </div>

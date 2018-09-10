@@ -18,11 +18,13 @@ class SegmentationGenerator extends Component {
 
     constructor(props) {
         super(props);
+        let segment = props.segment;
+        console.log(segment);
         this.state = {
-            code: props.code,
-            level: 1,
-            k1: 0.5,
-            k2: 0.5,
+            code: segment.idClientKiloliter,
+            level: segment.numberLevel,
+            k1: segment.factorK1,
+            k2: segment.factorK2,
             process: 1,
         }
     }
@@ -71,12 +73,6 @@ class SegmentationGenerator extends Component {
         const {process} = this.state;
         return (
             <div>
-                <div className="content-section introduction">
-                    <div className="feature-intro">
-                        <h1>Generación de parametros para la segmentación</h1>
-                        <p></p>
-                    </div>
-                </div>
                 {
                     process ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
                 }
@@ -90,63 +86,59 @@ class SegmentationGenerator extends Component {
                 <Card>
                     <Grid>
                         <Row>
-                            <Col xs={9}>
-                                <Row>
-                                    <Col xs={2}>
-                                        <label style={{width: '5em', margin: '.30em'}}>Codigo:</label>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <InputText value={this.state.code}
-                                                   onChange={(e) => this.setState({code: e.target.value})}
-                                                   disabled="disabled"
-                                                   style={{width: '5em', margin: '.25em'}}/>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={2}>
-                                        <label style={{width: '5em', margin: '.30em'}}>Numero de Niveles:</label>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <InputText value={this.state.level} keyfilter="int"
-                                                   onChange={(e) => this.setState({level: e.target.value})}
-                                                   style={{width: '5em', margin: '.25em'}}/>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={2}>
-                                        <label style={{width: '5em', margin: '.30em'}}>Factor K1:</label>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <InputText value={this.state.k1} keyfilter={/^\d*\.?\d{0,2}$/}
-                                                   onChange={(e) => this.setState({k1: e.target.value})}
-                                                   style={{width: '5em', margin: '.25em'}}/>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <label style={{width: '5em', margin: '.30em'}}>Para limite inferior</label>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={2}>
-                                        <label style={{width: '5em', margin: '.30em'}}>Factor K2:</label>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <InputText value={this.state.k2} keyfilter={/^\d*\.?\d{0,2}$/}
-                                                   onChange={(e) => this.setState({k2: e.target.value})}
-                                                   style={{width: '5em', margin: '.25em'}}/>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <label style={{width: '5em', margin: '.30em'}}>Para limite superior</label>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={2}>
-                                    </Col>
-                                    <Col xs={2}>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <Button label="Generar" onClick={this.handleClick}/>
-                                    </Col>
-                                </Row>
+                            <Col xs={4}>
+                                <label style={{width: '5em', margin: '.30em'}}>Codigo:</label>
+                            </Col>
+                            <Col xs={4}>
+                                <InputText value={this.state.code}
+                                           onChange={(e) => this.setState({code: e.target.value})}
+                                           disabled="disabled"
+                                           style={{width: '5em', margin: '.25em'}}/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4}>
+                                <label style={{width: '5em', margin: '.30em'}}>Numero de Niveles:</label>
+                            </Col>
+                            <Col xs={4}>
+                                <InputText value={this.state.level} keyfilter="int"
+                                           onChange={(e) => this.setState({level: e.target.value})}
+                                           style={{width: '5em', margin: '.25em'}}/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4}>
+                                <label style={{width: '5em', margin: '.30em'}}>Factor K1:</label>
+                            </Col>
+                            <Col xs={4}>
+                                <InputText value={this.state.k1} keyfilter={/^\d*\.?\d{0,2}$/}
+                                           onChange={(e) => this.setState({k1: e.target.value})}
+                                           style={{width: '5em', margin: '.25em'}}/>
+                            </Col>
+                            <Col xs={4}>
+                                <label style={{width: '5em', margin: '.30em'}}>Para limite inferior</label>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4}>
+                                <label style={{width: '5em', margin: '.30em'}}>Factor K2:</label>
+                            </Col>
+                            <Col xs={4}>
+                                <InputText value={this.state.k2} keyfilter={/^\d*\.?\d{0,2}$/}
+                                           onChange={(e) => this.setState({k2: e.target.value})}
+                                           style={{width: '5em', margin: '.25em'}}/>
+                            </Col>
+                            <Col xs={4}>
+                                <label style={{width: '5em', margin: '.30em'}}>Para limite superior</label>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4}>
+                            </Col>
+                            <Col xs={4}>
+                            </Col>
+                            <Col xs={4}>
+                                <Button label="Generar" onClick={this.handleClick}/>
                             </Col>
                         </Row>
                     </Grid>
