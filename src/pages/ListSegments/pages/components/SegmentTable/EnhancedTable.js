@@ -123,27 +123,6 @@ class EnhancedTable extends Component {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
     }
 
-    handleClick = (event, id) => {
-        const {selected} = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({selected: newSelected});
-    };
-
     /**
      * update table with range dates
      * @param fromDate
@@ -190,6 +169,7 @@ class EnhancedTable extends Component {
         this.setState({baseOpen: false});
         this.setState({segmentOpen: false});
         this.setState({toDelete: null})
+        this.chargeTable(this.state.startDate, this.state.endDate)
     };
 
     renderBase() {
@@ -205,7 +185,7 @@ class EnhancedTable extends Component {
                              style={{backgroundColor: '#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <BaseGenerator segment={this.state.segment}/>
+                        <BaseGenerator segment={this.state.segment} refresh={this.handleClose}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -230,7 +210,7 @@ class EnhancedTable extends Component {
                              style={{backgroundColor: '#5B5D74'}}>{"Generación de parametros para la segmentación"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        <SegmentationGenerator segment={this.state.segment}/>
+                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

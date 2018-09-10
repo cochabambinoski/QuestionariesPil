@@ -69,7 +69,7 @@ class BaseGenerator extends Component {
         this.setState({market: this.getValueType(this.state.markets, this.state.idTypeMarket)});
         this.setState({bussines: this.getValueType(this.state.bussiness, this.state.idTypeBusiness)});
         this.setState({line: this.getValueLine()});
-        this.setState({material: this.getValueMaterial()});
+        this.setState({material: this.getValueMaterial() === undefined ? 0 : this.getValueMaterial()});
     }
 
     componentDidMount() {
@@ -111,6 +111,7 @@ class BaseGenerator extends Component {
         let one = this.state.codeMaterial;
         let finded = list.filter(function (value) {
             if (value.codeMaterial === one) {
+                console.log(value);
                 return value;
             }
         });
@@ -189,6 +190,7 @@ class BaseGenerator extends Component {
             .then(response => {
                 console.log(response, response.codeResult);
                 this.setState({process: response.codeResult});
+                this.props.refresh();
             });
     };
 
@@ -318,9 +320,9 @@ class BaseGenerator extends Component {
                 "originSystem": "SVM",
                 "codeCity": city === null ? 0 : city.codeDataType.toString(),
                 "codeMarket": market === null ? 0 : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === null ? 0 : bussines.codeDataType.toString(),
+                "codeTypeBusiness": (bussines === null || bussines === 0) ? 0 : bussines.codeDataType.toString(),
                 "linePlan": line === null ? 0 : line.linePlan.toString(),
-                "codeMaterial": material === null ? 0 : material.codeMaterial.toString(),
+                "codeMaterial": (material === null || material=== 0) ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
@@ -490,6 +492,7 @@ class BaseGenerator extends Component {
 
 BaseGenerator.propTypes = {
     segment: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(BaseGenerator);

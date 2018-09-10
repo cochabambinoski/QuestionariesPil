@@ -47,6 +47,7 @@ class SegmentationGenerator extends Component {
             .then(response => {
                 console.log(response, response.codeResult);
                 this.setState({process: response.codeResult});
+                this.props.refresh();
             });
     };
 
@@ -148,5 +149,9 @@ class SegmentationGenerator extends Component {
     }
 }
 
+SegmentationGenerator.propTypes = {
+    segment: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
+};
 export default withStyles(styles)(SegmentationGenerator);
 
