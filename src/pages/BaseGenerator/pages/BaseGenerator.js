@@ -1,8 +1,8 @@
 /**
  * Created by smirandaz on 08/30/2018.
  */
-
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Card} from "primereact/card";
 import {withStyles} from "@material-ui/core/styles";
 import {Col, Grid, Row} from "react-flexbox-grid";
@@ -12,7 +12,7 @@ import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import * as DateUtils from "../../../utils/dateUtils";
 
 const styles = theme => ({
     row: {
@@ -28,11 +28,14 @@ class BaseGenerator extends Component {
 
     constructor(props) {
         super(props);
-
+        let segment = props.segment;
+        console.log(segment);
         this.state = {
-            codeSeg: null,
-            description: null,
+            codeSeg: segment.idClientKiloliter,
+            description: segment.description,
             dates: null,
+            startDate: props.dateStart,
+            endDate: props.dateEnd,
             city: null,
             bussines: null,
             market: null,
@@ -45,6 +48,12 @@ class BaseGenerator extends Component {
             materials: [],
             isEdit: false,
             process: 1,
+            idClientKiloliter: segment.idClientKiloliter,
+            idTypeBusiness: segment.idTypeBusiness,
+            idTypeCity: segment.idTypeCity,
+            idTypeMarket: segment.idTypeMarket,
+            idLine: segment.line,
+            codeMaterial: segment.codeMaterial,
         };
 
         this.onCityChange = this.onCityChange.bind(this);
@@ -54,12 +63,17 @@ class BaseGenerator extends Component {
         this.onMaterialChange = this.onMaterialChange.bind(this);
     }
 
-    shouldComponentUpdate(next_props, next_state) {
-        if (next_state.description === this.state.description)
-            return true;
+    componentWillReceiveProps() {
+        this.setState({city: this.getValueType(this.state.cities, this.state.idTypeCity)});
+        this.setState({market: this.getValueType(this.state.markets, this.state.idTypeMarket)});
+        this.setState({bussines: this.getValueType(this.state.bussiness, this.state.idTypeBusiness)});
+        this.setState({line: this.getValueLine()});
+        this.setState({material: this.getValueMaterial()});
+        this.setState({dates:[this.state.startDate, this.state.endDate]});
     }
 
     componentDidMount() {
+        this.setState({dates: [this.state.startDate, this.state.endDate]});
         this.getCities(0, Constants.GET_CITIES);
         this.getMarkets(0, Constants.GET_MARKETS);
         this.getBussiness(0, Constants.GET_BUSSINESS);
@@ -67,9 +81,47 @@ class BaseGenerator extends Component {
         this.getMaterials(0);
     }
 
+    getValueType(myList, myValue) {
+        let list = myList;
+        let one = myValue;
+        let finded = list.filter(function (value) {
+            if (value.idDataType === one) {
+                return value;
+            }
+        });
+        return finded[0];
+    }
+
+    getValueLine() {
+        let list = this.state.lines;
+        let one = this.state.idLine;
+        let finded = list.filter(function (value) {
+            ;
+            if (value.linePlan === one) {
+                return value;
+            }
+        });
+        return finded[0];
+    }
+
+    getValueMaterial() {
+        let list = this.state.materials;
+        let one = this.state.codeMaterial;
+        let finded = list.filter(function (value) {
+            if (value.codeMaterial === one) {
+                return value;
+            }
+        });
+        return finded[0];
+    }
+
+    shouldComponentUpdate(next_props, next_state) {
+        if (next_state.description === this.state.description)
+            return true;
+    }
+
     getCities = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
-        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();
@@ -81,7 +133,6 @@ class BaseGenerator extends Component {
 
     getMarkets = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
-        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();
@@ -92,7 +143,6 @@ class BaseGenerator extends Component {
 
     getBussiness = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
-        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();
@@ -103,7 +153,6 @@ class BaseGenerator extends Component {
 
     getLines = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.LINES}`;
-        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();
@@ -119,6 +168,7 @@ class BaseGenerator extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
+            console.log.material;
             this.setState({materials: data});
         });
     };
@@ -276,12 +326,6 @@ class BaseGenerator extends Component {
         const {process} = this.state;
         return (
             <div>
-                {/*<div className="content-section introduction">
-                    <div className="feature-intro">
-                        <h1>Generación de Segmentación Base</h1>
-                        <p></p>
-                    </div>
-                </div>*/}
                 {
                     process ? this.renderForm() : <CircularProgress style={{width: '100%', height: '100%'}}/>
                 }
@@ -302,7 +346,7 @@ class BaseGenerator extends Component {
                             <Col xs={6} lg={6} md={4} sd={3}>
                                 <InputText id="code" type="text" size="30" value={this.state.codeSeg}
                                            onChange={(e) => this.setState({codeSeg: e.target.value})}
-                                           disabled="disabled" style={{width:'200px', marginBottom:'.5em'}}/>
+                                           disabled="disabled" style={{width: '200px', marginBottom: '.5em'}}/>
                             </Col>
                             <Col xs={6} lg={6} md={4} sd={3}>
                             </Col>
@@ -315,7 +359,8 @@ class BaseGenerator extends Component {
                             </Col>
                             <Col xs={6} lg={6}>
                                 <InputText id="description" type="text" size="45" value={this.state.description}
-                                           onChange={(e) => this.setState({description: e.target.value})} style={{width:'200px', marginBottom:'.5em'}}/>
+                                           onChange={(e) => this.setState({description: e.target.value})}
+                                           style={{width: '200px', marginBottom: '.5em'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -329,7 +374,8 @@ class BaseGenerator extends Component {
                             <Col xs={6} lg={6}>
                                 <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                                           onChange={(e) => this.setState({dates: e.value})}
-                                          selectionMode="range" readonlyInput={true} style={{width:'200px', marginBottom:'.5em'}}/>
+                                          selectionMode="range" readonlyInput={true}
+                                          style={{width: '200px', marginBottom: '.5em'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -347,7 +393,7 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="nameDataType" filter={true}
                                           filterPlaceholder="Seleccione Ciudad"
-                                          filterBy="nameDataType" style={{width:'200px', marginBottom:'.5em'}}
+                                          filterBy="nameDataType" style={{width: '200px', marginBottom: '.5em'}}
                                           showClear={true}/>
                             </Col>
                             <Col xs={6} lg={6}>
@@ -366,7 +412,7 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="nameDataType" filter={true}
                                           filterPlaceholder="Seleccione Mercado"
-                                          filterBy="nameDataType" style={{width:'200px', marginBottom:'.5em'}}
+                                          filterBy="nameDataType" style={{width: '200px', marginBottom: '.5em'}}
                                           showClear={true}/>
                             </Col>
                             <Col xs={6} lg={6}>
@@ -385,7 +431,7 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="nameDataType" filter={true}
                                           filterPlaceholder="Seleccione Negocio"
-                                          filterBy="nameDataType" style={{width:'200px', marginBottom:'.5em'}}
+                                          filterBy="nameDataType" style={{width: '200px', marginBottom: '.5em'}}
                                           showClear={true}/>
                             </Col>
                             <Col xs={6} lg={6}>
@@ -403,7 +449,7 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="linePlan"
                                           filter={true} filterPlaceholder="Seleccione Linea"
-                                          filterBy="linePlan" style={{width:'200px', marginBottom:'.5em'}}
+                                          filterBy="linePlan" style={{width: '200px', marginBottom: '.5em'}}
                                           showClear={true}/>
                             </Col>
                             <Col xs={6} lg={6}>
@@ -415,7 +461,7 @@ class BaseGenerator extends Component {
                                           itemTemplate={this.materialTemplate}
                                           placeholder="Todos" optionLabel="material"
                                           filter={true} filterPlaceholder="Seleccione Material"
-                                          filterBy="material" style={{width:'200px', marginBottom:'.5em'}}
+                                          filterBy="material" style={{width: '200px', marginBottom: '.5em'}}
                                           showClear={true}/>
                             </Col>
                         </Row>
@@ -439,8 +485,9 @@ class BaseGenerator extends Component {
     }
 }
 
-BaseGenerator
-    .propTypes = {};
+BaseGenerator.propTypes = {
+    segment: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(BaseGenerator);
 
