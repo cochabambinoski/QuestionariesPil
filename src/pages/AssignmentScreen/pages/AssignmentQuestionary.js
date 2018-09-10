@@ -296,12 +296,12 @@ class AssignmentQuestionary extends Component {
                                                         }}
                                                         style={{margin: '5px', verticalAlign: 'middle'}}/>
 
-                                                <Button label="Asignar Todos"
+                                                <Button label="Asignar todos"
                                                         onClick={() => {
                                                             this.assignAllSeller()
                                                         }}
                                                         style={{margin: '5px', verticalAlign: 'middle'}}/>
-                                                <Button label="Desasignar Todos" className="ui-button-danger"
+                                                <Button label="Quitar Todas las Asignaciones" className="ui-button-danger"
                                                         onClick={() => {
                                                             this.unassignAllSeller()
                                                         }}
