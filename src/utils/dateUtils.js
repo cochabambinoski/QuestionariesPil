@@ -42,3 +42,9 @@ export function firstDayOfMonth() {
     let firstDay = new Date(y, m, 1);
     return firstDay;
 }
+
+export function getDate(date) {
+    let dateNew = new Date(date);
+    console.log('getDate(): ', dateNew);
+    return dateNew;
+}

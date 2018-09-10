@@ -5,6 +5,10 @@ import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
+import {connect} from 'react-redux';
+import {getMobileAssignement, getTypeByCodSap} from "../../../../../../reducers";
+import Constants from "../../../../../../Constants";
+import {deleteAllAssignementUser, editQueryTextMobileSellerList} from "../../../../../../actions";
 
 const suggestions = [
     {label: 'BRAÑEZ RAMIREZ ENRIQUE'},
@@ -186,4 +190,15 @@ SearchMobileSeller.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SearchMobileSeller);
+const mapStateToProps = state => ({
+    assignmentUser: getMobileAssignement(state),
+    typeQuestionerQuestionary: getTypeByCodSap(state, Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN),
+    querySearchView: state.queryMobileSeller,
+});
+
+const mapDispatchToProps = dispatch => ({
+    deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
+    editQueryText: value => dispatch(editQueryTextMobileSellerList()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SearchMobileSeller));
