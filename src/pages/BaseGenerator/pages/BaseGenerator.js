@@ -319,8 +319,8 @@ class BaseGenerator extends Component {
                 "codeCity": city === null ? 0 : city.codeDataType.toString(),
                 "codeMarket": market === null ? 0 : market.codeDataType.toString(),
                 "codeTypeBusiness": bussines === null ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === null ? 0 : line.linePlan.toString(),
-                "codeMaterial": material === null ? 0 : material.codeMaterial.toString(),
+                "linePlan": line === undefined ? 0 : line.linePlan.toString(),
+                "codeMaterial": material === undefined ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
