@@ -3,26 +3,7 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from "@material-ui/core/styles";
-
-const styles = theme => ({
-    background: {
-        backgroundColor: '#3498DB',
-        widths: '100%',
-        height: 'auto',
-        color: '#FFF',
-        padding: '1.5em',
-        marginTop: '-0.35em',
-        marginLeft: '-1.5em',
-        marginRight: '-1.5em',
-    },
-    title: {
-        size: 'large',
-    },
-    subtile: {
-        size: 'large',
-    }
-});
+import style from "./title.css";
 
 class Title extends Component {
     constructor(props) {
@@ -35,12 +16,11 @@ class Title extends Component {
     }
 
     render() {
-        const {classes} = this.props;
         return (
             <div>
-                <div className={classes.background}>
-                    <h1>{this.state.title}</h1>
-                    <p>{this.state.subtitle}</p>
+                <div className="titleBody">
+                    <h1 className="titleA">{this.state.title}</h1>
+                    <p className="titleB">{this.state.subtitle}</p>
                 </div>
             </div>
         );
@@ -49,5 +29,5 @@ class Title extends Component {
 
 Title.propTypes = {};
 
-export default  withStyles(styles)(Title);
+export default  (Title);
 

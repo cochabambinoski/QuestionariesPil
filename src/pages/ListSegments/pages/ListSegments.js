@@ -14,8 +14,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Title from "../../Title/Title";
+import style from "./components/SegmentTable/table.css";
 
-const styles = theme => ({});
+const styles = theme => ({
+
+    toolbarStyle: {
+        marginTop: '1em',
+        padding: '0.5em',
+        //background: '#c0c0c0'
+    }
+});
 
 class ListSegments extends Component {
 
@@ -26,7 +34,7 @@ class ListSegments extends Component {
             baseOpen: false,
             segment: null,
             title: "Lista de Segmentación Base",
-            subtitle: "Generación de reportes, creación, edición y eliminacion de segmentación."
+            subtitle: "Generación de reportes, creación, edición y eliminación de segmentación."
         };
     }
 
@@ -53,8 +61,7 @@ class ListSegments extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title"
-                             style={{backgroundColor: '#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <BaseGenerator segment="null"/>
@@ -77,7 +84,7 @@ class ListSegments extends Component {
                 <div>
                     <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
                 </div>
-                <Toolbar>
+                <Toolbar className={classes.toolbarStyle}>
                     <div className="p-toolbar-group-left">
                         <Button label="Nuevo" className="p-button-rounded" onClick={this.handleClick}/>
                     </div>

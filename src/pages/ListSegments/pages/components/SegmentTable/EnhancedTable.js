@@ -26,6 +26,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import style from "./table.css";
 
 const styles = theme => ({
     root: {
@@ -194,7 +195,7 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <BaseGenerator segment={this.state.segment}/>
