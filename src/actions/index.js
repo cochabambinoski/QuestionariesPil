@@ -46,7 +46,10 @@ import {
     CONCAT_FILTER_MOBILE_SELLER_BRANCH,
     CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     ADD_ALL_ASSIGNEMENT_USER,
-    REMOVE_ALL_ASSIGNEMENT_USER, CLEAN_FILTER
+    REMOVE_ALL_ASSIGNEMENT_USER,
+    CLEAN_FILTER,
+    CHANGE_OPERATION_ID_BRANCH_SELLER,
+    CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED, SAVE_MOBILE_ASSIGNED_LIST_AUX, DELETE_MOBILE_ASSIGNED_LIST_AUX
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -80,10 +83,6 @@ export const editAssignementUser = payload => ({type: EDIT_ASSIGNEMENT_USER, pay
 export const searchEntitiesAsync = payload => ({type: SEARCH_ASYNC_ENTITIES, payload});
 
 export const setInitialData = payload => ({type: GET_INITIAL_DATA, payload});
-
-export const saveMobileSellerListAux = payload => ({type : SAVE_MOBILE_LIST_AUX, payload});
-
-export const deleteSaveMobileSellerListAux = payload => ({type : DELETE_MOBILE_LIST_AUX, payload});
 
 export const editQueryTextMobileSellerList = payload => ({type : EDIT_QUERY_TEXT_MOBILE_SELLER_LIST, payload});
 
@@ -150,3 +149,15 @@ export const deleteParamFilterMobileSellerAssignedType = payload => ({type: DELE
 export const deleteParamFilterMobileSellerAssignedBranch = payload => ({type: DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, payload});
 
 export const cleanFilter = payload => ({type: CLEAN_FILTER, payload });
+
+export const changeOperationIdBranchSeller = payload => ({type: CHANGE_OPERATION_ID_BRANCH_SELLER, payload});
+
+export const changeOperationIdBranchSellerAssigned = payload => ({type: CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED, payload});
+
+export const saveMobileSellerListAux = payload => ({type : SAVE_MOBILE_LIST_AUX, payload});
+
+export const saveMobileSellerAssignedListAux = payload => ({type : SAVE_MOBILE_ASSIGNED_LIST_AUX, payload});
+
+export const deleteSaveMobileSellerListAux = payload => ({type : DELETE_MOBILE_LIST_AUX, payload});
+
+export const deleteSaveMobileSellerAssignedListAux = payload => ({type : DELETE_MOBILE_ASSIGNED_LIST_AUX, payload});

@@ -21,6 +21,8 @@ export const getQueryMobileSeller = state => state.searchFilter.queryMobileSelle
 export const getQueryMobileSellerAssigment = state => state.searchFilter.queryMobileSellerAssigned;
 export const getQueryQuestionerAssigment = state => state.searchFilter.queryQuestionaryAssigned;
 export const getMobileSellers = state => state.assignmentUser.mobileSellers;
+export const getMobileSellersAux = state => state.assignmentUser.mobileSellersAux;
+export const getMobileSellersAssigmentAux = state => state.assignmentUser.mobileSellerAssignedAux;
 export const getQuestionarySelected = state => state.createQuestionary.idQuestionary;
 export const getCreateQuestionary = state => state.createQuestionary;
 export const getUser = state => state.user.user;

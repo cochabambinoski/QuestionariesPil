@@ -7,16 +7,20 @@ import {
     DELETE_MOBILE_LIST_AUX,
     ADD_MOBILE_SELLERS,
     ADD_MOBILE_SELLER,
-    DELETE_MOBILE_SELLERS, ADD_ALL_ASSIGNEMENT_USER, REMOVE_ALL_ASSIGNEMENT_USER
+    DELETE_MOBILE_SELLERS,
+    ADD_ALL_ASSIGNEMENT_USER,
+    REMOVE_ALL_ASSIGNEMENT_USER,
+    SAVE_MOBILE_ASSIGNED_LIST_AUX,
+    DELETE_MOBILE_ASSIGNED_LIST_AUX
 } from "../action-types/actionTypes";
 
 const initialState = (
     {
         filter: {},
         entities: [],
-        entitiesAux: [],
-        entitiesFilter: [],
+        mobileSellerAssignedAux: [],
         mobileSellers: [],
+        mobileSellersAux: [],
     }
 );
 
@@ -67,10 +71,16 @@ export function assignmentUser(state = initialState, action) {
             return state.assignmentUser.push(action.payload);
         }
         case SAVE_MOBILE_LIST_AUX: {
-            return {...state, entitiesAux: action.payload};
+            return {...state, mobileSellersAux: action.payload};
+        }
+        case SAVE_MOBILE_ASSIGNED_LIST_AUX: {
+            return {...state, mobileSellerAssignedAux: action.payload};
         }
         case DELETE_MOBILE_LIST_AUX: {
-            return {...state, entitiesAux: []};
+            return {...state, mobileSellersAux: []};
+        }
+        case DELETE_MOBILE_ASSIGNED_LIST_AUX: {
+            return {...state, mobileSellerAssignedAux: []};
         }
         case DELETE_MOBILE_SELLERS: {
             return {...state, mobileSellers: []};

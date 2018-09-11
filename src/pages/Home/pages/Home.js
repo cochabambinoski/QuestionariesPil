@@ -8,7 +8,7 @@ import Container from "../components/Container/Container";
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import '../layout.css';
+import '../../../layout/layout.css';
 import {connect} from 'react-redux';
 import * as actions from '../../../actions'
 import {bindActionCreators} from 'redux';

@@ -10,7 +10,10 @@ import {
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    CONCAT_FILTER_MOBILE_SELLER_BRANCH, CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH, CLEAN_FILTER
+    CONCAT_FILTER_MOBILE_SELLER_BRANCH,
+    CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
+    CLEAN_FILTER,
+    CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED, CHANGE_OPERATION_ID_BRANCH_SELLER
 } from "../action-types/actionTypes";
 import {remove} from '../Util/ArrayFilterUtil'
 
@@ -28,6 +31,7 @@ const initialState = (
 );
 
 export function searchFilter(state = initialState, action) {
+    const array = state.queryAdvancedMobileSellerBranch;
     switch (action.type) {
         case EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST: {
             return {...state, queryQuestionaryAssigned: action.payload};
@@ -74,7 +78,7 @@ export function searchFilter(state = initialState, action) {
         case CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH : {
             return {
                 ...state,
-                queryAdvancedMobileSellerAssignedBranch: [...state.queryAdvancedMobileSellerAssignedBranch, action.payload ],
+                queryAdvancedMobileSellerAssignedBranch: [...state.queryAdvancedMobileSellerAssignedBranch, action.payload],
             }
         }
 
@@ -90,6 +94,15 @@ export function searchFilter(state = initialState, action) {
                 queryAdvancedMobileSellerBranch: state.queryAdvancedMobileSellerBranch.filter(item => item !== action.payload),
             }
         }
+        case CHANGE_OPERATION_ID_BRANCH_SELLER: {
+            console.log(action.payload);
+            let id = action.payload.id;
+            array[id].operacionId = action.payload.operacionId;
+            return {
+                ...state,
+                queryAdvancedMobileSellerAssignedType: state.queryAdvancedMobileSellerAssignedType.filter(item => item !== action.payload),
+            }
+        }
         case DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE: {
             return {
                 ...state,
@@ -102,9 +115,15 @@ export function searchFilter(state = initialState, action) {
                 queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.filter(item => item !== action.payload),
             }
         }
+        case CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED: {
+            console.log(action.payload);
+            return Object.assign({}, state, {
+                queryAdvancedMobileSellerAssignedBranch: action.payload,
+            });
+        }
         case CLEAN_FILTER: {
-            return{
-                ...state,queryMobileSeller: "",
+            return {
+                ...state, queryMobileSeller: "",
                 queryMobileSellerAssigned: "",
                 queryAdvancedMobileSellerType: [],
                 queryAdvancedMobileSellerBranch: [],

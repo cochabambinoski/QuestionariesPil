@@ -10,6 +10,12 @@ import {
     getQueryMobileSellerAssigment, getQueryMobileSellerAssignedBranch, getQueryMobileSellerAssignedType
 } from "../../../../../../reducers";
 import Constants from "../../../../../../Constants.json";
+import {
+    addAssignementUser,
+    addMobileSellers,
+    deleteAssignementUser,
+    editAssignementUser, saveMobileSellerAssignedListAux, saveMobileSellerListAux
+} from "../../../../../../actions";
 
 const styles = theme => ({
     root: {
@@ -66,7 +72,7 @@ class MobileSellerListAssigment extends Component {
         let list = [];
         branches.forEach(function (branch) {
             list = list.concat(mobileSellers.filter((mobileSeller) =>
-                mobileSeller.vendedor.sucursal.id === branch.id
+                mobileSeller.vendedor.sucursal.id === branch.id && branch.operacionId === 1
             ));
         });
         if (branches.length > 0) {
@@ -83,7 +89,7 @@ class MobileSellerListAssigment extends Component {
         }
         filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerAssignedType);
         filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerAssignedBranch);
-
+        this.saveListAux(filterList);
         return <List className={this.props.classes.root} subheader={<li/>}>
             {filterList.map(mobileSeller => (
                 <MobileSellerItem
@@ -94,6 +100,12 @@ class MobileSellerListAssigment extends Component {
                     getAssignment={this.props.getAssignment}/>
             ))}
         </List>
+    }
+
+    saveListAux(filterList){
+        if (filterList.length !== this.props.assignmentUser.mobileSellerAssignedAux.length) {
+            this.props.saveMobileSellerAssignedListAux(filterList);
+        }
     }
 
     getAssignedMobileSellers = (idQuestionary) => {
@@ -115,6 +127,10 @@ class MobileSellerListAssigment extends Component {
         }
         if (nextProps.queryMobileSellerAssignedType.length !== this.props.queryMobileSellerAssignedType.length ||
             nextProps.queryMobileSellerAssignedBranch.length !== this.props.queryMobileSellerAssignedBranch.length) {
+            this.renderMobileSellersItem()
+        }
+        if (nextProps.queryMobileSellerAssignedType !== this.props.queryMobileSellerAssignedType ||
+            nextProps.queryMobileSellerAssignedBranch !== this.props.queryMobileSellerAssignedBranch) {
             this.renderMobileSellersItem()
         }
     }
@@ -139,7 +155,12 @@ const mapStateToProps = state => ({
     assignmentUser: getMobileAssignement(state),
     queryMobileSellerAssigment: getQueryMobileSellerAssigment(state),
     queryMobileSellerAssignedType: getQueryMobileSellerAssignedType(state),
-    queryMobileSellerAssignedBranch: getQueryMobileSellerAssignedBranch(state)
+    queryMobileSellerAssignedBranch: getQueryMobileSellerAssignedBranch(state),
 });
 
-export default connect(mapStateToProps, null)(withStyles(styles)(MobileSellerListAssigment));
+
+const mapDispatchToProps = dispatch => ({
+    saveMobileSellerAssignedListAux: value => dispatch(saveMobileSellerAssignedListAux(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MobileSellerListAssigment));

@@ -19,7 +19,7 @@ import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {
     getAllCity,
     getMobileAssignement,
-    getMobileSellers,
+    getMobileSellers, getMobileSellersAssigmentAux, getMobileSellersAux,
     getTypeByCodSapQuestionerQuestionary,
     getTypesSeller,
     getUser
@@ -28,7 +28,12 @@ import Constants from "../../../Constants";
 import {InputText} from 'primereact/inputtext';
 import {withStyles} from '@material-ui/core/styles';
 import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
-import {addAllAssignementUser, removeAllAssignmentUser} from "../../../actions";
+import {
+    addAllAssignementUser,
+    deleteSaveMobileSellerAssignedListAux,
+    deleteSaveMobileSellerListAux,
+    removeAllAssignmentUser
+} from "../../../actions";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Modal from "../../../widgets/Modal/components/modal";
 
@@ -105,7 +110,7 @@ class AssignmentQuestionary extends Component {
 
     handleSaveAssignment = () => {
         const {questionerQuestionaryList} = this.state;
-        if (this.props.assignmentUser.entities.length === 0){
+        if (this.props.mobileSellersAssigmentAux.length === 0){
             if(questionerQuestionaryList.length > 0){
                 this.openModal();
             }else{
@@ -124,7 +129,7 @@ class AssignmentQuestionary extends Component {
         this.closeModal();
         const {questionerQuestionaryList} = this.state;
 
-        for (let seller of this.props.assignmentUser.entities) {
+        for (let seller of this.props.mobileSellersAssigmentAux) {
             if (!this.alredyHasAssignment(seller)) {
                 const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
                     this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
@@ -155,6 +160,8 @@ class AssignmentQuestionary extends Component {
     cancelAssignamentSeller = () => {
         this.props.deleteAllAssignementUser();
         this.props.deleteMobileSeller(null);
+        this.props.deleteSaveMobileSellerListAux(null);
+        this.props.deleteSaveMobileSellerAssignedListAux(null);
         this.setState({idQuestionary: null})
     };
 
@@ -206,7 +213,7 @@ class AssignmentQuestionary extends Component {
     assignAllSeller = () => {
         let sellers =  [];
         let changeHasNewAssignments = false;
-        this.props.mobileSellers.forEach((mobileSeller) => {
+        this.props.mobileSellersAux.forEach((mobileSeller) => {
             if (!this.alredyHasAssignment(mobileSeller)) {
                changeHasNewAssignments = true;
             }
@@ -220,7 +227,7 @@ class AssignmentQuestionary extends Component {
 
     unassignAllSeller = () => {
         let sellersAssignement =  [];
-        this.props.assignmentUser.entities.forEach((mobileSeller) => {
+        this.props.mobileSellersAssigmentAux.forEach((mobileSeller) => {
             const {questionerQuestionaryList} = this.state;
             questionerQuestionaryList.forEach((assignment) => {
                 if (assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === mobileSeller.id) {
@@ -342,7 +349,9 @@ const mapStateToProps = state => ({
     querySearchView: state.queryMobileSeller,
     user: getUser(state),
     typeSeller: getTypesSeller(state),
-    cities: getAllCity(state)
+    cities: getAllCity(state),
+    mobileSellersAux: getMobileSellersAux(state),
+    mobileSellersAssigmentAux: getMobileSellersAssigmentAux(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -351,6 +360,8 @@ const mapDispatchToProps = dispatch => ({
     deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
     deleteAllAssignementUser: value => dispatch(deleteAllAssignementUser()),
     deleteMobileSeller: value => dispatch(deleteMobileSellers(value)),
+    deleteSaveMobileSellerListAux: value => dispatch(deleteSaveMobileSellerListAux(value)),
+    deleteSaveMobileSellerAssignedListAux: value => dispatch(deleteSaveMobileSellerAssignedListAux(value)),
     removeAllAssignmentUser: value => dispatch(removeAllAssignmentUser(value)),
     editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
 });
