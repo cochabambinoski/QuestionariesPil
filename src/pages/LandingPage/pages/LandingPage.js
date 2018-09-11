@@ -9,9 +9,9 @@ export default class LandingPage extends Component {
     }
 
     render() {
-        return <div className="ui-g">
+        return <div>
             <div className="LandingPage">
-                <div className="ui-g-12">
+                <div>
                     <h1 className="title">Supervisiones</h1>
                     <p className="Category-description">Ingrese iniciando su sesión en SVM</p>
                 </div>
