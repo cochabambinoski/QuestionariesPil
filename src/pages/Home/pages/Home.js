@@ -20,7 +20,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import LandingPage from '../../LandingPage/pages/LandingPage.js'
+import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getUser} from "../../../reducers";
 
 class Home extends Component {
@@ -172,7 +172,7 @@ class Home extends Component {
             <div>
                 {
                     this.props.user === null ?
-                        <LandingPage/>
+                        <ErrorPage/>
                         :
                         <div className={wrapperClass}>
                             <Dialog

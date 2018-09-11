@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import './LandingPage.css';
+import './ErrorPage.css';
 
-export default class LandingPage extends Component {
+export default class ErrorPage extends Component {
 
     constructor() {
         super();
@@ -12,8 +12,8 @@ export default class LandingPage extends Component {
         return <div>
             <div className="LandingPage">
                 <div>
-                    <h1 className="title">Supervisiones</h1>
-                    <p className="Category-description">Ingrese iniciando su sesión en SVM</p>
+                    <h1 className="title">Página no disponible</h1>
+                    <p className="Category-description">Lamentamos las molestias, inténtelo de nuevo más tarde</p>
                 </div>
             </div>
         </div>

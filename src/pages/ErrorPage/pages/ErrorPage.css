@@ -13,7 +13,7 @@
 }
 
 .title {
-    font-size: 70px;
+    font-size: 60px;
     color: #ffffff;
     margin: 0 0 20px 0;
     letter-spacing: 2px;
@@ -31,7 +31,7 @@
 
 @media (max-width: 64em) {
     .title {
-        font-size: 30px;
+        font-size: 25px;
         color: #ffffff;
         margin: 0 0 20px 0;
         letter-spacing: 2px;
