@@ -13,6 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Title from "../../Title/Title";
 
 const styles = theme => ({});
 
@@ -23,7 +24,9 @@ class ListSegments extends Component {
         this.state = {
             option: null,
             baseOpen: false,
-            segment:null,
+            segment: null,
+            title: "Lista de Segmentación Base",
+            subtitle: "Generación de reportes, creación, edición y eliminacion de segmentación."
         };
     }
 
@@ -50,7 +53,8 @@ class ListSegments extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title"
+                             style={{backgroundColor: '#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <BaseGenerator segment="null"/>
@@ -70,11 +74,8 @@ class ListSegments extends Component {
         const {classes} = this.props;
         return (
             <div>
-                <div className={classes.title}>
-                    <div className="feature-intro">
-                        <h1>Lista de Segmentación Base</h1>
-                        <p>Generación de reportes, creación, edición y eliminacion de segmentación.</p>
-                    </div>
+                <div>
+                    <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
                 </div>
                 <Toolbar>
                     <div className="p-toolbar-group-left">
@@ -103,8 +104,7 @@ class ListSegments extends Component {
     }
 }
 
-ListSegments.propTypes = {
-};
+ListSegments.propTypes = {};
 
 export default withStyles(styles)(ListSegments);
 

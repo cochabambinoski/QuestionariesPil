@@ -300,7 +300,7 @@ class BaseGenerator extends Component {
         let newDate = new Date(date);
         let dateFormat = require('dateformat');
         return dateFormat(newDate, "yyyymmdd");
-    }
+    };
 
     handleClick = (event) => {
         console.log("click: ", this.state.process);
