@@ -1,5 +1,5 @@
 {
-  "ROUTE_WEB_SERVICES": "http://192.168.241.35:8086/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "GET_USER_BY_ID": "getUserById?idUser=",
@@ -15,6 +15,9 @@
   "GET_QUESTIONNAIRE_BY_ID": "getQuestionaryById",
   "GET_RANGES_BY_QUESTIONNAIRE":"getQuestionaryRangeByQuestionaryId",
   "ASSING_QUESTIONARIES":"assignQuestionaries",
+  "GET_ALL_DEPARTAMENTS":"allDepartments",
+  "DELETE_QUESTIONARY":"deleteQuestionary",
+  "GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE": "getQuestionerQuestionaryByQuestionary",
 
   "CODSAP_MULTIPLE_OPTION":"TIPPREG1",
   "CODSAP_MULTIPLE_SELECTION":"TIPPREG2",
@@ -23,5 +26,6 @@
   "CODSAP_IMAGE":"TIPPREG5",
   "CODSAP_QUESTIONER_QUESTIONARY_OPEN": "ESTQUEST1",
   "CLASS_NAME_TIPPREG":"TIPPREG",
-  "CLASS_NAME_ESTQUEST":"ESTQUEST"
+  "CLASS_NAME_ESTQUEST":"ESTQUEST",
+  "CLASS_NAME_CARGOPER":"CARGOPER"
 }

@@ -12,10 +12,8 @@ function AppMenuT({menus, onSelectedMenu}) {
             {
                 menus.map((item) => {
                     return item.items.map((itemMenu) => {
-                        if(itemMenu.label === "Supervision"){
-                            return  <SubMenu
-                                submenus={itemMenu.items} title={itemMenu.label} key={item.id} />
-                        }
+                        return itemMenu.label === "Supervision" ?
+                            <SubMenu submenus={itemMenu.items} title={itemMenu.label} key={item.id}/> : null
                     })
                 })
             }

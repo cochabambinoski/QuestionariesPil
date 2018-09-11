@@ -10,7 +10,6 @@ class QuestionaryContainer extends Component {
     render() {
 
         const {questionarySelected} = this.props;
-        console.log(questionarySelected)
         return (
             <div>
                 {
@@ -20,7 +19,7 @@ class QuestionaryContainer extends Component {
                         <Questionnaire questionary={null} /> :
                         questionarySelected.action === "EDIT" ?
                             <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}/> :
-                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}/>
+                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id} readOnly={true}/>
 
                 }
             </div>

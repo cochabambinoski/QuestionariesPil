@@ -10,22 +10,28 @@ import Constants from '../../../Constants.json';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
+import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
 
 class Questionnaires extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            questionnaires: []
+            questionnaires: [],
+            updateView: true,
         };
         this.see = this.see.bind(this);
         this.edit = this.edit.bind(this);
-    };
+    }
     see() {
         this.growl.show({ severity: 'info', summary: 'See questionnaire', detail: '' });
     }
     edit() {
 
         this.growl.show({ severity: 'info', summary: 'Edit questionnaire', detail: '' });
+    }
+
+    showError(summary, detail) {
+        this.growl.show({severity: 'error', summary: summary, detail: detail});
     }
 
     changeIdQuestionaryClick(value){
@@ -42,15 +48,54 @@ class Questionnaires extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-                console.log(data);
                 this.setState({ questionnaires: data });
             })
     }
+
+    deleteQuestionary(item) {
+        let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(item.id)}`;
+        fetch(rangeUrl)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            const questionerQuestionnaires = data;
+            if (questionerQuestionnaires.length > 0){
+                this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado")
+            }else{
+                this.sendDeleteRequest(item);
+            }
+        });
+    }
+
+    sendDeleteRequest(item){
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            let index = getIndexQuestionary(this.state.questionnaires, item);
+            let questionaries = this.state.questionnaires;
+            if (data === "Ok" && index !== undefined) {
+                questionaries.splice(index, 1)
+            }
+            this.setState({questionaries: questionaries});
+            this.setState({updateView: true});
+        });
+    }
+
     render() {
         return (
             <div className="questionnaire">
+                <Growl ref={(el) => this.growl = el} />
+                <Button label="Nuevo"
+                        onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))}}/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
-                    <Growl ref={(el) => this.growl = el} />
                     {
                         this.state.questionnaires.map((item) => {
                             return (
@@ -66,6 +111,8 @@ class Questionnaires extends Component {
 
                                             <Button label="Editar" onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}} />
 
+                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {this.deleteQuestionary(item)}} />
+
                                     </span>
                                     </div>
                                 </Card>
@@ -73,10 +120,6 @@ class Questionnaires extends Component {
                         })
                     }
                 </ScrollPanel>
-
-                    <Button label="Nuevo"
-                            onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))}}/>
-
             </div>
         );
     }
