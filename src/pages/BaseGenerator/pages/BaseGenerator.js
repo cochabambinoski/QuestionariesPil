@@ -29,7 +29,6 @@ class BaseGenerator extends Component {
     constructor(props) {
         super(props);
         let segment = props.segment;
-        console.log(segment);
         this.state = {
             city: null,
             bussines: null,
@@ -163,12 +162,10 @@ class BaseGenerator extends Component {
 
     getMaterials = (nameLine) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.MATERIALS}/${nameLine}`;
-        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log.material;
             this.setState({materials: data});
         });
     };
@@ -185,17 +182,20 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response, response.codeResult);
+                if (response.codeResult === null || response.codeResult === undefined) {
+                    if (response.status > 200) {
+                        this.setState({process: 1});
+                        this.props.refresh(0);
+                    }
+                }
                 this.setState({process: response.codeResult});
                 this.props.refresh(response.codeResult);
             });
     };
 
     onCityChange(e) {
-        console.log('value e city: ', e);
         if (e.value === undefined || e.value === null) {
             e.value = null;
-            this.setState({markets: []});
             this.getMarkets(0, Constants.GET_MARKETS);
         }
         else {
@@ -218,6 +218,9 @@ class BaseGenerator extends Component {
     }
 
     onMarketChange(e) {
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+        }
         this.setState({market: e.value});
     }
 
@@ -235,6 +238,9 @@ class BaseGenerator extends Component {
     }
 
     onBussinesChange(e) {
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+        }
         this.setState({bussines: e.value});
     }
 
@@ -252,17 +258,14 @@ class BaseGenerator extends Component {
     }
 
     onLineChange(e) {
-        console.log(e.value);
         if (e.value === undefined || e.value === null) {
             e.value = null;
-            this.setState({line: []});
             this.getMaterials(0);
         }
         else {
-            this.setState({line: e.value});
-            this.setState({materials: []});
             this.getMaterials(e.value.linePlan.split(" ").join("_"));
         }
+        this.setState({line: e.value});
     }
 
     lineTemplate(option) {
@@ -279,6 +282,9 @@ class BaseGenerator extends Component {
     }
 
     onMaterialChange(e) {
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+        }
         this.setState({material: e.value});
     }
 
@@ -302,15 +308,14 @@ class BaseGenerator extends Component {
     };
 
     handleClick = (event) => {
-        console.log("click: ", this.state.process);
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
             const id = this.state.idClientKiloliter;
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
-            const line = this.state.line === undefined ? "" : this.state.line;
-            const material = this.state.material;
+            const line = this.state.line === undefined ? null : this.state.line;
+            const material = this.state.material === undefined ? null : this.state.material;
             console.log(id, city, market, bussines, line, material);
             this.setBase({
                 "idClientKiloliter": id,
@@ -318,11 +323,11 @@ class BaseGenerator extends Component {
                 "dateStart": this.dateToISO(this.state.dates[0]),
                 "dateEnd": this.dateToISO(this.state.dates[1]),
                 "originSystem": "SVM",
-                "codeCity": city === undefined ? "0" : city.codeDataType.toString(),
-                "codeMarket": market === undefined ? "0" : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === undefined ? "0" : bussines.codeDataType.toString(),
-                "linePlan": line === "" ? "0" : line.linePlan.toString(),
-                "codeMaterial": (material === 0 || material === null) ? "0" : material.codeMaterial.toString(),
+                "codeCity": city === null ? 0 : city.codeDataType.toString(),
+                "codeMarket": (market === undefined || market === null ) ? 0 : market.codeDataType.toString(),
+                "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
+                "linePlan": (line === undefined || line === null) ? 0 : line.linePlan.toString(),
+                "codeMaterial": (material === 0 || material === null) ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
