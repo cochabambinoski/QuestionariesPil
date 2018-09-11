@@ -319,8 +319,32 @@ class EnhancedTable extends Component {
 
     handleClose = () => {
         this.setState({baseOpen: false});
-        this.setState({toDelete: null})
+        this.setState({deleteOpen:false});
+        this.setState({toDelete: null});
     };
+
+    renderBase() {
+        const {classes} = this.props;
+        return (
+            <Dialog
+                open={this.state.baseOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <BaseGenerator segment={this.state.segment}/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+        );
+    }
 
     /**
      * render for Dialog
@@ -343,7 +367,7 @@ class EnhancedTable extends Component {
                 <DialogActions>
                     <Button label="Eliminar" icon="pi pi-check" onClick={this.handleDelete}
                             className="ui-button-danger"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseDelete}
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
                             className="ui-button-secondary"/>
                 </DialogActions>
             </Dialog>
@@ -384,30 +408,6 @@ class EnhancedTable extends Component {
                             className="ui-button-secondary"/>
                 </DialogActions>
             </Dialog>
-        );
-    }
-
-    renderBase() {
-        const {classes} = this.props;
-        return (
-            <Dialog
-                open={this.state.baseOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        <BaseGenerator segment={this.state.segment}/>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
-                </DialogActions>
-            </Dialog>
-
         );
     }
 
@@ -479,22 +479,22 @@ class EnhancedTable extends Component {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-                <TablePagination
-                    component="div"
-                    count={data.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-            </Paper>
+                    </div>
+                    <TablePagination
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        backIconButtonProps={{
+                            'aria-label': 'Previous Page',
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'Next Page',
+                        }}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                </Paper>
         );
     }
 
