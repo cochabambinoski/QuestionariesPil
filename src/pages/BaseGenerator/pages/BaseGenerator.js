@@ -309,7 +309,7 @@ class BaseGenerator extends Component {
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
-            const line = this.state.line;
+            const line = this.state.line.linePlan;
             const material = this.state.material;
             console.log(id, city, market, bussines, line, material);
             this.setBase({
@@ -321,7 +321,7 @@ class BaseGenerator extends Component {
                 "codeCity": city === undefined  ? "0" : city.codeDataType.toString(),
                 "codeMarket": market === undefined  ? "0" : market.codeDataType.toString(),
                 "codeTypeBusiness": bussines === undefined  ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === null ? "0" : line.linePlan.toString(),
+                "linePlan": line === null ? "0" : line.toString(),
                 "codeMaterial": material === 0  ? "0" : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
