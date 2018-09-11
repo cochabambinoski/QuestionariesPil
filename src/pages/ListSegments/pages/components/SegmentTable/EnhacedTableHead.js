@@ -3,13 +3,28 @@
  */
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core/styles";
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Tooltip from "@material-ui/core/Tooltip";
 
+const styles = theme => ({
+    head: {
+        backgroundColor: '#5B5D74',
+        color: theme.palette.common.white,
+    },
+    sortLabel: {
+        color: theme.palette.common.white,
+    }
+});
+
 class EnhancedTableHead extends Component {
+    constructor() {
+        super()
+    }
+
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
     };
@@ -21,42 +36,36 @@ class EnhancedTableHead extends Component {
     ];
 
     render() {
+        const {classes} = this.props;
         const {onSelectAllClick, order, orderBy, numSelected, rowCount} = this.props;
-
         return (
             <TableHead>
                 <TableRow>
                     {this.rows.map(row => {
                         return (
                             <TableCell
-                                key={row.id}
-                                numeric={row.numeric}
-                                padding='2px'
-                                sortDirection={orderBy === row.id ? order : false}>
-                                <Tooltip
-                                    title="Sort"
-                                    placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-                                    enterDelay={300}>
-                                    <TableSortLabel
-                                        active={orderBy === row.id}
-                                        direction={order}
-                                        onClick={this.createSortHandler(row.id)}>
+                                key={row.id} numeric={row.numeric} padding='2px'
+                                sortDirection={orderBy === row.id ? order : false} className={classes.head}>
+                                <Tooltip title="Ordenar" placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                                         enterDelay={300} className={classes.head}>
+                                    <TableSortLabel active={orderBy === row.id} direction={order}
+                                                    onClick={this.createSortHandler(row.id)} className={classes.head}>
                                         {row.label}
                                     </TableSortLabel>
                                 </Tooltip>
                             </TableCell>
                         );
                     }, this)}
-                    <TableCell>
+                    <TableCell className={classes.head}>
                         Base
                     </TableCell>
-                    <TableCell>
+                    <TableCell className={classes.head}>
                         Segmentación
                     </TableCell>
-                    <TableCell>
+                    <TableCell className={classes.head}>
                         Reporte
                     </TableCell>
-                    <TableCell>
+                    <TableCell className={classes.head}>
                         Borrar
                     </TableCell>
                 </TableRow>
@@ -74,4 +83,4 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 };
 
-export default EnhancedTableHead;
+export default withStyles(styles)(EnhancedTableHead);

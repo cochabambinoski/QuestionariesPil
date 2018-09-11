@@ -2,13 +2,12 @@
  * Created by smirandaz on 09/01/2018.
  */
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import {lighten} from "@material-ui/core/styles/colorManipulator";
 import {Calendar} from "primereact/calendar";
 import {Button} from "primereact/button";
+
 
 const styles = theme => ({
     root: {
@@ -90,17 +89,6 @@ class EnhancedTableToolbar extends Component {
                             [classes.highlight]: numSelected > 0,
                         }
                     )}>
-                <div className={classes.title}>
-                    {numSelected > 0 ? (
-                        <Typography color="inherit" variant="subheading">
-                            {numSelected} selected
-                        </Typography>
-                    ) : (
-                        <Typography variant="title" id="tableTitle">
-                            Segmentación de Clientes
-                        </Typography>
-                    )}
-                </div>
                 <div className={classes.spacer}/>
                 <div>
                     <Calendar dateFormat="dd/mm/yy" value={this.state.dates}

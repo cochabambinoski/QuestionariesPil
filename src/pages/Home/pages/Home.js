@@ -31,7 +31,6 @@ class Home extends Component {
     };
 
     handleChangeContainer = idMenu => {
-        console.log(idMenu);
         this.setState({idMenuContainer: idMenu})
     };
 
@@ -139,19 +138,25 @@ class Home extends Component {
     componentDidMount() {
 
         this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + "462")
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + this.getParameterByName('user'))
             .then(results => {
                 return results.json();
             }).then(data => {
             this.setState({menus: data});
+            this.props.setMenu(data);
         });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_ESTQUEST)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.props.setTypesQuestionerQuestionary(data);
-        })
+        });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.setUser(data);
+        });
     }
 
     render() {
@@ -163,12 +168,10 @@ class Home extends Component {
             'layout-mobile-sidebar-active': this.state.mobileMenuActive
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
-        const {idUser} = this.props
+        const {idUser} = this.props;
         return (
             <div>
                 {
-                    idUser ? <Login/>
-                        :
                         <div className={wrapperClass}>
                             <Dialog
                                 open={this.state.open}
@@ -219,7 +222,9 @@ const mapDispatchToProps = dispatch => ({
     },
     actions: bindActionCreators(actions, dispatch),
     setIdUser: value => dispatch(actions.setIdUser(value)),
-    setTypesQuestionerQuestionary: value => dispatch(actions.getInitialData(value))
+    setTypesQuestionerQuestionary: value => dispatch(actions.getInitialData(value)),
+    setMenu : value => dispatch(actions.setMenu(value)),
+    setUser: value => dispatch(actions.setUser(value)),
 });
 
 const mapStateToProps = state => (
