@@ -187,7 +187,7 @@ class BaseGenerator extends Component {
             .then(response => {
                 console.log(response, response.codeResult);
                 this.setState({process: response.codeResult});
-                this.props.refresh();
+                this.props.refresh(response.codeResult);
             });
     };
 
@@ -309,7 +309,7 @@ class BaseGenerator extends Component {
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
-            const line = this.state.line.linePlan;
+            const line = this.state.line === undefined ? "" : this.state.line;
             const material = this.state.material;
             console.log(id, city, market, bussines, line, material);
             this.setBase({
@@ -320,9 +320,9 @@ class BaseGenerator extends Component {
                 "originSystem": "SVM",
                 "codeCity": city === undefined ? "0" : city.codeDataType.toString(),
                 "codeMarket": market === undefined ? "0" : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === undefined ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === null ? "0" : line.toString(),
-                "codeMaterial": material === 0 ? "0" : material.codeMaterial.toString(),
+                "codeTypeBusiness": bussines === undefined ? "0" : bussines.codeDataType.toString(),
+                "linePlan": line === "" ? "0" : line.linePlan.toString(),
+                "codeMaterial": (material === 0 || material === null) ? "0" : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }

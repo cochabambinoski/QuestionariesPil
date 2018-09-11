@@ -110,6 +110,19 @@ class EnhancedTable extends Component {
         this.messages.show({severity: 'error', summary: title, detail: message});
     };
 
+    showResponse = (response) => {
+        console.log('response: ', response);
+       switch(response) {
+           case 0: {
+               this.showError('Segmentación Base','Algo salio mal en la transacción')
+           }
+           case 1: {
+               this.showSuccess('Segmentación Base', 'Se creo correctamente la nueva segmentación base');
+           }
+
+       }
+    };
+
     /**
      * close dialog and cancel delete
      */
@@ -323,12 +336,13 @@ class EnhancedTable extends Component {
         this.setState({segmentOpen: true});
     };
 
-    handleClose = () => {
+    handleClose = (response) => {
         this.setState({baseOpen: false});
         this.setState({deleteOpen: false});
         this.setState({toDelete: null});
         this.setState({segmentOpen: false});
-        this.chargeTable(this.state.startDate, this.state.endDate)
+        this.chargeTable(this.state.startDate, this.state.endDate);
+        this.showResponse(response);
     };
 
     renderBase() {
