@@ -31,10 +31,6 @@ class BaseGenerator extends Component {
         let segment = props.segment;
         console.log(segment);
         this.state = {
-            codeSeg: segment.idClientKiloliter,
-            description: segment.description,
-            startDate: segment.dateStart,
-            endDate: segment.dateEnd,
             city: null,
             bussines: null,
             market: null,
@@ -47,12 +43,15 @@ class BaseGenerator extends Component {
             materials: [],
             isEdit: false,
             process: 1,
-            idClientKiloliter: segment.idClientKiloliter,
-            idTypeBusiness: segment.idTypeBusiness,
-            idTypeCity: segment.idTypeCity,
-            idTypeMarket: segment.idTypeMarket,
-            idLine: segment.line,
-            codeMaterial: segment.codeMaterial,
+            description: segment.description === undefined ? "" :segment.description,
+            startDate: segment.dateStart === undefined ? null :segment.dateStart,
+            endDate: segment.dateEnd === undefined ? null :segment.dateEnd,
+            idClientKiloliter: segment.idClientKiloliter=== undefined ? "" :segment.idClientKiloliter,
+            idTypeBusiness: segment.idTypeBusiness=== undefined ? "" :segment.idTypeBusiness,
+            idTypeCity: segment.idTypeCity=== undefined ? "" :segment.idTypeCity,
+            idTypeMarket: segment.idTypeMarket=== undefined ? "" :segment.idTypeMarket,
+            idLine: segment.line=== undefined ? "" :segment.line,
+            codeMaterial: segment.codeMaterial=== undefined ? "" :segment.codeMaterial,
             dates: null,
         };
 
@@ -307,21 +306,24 @@ class BaseGenerator extends Component {
         console.log("click: ", this.state.process);
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
+            const id = this.state.idClientKiloliter === null ? 0 : this.state.idClientKiloliter;
+            console.log(id, this.state.material);
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
             const line = this.state.line;
             const material = this.state.material;
             this.setBase({
+                "idClientKiloliter": id,
                 "description": this.state.description.toString(),
                 "dateStart": this.dateToISO(this.state.dates[0]),
                 "dateEnd": this.dateToISO(this.state.dates[1]),
                 "originSystem": "SVM",
-                "codeCity": (city === undefined || city === null) ? 0 : city.codeDataType.toString(),
-                "codeMarket": (market === undefined || market === null) ? 0 : market.codeDataType.toString(),
-                "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
-                "linePlan": (line === undefined || line === null) ? 0 : line.linePlan.toString(),
-                "codeMaterial": (material === undefined || material === null) ? 0 : material.codeMaterial.toString(),
+                "codeCity": city === null ? 0 : city.codeDataType.toString(),
+                "codeMarket": market === null ? 0 : market.codeDataType.toString(),
+                "codeTypeBusiness": bussines === null ? 0 : bussines.codeDataType.toString(),
+                "linePlan": line === null ? 0 : line.linePlan.toString(),
+                "codeMaterial": material === undefined ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
