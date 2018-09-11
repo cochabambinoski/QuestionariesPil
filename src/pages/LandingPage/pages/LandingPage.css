@@ -9,7 +9,7 @@
     position: relative;
     top: 50%;
     width: 100%;
-    background-image: linear-gradient(to right, #038CE6 , #06B8F3);
+    background-image: linear-gradient(75deg, #2471A3, #5DADE2);
 }
 
 .title {
