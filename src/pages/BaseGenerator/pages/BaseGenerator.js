@@ -187,9 +187,10 @@ class BaseGenerator extends Component {
                         this.setState({process: 1});
                         this.props.refresh(0);
                     }
+                } else {
+                    this.setState({process: response.codeResult});
+                    this.props.refresh(response.codeResult);
                 }
-                this.setState({process: response.codeResult});
-                this.props.refresh(response.codeResult);
             });
     };
 
