@@ -112,10 +112,15 @@ class EnhancedTable extends Component {
 
     showResponse = (response) => {
         console.log('response: ', response);
-        if (response === 0) {
-            this.showError('Segmentación Base', 'Algo salio mal en la transacción');
-        } else {
-            this.showSuccess('Segmentación Base', 'Se creo correctamente la nueva segmentación base');
+        switch (response) {
+            case 0: {
+                this.showError('Segmentación Base', 'Algo salio mal en la transacción');
+                return;
+            }
+            case 1: {
+                this.showSuccess('Segmentación Base', 'Se creo correctamente la nueva segmentación base');
+                return;
+            }
         }
     };
 
@@ -182,7 +187,6 @@ class EnhancedTable extends Component {
             })
             .then(response => {
                 console.log("Success: ", response);
-
                 this.chargeTable(this.state.startDate, this.state.endDate)
                 this.handleClose();
                 if (response !== undefined || response !== null)
@@ -338,7 +342,8 @@ class EnhancedTable extends Component {
         this.setState({toDelete: null});
         this.setState({segmentOpen: false});
         this.chargeTable(this.state.startDate, this.state.endDate);
-        this.showResponse(response);
+        if (response === 0 || response === 1)
+            this.showResponse(response);
     };
 
     renderBase() {
@@ -565,9 +570,18 @@ class EnhancedTable extends Component {
     }
 }
 
-EnhancedTable.propTypes = {
+EnhancedTable
+    .propTypes = {
     classes: PropTypes.object.isRequired,
     updateDates: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export
+default
+
+withStyles(styles)
+
+(
+    EnhancedTable
+)
+;
