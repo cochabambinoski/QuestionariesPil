@@ -11,6 +11,8 @@ import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
 import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
+import Modal from "../../../widgets/Modal/components/modal";
+import ModalContainer from "../../../widgets/Modal/pages/modal";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -18,27 +20,31 @@ class Questionnaires extends Component {
         this.state = {
             questionnaires: [],
             updateView: true,
+            open: false,
+            currentItem: -1,
         };
         this.see = this.see.bind(this);
         this.edit = this.edit.bind(this);
     }
+
     see() {
-        this.growl.show({ severity: 'info', summary: 'See questionnaire', detail: '' });
+        this.growl.show({severity: 'info', summary: 'See questionnaire', detail: ''});
     }
+
     edit() {
 
-        this.growl.show({ severity: 'info', summary: 'Edit questionnaire', detail: '' });
+        this.growl.show({severity: 'info', summary: 'Edit questionnaire', detail: ''});
     }
 
     showError(summary, detail) {
         this.growl.show({severity: 'error', summary: summary, detail: detail});
     }
 
-    changeIdQuestionaryClick(value){
+    changeIdQuestionaryClick(value) {
         this.props.changeIdQuestionarySelected(value);
     }
 
-    QuestionSelected(idQuestionary, action){
+    QuestionSelected(idQuestionary, action) {
         this.idQuestionary = idQuestionary;
         this.action = action
     }
@@ -48,8 +54,8 @@ class Questionnaires extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-                this.setState({ questionnaires: data });
-            })
+            this.setState({questionnaires: data});
+        })
     }
 
     deleteQuestionary(item) {
@@ -59,15 +65,15 @@ class Questionnaires extends Component {
                 return results.json();
             }).then(data => {
             const questionerQuestionnaires = data;
-            if (questionerQuestionnaires.length > 0){
+            if (questionerQuestionnaires.length > 0) {
                 this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado")
-            }else{
+            } else {
                 this.sendDeleteRequest(item);
             }
         });
     }
 
-    sendDeleteRequest(item){
+    sendDeleteRequest(item) {
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
         fetch(url, {
             method: 'POST',
@@ -78,7 +84,7 @@ class Questionnaires extends Component {
         })
             .then(results => {
                 return results.json();
-            }).then(data => {
+            }).catch(error => console.error('Error:', error)).then(data => {
             let index = getIndexQuestionary(this.state.questionnaires, item);
             let questionaries = this.state.questionnaires;
             if (data === "Ok" && index !== undefined) {
@@ -89,33 +95,65 @@ class Questionnaires extends Component {
         });
     }
 
+    openModal = (item) => {
+        this.setState({currentItem: item});
+        this.setState({open: true});
+    }
+
+    closeModal = () => {
+        this.setState({open: false});
+    }
+
+    handleRemove = () => {
+        this.closeModal();
+        this.setState((prevState, props) => {
+            this.deleteQuestionary(prevState.currentItem);
+        });
+    }
+
     render() {
         return (
             <div className="questionnaire">
-                <Growl ref={(el) => this.growl = el} />
+                <Growl ref={(el) => this.growl = el}/>
                 <Button label="Nuevo"
-                        onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))}}/>
+                        onClick={() => {
+                            this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                        }}/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     {
                         this.state.questionnaires.map((item) => {
                             return (
-                                <Card title={item.name}  key={item.id}>
-                                    <div>
-                                        <div className="light-text">Creado</div>
-                                        <div className="normal-text">{item.fechaId} {item.usuarioId}</div>
-                                        <br />
-                                        <span>
+                                <div>
+                                    <Card title={item.name} key={item.id}>
+                                        <div>
+                                            <div className="light-text">Creado</div>
+                                            <div className="normal-text">{item.fechaId} {item.usuarioId}</div>
+                                            <br/>
+                                            <span>
 
-                                            <Button label="Ver" onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))}}/>
+                                            <Button label="Ver" onClick={() => {
+                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))
+                                            }}/>
 
 
-                                            <Button label="Editar" onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}} />
+                                            <Button label="Editar" onClick={() => {
+                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))
+                                            }}/>
 
-                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {this.deleteQuestionary(item)}} />
+                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {
+                                                this.openModal(item)
+                                            }}/>
 
                                     </span>
-                                    </div>
-                                </Card>
+                                        </div>
+                                    </Card>
+                                    <ModalContainer>
+                                        <Modal open={this.state.open} title={"Eliminar cuestionario"}
+                                               message={"Está seguro de eliminar el cuestionario?"}
+                                               handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+                                        </Modal>
+                                    </ModalContainer>
+                                </div>
                             )
                         })
                     }
@@ -125,9 +163,7 @@ class Questionnaires extends Component {
     }
 }
 
-const mapStateToProps = dispatch => ({
-
-});
+const mapStateToProps = dispatch => ({});
 
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),

@@ -16,8 +16,8 @@ class Range extends Component {
     validateFields() {
         let emptyOptions = this.props.lsOptions.filter((option) => (option.option === ""));
         if (emptyOptions.length === 0) {
-            const min = parseInt(this.props.lsOptions[0].option);
-            const max = parseInt(this.props.lsOptions[1].option);
+            const min = parseInt(this.props.lsOptions[0].option, 10);
+            const max = parseInt(this.props.lsOptions[1].option, 10);
             if (min >= max) {
                 this.props.showError("El maximo debe ser mayor al minimo", "");
                 return false;

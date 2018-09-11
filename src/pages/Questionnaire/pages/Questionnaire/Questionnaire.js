@@ -283,15 +283,16 @@ class Questionnaire extends Component {
             return <Redirect to='/questionnaires'/>
         }
         return (
-            <div >
+            <div className="questionnaire">
                 <Growl ref={(el) => this.growl = el}/>
+
                 <div className="ui-g">
 
                     <Row xs>
                         <Col xs>
                             <div>
 
-                                <div style={{padding: '5px'}}>
+                                <div style={{margin: '5px'}}>
                                     {this.props.readOnly ?
                                         <Row>
                                             <Col>
@@ -319,7 +320,7 @@ class Questionnaire extends Component {
                                     }
                                 </div>
 
-                                <div >
+                                <div className="content-section implementation">
                                     <div className=" card-w-title">
                                         <div>
                                             {this.props.readOnly ?
@@ -371,7 +372,7 @@ class Questionnaire extends Component {
                         <Col xs>
                             {
                                 this.state.openQuestion ?
-                                    <div  style={{ width: '100%', height: '40vh' }}>
+                                    <div>
                                         <div>
                                             <Question questionTypes={this.state.questionTypes}
                                                       readOnly={this.props.readOnly}
@@ -386,7 +387,7 @@ class Questionnaire extends Component {
                                     </div> : <div/>
                             }
                             <div>
-                                <ScrollPanel style={{ width: '100%', height: this.state.openQuestion ? '45vh' : '100vh' }}>
+                                <ScrollPanel style={{ width: '100%', height: '700px' }}>
                                     <Questions questions={this.state.lsQuestions}
                                                removeQuestion={this.removeQuestion}
                                                readOnly={this.props.readOnly}
@@ -398,9 +399,7 @@ class Questionnaire extends Component {
                                 </ScrollPanel>
                             </div>
                         </Col>
-
                     </Row>
-
                 </div>
             </div>
         );

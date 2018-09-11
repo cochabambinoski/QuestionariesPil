@@ -29,6 +29,8 @@ import {InputText} from 'primereact/inputtext';
 import {withStyles} from '@material-ui/core/styles';
 import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
 import {addAllAssignementUser, removeAllAssignmentUser} from "../../../actions";
+import ModalContainer from "../../../widgets/Modal/pages/modal";
+import Modal from "../../../widgets/Modal/components/modal";
 
 const styles = theme => ({
     root: {
@@ -77,7 +79,7 @@ class AssignmentQuestionary extends Component {
             expandFirstSellerSearch: false,
             expandSecondSearch: false,
             hasNewAssignments: false,
-
+            open: false,
         }
     }
 
@@ -103,22 +105,23 @@ class AssignmentQuestionary extends Component {
 
     handleSaveAssignment = () => {
         const {questionerQuestionaryList} = this.state;
-        if (this.props.assignmentUser.entities.length === 0) {
-            if (questionerQuestionaryList.length > 0) {
-                this.saveAssignments();
-            } else {
+        if (this.props.assignmentUser.entities.length === 0){
+            if(questionerQuestionaryList.length > 0){
+                this.openModal();
+            }else{
                 alert('Debe tener al menos un vendedor para guardar la asignacion');
             }
-        } else {
-            if (this.state.hasNewAssignments && this.state.dates2 == null) {
+        }else{
+            if(this.state.hasNewAssignments && this.state.dates2 == null){
                 alert('Seleccione un rango de fechas');
-            } else {
-                this.saveAssignments();
+            }else{
+                this.openModal();
             }
         }
     };
 
     saveAssignments = () => {
+        this.closeModal();
         const {questionerQuestionaryList} = this.state;
 
         for (let seller of this.props.assignmentUser.entities) {
@@ -229,6 +232,14 @@ class AssignmentQuestionary extends Component {
         this.props.removeAllAssignmentUser(sellersAssignement);
     };
 
+    openModal = () => {
+        this.setState({open: true});
+    }
+
+    closeModal = () => {
+        this.setState({open: false});
+    }
+
     render() {
         const {idQuestionary} = this.state;
         const es = {
@@ -241,6 +252,11 @@ class AssignmentQuestionary extends Component {
         };
         return (
             <div className="bodyContainer">
+                <ModalContainer>
+                    <Modal open={this.state.open} title={"Asignacion"} message={"Está seguro de completar la asignación?"}
+                           handleConfirm={this.saveAssignments} handleCancel={this.closeModal}>
+                    </Modal>
+                </ModalContainer>
                 {
                     !idQuestionary ?
                         <div>

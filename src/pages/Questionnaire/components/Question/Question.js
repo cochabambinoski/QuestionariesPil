@@ -135,7 +135,7 @@ class Question extends Component {
     }
 
     render() {
-        let innerComponent = null;
+        let innerComponent;
         if (this.state.squestion.type != null) {
             switch (this.state.squestion.type.codigoSap) {
                 case Constants.CODSAP_MULTIPLE_OPTION:
@@ -184,6 +184,7 @@ class Question extends Component {
                         addQuestion={this.addQuestion}
                         handleClose={this.handleClose} />;
                     break;
+                default: innerComponent = null;
             }
         }
 

@@ -10,11 +10,11 @@ class Container extends Component {
         return (
             <div style={{marginTop: '5px'}}>
                 {
-                    this.props.idMenu ===0 ?
-                        <Start/>:
-                   this.props.idMenu === 1   ?
-                       <QuestionaryContainer/>
-                       :<AssignmentQuestionary/>
+                    this.props.idMenu === 0 ?
+                        <Start/> :
+                        this.props.idMenu === 1 ?
+                            <QuestionaryContainer/>
+                            : <AssignmentQuestionary/>
                 }
 
             </div>

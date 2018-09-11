@@ -20,7 +20,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import {getIdUser} from "../../../reducers";
+import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
+import {getIdUser, getUser} from "../../../reducers";
 
 class Home extends Component {
     state = {
@@ -187,44 +188,47 @@ class Home extends Component {
         return (
             <div>
                 {
-                    <div className={wrapperClass}>
-                        <Dialog
-                            open={this.state.open}
-                            onClose={this.handleClose}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description">
-                            <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                    Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
-                                    en el SVM.
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={this.handleClose} color="primary" autoFocus>
-                                    Aceptar
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
+                    this.props.user === null ?
+                        <ErrorPage/>
+                        :
+                        <div className={wrapperClass}>
+                            <Dialog
+                                open={this.state.open}
+                                onClose={this.handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description">
+                                <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
+                                        en el SVM.
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={this.handleClose} color="primary" autoFocus>
+                                        Aceptar
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
 
-                        <AppTopbar onToggleMenu={this.onToggleMenu}/>
+                            <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
-                        <div className={sidebarClassName}>
-                            <ScrollPanel style={{height: '100%', with: '100%'}}>
-                                <div className="logo"/>
-                                <AppInlineProfile/>
-                                <AppMenuT
-                                    menus={this.state.menus}
-                                    sessionActive={this.props.sessionActive}
-                                    onSelectedMenu={this.handleChangeContainer}/>
-                            </ScrollPanel>
+                            <div className={sidebarClassName}>
+                                <ScrollPanel style={{height: '100%', with: '100%'}}>
+                                    <div className="logo"/>
+                                    <AppInlineProfile/>
+                                    <AppMenuT
+                                        menus={this.state.menus}
+                                        sessionActive={this.props.sessionActive}
+                                        onSelectedMenu={this.handleChangeContainer}/>
+                                </ScrollPanel>
+                            </div>
+                            <div className="layout-main">
+                                <Container>
+
+                                </Container>
+                            </div>
                         </div>
-                        <div className="layout-main">
-                            <Container>
-
-                            </Container>
-                        </div>
-                    </div>
                 }
             </div>
         );
@@ -248,6 +252,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => (
     {
         idUser: getIdUser(state),
+        user: getUser(state),
     }
 );
 
