@@ -45,9 +45,15 @@ class SegmentationGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response, response.codeResult);
-                this.setState({process: response.codeResult});
-                this.props.refresh();
+                if (response.codeResult === null || response.codeResult === undefined) {
+                    if (response.status > 200) {
+                        this.setState({process: 1});
+                        this.props.refresh(0);
+                    }
+                } else {
+                    this.setState({process: response.codeResult});
+                    this.props.refresh(response.codeResult);
+                }
             });
     };
 

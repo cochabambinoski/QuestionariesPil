@@ -261,9 +261,12 @@ class BaseGenerator extends Component {
     onLineChange(e) {
         if (e.value === undefined || e.value === null) {
             e.value = null;
+            this.setState({line: e.value});
             this.getMaterials(0);
         }
         else {
+            this.setState({line: e.value});
+            this.setState({materials: []});
             this.getMaterials(e.value.linePlan.split(" ").join("_"));
         }
         this.setState({line: e.value});
