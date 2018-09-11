@@ -27,7 +27,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-//import {Button} from 'primereact/button';
 
 const styles = theme => ({
     root: {
@@ -57,9 +56,11 @@ class EnhancedTable extends Component {
             filter: null,
             startDate: utilDate.firstDayOfMonth(),
             endDate: utilDate.getNow(),
-            segment: null,
             deleteOpen: false,
-            todelete: null,
+            reportOpen: false,
+            toDelete: null,
+            toReport: null,
+            segment: null,
         };
 
         this.showSuccess = this.showSuccess.bind(this);
@@ -111,7 +112,7 @@ class EnhancedTable extends Component {
     /**
      * close dialog and cancel delete
      */
-    handleClose = () => {
+    handleCloseDelete = () => {
         this.setState({deleteOpen: false});
         this.setState({toDelete: null})
     };
@@ -121,10 +122,28 @@ class EnhancedTable extends Component {
      * @param event
      * @param id
      */
-    handleClick = (event, id) => {
+    handleDeleteClick = (event, id) => {
         this.showWarn('Alerta', 'esta iniciando una funcion de eliminación')
         this.setState({deleteOpen: true});
         this.setState({toDelete: id})
+    };
+
+    /**
+     * close dialog report
+     */
+    handleCloseReport = () => {
+        this.setState({reportOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    /**
+     * open dialog report
+     * @param event
+     * @param id
+     */
+    handleReportClick = (event, id) => {
+        this.setState({reportOpen: true});
+        this.setState({toReport: id})
     };
 
     /**
@@ -179,6 +198,46 @@ class EnhancedTable extends Component {
     };
 
     /**
+     * get report
+     * @param url
+     */
+    getReport = (url) => {
+        let win = window.open(url, '_blank');
+        win.focus();
+        this.showSuccess('Reporte', 'Se descargo su reporte correctamente');
+    };
+
+    /**
+     * click PDF
+     */
+    handlePDFReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    /**
+     * click XLS
+     */
+    handleXLSReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    /**
+     * click TXT
+     */
+    handleTXTReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    /**
      * change order by columns
      * @param event
      * @param property
@@ -227,8 +286,8 @@ class EnhancedTable extends Component {
      * @param todate
      */
     updateDates = (fromDate, todate) => {
-        var start = fromDate.getTime() === this.state.startDate.getTime();
-        var finish = todate.getTime() === this.state.endDate.getTime();
+        let start = fromDate.getTime() === this.state.startDate.getTime();
+        let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
             this.state.startDate = fromDate;
             this.state.endDate = todate;
@@ -284,7 +343,6 @@ class EnhancedTable extends Component {
                             className="ui-button-secondary"/>
                 </DialogActions>
             </Dialog>
-
         );
     }
 
@@ -316,18 +374,48 @@ class EnhancedTable extends Component {
         );
     }
 
+    /**
+     * show dialog Report
+     * @returns {XML}
+     */
+    renderReportDialog() {
+        return (
+            <Dialog
+                open={this.state.reportOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Generación de Reportes"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <Button label="PDF" onClick={this.handlePDFReport}
+                                className="ui-button-danger" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/pdf.svg')} style={{height: '45px'}}/>
+                        </Button>
+                        <Button label="EXCEL" onClick={this.handleXLSReport}
+                                className="ui-button-success" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/excel.svg')} style={{height: '45px'}}/>
+                        </Button>
+                        <Button label="TEXTO" onClick={this.handleTXTReport}
+                                className="ui-button-info" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/txt.svg')} style={{height: '45px'}}/>
+                        </Button>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseReport}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+        );
+    }
+
     renderCell() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
         return (
-            <div>
-                <div>
-                    {this.renderDeleteDialog()}
-                </div>
-                <div>
-                    <Messages ref={(el) => this.messages = el}/>
-                </div>
             <Paper className={classes.root}>
                 <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
                                       dateEnd={this.state.endDate} updateDates={this.updateDates}/>
@@ -355,28 +443,29 @@ class EnhancedTable extends Component {
                                             </TableCell>
                                             <TableCell>
                                                 {utilDate.getDateFormat(n.dateRegister)}
-                                            </TableCell>
+                                                </TableCell>
                                             <TableCell>
                                                 {n.description}
-                                            </TableCell>
+                                                </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Editar Base" onClick={event => this.handleBase(event, n)}>
+                                                <IconButton aria-label="Editar Base"  onClick={event => this.handleBase(event, n)}>
                                                     <EditBas/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Editar Segmentación">
                                                     <EditSeg/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Reporte"
+                                                            onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
                                                     <ReportIcon/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete"
-                                                            onClick={event => this.handleClick(event, n.idClientKiloliter)}>
+                                                <IconButton aria-label="Borrar"
+                                                            onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
                                                     <DeleteIcon/>
                                                 </IconButton>
                                             </TableCell>
@@ -390,23 +479,22 @@ class EnhancedTable extends Component {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-                <TablePagination
-                    component="div"
-                    count={data.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-            </Paper>
-            </div>
+                    </div>
+                    <TablePagination
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        backIconButtonProps={{
+                            'aria-label': 'Previous Page',
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'Next Page',
+                        }}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                </Paper>
         );
     }
 
@@ -417,6 +505,13 @@ class EnhancedTable extends Component {
                 <div>
                     {this.renderBase()}
                 </div>
+                <div>
+                    {this.renderDeleteDialog()}
+                    {this.renderReportDialog()}
+                </div>
+                <div>
+                    <Messages ref={(el) => this.messages = el}/>
+                </div>
                 {this.renderCell()}
             </div>
         );
@@ -425,10 +520,6 @@ class EnhancedTable extends Component {
 
 EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    startDate: PropTypes.any.isRequired,
-    endDate: PropTypes.any.isRequired,
-    dates: PropTypes.any.isRequired,
     updateDates: PropTypes.func.isRequired,
 };
 
