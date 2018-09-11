@@ -18,6 +18,7 @@
   "ASSING_QUESTIONARIES":"assignQuestionaries",
   "GET_CLIENT_KILOLITERS":"clientkiloliters",
   "GET_CLIENT_KILOLITERS_RANGE":"clientkilolitersbydaterange",
+  "DEL_CLIENT_KILOLITER":"clientkiloliterdelete",
   "GET_CLIENT_KILOLITERS":"clientkiloliters",
   "POST_CLIENT_KILOLITERS_BASE":"clientkiloliterbase",
   "DATATYPES": "datatypesgroupbyfather",
