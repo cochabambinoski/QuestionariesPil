@@ -325,7 +325,7 @@ class EnhancedTable extends Component {
 
     handleClose = () => {
         this.setState({baseOpen: false});
-        this.setState({deleteOpen:false});
+        this.setState({deleteOpen: false});
         this.setState({toDelete: null});
         this.setState({segmentOpen: false});
         this.chargeTable(this.state.startDate, this.state.endDate)
@@ -515,22 +515,22 @@ class EnhancedTable extends Component {
                             )}
                         </TableBody>
                     </Table>
-                    </div>
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    />
-                </Paper>
+                </div>
+                <TablePagination
+                    component="div"
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    backIconButtonProps={{
+                        'aria-label': 'Previous Page',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Next Page',
+                    }}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+            </Paper>
         );
     }
 

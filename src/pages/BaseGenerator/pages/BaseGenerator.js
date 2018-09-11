@@ -318,11 +318,11 @@ class BaseGenerator extends Component {
                 "dateStart": this.dateToISO(this.state.dates[0]),
                 "dateEnd": this.dateToISO(this.state.dates[1]),
                 "originSystem": "SVM",
-                "codeCity": city === undefined  ? "0" : city.codeDataType.toString(),
-                "codeMarket": market === undefined  ? "0" : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === undefined  ? 0 : bussines.codeDataType.toString(),
+                "codeCity": city === undefined ? "0" : city.codeDataType.toString(),
+                "codeMarket": market === undefined ? "0" : market.codeDataType.toString(),
+                "codeTypeBusiness": bussines === undefined ? 0 : bussines.codeDataType.toString(),
                 "linePlan": line === null ? "0" : line.toString(),
-                "codeMaterial": material === 0  ? "0" : material.codeMaterial.toString(),
+                "codeMaterial": material === 0 ? "0" : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
