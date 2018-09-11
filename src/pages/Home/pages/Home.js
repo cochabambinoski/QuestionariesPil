@@ -20,8 +20,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import Login from "../../Login/Login";
-import {getIdUser} from "../../../reducers";
+import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
+import {getIdUser, getUser} from "../../../reducers";
 
 class Home extends Component {
     state = {
@@ -189,6 +189,9 @@ class Home extends Component {
         return (
             <div>
                 {
+                    this.props.user === null ?
+                        <ErrorPage/>
+                        :
                         <div className={wrapperClass}>
                             <Dialog
                                 open={this.state.open}
@@ -198,7 +201,7 @@ class Home extends Component {
                                 <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
+                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
                                         en el SVM.
                                     </DialogContentText>
                                 </DialogContent>
@@ -250,6 +253,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => (
     {
         idUser: getIdUser(state),
+        user: getUser(state),
     }
 );
 
