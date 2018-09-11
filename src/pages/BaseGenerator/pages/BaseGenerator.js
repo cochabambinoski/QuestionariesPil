@@ -43,15 +43,15 @@ class BaseGenerator extends Component {
             materials: [],
             isEdit: false,
             process: 1,
-            description: segment.description === undefined ? "" :segment.description,
-            startDate: segment.dateStart === undefined ? null :segment.dateStart,
-            endDate: segment.dateEnd === undefined ? null :segment.dateEnd,
-            idClientKiloliter: segment.idClientKiloliter=== undefined ? "" :segment.idClientKiloliter,
-            idTypeBusiness: segment.idTypeBusiness=== undefined ? "" :segment.idTypeBusiness,
-            idTypeCity: segment.idTypeCity=== undefined ? "" :segment.idTypeCity,
-            idTypeMarket: segment.idTypeMarket=== undefined ? "" :segment.idTypeMarket,
-            idLine: segment.line=== undefined ? "" :segment.line,
-            codeMaterial: segment.codeMaterial=== undefined ? "" :segment.codeMaterial,
+            description: segment.description === undefined ? "" : segment.description,
+            startDate: segment.dateStart === undefined ? utilDate.firstDayOfMonth() : segment.dateStart,
+            endDate: segment.dateEnd === undefined ? utilDate.getNow() : segment.dateEnd,
+            idClientKiloliter: segment.idClientKiloliter === undefined ? 0 : segment.idClientKiloliter,
+            idTypeBusiness: segment.idTypeBusiness === undefined ? "" : segment.idTypeBusiness,
+            idTypeCity: segment.idTypeCity === undefined ? "" : segment.idTypeCity,
+            idTypeMarket: segment.idTypeMarket === undefined ? "" : segment.idTypeMarket,
+            idLine: segment.line === undefined ? "" : segment.line,
+            codeMaterial: segment.codeMaterial === undefined ? "" : segment.codeMaterial,
             dates: null,
         };
 
@@ -97,7 +97,6 @@ class BaseGenerator extends Component {
         let list = this.state.lines;
         let one = this.state.idLine;
         let finded = list.filter(function (value) {
-            ;
             if (value.linePlan === one) {
                 return value;
             }
@@ -306,24 +305,24 @@ class BaseGenerator extends Component {
         console.log("click: ", this.state.process);
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
-            const id = this.state.idClientKiloliter === null ? 0 : this.state.idClientKiloliter;
-            console.log(id, this.state.material);
+            const id = this.state.idClientKiloliter;
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
             const line = this.state.line;
             const material = this.state.material;
+            console.log(id, city, market, bussines, line, material);
             this.setBase({
                 "idClientKiloliter": id,
                 "description": this.state.description.toString(),
                 "dateStart": this.dateToISO(this.state.dates[0]),
                 "dateEnd": this.dateToISO(this.state.dates[1]),
                 "originSystem": "SVM",
-                "codeCity": city === null ? 0 : city.codeDataType.toString(),
-                "codeMarket": market === null ? 0 : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === null ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === null ? 0 : line.linePlan.toString(),
-                "codeMaterial": material === undefined ? 0 : material.codeMaterial.toString(),
+                "codeCity": city === undefined  ? "0" : city.codeDataType.toString(),
+                "codeMarket": market === undefined  ? "0" : market.codeDataType.toString(),
+                "codeTypeBusiness": bussines === undefined  ? 0 : bussines.codeDataType.toString(),
+                "linePlan": line === null ? "0" : line.linePlan.toString(),
+                "codeMaterial": material === 0  ? "0" : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
