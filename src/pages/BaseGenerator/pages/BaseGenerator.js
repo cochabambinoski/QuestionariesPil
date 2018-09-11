@@ -174,6 +174,7 @@ class BaseGenerator extends Component {
     };
 
     setBase = (data) => {
+        console.log(data);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_BASE}`;
         fetch(url, {
             method: 'POST',
@@ -309,7 +310,7 @@ class BaseGenerator extends Component {
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
-            const line = this.state.line.linePlan;
+            const line = this.state.line === undefined ? "" : this.state.line;
             const material = this.state.material;
             console.log(id, city, market, bussines, line, material);
             this.setBase({
@@ -320,9 +321,9 @@ class BaseGenerator extends Component {
                 "originSystem": "SVM",
                 "codeCity": city === undefined ? "0" : city.codeDataType.toString(),
                 "codeMarket": market === undefined ? "0" : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === undefined ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === null ? "0" : line.toString(),
-                "codeMaterial": material === 0 ? "0" : material.codeMaterial.toString(),
+                "codeTypeBusiness": bussines === undefined ? "0" : bussines.codeDataType.toString(),
+                "linePlan": line === "" ? "0" : line.linePlan.toString(),
+                "codeMaterial": (material === 0 || material === null) ? "0" : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
@@ -349,7 +350,8 @@ class BaseGenerator extends Component {
                                 <label htmlFor="float-input">Codigo: </label>
                             </Col>
                             <Col xs={6} lg={6} md={4} sd={3}>
-                                <InputText id="code" type="text" size="30" value={this.state.codeSeg}
+                                <InputText id="code" type="text" size="30"
+                                           value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter }
                                            onChange={(e) => this.setState({codeSeg: e.target.value})}
                                            disabled="disabled" style={{width: '200px', marginBottom: '.5em'}}/>
                             </Col>
