@@ -80,7 +80,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showSuccess = (title, message) => {
-        this.messages.show({severity: 'success', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
     };
 
     /**
@@ -89,7 +89,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showInfo = (title, message) => {
-        this.messages.show({severity: 'info', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'info', summary: title, detail: message});
     };
 
     /**
@@ -98,7 +98,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showWarn = (title, message) => {
-        this.messages.show({severity: 'warn', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'warn', summary: title, detail: message});
     };
 
     /**
@@ -107,7 +107,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showError = (title, message) => {
-        this.messages.show({severity: 'error', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'error', summary: title, detail: message});
     };
 
     showResponse = (response) => {
