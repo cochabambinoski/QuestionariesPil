@@ -112,15 +112,11 @@ class EnhancedTable extends Component {
 
     showResponse = (response) => {
         console.log('response: ', response);
-       switch(response) {
-           case 0: {
-               this.showError('Segmentación Base','Algo salio mal en la transacción')
-           }
-           case 1: {
-               this.showSuccess('Segmentación Base', 'Se creo correctamente la nueva segmentación base');
-           }
-
-       }
+        if (response === 0) {
+            this.showError('Segmentación Base', 'Algo salio mal en la transacción');
+        } else {
+            this.showSuccess('Segmentación Base', 'Se creo correctamente la nueva segmentación base');
+        }
     };
 
     /**
