@@ -86,6 +86,7 @@ class AssignmentQuestionary extends Component {
             expandSecondSearch: false,
             hasNewAssignments: false,
             open: false,
+            openConfirmMessage: false,
         }
     }
 
@@ -111,16 +112,16 @@ class AssignmentQuestionary extends Component {
 
     handleSaveAssignment = () => {
         const {questionerQuestionaryList} = this.state;
-        if (this.props.mobileSellersAssigmentAux.length === 0){
-            if(questionerQuestionaryList.length > 0){
+        if (this.props.mobileSellersAssigmentAux.length === 0) {
+            if (questionerQuestionaryList.length > 0) {
                 this.openModal();
-            }else{
+            } else {
                 alert('Debe tener al menos un vendedor para guardar la asignacion');
             }
-        }else{
-            if(this.state.hasNewAssignments && this.state.dates2 == null){
+        } else {
+            if (this.state.hasNewAssignments && this.state.dates2 == null) {
                 alert('Seleccione un rango de fechas');
-            }else{
+            } else {
                 this.openModal();
             }
         }
@@ -147,7 +148,7 @@ class AssignmentQuestionary extends Component {
                 'Content-type': 'application/x-www-form-urlencoded'
             }
         }).then(res => res.json().then(data => {
-                this.cancelAssignamentSeller();
+                this.setState({openConfirmMessage: true})
             })
         )
             .catch(error => console.error('Error:', error))
@@ -159,6 +160,7 @@ class AssignmentQuestionary extends Component {
     };
 
     cancelAssignamentSeller = () => {
+        this.setState({openConfirmMessage: false})
         this.props.deleteAllAssignementUser();
         this.props.deleteMobileSeller(null);
         this.props.deleteSaveMobileSellerListAux(null);
@@ -208,11 +210,11 @@ class AssignmentQuestionary extends Component {
     };
 
     assignAllSeller = () => {
-        let sellers =  [];
+        let sellers = [];
         let changeHasNewAssignments = false;
         this.props.mobileSellersAux.forEach((mobileSeller) => {
             if (!this.alredyHasAssignment(mobileSeller)) {
-               changeHasNewAssignments = true;
+                changeHasNewAssignments = true;
             }
             sellers.push(mobileSeller);
         });
@@ -223,7 +225,7 @@ class AssignmentQuestionary extends Component {
     };
 
     unassignAllSeller = () => {
-        let sellersAssignement =  [];
+        let sellersAssignement = [];
         this.props.mobileSellersAssigmentAux.forEach((mobileSeller) => {
             const {questionerQuestionaryList} = this.state;
             questionerQuestionaryList.forEach((assignment) => {
@@ -244,6 +246,11 @@ class AssignmentQuestionary extends Component {
         this.setState({open: false});
     };
 
+
+    componentWillUnmount() {
+        this.setState({date2: null})
+    }
+
     render() {
         const {idQuestionary} = this.state;
         const es = {
@@ -255,11 +262,12 @@ class AssignmentQuestionary extends Component {
             monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
         };
         return (
-            <div >
+            <div>
                 <div className="content-section introduction">
                     <div className="feature-intro">
                         <h1>Asignación de Cuestionarios</h1>
-                        <p>En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.</p>
+                        <p>En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de
+                            realizar la encuesta.</p>
                     </div>
                 </div>
 
@@ -268,6 +276,13 @@ class AssignmentQuestionary extends Component {
                            message={"Está seguro de completar la asignación?"}
                            handleConfirm={this.saveAssignments}
                            handleCancel={this.closeModal}>
+                    </Modal>
+                </ModalContainer>
+                <ModalContainer>
+                    <Modal open={this.state.openConfirmMessage} title={"Mensaje de Confirmacion"}
+                           message={"La asignacion se realizo exitosamente."}
+                           handleConfirm={this.cancelAssignamentSeller}
+                           handleCancel={this.cancelAssignamentSeller}>
                     </Modal>
                 </ModalContainer>
                 {
@@ -281,7 +296,6 @@ class AssignmentQuestionary extends Component {
 
                 {
                     idQuestionary ?
-
                         <div>
                             <Row>
                                 <Col xs>
@@ -305,40 +319,37 @@ class AssignmentQuestionary extends Component {
                             </Row>
 
                             <Col>
-                                {
-                                    idQuestionary ?
-                                        <Toolbar>
-                                            <div className="p-toolbar-group-left">
-                                                <Button label="Cancelar" className="ui-button-danger"
-                                                        onClick={() => {
-                                                            this.cancelAssignamentSeller()
-                                                        }}
-                                                        style={{margin: '5px', verticalAlign: 'left'}}/>
+                                <Toolbar>
+                                    <div className="p-toolbar-group-left">
+                                        <Button label="Cancelar" className="ui-button-danger"
+                                                onClick={() => {
+                                                    this.cancelAssignamentSeller()
+                                                }}
+                                                style={{margin: '5px', verticalAlign: 'left'}}/>
 
-                                                <Calendar value={this.state.dates2}
-                                                          onChange={(e) => this.setState({dates2: e.value})}
-                                                          selectionMode="range" readonlyInput={true} locale={es}/>
+                                        <Calendar value={this.state.dates2}
+                                                  onChange={(e) => this.setState({dates2: e.value})}
+                                                  selectionMode="range" readonlyInput={true} locale={es}/>
 
-                                                <Button label="Completar Asignacion"
-                                                        onClick={() => {
-                                                            this.handleSaveAssignment()
-                                                        }}
-                                                        style={{margin: '5px', verticalAlign: 'middle'}}/>
+                                        <Button label="Completar Asignacion"
+                                                onClick={() => {
+                                                    this.handleSaveAssignment()
+                                                }}
+                                                style={{margin: '5px', verticalAlign: 'middle'}}/>
 
-                                                <Button label="Asignar todos"
-                                                        onClick={() => {
-                                                            this.assignAllSeller()
-                                                        }}
-                                                        style={{margin: '5px', verticalAlign: 'middle'}}/>
-                                                <Button label="Quitar Todas las Asignaciones" className="ui-button-danger"
-                                                        onClick={() => {
-                                                            this.unassignAllSeller()
-                                                        }}
-                                                        style={{margin: '5px', verticalAlign: 'left'}}/>
-                                            </div>
-                                        </Toolbar> :
-                                        null
-                                }
+                                        <Button label="Asignar todos"
+                                                onClick={() => {
+                                                    this.assignAllSeller()
+                                                }}
+                                                style={{margin: '5px', verticalAlign: 'middle'}}/>
+                                        <Button label="Quitar Todas las Asignaciones"
+                                                className="ui-button-danger"
+                                                onClick={() => {
+                                                    this.unassignAllSeller()
+                                                }}
+                                                style={{margin: '5px', verticalAlign: 'left'}}/>
+                                    </div>
+                                </Toolbar>
                             </Col>
                         </div> :
                         null
