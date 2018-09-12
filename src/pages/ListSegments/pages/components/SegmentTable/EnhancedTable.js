@@ -35,6 +35,8 @@ const styles = theme => ({
     root: {
         width: '100%',
         marginTop: theme.spacing.unit * 2,
+        fontFamily: 'Open Sans',
+        fontSize: '16px',
     },
     table: {
         minWidth: 720,
@@ -42,6 +44,13 @@ const styles = theme => ({
     tableWrapper: {
         overflowX: 'auto',
     },
+    cells: {
+        fontFamily: 'Open Sans',
+        fontSize: '16px'
+    },
+    toolbar:{
+        marginBottom: '1em',
+    }
 });
 
 class EnhancedTable extends Component {
@@ -296,11 +305,11 @@ class EnhancedTable extends Component {
         let start = fromDate.getTime() === this.state.startDate.getTime();
         let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
-            this.state.startDate = fromDate;
-            this.state.endDate = todate;
+            this.setState({startDate: fromDate});
+            this.setState({endDate: todate});
             this.chargeTable(this.state.startDate, this.state.endDate)
         }
-    }
+    };
 
     /**
      * change page
@@ -459,7 +468,7 @@ class EnhancedTable extends Component {
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
         return (
-            <Paper className={classes.root}>
+            <Paper className={classes.root} classes="">
                 <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
                                       dateEnd={this.state.endDate} updateDates={this.updateDates}/>
                 <div className={classes.tableWrapper}>
@@ -481,34 +490,34 @@ class EnhancedTable extends Component {
                                             hover
                                             tabIndex={-1}
                                             key={n.id}>
-                                            <TableCell component="th" scope="row" numeric>
+                                            <TableCell component="th" scope="row" numeric className={classes.cells}>
                                                 {n.idClientKiloliter}
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell className={classes.cells}>
                                                 {utilDate.getDateFormat(n.dateRegister)}
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell className={classes.cells}>
                                                 {n.description}
                                             </TableCell>
-                                            <TableCell >
+                                            <TableCell className={classes.cells}>
                                                 <IconButton aria-label="Editar Base"
                                                             onClick={event => this.handleBase(event, n)}>
                                                     <EditBas className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
-                                            <TableCell >
+                                            <TableCell className={classes.cells}>
                                                 <IconButton aria-label="Editar Segmentación"
                                                             onClick={event => this.handleSegment(event, n)}>
                                                     <EditSeg className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
-                                            <TableCell >
+                                            <TableCell className={classes.cells}>
                                                 <IconButton aria-label="Reporte"
                                                             onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
                                                     <ReportIcon className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
-                                            <TableCell >
+                                            <TableCell className={classes.cells}>
                                                 <IconButton aria-label="Borrar" className="iconButtonDel"
                                                             onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
                                                     <DeleteIcon className="iconButtonDel"/>
@@ -518,8 +527,8 @@ class EnhancedTable extends Component {
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{height: 49 * emptyRows}}>
-                                    <TableCell colSpan={6}/>
+                                <TableRow style={{height: 15 * emptyRows}}>
+                                    <TableCell colSpan={7}/>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -531,10 +540,10 @@ class EnhancedTable extends Component {
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
-                        'aria-label': 'Previous Page',
+                        'Open Sans': 'Previous Page',
                     }}
                     nextIconButtonProps={{
-                        'aria-label': 'Next Page',
+                        'Open Sans': 'Next Page',
                     }}
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
