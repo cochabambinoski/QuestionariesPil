@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
+import {Messages} from 'primereact/messages';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -45,6 +46,7 @@ class EnhancedTable extends Component {
 
     constructor() {
         super();
+
         this.state = {
             order: 'asc',
             orderBy: 'id',
@@ -55,12 +57,128 @@ class EnhancedTable extends Component {
             filter: null,
             startDate: utilDate.firstDayOfMonth(),
             endDate: utilDate.getNow(),
+            deleteOpen: false,
+            reportOpen: false,
+            toDelete: null,
+            toReport: null,
             segment: null,
         };
+
+        this.showSuccess = this.showSuccess.bind(this);
+        this.showInfo = this.showInfo.bind(this);
+        this.showWarn = this.showWarn.bind(this);
+        this.showError = this.showError.bind(this);
     }
 
     componentDidMount() {
         this.chargeTable(this.state.startDate, this.state.endDate)
+    };
+
+    /**
+     * show message success
+     * @param title
+     * @param message
+     */
+    showSuccess = (title, message) => {
+        this.messages.show({severity: 'success', summary: title, detail: message});
+    };
+
+    /**
+     * show message info
+     * @param title
+     * @param message
+     */
+    showInfo = (title, message) => {
+        this.messages.show({severity: 'info', summary: title, detail: message});
+    };
+
+    /**
+     * show message warn
+     * @param title
+     * @param message
+     */
+    showWarn = (title, message) => {
+        this.messages.show({severity: 'warn', summary: title, detail: message});
+    };
+
+    /**
+     * show message error
+     * @param title
+     * @param message
+     */
+    showError = (title, message) => {
+        this.messages.show({severity: 'error', summary: title, detail: message});
+    };
+
+    /**
+     * close dialog and cancel delete
+     */
+    handleCloseDelete = () => {
+        this.setState({deleteOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    /**
+     * init order delete
+     * @param event
+     * @param id
+     */
+    handleDeleteClick = (event, id) => {
+        this.showWarn('Alerta', 'esta iniciando una funcion de eliminación')
+        this.setState({deleteOpen: true});
+        this.setState({toDelete: id})
+    };
+
+    /**
+     * close dialog report
+     */
+    handleCloseReport = () => {
+        this.setState({reportOpen: false});
+        this.setState({toDelete: null})
+    };
+
+    /**
+     * open dialog report
+     * @param event
+     * @param id
+     */
+    handleReportClick = (event, id) => {
+        this.setState({reportOpen: true});
+        this.setState({toReport: id})
+    };
+
+    /**
+     *Accpet delete from dialog
+     */
+    handleDelete = () => {
+        this.deleteSegment();
+    };
+
+    /**
+     * deleteDialog
+     */
+    deleteSegment = () => {
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.DEL_CLIENT_KILOLITER}/${this.state.toDelete}`;
+        console.log(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then(res => res.json())
+            .catch(error => {
+                console.error('Error:', error)
+                this.showError('Error', 'No se pudo eliminar la segmentación');
+            })
+            .then(response => {
+                console.log("Success: ", response);
+
+                this.chargeTable(this.state.startDate, this.state.endDate)
+                this.handleClose();
+                if (response !== undefined || response !== null)
+                    this.showSuccess('Eliminado', 'Se elimino una segmentación');
+            });
     };
 
     /**
@@ -78,6 +196,46 @@ class EnhancedTable extends Component {
                 data: data,
             }));
         });
+    };
+
+    /**
+     * get report
+     * @param url
+     */
+    getReport = (url) => {
+        let win = window.open(url, '_blank');
+        win.focus();
+        this.showSuccess('Reporte', 'Se descargo su reporte correctamente');
+    };
+
+    /**
+     * click PDF
+     */
+    handlePDFReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    /**
+     * click XLS
+     */
+    handleXLSReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
+    };
+
+    /**
+     * click TXT
+     */
+    handleTXTReport = () => {
+        console.log('segment: ', this.state.toReport);
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
+        console.log('url: ', url);
+        this.getReport(url);
     };
 
     /**
@@ -123,35 +281,14 @@ class EnhancedTable extends Component {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
     }
 
-    handleClick = (event, id) => {
-        const {selected} = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({selected: newSelected});
-    };
-
     /**
      * update table with range dates
      * @param fromDate
      * @param todate
      */
     updateDates = (fromDate, todate) => {
-        var start = fromDate.getTime() === this.state.startDate.getTime();
-        var finish = todate.getTime() === this.state.endDate.getTime();
+        let start = fromDate.getTime() === this.state.startDate.getTime();
+        let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
             this.state.startDate = fromDate;
             this.state.endDate = todate;
@@ -183,7 +320,8 @@ class EnhancedTable extends Component {
 
     handleClose = () => {
         this.setState({baseOpen: false});
-        this.setState({toDelete: null})
+        this.setState({deleteOpen:false});
+        this.setState({toDelete: null});
     };
 
     renderBase() {
@@ -206,7 +344,71 @@ class EnhancedTable extends Component {
                             className="ui-button-secondary"/>
                 </DialogActions>
             </Dialog>
+        );
+    }
 
+    /**
+     * render for Dialog
+     * @returns {XML}
+     */
+    renderDeleteDialog() {
+        return (
+            <Dialog
+                open={this.state.deleteOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Alerta"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Esta seguro de eliminar esta Segmentacion Base?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Eliminar" icon="pi pi-check" onClick={this.handleDelete}
+                            className="ui-button-danger"/>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+        );
+    }
+
+    /**
+     * show dialog Report
+     * @returns {XML}
+     */
+    renderReportDialog() {
+        return (
+            <Dialog
+                open={this.state.reportOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Generación de Reportes"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <Button label="PDF" onClick={this.handlePDFReport}
+                                className="ui-button-danger" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/pdf.svg')} style={{height: '45px'}}/>
+                        </Button>
+                        <Button label="EXCEL" onClick={this.handleXLSReport}
+                                className="ui-button-success" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/excel.svg')} style={{height: '45px'}}/>
+                        </Button>
+                        <Button label="TEXTO" onClick={this.handleTXTReport}
+                                className="ui-button-info" style={{width: '90px'}}>
+                            <img src={require('./../../../../../images/txt.svg')} style={{height: '45px'}}/>
+                        </Button>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseReport}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
         );
     }
 
@@ -233,33 +435,38 @@ class EnhancedTable extends Component {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     return (
-                                        <TableRow>
+                                        <TableRow
+                                            hover
+                                            tabIndex={-1}
+                                            key={n.id}>
                                             <TableCell component="th" scope="row" numeric>
                                                 {n.idClientKiloliter}
                                             </TableCell>
                                             <TableCell>
                                                 {utilDate.getDateFormat(n.dateRegister)}
-                                            </TableCell>
+                                                </TableCell>
                                             <TableCell>
                                                 {n.description}
-                                            </TableCell>
+                                                </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Editar Base" onClick={event => this.handleBase(event, n)}>
+                                                <IconButton aria-label="Editar Base"  onClick={event => this.handleBase(event, n)}>
                                                     <EditBas/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Editar Segmentación">
                                                     <EditSeg/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Reporte"
+                                                            onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
                                                     <ReportIcon/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Delete">
+                                                <IconButton aria-label="Borrar"
+                                                            onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
                                                     <DeleteIcon/>
                                                 </IconButton>
                                             </TableCell>
@@ -273,22 +480,22 @@ class EnhancedTable extends Component {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-                <TablePagination
-                    component="div"
-                    count={data.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-            </Paper>
+                    </div>
+                    <TablePagination
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        backIconButtonProps={{
+                            'aria-label': 'Previous Page',
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'Next Page',
+                        }}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />
+                </Paper>
         );
     }
 
@@ -299,6 +506,13 @@ class EnhancedTable extends Component {
                 <div>
                     {this.renderBase()}
                 </div>
+                <div>
+                    {this.renderDeleteDialog()}
+                    {this.renderReportDialog()}
+                </div>
+                <div>
+                    <Messages ref={(el) => this.messages = el}/>
+                </div>
                 {this.renderCell()}
             </div>
         );
@@ -307,10 +521,6 @@ class EnhancedTable extends Component {
 
 EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    startDate: PropTypes.any.isRequired,
-    endDate: PropTypes.any.isRequired,
-    dates: PropTypes.any.isRequired,
     updateDates: PropTypes.func.isRequired,
 };
 
