@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import {Messages} from 'primereact/messages';
+import {Toolbar} from "primereact/toolbar";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -21,6 +22,7 @@ import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
 import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
+import SegmentationGenerator from "../../../../SegementationGenerator/pages/SegmentationGenerator";
 import {Button} from "primereact/button";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -80,7 +82,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showSuccess = (title, message) => {
-        this.messages.show({severity: 'success', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
     };
 
     /**
@@ -89,7 +91,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showInfo = (title, message) => {
-        this.messages.show({severity: 'info', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'info', summary: title, detail: message});
     };
 
     /**
@@ -98,7 +100,7 @@ class EnhancedTable extends Component {
      * @param message
      */
     showWarn = (title, message) => {
-        this.messages.show({severity: 'warn', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'warn', summary: title, detail: message});
     };
 
     /**
@@ -107,7 +109,20 @@ class EnhancedTable extends Component {
      * @param message
      */
     showError = (title, message) => {
-        this.messages.show({severity: 'error', summary: title, detail: message});
+        this.messages.show({life: 5000, severity: 'error', summary: title, detail: message});
+    };
+
+    showResponse = (response) => {
+        switch (response) {
+            case 0: {
+                this.showError('Error', 'Ocurrió un error al procesar la transacción');
+                return;
+            }
+            case 1: {
+                this.showSuccess('Procesado', 'La transacción se realizó correctamente');
+                return;
+            }
+        }
     };
 
     /**
@@ -159,7 +174,6 @@ class EnhancedTable extends Component {
      */
     deleteSegment = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DEL_CLIENT_KILOLITER}/${this.state.toDelete}`;
-        console.log(url);
         fetch(url, {
             method: 'GET',
             headers: {
@@ -172,8 +186,6 @@ class EnhancedTable extends Component {
                 this.showError('Error', 'No se pudo eliminar la segmentación');
             })
             .then(response => {
-                console.log("Success: ", response);
-
                 this.chargeTable(this.state.startDate, this.state.endDate)
                 this.handleClose();
                 if (response !== undefined || response !== null)
@@ -212,9 +224,7 @@ class EnhancedTable extends Component {
      * click PDF
      */
     handlePDFReport = () => {
-        console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
-        console.log('url: ', url);
         this.getReport(url);
     };
 
@@ -222,9 +232,7 @@ class EnhancedTable extends Component {
      * click XLS
      */
     handleXLSReport = () => {
-        console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
-        console.log('url: ', url);
         this.getReport(url);
     };
 
@@ -232,9 +240,7 @@ class EnhancedTable extends Component {
      * click TXT
      */
     handleTXTReport = () => {
-        console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
-        console.log('url: ', url);
         this.getReport(url);
     };
 
@@ -318,10 +324,19 @@ class EnhancedTable extends Component {
         this.setState({baseOpen: true});
     };
 
-    handleClose = () => {
+    handleSegment = (event, id) => {
+        this.setState({segment: id});
+        this.setState({segmentOpen: true});
+    };
+
+    handleClose = (response) => {
         this.setState({baseOpen: false});
         this.setState({deleteOpen: false});
         this.setState({toDelete: null});
+        this.setState({segmentOpen: false});
+        this.chargeTable(this.state.startDate, this.state.endDate);
+        if (response === 1 || response === 0)
+            this.showResponse(response);
     };
 
     renderBase() {
@@ -337,7 +352,31 @@ class EnhancedTable extends Component {
                              className="titleBody">{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <BaseGenerator segment={this.state.segment}/>
+                        <BaseGenerator segment={this.state.segment} refresh={this.handleClose}/>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                            className="ui-button-secondary"/>
+                </DialogActions>
+            </Dialog>
+        );
+    }
+
+    renderSegment() {
+        const {classes} = this.props;
+        return (
+            <Dialog
+                open={this.state.segmentOpen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title"
+                             style={{backgroundColor: '#5B5D74'}}>{"Generación de parametros para la segmentación"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -446,12 +485,13 @@ class EnhancedTable extends Component {
                                             <TableCell >
                                                 <IconButton aria-label="Editar Base"
                                                             onClick={event => this.handleBase(event, n)}>
-                                                    <EditBas  className="iconButton"/>
+                                                    <EditBas className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Editar Segmentación">
-                                                    <EditSeg  className="iconButton"/>
+                                                <IconButton aria-label="Editar Segmentación"
+                                                            onClick={event => this.handleSegment(event, n)}>
+                                                    <EditSeg className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
@@ -501,6 +541,7 @@ class EnhancedTable extends Component {
             <div>
                 <div>
                     {this.renderBase()}
+                    {this.renderSegment()}
                 </div>
                 <div>
                     {this.renderDeleteDialog()}
@@ -508,6 +549,13 @@ class EnhancedTable extends Component {
                 </div>
                 <div>
                     <Messages ref={(el) => this.messages = el}/>
+                </div>
+                <div>
+                    <Toolbar>
+                        <div className="p-toolbar-group-left">
+                            <Button label="Nuevo" className="p-button-rounded" onClick={event => this.handleBase(event, 0)}/>
+                        </div>
+                    </Toolbar>
                 </div>
                 {this.renderCell()}
             </div>

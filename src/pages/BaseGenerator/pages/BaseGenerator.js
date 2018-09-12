@@ -29,12 +29,7 @@ class BaseGenerator extends Component {
     constructor(props) {
         super(props);
         let segment = props.segment;
-        console.log(segment);
         this.state = {
-            codeSeg: segment.idClientKiloliter,
-            description: segment.description,
-            startDate: segment.dateStart,
-            endDate: segment.dateEnd,
             city: null,
             bussines: null,
             market: null,
@@ -47,12 +42,15 @@ class BaseGenerator extends Component {
             materials: [],
             isEdit: false,
             process: 1,
-            idClientKiloliter: segment.idClientKiloliter,
-            idTypeBusiness: segment.idTypeBusiness,
-            idTypeCity: segment.idTypeCity,
-            idTypeMarket: segment.idTypeMarket,
-            idLine: segment.line,
-            codeMaterial: segment.codeMaterial,
+            description: segment.description === undefined ? "" : segment.description,
+            startDate: segment.dateStart === undefined ? utilDate.firstDayOfMonth() : segment.dateStart,
+            endDate: segment.dateEnd === undefined ? utilDate.getNow() : segment.dateEnd,
+            idClientKiloliter: segment.idClientKiloliter === undefined ? 0 : segment.idClientKiloliter,
+            idTypeBusiness: segment.idTypeBusiness === undefined ? "" : segment.idTypeBusiness,
+            idTypeCity: segment.idTypeCity === undefined ? "" : segment.idTypeCity,
+            idTypeMarket: segment.idTypeMarket === undefined ? "" : segment.idTypeMarket,
+            idLine: segment.line === undefined ? "" : segment.line,
+            codeMaterial: segment.codeMaterial === undefined ? "" : segment.codeMaterial,
             dates: null,
         };
 
@@ -69,7 +67,7 @@ class BaseGenerator extends Component {
         this.setState({market: this.getValueType(this.state.markets, this.state.idTypeMarket)});
         this.setState({bussines: this.getValueType(this.state.bussiness, this.state.idTypeBusiness)});
         this.setState({line: this.getValueLine()});
-        this.setState({material: this.getValueMaterial()});
+        this.setState({material: this.getValueMaterial() === undefined ? 0 : this.getValueMaterial()});
     }
 
     componentDidMount() {
@@ -81,6 +79,10 @@ class BaseGenerator extends Component {
         this.getBussiness(0, Constants.GET_BUSSINESS);
         this.getLines();
         this.getMaterials(0);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
     }
 
     getValueType(myList, myValue) {
@@ -98,7 +100,6 @@ class BaseGenerator extends Component {
         let list = this.state.lines;
         let one = this.state.idLine;
         let finded = list.filter(function (value) {
-            ;
             if (value.linePlan === one) {
                 return value;
             }
@@ -117,11 +118,6 @@ class BaseGenerator extends Component {
         return finded[0];
     }
 
-    shouldComponentUpdate(next_props, next_state) {
-        if (next_state.description === this.state.description)
-            return true;
-    }
-
     getCities = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
         fetch(url)
@@ -131,7 +127,6 @@ class BaseGenerator extends Component {
             this.setState({cities: data});
         });
     };
-
 
     getMarkets = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
@@ -165,12 +160,10 @@ class BaseGenerator extends Component {
 
     getMaterials = (nameLine) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.MATERIALS}/${nameLine}`;
-        console.log(url);
         fetch(url)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log.material;
             this.setState({materials: data});
         });
     };
@@ -187,16 +180,21 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response, response.codeResult);
-                this.setState({process: response.codeResult});
+                if (response.codeResult === null || response.codeResult === undefined) {
+                    if (response.status > 200) {
+                        this.props.refresh(0);
+                        this.setState({process: 1});
+                    }
+                } else {
+                    this.props.refresh(response.codeResult);
+                    this.setState({process: response.codeResult});
+                }
             });
     };
 
     onCityChange(e) {
-        console.log('value e city: ', e);
         if (e.value === undefined || e.value === null) {
             e.value = null;
-            this.setState({markets: []});
             this.getMarkets(0, Constants.GET_MARKETS);
         }
         else {
@@ -219,6 +217,9 @@ class BaseGenerator extends Component {
     }
 
     onMarketChange(e) {
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+        }
         this.setState({market: e.value});
     }
 
@@ -236,6 +237,9 @@ class BaseGenerator extends Component {
     }
 
     onBussinesChange(e) {
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+        }
         this.setState({bussines: e.value});
     }
 
@@ -253,13 +257,11 @@ class BaseGenerator extends Component {
     }
 
     onLineChange(e) {
-        console.log(e.value);
         if (e.value === undefined || e.value === null) {
             e.value = null;
-            this.setState({line: []});
+            this.setState({line: e.value});
             this.getMaterials(0);
-        }
-        else {
+        } else {
             this.setState({line: e.value});
             this.setState({materials: []});
             this.getMaterials(e.value.linePlan.split(" ").join("_"));
@@ -280,6 +282,9 @@ class BaseGenerator extends Component {
     }
 
     onMaterialChange(e) {
+        if (e.value === undefined || e.value === null) {
+            e.value = null;
+        }
         this.setState({material: e.value});
     }
 
@@ -303,27 +308,29 @@ class BaseGenerator extends Component {
     };
 
     handleClick = (event) => {
-        console.log("click: ", this.state.process);
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
+            const id = this.state.idClientKiloliter;
             const city = this.state.city;
             const market = this.state.market;
             const bussines = this.state.bussines;
-            const line = this.state.line;
-            const material = this.state.material;
+            const line = this.state.line === undefined ? null : this.state.line;
+            const material = this.state.material === undefined ? null : this.state.material;
             this.setBase({
+                "idClientKiloliter": id,
                 "description": this.state.description.toString(),
                 "dateStart": this.dateToISO(this.state.dates[0]),
                 "dateEnd": this.dateToISO(this.state.dates[1]),
                 "originSystem": "SVM",
-                "codeCity": city === null ? 0 : city.codeDataType.toString(),
-                "codeMarket": market === null ? 0 : market.codeDataType.toString(),
-                "codeTypeBusiness": bussines === null ? 0 : bussines.codeDataType.toString(),
-                "linePlan": line === undefined ? 0 : line.linePlan.toString(),
-                "codeMaterial": material === undefined ? 0 : material.codeMaterial.toString(),
+                "codeCity": (city === undefined || city === null) ? 0 : city.codeDataType.toString(),
+                "codeMarket": (market === undefined || market === null ) ? 0 : market.codeDataType.toString(),
+                "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
+                "linePlan": (line === undefined || line === null || line.linePlan === "") ? 0 : line.linePlan.toString(),
+                "codeMaterial": (material === 0 || material === null) ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
         }
+
     };
 
     render() {
@@ -490,6 +497,7 @@ class BaseGenerator extends Component {
 
 BaseGenerator.propTypes = {
     segment: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(BaseGenerator);
