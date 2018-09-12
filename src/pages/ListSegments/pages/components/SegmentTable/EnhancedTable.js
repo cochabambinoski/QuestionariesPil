@@ -372,8 +372,7 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title"
-                             style={{backgroundColor: '#5B5D74'}}>{"Generación de parametros para la segmentación"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody MuiTypography-title-111 !important">{"Generación de parametros para la segmentación"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
@@ -399,7 +398,7 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" className="titleBody">{"Alerta"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody MuiTypography-title-111 !important">{"Alerta"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
                         ¿Esta seguro de eliminar esta Segmentacion Base?
