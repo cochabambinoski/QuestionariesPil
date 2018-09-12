@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import {Messages} from 'primereact/messages';
+import {Toolbar} from "primereact/toolbar";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -342,7 +343,8 @@ class EnhancedTable extends Component {
         this.setState({toDelete: null});
         this.setState({segmentOpen: false});
         this.chargeTable(this.state.startDate, this.state.endDate);
-        if (response === 0 || response === 1)
+        console.log('refresh', response);
+        if (response === 1 || response === 0)
             this.showResponse(response);
     };
 
@@ -563,6 +565,13 @@ class EnhancedTable extends Component {
                 </div>
                 <div>
                     <Messages ref={(el) => this.messages = el}/>
+                </div>
+                <div>
+                    <Toolbar>
+                        <div className="p-toolbar-group-left">
+                            <Button label="Nuevo" className="p-button-rounded" onClick={event => this.handleBase(event, 0)}/>
+                        </div>
+                    </Toolbar>
                 </div>
                 {this.renderCell()}
             </div>

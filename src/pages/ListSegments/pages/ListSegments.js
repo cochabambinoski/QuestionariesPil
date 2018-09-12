@@ -4,7 +4,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
-import {Toolbar} from "primereact/toolbar";
 import {Button} from "primereact/button";
 import EnhancedTable from "./components/SegmentTable/EnhancedTable";
 import BaseGenerator from "../../BaseGenerator/pages/BaseGenerator";
@@ -27,45 +26,6 @@ class ListSegments extends Component {
         };
     }
 
-    /**
-     * open base generator
-     * @param event
-     * @param id
-     */
-    handleClick = (event, id) => {
-        this.setState({baseOpen: true});
-    };
-
-    handleClose = () => {
-        this.setState({baseOpen: false});
-        this.setState({toDelete: null})
-    };
-
-    renderBase() {
-        const {classes} = this.props;
-        return (
-            <Dialog
-                open={this.state.baseOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title" style={{backgroundColor:'#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        <BaseGenerator segment="null" refresh = {this.handleClose}/>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
-                </DialogActions>
-            </Dialog>
-
-        );
-    }
-
-
     renderList() {
         const {classes} = this.props;
         return (
@@ -76,11 +36,6 @@ class ListSegments extends Component {
                         <p>Generación de reportes, creación, edición y eliminacion de segmentación.</p>
                     </div>
                 </div>
-                <Toolbar>
-                    <div className="p-toolbar-group-left">
-                        <Button label="Nuevo" className="p-button-rounded" onClick={this.handleClick}/>
-                    </div>
-                </Toolbar>
                 <div>
                     <div>
                         <EnhancedTable/>
@@ -94,9 +49,6 @@ class ListSegments extends Component {
         const {classes} = this.props;
         return (
             <div>
-                <div>
-                    {this.renderBase()}
-                </div>
                 {this.renderList()}
             </div>
         );

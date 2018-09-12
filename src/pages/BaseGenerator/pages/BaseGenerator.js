@@ -81,6 +81,10 @@ class BaseGenerator extends Component {
         this.getMaterials(0);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
+    }
+
     getValueType(myList, myValue) {
         let list = myList;
         let one = myValue;
@@ -114,11 +118,6 @@ class BaseGenerator extends Component {
         return finded[0];
     }
 
-    shouldComponentUpdate(next_props, next_state) {
-        if (next_state.description === this.state.description)
-            return true;
-    }
-
     getCities = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
         fetch(url)
@@ -128,7 +127,6 @@ class BaseGenerator extends Component {
             this.setState({cities: data});
         });
     };
-
 
     getMarkets = (father, group) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
@@ -182,14 +180,16 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
+                console.log(response);
                 if (response.codeResult === null || response.codeResult === undefined) {
                     if (response.status > 200) {
-                        this.setState({process: 1});
                         this.props.refresh(0);
+                        this.setState({process: 1});
                     }
                 } else {
-                    this.setState({process: response.codeResult});
+                    console.log("before refresh ", response.codeResult);
                     this.props.refresh(response.codeResult);
+                    this.setState({process: response.codeResult});
                 }
             });
     };
@@ -263,13 +263,11 @@ class BaseGenerator extends Component {
             e.value = null;
             this.setState({line: e.value});
             this.getMaterials(0);
-        }
-        else {
+        } else {
             this.setState({line: e.value});
             this.setState({materials: []});
             this.getMaterials(e.value.linePlan.split(" ").join("_"));
         }
-        this.setState({line: e.value});
     }
 
     lineTemplate(option) {
@@ -330,7 +328,7 @@ class BaseGenerator extends Component {
                 "codeCity": (city === undefined || city === null) ? 0 : city.codeDataType.toString(),
                 "codeMarket": (market === undefined || market === null ) ? 0 : market.codeDataType.toString(),
                 "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
-                "linePlan": (line === undefined || line === null) ? 0 : line.linePlan.toString(),
+                "linePlan": (line === undefined || line === null || line.linePlan === "") ? 0 : line.linePlan.toString(),
                 "codeMaterial": (material === 0 || material === null) ? 0 : material.codeMaterial.toString(),
             });
             this.setState({dates: null});
