@@ -91,17 +91,21 @@ export function searchFilter(state = initialState, action) {
         case DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH: {
             return {
                 ...state,
-                queryAdvancedMobileSellerBranch: state.queryAdvancedMobileSellerBranch.filter(item => item !== action.payload),
+                queryAdvancedMobileSellerBranch: state.queryAdvancedMobileSellerBranch.filter(item => item.id !== action.payload.id),
             }
         }
         case CHANGE_OPERATION_ID_BRANCH_SELLER: {
-            console.log(action.payload);
-            let id = action.payload.id;
-            array[id].operacionId = action.payload.operacionId;
-            return {
-                ...state,
-                queryAdvancedMobileSellerAssignedType: state.queryAdvancedMobileSellerAssignedType.filter(item => item !== action.payload),
-            }
+            return  Object.assign({}, state, {
+                queryAdvancedMobileSellerBranch: state.queryAdvancedMobileSellerBranch.map((branch) => {
+                    console.log(branch.id === action.payload.id);
+                    if (branch.id === action.payload.id){
+                        return Object.assign({}, branch, {
+                            operacionId: action.payload.operacionId
+                        })
+                    }
+                    return branch
+                })
+            })
         }
         case DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE: {
             return {
@@ -115,11 +119,18 @@ export function searchFilter(state = initialState, action) {
                 queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.filter(item => item !== action.payload),
             }
         }
-        case CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED: {
-            console.log(action.payload);
-            return Object.assign({}, state, {
-                queryAdvancedMobileSellerAssignedBranch: action.payload,
-            });
+        case CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED: {;
+            return  Object.assign({}, state, {
+                queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.map((branch) => {
+                    console.log(branch.id === action.payload.id);
+                    if (branch.id === action.payload.id){
+                        return Object.assign({}, branch, {
+                            operacionId: action.payload.operacionId
+                        })
+                    }
+                    return branch
+                })
+            })
         }
         case CLEAN_FILTER: {
             return {

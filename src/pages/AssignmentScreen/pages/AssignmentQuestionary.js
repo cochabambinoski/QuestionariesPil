@@ -166,10 +166,6 @@ class AssignmentQuestionary extends Component {
         this.setState({idQuestionary: null})
     };
 
-    handleDeleteAllSellerAssignment = () => {
-        this.props.deleteAllAssignementUser();
-    };
-
     loadAssignments = (assignments) => {
         assignments.forEach((assignment) => {
             const {questionerQuestionaryList} = this.state;
@@ -242,11 +238,11 @@ class AssignmentQuestionary extends Component {
 
     openModal = () => {
         this.setState({open: true});
-    }
+    };
 
     closeModal = () => {
         this.setState({open: false});
-    }
+    };
 
     render() {
         const {idQuestionary} = this.state;
@@ -268,8 +264,10 @@ class AssignmentQuestionary extends Component {
                 </div>
 
                 <ModalContainer>
-                    <Modal open={this.state.open} title={"Asignacion"} message={"Está seguro de completar la asignación?"}
-                           handleConfirm={this.saveAssignments} handleCancel={this.closeModal}>
+                    <Modal open={this.state.open} title={"Asignacion"}
+                           message={"Está seguro de completar la asignación?"}
+                           handleConfirm={this.saveAssignments}
+                           handleCancel={this.closeModal}>
                     </Modal>
                 </ModalContainer>
                 {

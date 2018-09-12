@@ -157,15 +157,15 @@ class ListSearchAdvancedSeller extends Component {
             case Constants.BRANCHES_LIST: {
                 if (this.typeSearchAdvances()) {
                     if (item.operacionId === 1) {
-                        this.props.changeOperationIdBranchSeller(new this.OperationId(getIndexItem(this.props.querySearchSellerByBranch, item), 0))
+                        this.props.changeOperationIdBranchSeller(new this.OperationId(item.id, 0))
                     } else {
-                        this.props.changeOperationIdBranchSeller(new this.OperationId(getIndexItem(this.props.querySearchSellerByBranch, item), 1))
+                        this.props.changeOperationIdBranchSeller(new this.OperationId(item.id, 1))
                     }
                 } else {
                     if (item.operacionId === 1) {
-                        this.props.changeOperationIdBranchSellerAssigned(new this.OperationId(getIndexItem(this.props.querySearchSellerAssignedByBranch, item), 0))
+                        this.props.changeOperationIdBranchSellerAssigned(new this.OperationId(item.id, 0))
                     } else {
-                        this.props.changeOperationIdBranchSellerAssigned(new this.OperationId(getIndexItem(this.props.querySearchSellerAssignedByBranch, item), 1))
+                        this.props.changeOperationIdBranchSellerAssigned(new this.OperationId(item.id, 1))
                     }
                 }
                 return;
