@@ -97,7 +97,6 @@ export function searchFilter(state = initialState, action) {
         case CHANGE_OPERATION_ID_BRANCH_SELLER: {
             return  Object.assign({}, state, {
                 queryAdvancedMobileSellerBranch: state.queryAdvancedMobileSellerBranch.map((branch) => {
-                    console.log(branch.id === action.payload.id);
                     if (branch.id === action.payload.id){
                         return Object.assign({}, branch, {
                             operacionId: action.payload.operacionId
@@ -122,7 +121,6 @@ export function searchFilter(state = initialState, action) {
         case CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED: {;
             return  Object.assign({}, state, {
                 queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.map((branch) => {
-                    console.log(branch.id === action.payload.id);
                     if (branch.id === action.payload.id){
                         return Object.assign({}, branch, {
                             operacionId: action.payload.operacionId

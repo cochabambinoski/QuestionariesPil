@@ -41,7 +41,7 @@ export function assignmentUser(state = initialState, action) {
         case ADD_ALL_ASSIGNEMENT_USER: {
             return {
                 ...state,
-                entities: action.payload,
+                entities: state.entities.concat(action.payload),
                 mobileSellers: []
             }
         }

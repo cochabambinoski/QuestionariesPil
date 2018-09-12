@@ -190,11 +190,6 @@ class ListSearchAdvancedSeller extends Component {
         return available
     }
 
-    isChecked(item) {
-        let exist = getIndexQuestionary(this.props.querySearchSellerByType, item);
-        return exist !== -1;
-    }
-
     existBranchInTheList(city) {
         let branches = null;
         if (this.typeSearchAdvances()) {

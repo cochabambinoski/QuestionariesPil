@@ -128,15 +128,10 @@ class MobileSellerList extends Component {
         if (nextProps.idQuestionary !== this.props.idQuestionary) {
             this.getMobileSellers(nextProps.idQuestionary);
         }
-
-        const enableSellerBranchPrev = getItemsEnabled(this.props.queryMobileSellerBranch.length);
-        const enableSellerBranchNext = getItemsEnabled(nextProps.queryMobileSellerBranch);
-
         if (nextProps.queryMobileSellerType.length !== this.props.queryMobileSellerType.length ||
-            enableSellerBranchPrev !== enableSellerBranchNext) {
+            nextProps.queryMobileSellerType !== this.props.queryMobileSellerType) {
             this.renderMobileSellersItem()
         }
-
     }
 
     render() {
