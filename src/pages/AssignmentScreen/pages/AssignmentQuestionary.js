@@ -3,7 +3,6 @@ import MobileSellerList from '../../AssignmentSeller/pages/MobileSellerList/Mobi
 import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
 import '../../../layout/layout.css'
-import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigment/QuestionaryAsignmet";
 import {Button} from "../../../../node_modules/primereact/button";
 import {Toolbar} from '../../../../node_modules/primereact/toolbar';
 import {connect} from 'react-redux';
@@ -20,13 +19,14 @@ import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {
     getAllCity,
     getMobileAssignement,
-    getMobileSellers, getMobileSellersAssigmentAux, getMobileSellersAux,
+    getMobileSellers,
+    getMobileSellersAssigmentAux,
+    getMobileSellersAux,
     getTypeByCodSapQuestionerQuestionary,
     getTypesSeller,
     getUser
 } from "../../../reducers";
 import Constants from "../../../Constants";
-import {InputText} from 'primereact/inputtext';
 import {withStyles} from '@material-ui/core/styles';
 import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
 import {
