@@ -37,6 +37,7 @@ import {
 } from "../../../actions";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Modal from "../../../widgets/Modal/components/modal";
+import Title from "../../Title/Title";
 
 const styles = theme => ({
     root: {
@@ -258,15 +259,9 @@ class AssignmentQuestionary extends Component {
             monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
         };
         return (
-            <div>
-                <div className="content-section introduction">
-                    <div className="feature-intro">
-                        <h1>Asignación de Cuestionarios</h1>
-                        <p>En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de
-                            realizar la encuesta.</p>
-                    </div>
-                </div>
-
+            <div >
+                <Title tilte={'Asignación de Cuestionarios'} subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
+                <br/>
                 <ModalContainer>
                     <Modal open={this.state.open} title={"Asignacion"}
                            message={"Está seguro de completar la asignación?"}

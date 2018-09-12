@@ -14,6 +14,9 @@ const styles = theme => ({
     head: {
         backgroundColor: '#5B5D74',
         color: theme.palette.common.white,
+        fontFamily: 'Open Sans',
+        fontSize: '18px',
+        fontweight: '700'
     },
     sortLabel: {
         color: theme.palette.common.white,

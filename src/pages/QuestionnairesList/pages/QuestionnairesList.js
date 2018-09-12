@@ -13,6 +13,7 @@ import {ScrollPanel} from "primereact/scrollpanel";
 import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
 import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
+import Title from "../../Title/Title";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -113,16 +114,10 @@ class Questionnaires extends Component {
 
     render() {
         return (
-            <div className="questionnaire">
-                <div className="bodyContainer">
-                    <div className="content-section introduction">
-                        <div className="feature-intro">
-                            <h1>Lista de Encuestas</h1>
-                            <p>En esta sección podrás encontrar la lista de encuestas disponibles.</p>
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <Title tilte={'Lista de Encuestas'} subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                 <Growl ref={(el) => this.growl = el}/>
+                <br/>
                 <Button label="Nuevo"
                         onClick={() => {
                             this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))

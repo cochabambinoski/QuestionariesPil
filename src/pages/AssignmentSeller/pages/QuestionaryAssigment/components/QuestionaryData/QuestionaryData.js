@@ -9,12 +9,12 @@ const QuestionaryData = ({data, handleQuestionaryLocationDataClick}) => {
     return (
         <div>
             <Card className="cardQuestionary" title={data.name} key={data.id}>
-                <div>
-                    <div className="light-text">Creado</div>
-                    <div className="normal-text">{data.fechaId} {data.usuarioId}</div>
+                <div className="text">
+                    <div>Creado</div>
+                    <div>{data.fechaId} {data.usuarioId}</div>
                     <br/>
                     <span>
-                        <Button label="Iniciar Asignacion" className="ui-button-success" onClick={() => {
+                        <Button label="Iniciar Asignacion"  onClick={() => {
                             handleQuestionaryLocationDataClick(data)
                         }}/>
                     </span>

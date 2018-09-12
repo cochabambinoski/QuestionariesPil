@@ -13,6 +13,7 @@ import {Button} from "primereact/button";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as utilDate from "../../../utils/dateUtils";
+import baseStyle from "./BaseStyle.css"
 
 const styles = theme => ({
     row: {
@@ -350,13 +351,13 @@ class BaseGenerator extends Component {
                     <Grid classes="">
                         <Row between="xs">
                             <Col xs={6} lg={6} md={4} sd={3}>
-                                <label htmlFor="float-input">Codigo: </label>
+                                <label htmlFor="float-input" className="label">Codigo: </label>
                             </Col>
                             <Col xs={6} lg={6} md={4} sd={3}>
                                 <InputText id="code" type="text" size="30"
                                            value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter }
                                            onChange={(e) => this.setState({codeSeg: e.target.value})}
-                                           disabled="disabled" style={{width: '200px', marginBottom: '.5em'}}/>
+                                           disabled="disabled" className="imput" style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6} md={4} sd={3}>
                             </Col>
@@ -365,12 +366,12 @@ class BaseGenerator extends Component {
                         </Row>
                         <Row between="xs">
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Descripción: </label>
+                                <label htmlFor="float-input" className="label">Descripción: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <InputText id="description" type="text" size="45" value={this.state.description}
                                            onChange={(e) => this.setState({description: e.target.value})}
-                                           style={{width: '200px', marginBottom: '.5em'}}/>
+                                           className="imput" style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -379,13 +380,13 @@ class BaseGenerator extends Component {
                         </Row>
                         <Row between="xs">
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Rango de Fechas: </label>
+                                <label htmlFor="float-input" className="label">Rango de Fechas: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                                           onChange={(e) => this.setState({dates: e.value})}
                                           selectionMode="range" readonlyInput={true}
-                                          style={{width: '200px', marginBottom: '.5em'}}/>
+                                          className="imput" style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -394,7 +395,7 @@ class BaseGenerator extends Component {
                         </Row>
                         <Row between="xs">
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Ciudad: </label>
+                                <label htmlFor="float-input" className="label">Ciudad: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <Dropdown value={this.state.city} options={this.state.cities}
@@ -403,8 +404,8 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="nameDataType" filter={true}
                                           filterPlaceholder="Seleccione Ciudad"
-                                          filterBy="nameDataType" style={{width: '200px', marginBottom: '.5em'}}
-                                          showClear={true}/>
+                                          filterBy="nameDataType" className="imput"
+                                          showClear={true} style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -413,7 +414,7 @@ class BaseGenerator extends Component {
                         </Row>
                         <Row between="xs">
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Mercado: </label>
+                                <label htmlFor="float-input" className="label">Mercado: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <Dropdown value={this.state.market} options={this.state.markets}
@@ -422,8 +423,8 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="nameDataType" filter={true}
                                           filterPlaceholder="Seleccione Mercado"
-                                          filterBy="nameDataType" style={{width: '200px', marginBottom: '.5em'}}
-                                          showClear={true}/>
+                                          filterBy="nameDataType" className="imput"
+                                          showClear={true} style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -432,7 +433,7 @@ class BaseGenerator extends Component {
                         </Row>
                         <Row between="xs">
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Tipo de Negocio: </label>
+                                <label htmlFor="float-input" className="label">Tipo de Negocio: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <Dropdown value={this.state.bussines} options={this.state.bussiness}
@@ -441,8 +442,8 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="nameDataType" filter={true}
                                           filterPlaceholder="Seleccione Negocio"
-                                          filterBy="nameDataType" style={{width: '200px', marginBottom: '.5em'}}
-                                          showClear={true}/>
+                                          filterBy="nameDataType" className="imput"
+                                          showClear={true} style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
                             </Col>
@@ -451,7 +452,7 @@ class BaseGenerator extends Component {
                         </Row>
                         <Row between="xs">
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Linea: </label>
+                                <label htmlFor="float-input" className="label">Linea: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <Dropdown value={this.state.line} options={this.state.lines}
@@ -459,11 +460,11 @@ class BaseGenerator extends Component {
                                           placeholder="Todos"
                                           optionLabel="linePlan"
                                           filter={true} filterPlaceholder="Seleccione Linea"
-                                          filterBy="linePlan" style={{width: '200px', marginBottom: '.5em'}}
-                                          showClear={true}/>
+                                          filterBy="linePlan" className="imput"
+                                          showClear={true} style={{width: '200px'}}/>
                             </Col>
                             <Col xs={6} lg={6}>
-                                <label htmlFor="float-input">Material: </label>
+                                <label htmlFor="float-input" className="label">Material: </label>
                             </Col>
                             <Col xs={6} lg={6}>
                                 <Dropdown value={this.state.material} options={this.state.materials}
@@ -471,8 +472,8 @@ class BaseGenerator extends Component {
                                           itemTemplate={this.materialTemplate}
                                           placeholder="Todos" optionLabel="material"
                                           filter={true} filterPlaceholder="Seleccione Material"
-                                          filterBy="material" style={{width: '200px', marginBottom: '.5em'}}
-                                          showClear={true}/>
+                                          filterBy="material" className="imput"
+                                          showClear={true} style={{width: '200px'}}/>
                             </Col>
                         </Row>
                         <Row>
@@ -485,7 +486,7 @@ class BaseGenerator extends Component {
                             <Col xs={6} lg={6}>
                             </Col>
                             <Col xs={6} lg={6}>
-                                <Button label="Generar" onClick={this.handleClick}/>
+                                <Button label="Generar" onClick={this.handleClick} className="button"/>
                             </Col>
                         </Row>
                     </Grid>

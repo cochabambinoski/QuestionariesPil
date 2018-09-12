@@ -4,6 +4,7 @@ import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigme
 import AssignmentQuestionary from "./AssignmentQuestionary";
 import {connect} from 'react-redux';
 import {editQueryTextAssignedQuestionary} from "../../../actions";
+import Title from "../../Title/Title";
 
 class AsigmentQuestionaryContainer extends Component {
 
@@ -25,12 +26,18 @@ class AsigmentQuestionaryContainer extends Component {
             <div>
                 {
                     !this.state.idQuestionary ?
-                        <div>
+                        <div className="text">
+                            <Title tilte={'Asignación de Cuestionarios'}
+                                   subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
+                            <br/>
                             <InputText value={this.state.value1}
-                                       onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)}/>
+                                       onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)}
+                                       placeholder={'Filtrar por nombre'}
+                                       className="text"/>
                             <QuestionaryAsignmet onSelectedQuestionary={this.handleSelectedQuestionary}/>
                         </div>
-                        : <AssignmentQuestionary idQuestionary={this.state.idQuestionary} onSelectedQuestionary={this.handleSelectedQuestionary}/>
+                        : <AssignmentQuestionary idQuestionary={this.state.idQuestionary}
+                                                 onSelectedQuestionary={this.handleSelectedQuestionary}/>
                 }
             </div>
         );

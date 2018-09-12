@@ -15,19 +15,19 @@
   width: 100%;
   height: 100%;
   position: fixed;
-  background: #0388E5;
+  background: #4d505b;
   /* Old browsers */
-  background: -moz-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+  background: -moz-linear-gradient(left, #4d505b 0%, #4d505b 100%);
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #0388E5), color-stop(100%, #07BDF4));
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #4d505b), color-stop(100%, #4d505b));
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+  background: -webkit-linear-gradient(left, #4d505b 0%, #4d505b 100%);
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+  background: -o-linear-gradient(left, #4d505b 0%, #4d505b 100%);
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+  background: -ms-linear-gradient(left, #4d505b 0%, #4d505b 100%);
   /* IE10+ */
-  background: linear-gradient(to right, #0388E5 0%, #07BDF4 100%);
+  background: linear-gradient(to right, #4d505b 0%, #4d505b 100%);
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$left, endColorstr=$right,GradientType=1 );
   /* IE6-9 */ }
@@ -98,19 +98,19 @@ a {
     color: #ffffff;
     z-index: 999;
     right: 0;
-    background: #0388E5;
+    background: #4d505b;
     /* Old browsers */
-    background: -moz-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+    background: -moz-linear-gradient(left, #4d505b 0%, #4d505b 100%);
     /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%, #0388E5), color-stop(100%, #07BDF4));
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, #4d505b), color-stop(100%, #4d505b));
     /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+    background: -webkit-linear-gradient(left, #4d505b 0%, #4d505b 100%);
     /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+    background: -o-linear-gradient(left, #4d505b 0%, #4d505b 100%);
     /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, #0388E5 0%, #07BDF4 100%);
+    background: -ms-linear-gradient(left, #4d505b 0%, #4d505b 100%);
     /* IE10+ */
-    background: linear-gradient(to right, #0388E5 0%, #07BDF4 100%);
+    background: linear-gradient(to right, #4d505b 0%, #4d505b 100%);
     /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$left, endColorstr=$right,GradientType=1 );
     /* IE6-9 */
@@ -2475,3 +2475,12 @@ pre[class*="language-"] {
 
 .organizationchart-demo .department-cto .p-node-toggler {
   color: #8a0a39 !important; }
+
+.text {
+  font-family: 'Open Sans', sans-serif; }
+
+.ui-card-title {
+  font-family: 'Open Sans', sans-serif !important; }
+
+.ui-button-text-only .ui-button-text .ui-inputtext {
+  font-family: 'Open Sans', sans-serif !important; }

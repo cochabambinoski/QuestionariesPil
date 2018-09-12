@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {lighten} from "@material-ui/core/styles/colorManipulator";
 import {Calendar} from "primereact/calendar";
 import {Button} from "primereact/button";
-
+import style from "./table.css";
 
 const styles = theme => ({
     root: {
@@ -16,11 +16,11 @@ const styles = theme => ({
     highlight: theme.palette.type === 'light'
         ? {
             color: theme.palette.secondary.main,
-            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+            backgroundColor: "#c0c0c0"//lighten(theme.palette.secondary.light, 0.85),
         }
         : {
             color: theme.palette.text.primary,
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: "#c0c0c0",
         },
     spacer: {
         flex: '1 1 100%',
@@ -84,11 +84,7 @@ class EnhancedTableToolbar extends Component {
         const {classes, numSelected} = this.props;
         return (
             <Toolbar
-                className={
-                    (classes.root, {
-                            [classes.highlight]: numSelected > 0,
-                        }
-                    )}>
+                className="toolbarTable">
                 <div className={classes.spacer}/>
                 <div>
                     <Calendar dateFormat="dd/mm/yy" value={this.state.dates}

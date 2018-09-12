@@ -25,6 +25,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from "@material-ui/core/Typography/Typography";
 import Divider from "@material-ui/core/Divider/Divider";
+import Title from "../../../Title/Title";
 
 const styles = theme => ({
     root: {
@@ -282,15 +283,18 @@ class Questionnaire extends Component {
         if (this.state.savedSuccessfully) {
             return <Redirect to='/questionnaires'/>
         }
+        const {questionnaireId1} = this.props;
+        let title = 'Crear Cuestionario';
+        let subtitle = 'En esta sección podrás crear nuevos cuestionarios.';
+        if (questionnaireId1 != null){
+            title = this.props.readOnly ? 'Ver Cuestionario' : 'Editar Cuestionario';
+            subtitle = this.props.readOnly ? 'En esta sección podrás ver tu cuestionario.' : 'En esta sección podrás modificar tu cuestionario.';
+        }
         return (
-            <div >
+            <div>
                 <Growl ref={(el) => this.growl = el}/>
-                <div className="content-section introduction">
-                    <div className="feature-intro">
-                        <h1>Crear Cuestionario</h1>
-                        <p>En esta sección podrás crear nuevos cuestionarios.</p>
-                    </div>
-                </div>
+                <Title tilte={title} subtitle={subtitle}/>
+                <br/>
                 <div className="ui-g">
 
                     <Row xs>
