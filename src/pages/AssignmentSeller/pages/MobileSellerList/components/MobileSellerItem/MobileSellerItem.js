@@ -46,17 +46,16 @@ class MobileSellerItem extends Component {
         return (
             <div>
                 <Card className="cardMobileSeller" key={this.state.mobileSeller.id}>
-                    <div>
-                        <h2 className="light-text">Nombre del vendedor</h2>
-                        <div className="normal-text">{this.state.mobileSeller.vendedor.persona.nombre}</div>
-                        <h2 className="light-text">Tipo</h2>
-                        <div className="normal-text">{this.state.mobileSeller.type.nombre}</div>
+                    <div className="text">
+                        <div className="light-text">Nombre del vendedor</div>
+                        <div>{this.state.mobileSeller.vendedor.persona.nombre}</div>
+                        <div className="light-text">Tipo</div>
+                        <div>{this.state.mobileSeller.type.nombre}</div>
                         {
                             this.state.initialDate != null && this.state.finalDate != null ?
                                 <div>
-                                    <h2 className="light-text">Validez</h2>
-                                    <div
-                                        className="normal-text">Del {this.state.initialDate} al {this.state.finalDate}</div>
+                                    <div className="light-text">Validez</div>
+                                    <div>Del {this.state.initialDate} al {this.state.finalDate}</div>
                                 </div> : null
                         }
 

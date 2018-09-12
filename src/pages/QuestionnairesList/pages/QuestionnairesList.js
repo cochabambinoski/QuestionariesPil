@@ -14,6 +14,7 @@ import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
 import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
+import Toolbar from "@material-ui/core/Toolbar";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -115,22 +116,27 @@ class Questionnaires extends Component {
     render() {
         return (
             <div>
-                <Title tilte={'Lista de Encuestas'} subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
+                <Title tilte={'Lista de Encuestas'}
+                       subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                 <Growl ref={(el) => this.growl = el}/>
+                <Toolbar className="toolbarTable">
+                    <div>
+                        <Button label="Nuevo"
+                                onClick={() => {
+                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                }}/>
+                    </div>
+                </Toolbar>
                 <br/>
-                <Button label="Nuevo"
-                        onClick={() => {
-                            this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
-                        }}/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     {
                         this.state.questionnaires.map((item) => {
                             return (
                                 <div>
                                     <Card title={item.name} key={item.id}>
-                                        <div>
-                                            <div className="light-text">Creado</div>
-                                            <div className="normal-text">{item.fechaId} {item.usuarioId}</div>
+                                        <div className="text">
+                                            <div>Creado</div>
+                                            <div>{item.fechaId} {item.usuarioId}</div>
                                             <br/>
                                             <span>
 
@@ -150,6 +156,7 @@ class Questionnaires extends Component {
                                     </span>
                                         </div>
                                     </Card>
+                                    <br/>
                                     <ModalContainer>
                                         <Modal open={this.state.open} title={"Eliminar cuestionario"}
                                                message={"Está seguro de eliminar el cuestionario?"}

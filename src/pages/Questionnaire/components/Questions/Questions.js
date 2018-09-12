@@ -57,7 +57,7 @@ class Questions extends Component {
                         return (
                             question.operacionId === 1 ?
                                 <Card title={question.question} subTitle={question.type.nombre}
-                                      className="card ui-card-shadow" key={question.id}>
+                                      className="card ui-card-shadow text" key={question.id}>
                                     <div>
                                         {
                                             this.props.readOnly ?

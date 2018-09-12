@@ -4,7 +4,7 @@ import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
 import '../../../layout/layout.css'
 import {Button} from "../../../../node_modules/primereact/button";
-import {Toolbar} from '../../../../node_modules/primereact/toolbar';
+import Toolbar from "@material-ui/core/Toolbar";
 import {connect} from 'react-redux';
 import MobileSellerListAssigment
     from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
@@ -259,9 +259,9 @@ class AssignmentQuestionary extends Component {
             monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
         };
         return (
-            <div >
-                <Title tilte={'Asignación de Cuestionarios'} subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
-                <br/>
+            <div>
+                <Title tilte={'Asignación de Cuestionarios'}
+                       subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
                 <ModalContainer>
                     <Modal open={this.state.open} title={"Asignacion"}
                            message={"Está seguro de completar la asignación?"}
@@ -276,6 +276,39 @@ class AssignmentQuestionary extends Component {
                            handleCancel={this.cancelAssignamentSeller}>
                     </Modal>
                 </ModalContainer>
+                <Toolbar className="toolbarTable">
+                    <div>
+                        <Button label="Cancelar" className="ui-button-danger"
+                                onClick={() => {
+                                    this.cancelAssignamentSeller()
+                                }}
+                                style={{margin: '5px', verticalAlign: 'left'}}/>
+
+                        <Calendar value={this.state.dates2}
+                                  onChange={(e) => this.setState({dates2: e.value})}
+                                  selectionMode="range" readonlyInput={true} locale={es}
+                                  placeholder='Rango de fechas'/>
+
+                        <Button label="Completar Asignacion"
+                                onClick={() => {
+                                    this.handleSaveAssignment()
+                                }}
+                                style={{margin: '5px', verticalAlign: 'middle'}}/>
+
+                        <Button label="Asignar todos"
+                                onClick={() => {
+                                    this.assignAllSeller()
+                                }}
+                                style={{margin: '5px', verticalAlign: 'middle'}}/>
+                        <Button label="Quitar Todas las Asignaciones"
+                                className="ui-button-danger"
+                                onClick={() => {
+                                    this.unassignAllSeller()
+                                }}
+                                style={{margin: '5px', verticalAlign: 'left'}}/>
+                    </div>
+                </Toolbar>
+                <br/>
                 {
                     this.props.idQuestionary ?
                         <div>
@@ -300,39 +333,7 @@ class AssignmentQuestionary extends Component {
                                 </Col>
                             </Row>
 
-                            <Col>
-                                <Toolbar>
-                                    <div className="p-toolbar-group-left">
-                                        <Button label="Cancelar" className="ui-button-danger"
-                                                onClick={() => {
-                                                    this.cancelAssignamentSeller()
-                                                }}
-                                                style={{margin: '5px', verticalAlign: 'left'}}/>
 
-                                        <Calendar value={this.state.dates2}
-                                                  onChange={(e) => this.setState({dates2: e.value})}
-                                                  selectionMode="range" readonlyInput={true} locale={es}/>
-
-                                        <Button label="Completar Asignacion"
-                                                onClick={() => {
-                                                    this.handleSaveAssignment()
-                                                }}
-                                                style={{margin: '5px', verticalAlign: 'middle'}}/>
-
-                                        <Button label="Asignar todos"
-                                                onClick={() => {
-                                                    this.assignAllSeller()
-                                                }}
-                                                style={{margin: '5px', verticalAlign: 'middle'}}/>
-                                        <Button label="Quitar Todas las Asignaciones"
-                                                className="ui-button-danger"
-                                                onClick={() => {
-                                                    this.unassignAllSeller()
-                                                }}
-                                                style={{margin: '5px', verticalAlign: 'left'}}/>
-                                    </div>
-                                </Toolbar>
-                            </Col>
                         </div>
                         : null
 

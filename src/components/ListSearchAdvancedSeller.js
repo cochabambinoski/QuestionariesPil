@@ -217,9 +217,10 @@ class ListSearchAdvancedSeller extends Component {
     render() {
         const {classes} = this.props;
         let innerComponent = null;
+        const text = 'text';
         switch (this.props.type) {
             case Constants.LIST_TYPE_SELLERS: {
-                innerComponent = <div className={classes.column}>
+                innerComponent = <div className={classNames(classes.column, text)}>
                     <h2>Tipos de Usuario</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
                         <List className={this.props.classes.root} subheader={<li/>}>
@@ -239,7 +240,7 @@ class ListSearchAdvancedSeller extends Component {
                 break;
             }
             case Constants.LIST_CITY: {
-                innerComponent = <div className={classNames(classes.column, classes.helper)}>
+                innerComponent = <div className={classNames(classes.column, classes.helper, text)}>
                     <h2>Ciudades</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
                         <List className={this.props.classes.root} subheader={<li/>}>
@@ -260,7 +261,7 @@ class ListSearchAdvancedSeller extends Component {
                 break;
             }
             case Constants.LIST_BRANCHES: {
-                innerComponent = <div className={classNames(classes.column, classes.helper)}>
+                innerComponent = <div className={classNames(classes.column, classes.helper, text)}>
                     <h2>Sucursales</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
                         <List className={this.props.classes.root} subheader={<li/>}>

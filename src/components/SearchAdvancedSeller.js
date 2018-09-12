@@ -96,9 +96,9 @@ class SearchAdvancedSeller extends Component {
                         <div className={classes.column}>
                             <InputText value={this.state.value1} onChange={(e) =>
                                 this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER ? this.props.editQueryTextMobileSellerList(e.target.value) :
-                                    this.props.editQueryTextMobileSellerAssignedList(e.target.value)}/>
+                                    this.props.editQueryTextMobileSellerAssignedList(e.target.value)} placeholder={'Nombre del vendedor'}/>
                         </div>
-                        <div className={classes.column}>
+                        <div>
                             {this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER ?
                                 <Typography className={classes.heading}>Vendedores Disponibles</Typography> :
                                 <Typography className={classes.heading}>Vendedores Asignados</Typography>}
@@ -119,6 +119,7 @@ class SearchAdvancedSeller extends Component {
 
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
+                <br/>
             </div>
         );
     }

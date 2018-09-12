@@ -69,7 +69,6 @@ class MultipleOption extends Component {
     }
 
     render() {
-        const options = this.props.lsOptions;
         return (
             <div className="ui-g" style={{width: '350px', marginBottom: '10px'}}>
                 <ScrollPanel style={{width: '100%', height: '110px', marginBottom: '10px'}}>
@@ -81,7 +80,7 @@ class MultipleOption extends Component {
                                         <RadioButton value={option.option} checked={false}/>
                                         {
                                             this.props.readOnly ?
-                                                <div></div> :
+                                                <div>{option.option}</div> :
                                                 <div>
                                                     <InputText value={option.option}
                                                                onChange={(e) => this.updateOption(e.target.value, index)}/>
@@ -90,7 +89,6 @@ class MultipleOption extends Component {
                                                     }}/>
                                                 </div>
                                         }
-
                                     </div>
                                 )
                             })
