@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import AssignmentQuestionary from "../../../AssignmentScreen/pages/AssignmentQuestionary";
 import {connect} from 'react-redux';
 import {getMenu} from '../../../../reducers'
 import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
 import {Start} from "../../../Start/Start";
 import ListSegment from "../../../ListSegments/pages/ListSegments";
+import AsigmentQuestionaryContainer from "../../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
 
 class Container extends Component {
     render() {
@@ -15,7 +15,7 @@ class Container extends Component {
                         <Start/> :
                         this.props.idMenu === '1080502' ?
                             <QuestionaryContainer/>
-                            : this.props.idMenu === '1080503' ? <AssignmentQuestionary/> :
+                            : this.props.idMenu === '1080503' ? <AsigmentQuestionaryContainer/> :
                             this.props.idMenu === '1080600' ? <ListSegment/> : null
                 }
             </div>

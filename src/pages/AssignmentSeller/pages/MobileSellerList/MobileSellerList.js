@@ -15,12 +15,12 @@ import {
 } from "../../../../actions";
 import {
     getMobileAssignement,
-    getMobileSellers, getMobileSellersAux,
+    getMobileSellers,
+    getMobileSellersAux,
     getQueryMobileSeller,
     getQueryMobileSellerBranch,
     getQueryMobileSellerType,
 } from "../../../../reducers";
-import {getItemsEnabled} from "../../../../Util/ArrayFilterUtil";
 
 const styles = theme => ({
     root: {

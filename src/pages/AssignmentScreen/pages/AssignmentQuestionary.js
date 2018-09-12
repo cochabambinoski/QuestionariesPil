@@ -133,7 +133,7 @@ class AssignmentQuestionary extends Component {
 
         for (let seller of this.props.mobileSellersAssigmentAux) {
             if (!this.alredyHasAssignment(seller)) {
-                const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.idQuestionary,
+                const questionQuestionary = new this.QuestionQuestionaries(seller, this.props.idQuestionary,
                     this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
                     this.props.user.username);
                 questionerQuestionaryList.push(questionQuestionary);
@@ -155,17 +155,13 @@ class AssignmentQuestionary extends Component {
             .then(response => console.log('Success:', response));
     };
 
-    handleSelectedQuestionary = idQuestionary => {
-        this.setState({idQuestionary: idQuestionary})
-    };
-
     cancelAssignamentSeller = () => {
         this.setState({openConfirmMessage: false})
         this.props.deleteAllAssignementUser();
         this.props.deleteMobileSeller(null);
         this.props.deleteSaveMobileSellerListAux(null);
         this.props.deleteSaveMobileSellerAssignedListAux(null);
-        this.setState({idQuestionary: null})
+        this.props.onSelectedQuestionary(null)
     };
 
     loadAssignments = (assignments) => {
@@ -252,7 +248,7 @@ class AssignmentQuestionary extends Component {
     }
 
     render() {
-        const {idQuestionary} = this.state;
+        const idQuestionary = this.props.idQuestionary;
         const es = {
             firstDayOfWeek: 1,
             dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
@@ -286,22 +282,13 @@ class AssignmentQuestionary extends Component {
                     </Modal>
                 </ModalContainer>
                 {
-                    !idQuestionary ?
-                        <div>
-                            <InputText value={this.state.value1}
-                                       onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)}/>
-                            <QuestionaryAsignmet onSelectedQuestionary={this.handleSelectedQuestionary}/>
-                        </div> : null
-                }
-
-                {
-                    idQuestionary ?
+                    this.props.idQuestionary ?
                         <div>
                             <Row>
                                 <Col xs>
 
                                     <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}/>
-                                    <MobileSellerList idQuestionary={this.state.idQuestionary.id}
+                                    <MobileSellerList idQuestionary={idQuestionary.id}
                                                       isEdit={false}
                                                       getAssignment={this.getAssignment}
                                                       handleAddSeller={this.handleAddSeller}/>
@@ -310,7 +297,7 @@ class AssignmentQuestionary extends Component {
                                 <Col xs>
 
                                     <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}/>
-                                    <MobileSellerListAssigment idQuestionary={this.state.idQuestionary.id}
+                                    <MobileSellerListAssigment idQuestionary={idQuestionary.id}
                                                                isEdit={true}
                                                                loadAssignments={this.loadAssignments}
                                                                deleteAssignement={this.deleteAssignement}
@@ -351,9 +338,11 @@ class AssignmentQuestionary extends Component {
                                     </div>
                                 </Toolbar>
                             </Col>
-                        </div> :
-                        null
+                        </div>
+                        : null
+
                 }
+
             </div>
         );
     }
