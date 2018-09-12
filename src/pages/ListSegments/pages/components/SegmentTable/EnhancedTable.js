@@ -17,7 +17,7 @@ import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ReportIcon from "@material-ui/icons/FileCopy";
-import EditSeg from "@material-ui/icons/Edit";
+import EditSeg from "@material-ui/icons/EditOutlined";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
@@ -29,6 +29,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import style from "./table.css";
 
 const styles = theme => ({
     root: {
@@ -348,9 +349,11 @@ class EnhancedTable extends Component {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title"
-                             style={{backgroundColor: '#5B5D74'}}>{"Generación de Segmentación Base"}</DialogTitle>
+                             className="titleBody">
+                    <h1 className="MuiTypography-title">{"Generación de Segmentación Base"}</h1>
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <BaseGenerator segment={this.state.segment} refresh={this.handleClose}/>
                     </DialogContentText>
                 </DialogContent>
@@ -359,7 +362,6 @@ class EnhancedTable extends Component {
                             className="ui-button-secondary"/>
                 </DialogActions>
             </Dialog>
-
         );
     }
 
@@ -372,8 +374,9 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title"
-                             style={{backgroundColor: '#5B5D74'}}>{"Generación de parametros para la segmentación"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">
+                    <h1 className="MuiTypography-title">{"Generación de parametros para la segmentación"}</h1>
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
@@ -399,9 +402,12 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Alerta"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title"
+                             className="titleBody">
+                    <h1 className="MuiTypography-title">{"Alerta"}</h1>
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
                         ¿Esta seguro de eliminar esta Segmentacion Base?
                     </DialogContentText>
                 </DialogContent>
@@ -427,21 +433,17 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Generación de Reportes"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">
+                    <h1 className="MuiTypography-title">{"Generación de Reportes"}</h1>
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        <Button label="PDF" onClick={this.handlePDFReport}
-                                className="ui-button-danger" style={{width: '90px'}}>
-                            <img src={require('./../../../../../images/pdf.svg')} style={{height: '45px'}}/>
-                        </Button>
-                        <Button label="EXCEL" onClick={this.handleXLSReport}
-                                className="ui-button-success" style={{width: '90px'}}>
-                            <img src={require('./../../../../../images/excel.svg')} style={{height: '45px'}}/>
-                        </Button>
-                        <Button label="TEXTO" onClick={this.handleTXTReport}
-                                className="ui-button-info" style={{width: '90px'}}>
-                            <img src={require('./../../../../../images/txt.svg')} style={{height: '45px'}}/>
-                        </Button>
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
+                        <img src={require('./../../../../../images/pdf.svg')} className="icons"
+                             onClick={this.handlePDFReport}/>
+                        <img src={require('./../../../../../images/excel.svg')} className="icons"
+                             onClick={this.handleXLSReport}/>
+                        <img src={require('./../../../../../images/txt.svg')} className="icons"
+                             onClick={this.handleTXTReport}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -491,25 +493,25 @@ class EnhancedTable extends Component {
                                             <TableCell >
                                                 <IconButton aria-label="Editar Base"
                                                             onClick={event => this.handleBase(event, n)}>
-                                                    <EditBas/>
+                                                    <EditBas className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Editar Segmentación"
                                                             onClick={event => this.handleSegment(event, n)}>
-                                                    <EditSeg/>
+                                                    <EditSeg className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Reporte"
                                                             onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
-                                                    <ReportIcon/>
+                                                    <ReportIcon className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Borrar"
+                                                <IconButton aria-label="Borrar" className="iconButtonDel"
                                                             onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
-                                                    <DeleteIcon/>
+                                                    <DeleteIcon className="iconButtonDel"/>
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
@@ -557,9 +559,10 @@ class EnhancedTable extends Component {
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>
-                    <Toolbar>
+                    <Toolbar className="myToolbar">
                         <div className="p-toolbar-group-left">
-                            <Button label="Nuevo" className="p-button-rounded" onClick={event => this.handleBase(event, 0)}/>
+                            <Button label="Nuevo" className="p-button-rounded"
+                                    onClick={event => this.handleBase(event, 0)}/>
                         </div>
                     </Toolbar>
                 </div>
@@ -569,18 +572,9 @@ class EnhancedTable extends Component {
     }
 }
 
-EnhancedTable
-    .propTypes = {
+EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
     updateDates: PropTypes.func.isRequired,
 };
 
-export
-default
-
-withStyles(styles)
-
-(
-    EnhancedTable
-)
-;
+export default withStyles(styles)(EnhancedTable);
