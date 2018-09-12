@@ -349,7 +349,9 @@ class EnhancedTable extends Component {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title"
-                             className="titleBody">{"Generación de Segmentación Base"}</DialogTitle>
+                             className="titleBody">
+                    <h1 className="MuiTypography-title">{"Generación de Segmentación Base"}</h1>
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <BaseGenerator segment={this.state.segment} refresh={this.handleClose}/>
@@ -372,7 +374,9 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" className="titleBody MuiTypography-title-111 !important">{"Generación de parametros para la segmentación"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">
+                    <h1 className="MuiTypography-title">{"Generación de parametros para la segmentación"}</h1>
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
@@ -398,7 +402,10 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" className="titleBody MuiTypography-title-111 !important">{"Alerta"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title"
+                             className="titleBody">
+                    <h1 className="MuiTypography-title">{"Alerta"}</h1>
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
                         ¿Esta seguro de eliminar esta Segmentacion Base?
@@ -426,7 +433,9 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" className="titleBody">{"Generación de Reportes"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">
+                    <h1 className="MuiTypography-title">{"Generación de Reportes"}</h1>
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <img src={require('./../../../../../images/pdf.svg')} className="icons"
@@ -550,9 +559,10 @@ class EnhancedTable extends Component {
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>
-                    <Toolbar>
+                    <Toolbar className="myToolbar">
                         <div className="p-toolbar-group-left">
-                            <Button label="Nuevo" className="p-button-rounded" onClick={event => this.handleBase(event, 0)}/>
+                            <Button label="Nuevo" className="p-button-rounded"
+                                    onClick={event => this.handleBase(event, 0)}/>
                         </div>
                     </Toolbar>
                 </div>
