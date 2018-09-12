@@ -42,7 +42,7 @@ export function assignmentUser(state = initialState, action) {
             return {
                 ...state,
                 entities: state.entities.concat(action.payload),
-                mobileSellers: []
+                mobileSellers: state.mobileSellers.filter(x => !action.payload.includes(x))
             }
         }
 
@@ -59,7 +59,7 @@ export function assignmentUser(state = initialState, action) {
         case REMOVE_ALL_ASSIGNEMENT_USER: {
             return {
                 ...state
-                , entities: [],
+                , entities: state.entities.filter(x => !action.payload.includes(x)),
                 mobileSellers: action.payload,
             };
         }
