@@ -19,7 +19,6 @@ class SegmentationGenerator extends Component {
     constructor(props) {
         super(props);
         let segment = props.segment;
-        console.log(segment);
         this.state = {
             code: segment.idClientKiloliter,
             level: segment.numberLevel,
@@ -45,14 +44,19 @@ class SegmentationGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response, response.codeResult);
-                this.setState({process: response.codeResult});
-                this.props.refresh();
+                if (response.codeResult === null || response.codeResult === undefined) {
+                    if (response.status > 200) {
+                        this.setState({process: 1});
+                        this.props.refresh(0);
+                    }
+                } else {
+                    this.setState({process: response.codeResult});
+                    this.props.refresh(response.codeResult);
+                }
             });
     };
 
     handleClick = (event) => {
-        console.log('click' + event);
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
             const level = this.state.city;
