@@ -330,7 +330,6 @@ class BaseGenerator extends Component {
             });
             this.setState({dates: null});
         }
-
     };
 
     render() {
@@ -354,7 +353,8 @@ class BaseGenerator extends Component {
                                 <label htmlFor="float-input">Codigo: </label>
                             </Col>
                             <Col xs={6} lg={6} md={4} sd={3}>
-                                <InputText id="code" type="text" size="30" value={this.state.codeSeg}
+                                <InputText id="code" type="text" size="30"
+                                           value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter }
                                            onChange={(e) => this.setState({codeSeg: e.target.value})}
                                            disabled="disabled" style={{width: '200px', marginBottom: '.5em'}}/>
                             </Col>
