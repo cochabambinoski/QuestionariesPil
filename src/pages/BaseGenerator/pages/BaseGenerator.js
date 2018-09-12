@@ -180,14 +180,12 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response);
                 if (response.codeResult === null || response.codeResult === undefined) {
                     if (response.status > 200) {
                         this.props.refresh(0);
                         this.setState({process: 1});
                     }
                 } else {
-                    console.log("before refresh ", response.codeResult);
                     this.props.refresh(response.codeResult);
                     this.setState({process: response.codeResult});
                 }
@@ -318,7 +316,6 @@ class BaseGenerator extends Component {
             const bussines = this.state.bussines;
             const line = this.state.line === undefined ? null : this.state.line;
             const material = this.state.material === undefined ? null : this.state.material;
-            console.log(id, city, market, bussines, line, material);
             this.setBase({
                 "idClientKiloliter": id,
                 "description": this.state.description.toString(),

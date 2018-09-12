@@ -112,7 +112,6 @@ class EnhancedTable extends Component {
     };
 
     showResponse = (response) => {
-        console.log('response: ', response);
         switch (response) {
             case 0: {
                 this.showError('Error', 'Ocurrió un error al procesar la transacción');
@@ -174,7 +173,6 @@ class EnhancedTable extends Component {
      */
     deleteSegment = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.DEL_CLIENT_KILOLITER}/${this.state.toDelete}`;
-        console.log(url);
         fetch(url, {
             method: 'GET',
             headers: {
@@ -187,7 +185,6 @@ class EnhancedTable extends Component {
                 this.showError('Error', 'No se pudo eliminar la segmentación');
             })
             .then(response => {
-                console.log("Success: ", response);
                 this.chargeTable(this.state.startDate, this.state.endDate)
                 this.handleClose();
                 if (response !== undefined || response !== null)
@@ -226,9 +223,7 @@ class EnhancedTable extends Component {
      * click PDF
      */
     handlePDFReport = () => {
-        console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
-        console.log('url: ', url);
         this.getReport(url);
     };
 
@@ -236,9 +231,7 @@ class EnhancedTable extends Component {
      * click XLS
      */
     handleXLSReport = () => {
-        console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
-        console.log('url: ', url);
         this.getReport(url);
     };
 
@@ -246,9 +239,7 @@ class EnhancedTable extends Component {
      * click TXT
      */
     handleTXTReport = () => {
-        console.log('segment: ', this.state.toReport);
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
-        console.log('url: ', url);
         this.getReport(url);
     };
 
@@ -343,7 +334,6 @@ class EnhancedTable extends Component {
         this.setState({toDelete: null});
         this.setState({segmentOpen: false});
         this.chargeTable(this.state.startDate, this.state.endDate);
-        console.log('refresh', response);
         if (response === 1 || response === 0)
             this.showResponse(response);
     };
