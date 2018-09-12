@@ -4,19 +4,20 @@ import {connect} from 'react-redux';
 import {getMenu} from '../../../../reducers'
 import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
 import {Start} from "../../../Start/Start";
+import ListSegment from "../../../ListSegments/pages/ListSegments";
 
 class Container extends Component {
     render() {
         return (
             <div style={{marginTop: '5px'}}>
                 {
-                    this.props.idMenu === 0 ?
+                    this.props.idMenu === '1080500' ?
                         <Start/> :
-                        this.props.idMenu === 1 ?
+                        this.props.idMenu === '1080501' ?
                             <QuestionaryContainer/>
-                            : <AssignmentQuestionary/>
+                            : this.props.idMenu === '1080502' ? <AssignmentQuestionary/> :
+                            this.props.idMenu === '1080600' ? <ListSegment/> : null
                 }
-
             </div>
         );
     }
