@@ -45,6 +45,5 @@ export function firstDayOfMonth() {
 
 export function getDate(date) {
     let dateNew = new Date(date);
-    console.log('getDate(): ', dateNew);
     return dateNew;
 }
