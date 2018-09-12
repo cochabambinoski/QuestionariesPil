@@ -11,11 +11,11 @@ class Container extends Component {
         return (
             <div style={{marginTop: '5px'}}>
                 {
-                    this.props.idMenu === '1080500' ?
+                    this.props.idMenu === '1080501' ?
                         <Start/> :
-                        this.props.idMenu === '1080501' ?
+                        this.props.idMenu === '1080502' ?
                             <QuestionaryContainer/>
-                            : this.props.idMenu === '1080502' ? <AssignmentQuestionary/> :
+                            : this.props.idMenu === '1080503' ? <AssignmentQuestionary/> :
                             this.props.idMenu === '1080600' ? <ListSegment/> : null
                 }
             </div>
