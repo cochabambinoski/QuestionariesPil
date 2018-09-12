@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {InputText} from "primereact/inputtext";
 import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigment/QuestionaryAsignmet";
 import AssignmentQuestionary from "./AssignmentQuestionary";
+import {connect} from 'react-redux';
+import {editQueryTextAssignedQuestionary} from "../../../actions";
 
 class AsigmentQuestionaryContainer extends Component {
 
@@ -35,4 +37,8 @@ class AsigmentQuestionaryContainer extends Component {
     }
 }
 
-export default AsigmentQuestionaryContainer;
+const mapDispatchToProps = dispatch => ({
+    editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
+});
+
+export default  connect(null, mapDispatchToProps)(AsigmentQuestionaryContainer);

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
-import {AppInlineProfile} from "../components/AppInlineProfile/AppInlineProfile";
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
 import classNames from 'classnames';
@@ -22,6 +21,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getUser} from "../../../reducers";
+import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 
 class Home extends Component {
     state = {
