@@ -115,11 +115,11 @@ class EnhancedTable extends Component {
         console.log('response: ', response);
         switch (response) {
             case 0: {
-                this.showError('Segmentación Base', 'Algo salio mal en la transacción');
+                this.showError('Error', 'Ocurrió un error al procesar la transacción');
                 return;
             }
             case 1: {
-                this.showSuccess('Segmentación Base', 'Se creo correctamente la nueva segmentación base');
+                this.showSuccess('Procesado', 'La transacción se realizó correctamente');
                 return;
             }
         }
