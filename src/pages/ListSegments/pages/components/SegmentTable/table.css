@@ -10,3 +10,20 @@
     font-family: 'Open Sans', sans-serif;
     font-size: medium;
 }
+
+.dialogBody {
+    margin-top: 0.5em !important;
+}
+
+.icons {
+    margin: 1em;
+    height: 70px;
+}
+
+.iconButtonDel {
+    color: #CA546D;
+}
+
+.iconButton {
+    color: #2980B9;
+}

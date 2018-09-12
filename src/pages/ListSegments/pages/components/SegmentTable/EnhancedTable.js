@@ -16,7 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ReportIcon from "@material-ui/icons/FileCopy";
-import EditSeg from "@material-ui/icons/Edit";
+import EditSeg from "@material-ui/icons/EditOutlined";
 import EditBas from "@material-ui/icons/Edit";
 import Constants from "../../../../../Constants.json";
 import * as utilDate from "../../../../../utils/dateUtils";
@@ -313,14 +313,14 @@ class EnhancedTable extends Component {
         this.setState({rowsPerPage: event.target.value});
     };
 
-    handleBase= (event, id) => {
-        this.setState({segment:id});
+    handleBase = (event, id) => {
+        this.setState({segment: id});
         this.setState({baseOpen: true});
     };
 
     handleClose = () => {
         this.setState({baseOpen: false});
-        this.setState({deleteOpen:false});
+        this.setState({deleteOpen: false});
         this.setState({toDelete: null});
     };
 
@@ -333,9 +333,10 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title" className="titleBody">{"Generación de Segmentación Base"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title"
+                             className="titleBody">{"Generación de Segmentación Base"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <BaseGenerator segment={this.state.segment}/>
                     </DialogContentText>
                 </DialogContent>
@@ -359,9 +360,9 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Alerta"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">{"Alerta"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
                         ¿Esta seguro de eliminar esta Segmentacion Base?
                     </DialogContentText>
                 </DialogContent>
@@ -387,21 +388,15 @@ class EnhancedTable extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Generación de Reportes"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">{"Generación de Reportes"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        <Button label="PDF" onClick={this.handlePDFReport}
-                                className="ui-button-danger" style={{width: '90px'}}>
-                            <img src={require('./../../../../../images/pdf.svg')} style={{height: '45px'}}/>
-                        </Button>
-                        <Button label="EXCEL" onClick={this.handleXLSReport}
-                                className="ui-button-success" style={{width: '90px'}}>
-                            <img src={require('./../../../../../images/excel.svg')} style={{height: '45px'}}/>
-                        </Button>
-                        <Button label="TEXTO" onClick={this.handleTXTReport}
-                                className="ui-button-info" style={{width: '90px'}}>
-                            <img src={require('./../../../../../images/txt.svg')} style={{height: '45px'}}/>
-                        </Button>
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
+                        <img src={require('./../../../../../images/pdf.svg')} className="icons"
+                             onClick={this.handlePDFReport}/>
+                        <img src={require('./../../../../../images/excel.svg')} className="icons"
+                             onClick={this.handleXLSReport}/>
+                        <img src={require('./../../../../../images/txt.svg')} className="icons"
+                             onClick={this.handleTXTReport}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -444,30 +439,31 @@ class EnhancedTable extends Component {
                                             </TableCell>
                                             <TableCell>
                                                 {utilDate.getDateFormat(n.dateRegister)}
-                                                </TableCell>
+                                            </TableCell>
                                             <TableCell>
                                                 {n.description}
-                                                </TableCell>
+                                            </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Editar Base"  onClick={event => this.handleBase(event, n)}>
-                                                    <EditBas/>
+                                                <IconButton aria-label="Editar Base"
+                                                            onClick={event => this.handleBase(event, n)}>
+                                                    <EditBas  className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Editar Segmentación">
-                                                    <EditSeg/>
+                                                    <EditSeg  className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
                                                 <IconButton aria-label="Reporte"
                                                             onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
-                                                    <ReportIcon/>
+                                                    <ReportIcon className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
                                             <TableCell >
-                                                <IconButton aria-label="Borrar"
+                                                <IconButton aria-label="Borrar" className="iconButtonDel"
                                                             onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
-                                                    <DeleteIcon/>
+                                                    <DeleteIcon className="iconButtonDel"/>
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
@@ -480,22 +476,22 @@ class EnhancedTable extends Component {
                             )}
                         </TableBody>
                     </Table>
-                    </div>
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    />
-                </Paper>
+                </div>
+                <TablePagination
+                    component="div"
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    backIconButtonProps={{
+                        'aria-label': 'Previous Page',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Next Page',
+                    }}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+            </Paper>
         );
     }
 
