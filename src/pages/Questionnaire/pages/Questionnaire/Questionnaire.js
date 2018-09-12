@@ -285,7 +285,12 @@ class Questionnaire extends Component {
         return (
             <div className="questionnaire">
                 <Growl ref={(el) => this.growl = el}/>
-
+                <div className="content-section introduction">
+                    <div className="feature-intro">
+                        <h1>Crear Cuestionario</h1>
+                        <p>En esta sección podrás crear nuevos cuestionarios.</p>
+                    </div>
+                </div>
                 <div className="ui-g">
 
                     <Row xs>
@@ -326,7 +331,7 @@ class Questionnaire extends Component {
                                             {this.props.readOnly ?
                                                 <p>{this.state.name}</p>
                                                 :
-                                                <InputText id="float-input" placeholder="Titulo" type="text"
+                                                <InputText id="float-input" placeholder="Nombre del cuestionario" type="text"
                                                            required maxLength="50" size="32" value={this.state.name}
                                                            onChange={(e) => this.setState({name: e.target.value})}/>
                                             }

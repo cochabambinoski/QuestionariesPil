@@ -114,6 +114,14 @@ class Questionnaires extends Component {
     render() {
         return (
             <div className="questionnaire">
+                <div className="bodyContainer">
+                    <div className="content-section introduction">
+                        <div className="feature-intro">
+                            <h1>Lista de Encuestas</h1>
+                            <p>En esta sección podrás encontrar la lista de encuestas disponibles.</p>
+                        </div>
+                    </div>
+                </div>
                 <Growl ref={(el) => this.growl = el}/>
                 <Button label="Nuevo"
                         onClick={() => {

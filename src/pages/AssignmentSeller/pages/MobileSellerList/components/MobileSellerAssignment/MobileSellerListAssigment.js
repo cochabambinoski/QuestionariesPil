@@ -7,15 +7,12 @@ import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
 import {
     getMobileAssignement,
-    getQueryMobileSellerAssigment, getQueryMobileSellerAssignedBranch, getQueryMobileSellerAssignedType
+    getQueryMobileSellerAssigment,
+    getQueryMobileSellerAssignedBranch,
+    getQueryMobileSellerAssignedType
 } from "../../../../../../reducers";
 import Constants from "../../../../../../Constants.json";
-import {
-    addAssignementUser,
-    addMobileSellers,
-    deleteAssignementUser,
-    editAssignementUser, saveMobileSellerAssignedListAux, saveMobileSellerListAux
-} from "../../../../../../actions";
+import {saveMobileSellerAssignedListAux} from "../../../../../../actions";
 
 const styles = theme => ({
     root: {

@@ -5,11 +5,9 @@ import './styles.css'
 import PropTypes from "prop-types";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
-import MobileSellerItem from "../MobileSellerList/components/MobileSellerItem/MobileSellerItem";
 import {withStyles} from "@material-ui/core";
 import {connect} from 'react-redux';
-import {getMobileAssignement, getQueryMobileSeller, getQueryQuestionerAssigment} from "../../../../reducers";
-import {addAssignementUser, deleteAssignementUser, editAssignementUser} from "../../../../actions";
+import {getQueryQuestionerAssigment} from "../../../../reducers";
 
 const styles = theme => ({
     root: {

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MobileSellerList from '../../AssignmentSeller/pages/MobileSellerList/MobileSellerList';
 import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
+import '../../../layout/layout.css'
 import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigment/QuestionaryAsignmet";
 import {Button} from "../../../../node_modules/primereact/button";
 import {Toolbar} from '../../../../node_modules/primereact/toolbar';
@@ -258,7 +259,14 @@ class AssignmentQuestionary extends Component {
             monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
         };
         return (
-            <div className="bodyContainer">
+            <div >
+                <div className="content-section introduction">
+                    <div className="feature-intro">
+                        <h1>Asignación de Cuestionarios</h1>
+                        <p>En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.</p>
+                    </div>
+                </div>
+
                 <ModalContainer>
                     <Modal open={this.state.open} title={"Asignacion"} message={"Está seguro de completar la asignación?"}
                            handleConfirm={this.saveAssignments} handleCancel={this.closeModal}>
