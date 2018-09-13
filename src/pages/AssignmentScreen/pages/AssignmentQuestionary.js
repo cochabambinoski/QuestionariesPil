@@ -4,6 +4,9 @@ import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
 import '../../../layout/layout.css'
 import {Button} from "../../../../node_modules/primereact/button";
+import {Growl} from 'primereact/growl';
+import {Messages} from 'primereact/messages';
+import {Message} from 'primereact/message';
 import Toolbar from "@material-ui/core/Toolbar";
 import {connect} from 'react-redux';
 import MobileSellerListAssigment
@@ -117,11 +120,11 @@ class AssignmentQuestionary extends Component {
             if (questionerQuestionaryList.length > 0) {
                 this.openModal();
             } else {
-                alert('Debe tener al menos un vendedor para guardar la asignacion');
+                this.showWarning("", "Debe tener al menos un vendedor para guardar la asignacion");
             }
         } else {
             if (this.state.hasNewAssignments && this.state.dates2 == null) {
-                alert('Seleccione un rango de fechas');
+                this.showWarning('Seleccione un rango de fechas', '')
             } else {
                 this.openModal();
             }
@@ -243,6 +246,9 @@ class AssignmentQuestionary extends Component {
         this.setState({open: false});
     };
 
+    showWarning(title, detail) {
+        this.messages.show({severity: 'warn', summary: title, detail: detail});
+    }
 
     componentWillUnmount() {
         this.setState({date2: null})
@@ -308,6 +314,7 @@ class AssignmentQuestionary extends Component {
                                 style={{margin: '5px', verticalAlign: 'left'}}/>
                     </div>
                 </Toolbar>
+                <Messages ref={(el) => this.messages = el}></Messages>
                 <br/>
                 {
                     this.props.idQuestionary ?

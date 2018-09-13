@@ -29,7 +29,7 @@ class Questions extends Component {
         this.setState((prevState, props) => {
             const question = this.props.questions[prevState.currentIndex];
             if (this.props.assigned && question.id != null) {
-                this.props.showError("No se puede eliminar la pregunta", "El cuestionario ya está asignado");
+                this.props.showError("", "No se puede eliminar la pregunta. El cuestionario ya está asignado");
             } else {
                 if (question.id != null) {
                     question.operacionId = 0;

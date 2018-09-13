@@ -5,6 +5,8 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
+import {Messages} from 'primereact/messages';
+import {Message} from 'primereact/message';
 import {InputText} from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
 import Question from '../../components/Question/Question.js';
@@ -27,7 +29,6 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
-import classNames from "classnames";
 
 const styles = theme => ({
     root: {
@@ -87,12 +88,16 @@ class Questionnaire extends Component {
     }
 
     showError(summary, detail) {
-        this.growl.show({severity: 'error', summary: summary, detail: detail});
+        this.messages.show({severity: 'error', summary: summary, detail: detail});
+    }
+
+    showWarning(summary, detail) {
+        this.messages.show({severity: 'warn', summary: summary, detail: detail});
     }
 
     saveQuestionnaire() {
         if (this.state.name == null || this.state.name === "") {
-            this.showError("Campo obligatorio", "Debe especificar el nombre del cuestionario");
+            this.showWarning("", "Debe especificar el nombre del cuestionario");
             return
         }
         let ranges = this.state.ranges;
@@ -109,11 +114,11 @@ class Questionnaire extends Component {
             },
         ];
         if (questionaries[0].lsQuestions.length === 0) {
-            this.showError("Campo obligatorio", "Debe tener almenos una pregunta creada");
+            this.showWarning("", "Debe tener al menos una pregunta creada");
             return
         }
         if (ranges.length === 0) {
-            this.showError("Campo obligatorio", "Debes establecer el rango del cuestionario");
+            this.showWarning("", "Debe establecer el rango del cuestionario");
             return
         }
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
@@ -128,13 +133,12 @@ class Questionnaire extends Component {
             return results.json();
         }).then(data => {
             if (data === "Ok") {
-                this.showSuccess("Transaccion exitosa", "Cuestionario guardado");
-                alert("Cuestionario guardado");
+                this.showSuccess("", "Cuestionario guardado");
                 this.handleCancel();
                 this.props.changeIdQuestionarySelected(null);
             }
             else {
-                this.showError("Error al guardar", data)
+                this.showError("", "Error al guardar");
             }
         });
 
@@ -309,7 +313,7 @@ class Questionnaire extends Component {
                             :
                             <Row>
                                 <Col>
-                                    <Button label="Guardar" className="ui-button-success" onClick={() => {
+                                    <Button label="Guardar" onClick={() => {
                                         this.saveQuestionnaire()
                                     }}/>
                                 </Col>
@@ -325,6 +329,7 @@ class Questionnaire extends Component {
                         }
                     </div>
                 </Toolbar>
+                <Messages ref={(el) => this.messages = el}></Messages>
                 <br/>
                 <div className="ui-g">
 
