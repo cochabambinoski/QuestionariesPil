@@ -48,7 +48,7 @@ const styles = theme => ({
         fontFamily: 'Open Sans',
         fontSize: '16px'
     },
-    toolbar:{
+    toolbar: {
         marginBottom: '1em',
     }
 });
@@ -348,6 +348,10 @@ class EnhancedTable extends Component {
             this.showResponse(response);
     };
 
+    /**
+     * Dialog Generated Base Segmentation Form
+     * @returns {XML}
+     */
     renderBase() {
         const {classes} = this.props;
         return (
@@ -359,7 +363,7 @@ class EnhancedTable extends Component {
             >
                 <DialogTitle id="alert-dialog-title"
                              className="titleBody">
-                    <h1 className="MuiTypography-title">{"Generación de Segmentación Base"}</h1>
+                    <h1 className="dialogTitle">{"Generación de Segmentación Base"}</h1>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
@@ -374,6 +378,10 @@ class EnhancedTable extends Component {
         );
     }
 
+    /**
+     * Dialog Generated Segmentation Form
+     * @returns {XML}
+     */
     renderSegment() {
         const {classes} = this.props;
         return (
@@ -384,7 +392,7 @@ class EnhancedTable extends Component {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title" className="titleBody">
-                    <h1 className="MuiTypography-title">{"Generación de parametros para la segmentación"}</h1>
+                    <h1 className="dialogTitle">{"Generación de parametros para la segmentación"}</h1>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -413,7 +421,7 @@ class EnhancedTable extends Component {
             >
                 <DialogTitle id="alert-dialog-title"
                              className="titleBody">
-                    <h1 className="MuiTypography-title">{"Alerta"}</h1>
+                    <h1 className="dialogTitle">{"Alerta"}</h1>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
@@ -443,15 +451,15 @@ class EnhancedTable extends Component {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title" className="titleBody">
-                    <h1 className="MuiTypography-title">{"Generación de Reportes"}</h1>
+                    <h1 className="dialogTitle">{"Generación de Reportes"}</h1>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <img src={require('./../../../../../images/pdf.svg')} className="icons"
+                        <img src={require('./../../../../../images/file-pdf.svg')} className="icons"
                              onClick={this.handlePDFReport}/>
-                        <img src={require('./../../../../../images/excel.svg')} className="icons"
+                        <img src={require('./../../../../../images/file-excel.svg')} className="icons"
                              onClick={this.handleXLSReport}/>
-                        <img src={require('./../../../../../images/txt.svg')} className="icons"
+                        <img src={require('./../../../../../images/file-document.svg')} className="icons"
                              onClick={this.handleTXTReport}/>
                     </DialogContentText>
                 </DialogContent>
@@ -463,6 +471,10 @@ class EnhancedTable extends Component {
         );
     }
 
+    /**
+     * Table
+     * @returns {XML}
+     */
     renderCell() {
         const {classes} = this.props;
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
@@ -470,7 +482,8 @@ class EnhancedTable extends Component {
         return (
             <Paper className={classes.root} classes="">
                 <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
-                                      dateEnd={this.state.endDate} updateDates={this.updateDates}/>
+                                      dateEnd={this.state.endDate} updateDates={this.updateDates}
+                                      newBase={event => this.handleBase(event, 0)}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <EnhancedTableHead
@@ -538,12 +551,14 @@ class EnhancedTable extends Component {
                     component="div"
                     count={data.length}
                     rowsPerPage={rowsPerPage}
+                    labelRowsPerPage="Filas por página:"
+                    rowsPerPageOptions={[5,10,25,50]}
                     page={page}
                     backIconButtonProps={{
-                        'Open Sans': 'Previous Page',
+                        'aria-label': 'Página Anterior',
                     }}
                     nextIconButtonProps={{
-                        'Open Sans': 'Next Page',
+                        'aria-label': 'Siguiente Página',
                     }}
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
@@ -552,8 +567,11 @@ class EnhancedTable extends Component {
         );
     }
 
+    /**
+     * container
+     * @returns {XML}
+     */
     render() {
-        const {classes} = this.props;
         return (
             <div>
                 <div>
@@ -568,14 +586,8 @@ class EnhancedTable extends Component {
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>
-                    <Toolbar className="myToolbar">
-                        <div className="p-toolbar-group-left">
-                            <Button label="Nuevo" className="p-button-rounded"
-                                    onClick={event => this.handleBase(event, 0)}/>
-                        </div>
-                    </Toolbar>
+                    {this.renderCell()}
                 </div>
-                {this.renderCell()}
             </div>
         );
     }
@@ -584,6 +596,7 @@ class EnhancedTable extends Component {
 EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
     updateDates: PropTypes.func.isRequired,
+    newBase: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(EnhancedTable);

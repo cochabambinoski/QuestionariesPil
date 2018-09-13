@@ -4,7 +4,7 @@
     font-family: 'Open Sans', sans-serif;
 }
 
-.MuiTypography-title {
+.dialogTitle {
     color: #FFFFF0 !important;
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
@@ -12,11 +12,13 @@
 
 .dialogBody {
     margin-top: 0.5em !important;
+    font-family: 'Open Sans', sans-serif;
+    font-size: inherit;
 }
 
 .icons {
     margin: 1em;
-    height: 70px;
+    height: 120px;
 }
 
 .iconButtonDel {
@@ -26,7 +28,8 @@
 .iconButton {
     color: #2980B9;
 }
-.myToolbar{
+
+.myToolbar {
     font-family: 'Open Sans', sans-serif !important;
     font-size: 16px;
     margin-top: 1em;
@@ -34,4 +37,19 @@
 
 .toolbarTable {
     background-color: #FFFFFF;
+}
+
+.calendar {
+    color: #525252 !important;
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+    margin-right: 5px;
+}
+
+.buttonBlue {
+    color: #FFFFF0 !important;
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
 }

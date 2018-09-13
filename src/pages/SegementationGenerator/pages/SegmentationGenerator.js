@@ -11,6 +11,7 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Card} from "primereact/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import segmentation from "./SegmentationStyle.css";
 
 const styles = theme => ({});
 
@@ -32,6 +33,10 @@ class SegmentationGenerator extends Component {
         return true;
     }
 
+    /**
+     * send segmentation
+     * @param data
+     */
     setSegmentation = (data) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_SEGMENT}`;
         fetch(url, {
@@ -79,7 +84,7 @@ class SegmentationGenerator extends Component {
         return (
             <div>
                 {
-                    process ? this.renderForm() : <CircularProgress style={{width: '20%', height: '20%'}}/>
+                    process ? this.renderForm() : <CircularProgress size={500} style={{ color: '#5DADE2'[200] }} thickness={5}/>
                 }
             </div>
         );
@@ -91,59 +96,58 @@ class SegmentationGenerator extends Component {
                 <Card>
                     <Grid>
                         <Row>
-                            <Col xs={4}>
-                                <label style={{width: '5em', margin: '.30em'}}>Codigo:</label>
+                            <Col xs={5}>
+                                <label className="label">Codigo:</label>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={3}>
                                 <InputText value={this.state.code}
                                            onChange={(e) => this.setState({code: e.target.value})}
-                                           disabled="disabled"
-                                           style={{width: '5em', margin: '.25em'}}/>
+                                           disabled="disabled" className="imput !important"/>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4}>
-                                <label style={{width: '5em', margin: '.30em'}}>Numero de Niveles:</label>
+                            <Col xs={5}>
+                                <label className="label">Numero de Niveles:</label>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={3}>
                                 <InputText value={this.state.level} keyfilter="int"
                                            onChange={(e) => this.setState({level: e.target.value})}
-                                           style={{width: '5em', margin: '.25em'}}/>
+                                           className="imput !important"/>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4}>
-                                <label style={{width: '5em', margin: '.30em'}}>Factor K1:</label>
+                            <Col xs={5}>
+                                <label className="label">Factor K1:</label>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={2}>
                                 <InputText value={this.state.k1} keyfilter={/^\d*\.?\d{0,2}$/}
                                            onChange={(e) => this.setState({k1: e.target.value})}
-                                           style={{width: '5em', margin: '.25em'}}/>
+                                           className="imput !important"/>
                             </Col>
-                            <Col xs={4}>
-                                <label style={{width: '5em', margin: '.30em'}}>Para limite inferior</label>
+                            <Col xs={5}>
+                                <label className="LabelDetail">Para limite inferior</label>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4}>
-                                <label style={{width: '5em', margin: '.30em'}}>Factor K2:</label>
+                            <Col xs={5}>
+                                <label className="label">Factor K2:</label>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={2}>
                                 <InputText value={this.state.k2} keyfilter={/^\d*\.?\d{0,2}$/}
                                            onChange={(e) => this.setState({k2: e.target.value})}
-                                           style={{width: '5em', margin: '.25em'}}/>
+                                           className="imput !important"/>
                             </Col>
-                            <Col xs={4}>
-                                <label style={{width: '5em', margin: '.30em'}}>Para limite superior</label>
+                            <Col xs={5}>
+                                <label className="LabelDetail">Para limite superior</label>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4}>
+                            <Col xs={5}>
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={2}>
                             </Col>
-                            <Col xs={4}>
-                                <Button label="Generar" onClick={this.handleClick}/>
+                            <Col xs={5}>
+                                <Button label="Generar" onClick={this.handleClick} className="button"/>
                             </Col>
                         </Row>
                     </Grid>

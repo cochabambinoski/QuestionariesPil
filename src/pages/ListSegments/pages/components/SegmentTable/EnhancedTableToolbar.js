@@ -4,14 +4,13 @@
 import React, {Component} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import {lighten} from "@material-ui/core/styles/colorManipulator";
 import {Calendar} from "primereact/calendar";
 import {Button} from "primereact/button";
 import style from "./table.css";
 
 const styles = theme => ({
     root: {
-        paddingRight: theme.spacing.unit,
+        paddingRight: theme.spacing.unit
     },
     highlight: theme.palette.type === 'light'
         ? {
@@ -20,21 +19,17 @@ const styles = theme => ({
         }
         : {
             color: theme.palette.text.primary,
-            backgroundColor: "#c0c0c0",
+            backgroundColor: "#c0c0c0"
         },
     spacer: {
-        flex: '1 1 100%',
+        flex: '1 1 100%'
     },
     actions: {
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.secondary
     },
     title: {
-        flex: '0 0 auto',
-    },
-    space: {
-        marginLeft: '5px',
-        marginRight: '5px',
-    },
+        flex: '0 0 auto'
+    }
 });
 
 class EnhancedTableToolbar extends Component {
@@ -63,7 +58,7 @@ class EnhancedTableToolbar extends Component {
             invalidDates: [today],
             startDate: props.dateStart,
             endDate: props.dateEnd,
-            dates: null,
+            dates: null
         };
     }
 
@@ -71,28 +66,33 @@ class EnhancedTableToolbar extends Component {
         this.setState({dates: [this.state.startDate, this.state.endDate]});
     }
 
-    handlerClick = event => {
+    /**
+     * click filter by dates range
+     * @param event
+     */
+    handlerFilter = event => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
             this.state.startDate = this.state.dates[0];
             this.state.enDate = this.state.dates[1];
             this.props.updateDates(this.state.startDate, this.state.enDate);
         }
-    }
-    ;
+    };
 
     render() {
-        const {classes, numSelected} = this.props;
+        const {classes} = this.props;
         return (
-            <Toolbar
-                className="toolbarTable">
+            <Toolbar className="toolbarTable">
+                <div className={classes.title}>
+                    <Button label="Nuevo" onClick={event => this.props.newBase(event, 0)} className="buttonBlue"/>
+                </div>
                 <div className={classes.spacer}/>
                 <div>
                     <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                               onChange={(e) => this.setState({dates: e.value})}
-                              selectionMode="range" readonlyInput={true}/>
+                              selectionMode="range" readonlyInput={true} className="calendar"/>
                 </div>
-                <div className={classes.space}>
-                    <Button label="Buscar" onClick={this.handlerClick}/>
+                <div >
+                    <Button label="Buscar" onClick={this.handlerFilter} className="buttonBlue"/>
                 </div>
             </Toolbar>
         );

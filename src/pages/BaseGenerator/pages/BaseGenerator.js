@@ -338,7 +338,7 @@ class BaseGenerator extends Component {
         return (
             <div>
                 {
-                    process ? this.renderForm() : <CircularProgress style={{width: '100%', height: '100%'}}/>
+                    process ? this.renderForm() : <CircularProgress size={500} style={{ color: '#5DADE2'[200] }} thickness={5}/>
                 }
             </div>
         );
