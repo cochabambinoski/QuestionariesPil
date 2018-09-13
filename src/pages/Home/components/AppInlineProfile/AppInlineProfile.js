@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
+import {connect} from 'react-redux';
+import {getUser} from "../../../../reducers";
 
-export class AppInlineProfile extends Component {
+class AppInlineProfile extends Component {
 
     constructor() {
         super();
@@ -17,20 +19,32 @@ export class AppInlineProfile extends Component {
     }
 
     render() {
+        console.log(this.props.user)
         return  (
             <div className="profile">
                 <div>
                     <img src="assets/layout/images/profile.png" alt="" />
                 </div>
                 <a className="profile-link" onClick={this.onClick}>
-                    <span className="username">Claire Williams</span>
+                    <span className="username">{this.props.user.persona.nombre}</span>
                     <i className="fa fa-fw fa-cog"/>
                 </a>
                 <ul className={classNames({'profile-expanded': this.state.expanded})}>
-                    <li><a><i className="fa fa-fw fa-sliders"/><span>Account</span></a></li>
-                    <li><a><i className="fa fa-fw fa-sign-out"/><span>Logout</span></a></li>
+                    <li>
+                        <a>
+                            <i className="fa fa-fw fa-sign-out"/>
+                            <span>Salir</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    user: getUser(state),
+});
+
+
+export default connect(mapStateToProps, null)(AppInlineProfile);

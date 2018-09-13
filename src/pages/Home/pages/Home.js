@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
-import {AppInlineProfile} from "../components/AppInlineProfile/AppInlineProfile";
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
 import classNames from 'classnames';
@@ -8,7 +7,7 @@ import Container from "../components/Container/Container";
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import '../layout.css';
+import '../../../layout/layout.css';
 import {connect} from 'react-redux';
 import * as actions from '../../../actions'
 import {bindActionCreators} from 'redux';
@@ -20,8 +19,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import Login from "../../Login/Login";
-import {getIdUser} from "../../../reducers";
+import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
+import {getIdUser, getUser} from "../../../reducers";
+import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 
 class Home extends Component {
     state = {
@@ -57,7 +57,6 @@ class Home extends Component {
 
     closeSessionHome() {
         this.setState({open: true});
-        console.log("Sesion Terminada");
     }
 
     getParameterByName(name, url) {
@@ -151,11 +150,29 @@ class Home extends Component {
             }).then(data => {
             this.props.setTypesQuestionerQuestionary(data);
         });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_CARGOPER)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.setTypeSeller(data);
+        });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
             .then(results => {
                 return results.json();
             }).then(data => {
             this.props.setUser(data);
+        });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_DEPARTAMENTS)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.setInitDepataments(data);
+        });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.setInitialBranches(data);
         });
     }
 
@@ -168,10 +185,12 @@ class Home extends Component {
             'layout-mobile-sidebar-active': this.state.mobileMenuActive
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
-        const {idUser} = this.props;
         return (
             <div>
                 {
+                    this.props.user === null ?
+                        <ErrorPage/>
+                        :
                         <div className={wrapperClass}>
                             <Dialog
                                 open={this.state.open}
@@ -181,7 +200,7 @@ class Home extends Component {
                                 <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        Su sesion a caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
+                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
                                         en el SVM.
                                     </DialogContentText>
                                 </DialogContent>
@@ -222,14 +241,18 @@ const mapDispatchToProps = dispatch => ({
     },
     actions: bindActionCreators(actions, dispatch),
     setIdUser: value => dispatch(actions.setIdUser(value)),
-    setTypesQuestionerQuestionary: value => dispatch(actions.getInitialData(value)),
-    setMenu : value => dispatch(actions.setMenu(value)),
+    setTypesQuestionerQuestionary: value => dispatch(actions.setInitialDataQuestionerQuestionary(value)),
+    setTypeSeller: value => dispatch(actions.setInitialDataTypesSeller(value)),
+    setMenu: value => dispatch(actions.setMenu(value)),
     setUser: value => dispatch(actions.setUser(value)),
+    setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
+    setInitialBranches: value => dispatch(actions.getAllBranches(value))
 });
 
 const mapStateToProps = state => (
     {
         idUser: getIdUser(state),
+        user: getUser(state),
     }
 );
 
