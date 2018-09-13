@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
-import {AppInlineProfile} from "../components/AppInlineProfile/AppInlineProfile";
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
 import classNames from 'classnames';
@@ -8,7 +7,7 @@ import Container from "../components/Container/Container";
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
-import '../layout.css';
+import '../../../layout/layout.css';
 import {connect} from 'react-redux';
 import * as actions from '../../../actions'
 import {bindActionCreators} from 'redux';
@@ -22,6 +21,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getUser} from "../../../reducers";
+import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 
 class Home extends Component {
     state = {
@@ -185,7 +185,6 @@ class Home extends Component {
             'layout-mobile-sidebar-active': this.state.mobileMenuActive
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
-        const {idUser} = this.props;
         return (
             <div>
                 {
@@ -244,7 +243,7 @@ const mapDispatchToProps = dispatch => ({
     setIdUser: value => dispatch(actions.setIdUser(value)),
     setTypesQuestionerQuestionary: value => dispatch(actions.setInitialDataQuestionerQuestionary(value)),
     setTypeSeller: value => dispatch(actions.setInitialDataTypesSeller(value)),
-    setMenu : value => dispatch(actions.setMenu(value)),
+    setMenu: value => dispatch(actions.setMenu(value)),
     setUser: value => dispatch(actions.setUser(value)),
     setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
     setInitialBranches: value => dispatch(actions.getAllBranches(value))

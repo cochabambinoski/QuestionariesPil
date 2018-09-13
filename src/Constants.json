@@ -1,5 +1,5 @@
 {
-  "ROUTE_WEB_SERVICES": "http://192.168.241.79:8085/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_WEB_SERVICES": "http://192.168.241.35:8087/vmovil/serviceRESTMovil/movil/datos/",
   "ROUTE_WEB_BI": "http://localhost:8080/bi/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
@@ -9,7 +9,7 @@
   "SAVE_RANGE": "saveQuestionaryRange/",
   "GET_ALL_CITIES": "allDepartments/",
   "GET_ALL_BRANCHES": "getListBranchs/",
-  "ROUTE_SVM": "http://localhost:8086/vmovil/business/login.jsf",
+  "ROUTE_SVM": "http://localhost:8087/vmovil/business/login.jsf",
   "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary=",
   "GET_ASSIGNMENTS_BY_ID_QUESTIONARY": "getAssignmentsByIdQuestionary?idQuestionary=",
   "GET_TYPES_BY_CLASS": "getTypesByClass?classId=",
@@ -43,5 +43,17 @@
   "CODSAP_QUESTIONER_QUESTIONARY_OPEN": "ESTQUEST1",
   "CLASS_NAME_TIPPREG":"TIPPREG",
   "CLASS_NAME_ESTQUEST":"ESTQUEST",
-  "CLASS_NAME_CARGOPER":"CARGOPER"
+  "CLASS_NAME_CARGOPER":"CARGOPER",
+
+  "TYPE_SEARCH_MOBILE_SELLER":"TYPE_SEARCH_MOBILE_SELLER",
+  "TYPE_SEARCH_MOBILE_SELLER_ASSIGNED":"TYPE_SEARCH_MOBILE_SELLER_ASSIGNED",
+
+  "LIST_BRANCHES":"LIST_BRANCHES",
+  "LIST_TYPE_SELLERS":"LIST_TYPE_SELLERS",
+  "LIST_CITY":"LIST_CITY",
+
+  "SELLER_LIST":"SELLER_LIST",
+  "CITIES_LIST":"CITIES_LIST",
+  "BRANCHES_LIST":"BRANCHES_LIST",
+  "ADD_BRANCHES_LIST":"ADD_BRANCHES_LIST"
 }

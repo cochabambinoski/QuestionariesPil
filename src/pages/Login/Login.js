@@ -49,7 +49,6 @@ const styles = theme => ({
 function Login(props) {
     const { classes } = props;
     const handleSetIdUser = idUser => {
-        console.log(idUser);
         props.setIdUser(idUser);
     };
 

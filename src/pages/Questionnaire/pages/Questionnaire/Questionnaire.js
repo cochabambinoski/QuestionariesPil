@@ -25,6 +25,9 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from "@material-ui/core/Typography/Typography";
 import Divider from "@material-ui/core/Divider/Divider";
+import Title from "../../../Title/Title";
+import Toolbar from "@material-ui/core/Toolbar";
+import classNames from "classnames";
 
 const styles = theme => ({
     root: {
@@ -282,56 +285,66 @@ class Questionnaire extends Component {
         if (this.state.savedSuccessfully) {
             return <Redirect to='/questionnaires'/>
         }
+        const {questionnaireId1} = this.props;
+        let title = 'Crear Cuestionario';
+        let subtitle = 'En esta sección podrás crear nuevos cuestionarios.';
+        if (questionnaireId1 != null) {
+            title = this.props.readOnly ? 'Ver Cuestionario' : 'Editar Cuestionario';
+            subtitle = this.props.readOnly ? 'En esta sección podrás ver tu cuestionario.' : 'En esta sección podrás modificar tu cuestionario.';
+        }
         return (
-            <div className="questionnaire">
+            <div>
                 <Growl ref={(el) => this.growl = el}/>
-
+                <Title tilte={title} subtitle={subtitle}/>
+                <Toolbar className="toolbarTable">
+                    <div style={{padding: '5px'}}>
+                        {this.props.readOnly ?
+                            <Row>
+                                <Col>
+                                    <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                        this.handleCancel()
+                                    }}/>
+                                </Col>
+                            </Row>
+                            :
+                            <Row>
+                                <Col>
+                                    <Button label="Guardar" className="ui-button-success" onClick={() => {
+                                        this.saveQuestionnaire()
+                                    }}/>
+                                </Col>
+                                <Col>
+                                    <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                        this.handleCancel()
+                                    }}/>
+                                </Col>
+                                <Col>
+                                    <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
+                                </Col>
+                            </Row>
+                        }
+                    </div>
+                </Toolbar>
+                <br/>
                 <div className="ui-g">
 
                     <Row xs>
                         <Col xs>
                             <div>
-
-                                <div style={{margin: '5px'}}>
-                                    {this.props.readOnly ?
-                                        <Row>
-                                            <Col>
-                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                                    this.handleCancel()
-                                                }}/>
-                                            </Col>
-                                        </Row>
-                                        :
-                                        <Row>
-                                            <Col>
-                                                <Button label="Guardar" className="ui-button-success" onClick={() => {
-                                                    this.saveQuestionnaire()
-                                                }}/>
-                                            </Col>
-                                            <Col>
-                                                <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                                    this.handleCancel()
-                                                }}/>
-                                            </Col>
-                                            <Col>
-                                                <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
-                                            </Col>
-                                        </Row>
-                                    }
-                                </div>
-
-                                <div className="content-section implementation">
-                                    <div className=" card-w-title">
+                                <div>
+                                    <div className="text card-w-title">
                                         <div>
                                             {this.props.readOnly ?
-                                                <p>{this.state.name}</p>
+                                                <h1>{this.state.name}</h1>
                                                 :
-                                                <InputText id="float-input" placeholder="Titulo" type="text"
-                                                           required maxLength="50" size="32" value={this.state.name}
-                                                           onChange={(e) => this.setState({name: e.target.value})}/>
+                                                <div>
+                                                    <InputText id="float-input" placeholder="Nombre del cuestionario"
+                                                               type="text" style={{marginBottom: '15px'}}
+                                                               required maxLength="50" size="51" value={this.state.name}
+                                                               onChange={(e) => this.setState({name: e.target.value})}/>
+                                                </div>
                                             }
                                         </div>
-                                        <br/>
                                         <div>
                                             {this.props.readOnly ?
                                                 <p>{this.state.description}</p>
@@ -372,7 +385,7 @@ class Questionnaire extends Component {
                         <Col xs>
                             {
                                 this.state.openQuestion ?
-                                    <div>
+                                    <div style={{width: '100%', height: '40vh'}}>
                                         <div>
                                             <Question questionTypes={this.state.questionTypes}
                                                       readOnly={this.props.readOnly}
@@ -387,7 +400,8 @@ class Questionnaire extends Component {
                                     </div> : <div/>
                             }
                             <div>
-                                <ScrollPanel style={{ width: '100%', height: '700px' }}>
+                                <ScrollPanel
+                                    style={{width: '100%', height: this.state.openQuestion ? '45vh' : '100vh'}}>
                                     <Questions questions={this.state.lsQuestions}
                                                removeQuestion={this.removeQuestion}
                                                readOnly={this.props.readOnly}

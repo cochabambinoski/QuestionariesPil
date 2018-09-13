@@ -235,7 +235,7 @@ class QuestionnaireRange extends Component {
         });
     }
 
-    getAllBranches(){
+    getAllBranches() {
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
             .then(results => {
                 return results.json();
@@ -245,7 +245,7 @@ class QuestionnaireRange extends Component {
         });
     }
 
-    getRanges(){
+    getRanges() {
         const id = this.props.questionnaireId;
         if (id !== undefined) {
             let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_RANGES_BY_QUESTIONNAIRE}?idQuestionary=${encodeURIComponent(id)}`;
@@ -271,48 +271,48 @@ class QuestionnaireRange extends Component {
         }
         return (
             <div>
-                <div className="ui-g-12">
-                    <div className=" card-w-title">
-                        <div className="ui-g-6">
-                            <div>
-                                <h5>Pais</h5>
-                                <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange}
-                                          checked={this.state.countrySelected} disabled={this.props.readOnly}/>
-                                <label htmlFor="country">Bolivia</label>
-                            </div>
+                <div className="ui-g-12 text">
 
-                            <h5>Regional</h5>
-                            <div>
-                                {this.state.lsDepartments.map((dep) => {
-                                    return (
-                                        <div className="ui-g-12">
-                                            <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange}
-                                                      checked={this.contains(this.state.lsSelectedDepartments, dep)}
-                                                      disabled={this.props.readOnly}/>
-                                            <label htmlFor={dep.id}>{dep.nombre}</label>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-
+                    <div className="ui-g-6">
+                        <div>
+                            <h3>Pais</h3>
+                            <Checkbox inputId="country" value="Bolivia" onChange={this.onCountryChange}
+                                      checked={this.state.countrySelected} disabled={this.props.readOnly}/>
+                            <label htmlFor="country">Bolivia</label>
                         </div>
 
-                        <div className="ui-g-6">
-                            <h5>Sucursal</h5>
-                            {this.state.lsBranches.map((branch, index) => {
+                        <h3>Regional</h3>
+                        <div>
+                            {this.state.lsDepartments.map((dep) => {
                                 return (
                                     <div className="ui-g-12">
-                                        <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange}
-                                                  checked={this.containsBranch(branch)} disabled={this.props.readOnly}/>
-                                        <label htmlFor={branch.id}>{branch.nombre}</label>
+                                        <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange}
+                                                  checked={this.contains(this.state.lsSelectedDepartments, dep)}
+                                                  disabled={this.props.readOnly}/>
+                                        <label htmlFor={dep.id}>{dep.nombre}</label>
                                     </div>
                                 )
                             })}
                         </div>
 
-
                     </div>
+
+                    <div className="ui-g-6">
+                        <h3>Sucursal</h3>
+                        {this.state.lsBranches.map((branch, index) => {
+                            return (
+                                <div className="ui-g-12">
+                                    <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange}
+                                              checked={this.containsBranch(branch)} disabled={this.props.readOnly}/>
+                                    <label htmlFor={branch.id}>{branch.nombre}</label>
+                                </div>
+                            )
+                        })}
+                    </div>
+
+
                 </div>
+
             </div>
         );
     }

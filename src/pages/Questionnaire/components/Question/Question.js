@@ -191,10 +191,10 @@ class Question extends Component {
         return (
             <div>
                 <Growl ref={(el) => this.growl = el} />
-                <div className="card card-w-title">
+                <div className="card">
                     <h1>Pregunta</h1>
                     <div className="ui-g">
-                        <div className="ui-g-6">
+                        <div className="ui-g-6 text">
                             {
                                 this.props.readOnly ?
                                     <div>
