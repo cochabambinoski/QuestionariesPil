@@ -27,9 +27,9 @@ class SubMenu extends Component {
         this.setState({anchorEl: event.currentTarget});
     };
 
-    handleMenuItemClick = (event, index) => {
+    handleMenuItemClick = (event, index, option) => {
         let idSubMenu = this.props.submenus[index].id;
-        this.props.setIdMenu(idSubMenu);
+        this.props.setIdMenu(option);
         this.setState({selectedIndex: idSubMenu, anchorEl: null});
     };
 
@@ -66,7 +66,7 @@ class SubMenu extends Component {
                             <MenuItem
                                 key={option.id}
                                 selected={index === this.state.selectedIndex}
-                                onClick={event => this.handleMenuItemClick(event, index)}
+                                onClick={event => this.handleMenuItemClick(event, index, option)}
                             >
                                 {option.label}
                             </MenuItem>
