@@ -287,7 +287,7 @@ class EnhancedTable extends Component {
         let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
             this.setState({startDate: fromDate, endDate: todate});
-            this.chargeTable(this.state.startDate, this.state.endDate)
+            this.chargeTable(fromDate, todate)
         }
     };
 
