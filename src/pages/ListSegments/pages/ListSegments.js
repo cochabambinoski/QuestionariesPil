@@ -4,14 +4,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
-import {Button} from "primereact/button";
 import EnhancedTable from "./components/SegmentTable/EnhancedTable";
-import BaseGenerator from "../../BaseGenerator/pages/BaseGenerator";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Title from "../../Title/Title";
 import style from "./components/SegmentTable/table.css";
 
@@ -31,7 +24,6 @@ class ListSegments extends Component {
     }
 
     renderList() {
-        const {classes} = this.props;
         return (
             <div>
                 <div>
@@ -47,7 +39,6 @@ class ListSegments extends Component {
     }
 
     render() {
-        const {classes} = this.props;
         return (
             <div>
                 {this.renderList()}

@@ -11,7 +11,7 @@
 }
 
 .dialogBody {
-    margin-top: 0.5em !important;
+    margin-top: 1em !important;
     font-family: 'Open Sans', sans-serif;
     font-size: inherit;
 }
@@ -52,4 +52,28 @@
     font-family: 'Open Sans', sans-serif !important;
     font-size: 16px !important;
     font-weight: normal !important;
+}
+
+.root {
+    width: 100%;
+    margin-top: 1em;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.table {
+    minWidth: 720;
+}
+
+.cells {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.spacer {
+    flex: 1 1 100%;
+}
+
+.toolbarTable {
+    flex: 0 0 auto;
 }

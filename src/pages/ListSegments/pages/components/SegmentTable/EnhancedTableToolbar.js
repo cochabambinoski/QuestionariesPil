@@ -2,35 +2,10 @@
  * Created by smirandaz on 09/01/2018.
  */
 import React, {Component} from "react";
-import {withStyles} from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Calendar} from "primereact/calendar";
 import {Button} from "primereact/button";
 import style from "./table.css";
-
-const styles = theme => ({
-    root: {
-        paddingRight: theme.spacing.unit
-    },
-    highlight: theme.palette.type === 'light'
-        ? {
-            color: theme.palette.secondary.main,
-            backgroundColor: "#c0c0c0"//lighten(theme.palette.secondary.light, 0.85),
-        }
-        : {
-            color: theme.palette.text.primary,
-            backgroundColor: "#c0c0c0"
-        },
-    spacer: {
-        flex: '1 1 100%'
-    },
-    actions: {
-        color: theme.palette.text.secondary
-    },
-    title: {
-        flex: '0 0 auto'
-    }
-});
 
 class EnhancedTableToolbar extends Component {
 
@@ -79,13 +54,12 @@ class EnhancedTableToolbar extends Component {
     };
 
     render() {
-        const {classes} = this.props;
         return (
-            <Toolbar className="toolbarTable">
-                <div className={classes.title}>
-                    <Button label="Nuevo" onClick={event => this.props.newBase(event, 0)} className="buttonBlue"/>
+            <Toolbar className="toolbarTable" classes="">
+                <div>
+                    <Button label="Nuevo" onClick={event => this.props.newBase(event, 0)} className="buttonBlue" classes=""/>
                 </div>
-                <div className={classes.spacer}/>
+                <div className="spacer"/>
                 <div>
                     <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                               onChange={(e) => this.setState({dates: e.value})}
@@ -101,5 +75,5 @@ class EnhancedTableToolbar extends Component {
 
 EnhancedTableToolbar.propTypes = {};
 
-export default withStyles(styles)(EnhancedTableToolbar);
+export default EnhancedTableToolbar;
 

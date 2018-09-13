@@ -31,28 +31,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import style from "./table.css";
 
-const styles = theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 2,
-        fontFamily: 'Open Sans',
-        fontSize: '16px',
-    },
-    table: {
-        minWidth: 720,
-    },
-    tableWrapper: {
-        overflowX: 'auto',
-    },
-    cells: {
-        fontFamily: 'Open Sans',
-        fontSize: '16px'
-    },
-    toolbar: {
-        marginBottom: '1em',
-    }
-});
-
 class EnhancedTable extends Component {
 
     constructor() {
@@ -72,7 +50,7 @@ class EnhancedTable extends Component {
             reportOpen: false,
             toDelete: null,
             toReport: null,
-            segment: null,
+            segment: null
         };
 
         this.showSuccess = this.showSuccess.bind(this);
@@ -82,7 +60,7 @@ class EnhancedTable extends Component {
     }
 
     componentDidMount() {
-        this.chargeTable(this.state.startDate, this.state.endDate)
+        this.chargeTable(this.state.startDate, this.state.endDate);
     };
 
     /**
@@ -139,7 +117,7 @@ class EnhancedTable extends Component {
      */
     handleCloseDelete = () => {
         this.setState({deleteOpen: false});
-        this.setState({toDelete: null})
+        this.setState({toDelete: null});
     };
 
     /**
@@ -148,9 +126,9 @@ class EnhancedTable extends Component {
      * @param id
      */
     handleDeleteClick = (event, id) => {
-        this.showWarn('Alerta', 'esta iniciando una funcion de eliminación')
+        this.showWarn('Alerta', 'esta iniciando una funcion de eliminación');
         this.setState({deleteOpen: true});
-        this.setState({toDelete: id})
+        this.setState({toDelete: id});
     };
 
     /**
@@ -158,7 +136,7 @@ class EnhancedTable extends Component {
      */
     handleCloseReport = () => {
         this.setState({reportOpen: false});
-        this.setState({toDelete: null})
+        this.setState({toDelete: null});
     };
 
     /**
@@ -168,7 +146,7 @@ class EnhancedTable extends Component {
      */
     handleReportClick = (event, id) => {
         this.setState({reportOpen: true});
-        this.setState({toReport: id})
+        this.setState({toReport: id});
     };
 
     /**
@@ -188,14 +166,14 @@ class EnhancedTable extends Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
+            }
         }).then(res => res.json())
             .catch(error => {
-                console.error('Error:', error)
+                console.error('Error:', error);
                 this.showError('Error', 'No se pudo eliminar la segmentación');
             })
             .then(response => {
-                this.chargeTable(this.state.startDate, this.state.endDate)
+                this.chargeTable(this.state.startDate, this.state.endDate);
                 this.handleClose();
                 if (response !== undefined || response !== null)
                     this.showSuccess('Eliminado', 'Se elimino una segmentación');
@@ -209,12 +187,14 @@ class EnhancedTable extends Component {
      */
     chargeTable = (start, end) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
+        console.log(start, end, url);
         fetch(url)
             .then(results => {
                 return results.json();
             }).then(data => {
+            console.log(data);
             this.setState(prevState => ({
-                data: data,
+                data: data
             }));
         });
     };
@@ -302,11 +282,11 @@ class EnhancedTable extends Component {
      * @param todate
      */
     updateDates = (fromDate, todate) => {
+        console.log(fromDate, todate);
         let start = fromDate.getTime() === this.state.startDate.getTime();
         let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
-            this.setState({startDate: fromDate});
-            this.setState({endDate: todate});
+            this.setState({startDate: fromDate, endDate: todate});
             this.chargeTable(this.state.startDate, this.state.endDate)
         }
     };
@@ -395,7 +375,7 @@ class EnhancedTable extends Component {
                     <h1 className="dialogTitle">{"Generación de parametros para la segmentación"}</h1>
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
                     </DialogContentText>
                 </DialogContent>
@@ -480,58 +460,58 @@ class EnhancedTable extends Component {
         const {data, order, orderBy, selected, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
         return (
-            <Paper className={classes.root} classes="">
+            <Paper className="root" classes="">
                 <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
                                       dateEnd={this.state.endDate} updateDates={this.updateDates}
                                       newBase={event => this.handleBase(event, 0)}/>
                 <div className={classes.tableWrapper}>
-                    <Table className={classes.table} aria-labelledby="tableTitle">
+                    <Table children="" classes="" className="table" aria-labelledby="tableTitle">
                         <EnhancedTableHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={this.handleRequestSort}
-                            rowCount={data.length}
-                        />
-                        <TableBody>
+                            rowCount={data.length}/>
+                        <TableBody classes="">
                             {data
                                 .sort(this.getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     return (
                                         <TableRow
+                                            classes=""
                                             hover
                                             tabIndex={-1}
                                             key={n.id}>
-                                            <TableCell component="th" scope="row" numeric className={classes.cells}>
+                                            <TableCell classes="" component="th" scope="row" numeric className="cells">
                                                 {n.idClientKiloliter}
                                             </TableCell>
-                                            <TableCell className={classes.cells}>
+                                            <TableCell classes="" className="cells">
                                                 {utilDate.getDateFormat(n.dateRegister)}
                                             </TableCell>
-                                            <TableCell className={classes.cells}>
+                                            <TableCell classes="" className="cells">
                                                 {n.description}
                                             </TableCell>
-                                            <TableCell className={classes.cells}>
-                                                <IconButton aria-label="Editar Base"
+                                            <TableCell classes="" className="cells">
+                                                <IconButton classes="" aria-label="Editar Base"
                                                             onClick={event => this.handleBase(event, n)}>
                                                     <EditBas className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
-                                            <TableCell className={classes.cells}>
-                                                <IconButton aria-label="Editar Segmentación"
+                                            <TableCell classes="" className="cells">
+                                                <IconButton classes="" aria-label="Editar Segmentación"
                                                             onClick={event => this.handleSegment(event, n)}>
                                                     <EditSeg className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
-                                            <TableCell className={classes.cells}>
-                                                <IconButton aria-label="Reporte"
+                                            <TableCell classes="" className="cells">
+                                                <IconButton classes="" aria-label="Reporte"
                                                             onClick={event => this.handleReportClick(event, n.idClientKiloliter)}>
                                                     <ReportIcon className="iconButton"/>
                                                 </IconButton>
                                             </TableCell>
-                                            <TableCell className={classes.cells}>
-                                                <IconButton aria-label="Borrar" className="iconButtonDel"
+                                            <TableCell classes="" className="cells">
+                                                <IconButton classes="" aria-label="Borrar" className="iconButtonDel"
                                                             onClick={event => this.handleDeleteClick(event, n.idClientKiloliter)}>
                                                     <DeleteIcon className="iconButtonDel"/>
                                                 </IconButton>
@@ -540,7 +520,7 @@ class EnhancedTable extends Component {
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{height: 15 * emptyRows}}>
+                                <TableRow style={{height: 57 * emptyRows}}>
                                     <TableCell colSpan={7}/>
                                 </TableRow>
                             )}
@@ -552,17 +532,17 @@ class EnhancedTable extends Component {
                     count={data.length}
                     rowsPerPage={rowsPerPage}
                     labelRowsPerPage="Filas por página:"
-                    rowsPerPageOptions={[5,10,25,50]}
+                    rowsPerPageOptions={[5, 10, 25, 50]}
                     page={page}
                     backIconButtonProps={{
-                        'aria-label': 'Página Anterior',
+                        'aria-label': 'Página Anterior'
                     }}
                     nextIconButtonProps={{
-                        'aria-label': 'Siguiente Página',
+                        'aria-label': 'Siguiente Página'
                     }}
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
+                    classes=""/>
             </Paper>
         );
     }
@@ -593,10 +573,16 @@ class EnhancedTable extends Component {
     }
 }
 
+const styles = theme => ({
+    tableWrapper: {
+        overflowX: 'auto'
+    }
+});
+
 EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
     updateDates: PropTypes.func.isRequired,
-    newBase: PropTypes.func.isRequired,
+    newBase: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(EnhancedTable);
