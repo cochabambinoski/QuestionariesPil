@@ -2502,6 +2502,9 @@ pre[class*="language-"] {
   font-family: 'Open Sans', sans-serif !important; }
 
 .toolbarTable {
+  background-color: #FFFFFF; }
+
+.toolbarFullWidth {
   background-color: #FFFFFF;
   margin-left: -1.2em;
   margin-right: -1.2em; }
@@ -2509,14 +2512,19 @@ pre[class*="language-"] {
 .MuiList-padding-16 {
   background: #4d505b; }
 
-.MuiTypography-subheading-45 {
+.navItemsColor {
   color: #f3f4f9 !important; }
 
-.MuiButtonBase-root-29 {
-  color: #f3f4f9 !important; }
-
-.MuiButtonBase-root-29:hover {
+.navItemBackground:hover {
   background: #2471a3 !important; }
 
 .MuiListItem-button-27 {
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; }
+
+.list {
+  background: transparent !important;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  maxHeight: 800;
+  marginBottom: 5; }

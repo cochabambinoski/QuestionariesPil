@@ -6,6 +6,7 @@ import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
 import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
+import {Messages} from 'primereact/messages';
 import Constants from '../../../Constants.json';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
@@ -25,21 +26,14 @@ class Questionnaires extends Component {
             open: false,
             currentItem: -1,
         };
-        this.see = this.see.bind(this);
-        this.edit = this.edit.bind(this);
-    }
-
-    see() {
-        this.growl.show({severity: 'info', summary: 'See questionnaire', detail: ''});
-    }
-
-    edit() {
-
-        this.growl.show({severity: 'info', summary: 'Edit questionnaire', detail: ''});
     }
 
     showError(summary, detail) {
-        this.growl.show({severity: 'error', summary: summary, detail: detail});
+        this.messages.show({severity: 'error', summary: summary, detail: detail});
+    }
+
+    showSuccess(summary, detail) {
+        this.messages.show({severity: 'success', summary: summary, detail: detail});
     }
 
     changeIdQuestionaryClick(value) {
@@ -52,6 +46,7 @@ class Questionnaires extends Component {
     }
 
     componentDidMount() {
+        console.log("QuestionnairesList - componentDidMount/props: " + JSON.stringify(this.props));
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
             .then(results => {
                 return results.json();
@@ -113,13 +108,27 @@ class Questionnaires extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        const title = nextProps.title;
+        const detail = nextProps.detail;
+        console.log("componentWillReceiveProps - title: " + title);
+        console.log("componentWillReceiveProps - detail: " + detail);
+        console.log("validation 1: " + title !== null && detail !== null);
+        console.log("validation 2: " + title && detail);
+        if (title !== null && detail !== null){
+            console.log("both aren't null");
+            this.showSuccess(title, detail);
+            this.props.showMessage(null, null);
+        }
+    }
+
     render() {
         return (
             <div>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
-                <Growl ref={(el) => this.growl = el}/>
-                <Toolbar className="toolbarTable">
+                <Messages ref={(el) => this.messages = el}></Messages>
+                <Toolbar className="toolbarFullWidth">
                     <div>
                         <Button label="Nuevo"
                                 onClick={() => {

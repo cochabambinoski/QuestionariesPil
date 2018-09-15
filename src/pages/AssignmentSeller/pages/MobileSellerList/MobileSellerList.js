@@ -102,7 +102,7 @@ class MobileSellerList extends Component {
         filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerType);
         filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerBranch);
         this.saveListAux(filterList);
-        return <List className={this.props.classes.root} subheader={<li/>}>
+        return <List className="list" subheader={<li/>}>
             {filterList.map(mobileSeller => (
                 <MobileSellerItem
                     mobileSeller={mobileSeller}

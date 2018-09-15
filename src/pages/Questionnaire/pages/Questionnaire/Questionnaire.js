@@ -6,7 +6,6 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
-import {Message} from 'primereact/message';
 import {InputText} from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
 import Question from '../../components/Question/Question.js';
@@ -133,7 +132,8 @@ class Questionnaire extends Component {
             return results.json();
         }).then(data => {
             if (data === "Ok") {
-                this.showSuccess("", "Cuestionario guardado");
+                // this.showSuccess("", "Cuestionario guardado");
+                this.props.showMessage("", "Cuestionario guardado");
                 this.handleCancel();
                 this.props.changeIdQuestionarySelected(null);
             }
@@ -300,7 +300,7 @@ class Questionnaire extends Component {
             <div>
                 <Growl ref={(el) => this.growl = el}/>
                 <Title tilte={title} subtitle={subtitle}/>
-                <Toolbar className="toolbarTable">
+                <Toolbar className="toolbarFullWidth">
                     <div style={{padding: '5px'}}>
                         {this.props.readOnly ?
                             <Row>

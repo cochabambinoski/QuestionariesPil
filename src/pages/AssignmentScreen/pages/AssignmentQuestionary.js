@@ -4,9 +4,7 @@ import {Col, Row} from 'react-flexbox-grid';
 import './styles.css';
 import '../../../layout/layout.css'
 import {Button} from "../../../../node_modules/primereact/button";
-import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
-import {Message} from 'primereact/message';
 import Toolbar from "@material-ui/core/Toolbar";
 import {connect} from 'react-redux';
 import MobileSellerListAssigment
@@ -152,7 +150,8 @@ class AssignmentQuestionary extends Component {
                 'Content-type': 'application/x-www-form-urlencoded'
             }
         }).then(res => res.json().then(data => {
-                this.setState({openConfirmMessage: true})
+                this.cancelAssignamentSeller();
+                this.props.showSuccess("", "La asignación se realizó exitosamente.");
             })
         )
             .catch(error => console.error('Error:', error))
@@ -275,14 +274,7 @@ class AssignmentQuestionary extends Component {
                            handleCancel={this.closeModal}>
                     </Modal>
                 </ModalContainer>
-                <ModalContainer>
-                    <Modal open={this.state.openConfirmMessage} title={"Mensaje de Confirmacion"}
-                           message={"La asignacion se realizo exitosamente."}
-                           handleConfirm={this.cancelAssignamentSeller}
-                           handleCancel={this.cancelAssignamentSeller}>
-                    </Modal>
-                </ModalContainer>
-                <Toolbar className="toolbarTable">
+                <Toolbar className="toolbarFullWidth">
                     <div>
                         <Button label="Cancelar" className="ui-button-danger"
                                 onClick={() => {
