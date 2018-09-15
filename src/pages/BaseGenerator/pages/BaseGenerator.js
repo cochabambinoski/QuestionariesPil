@@ -20,9 +20,9 @@ const styles = theme => ({
         margin: ".1em"
     },
     col: {
-        margin: '.1em',
+        margin: '.1em'
     },
-    with: '50%',
+    with: '50%'
 });
 
 class BaseGenerator extends Component {
@@ -52,7 +52,7 @@ class BaseGenerator extends Component {
             idTypeMarket: segment.idTypeMarket === undefined ? "" : segment.idTypeMarket,
             idLine: segment.line === undefined ? "" : segment.line,
             codeMaterial: segment.codeMaterial === undefined ? "" : segment.codeMaterial,
-            dates: null,
+            dates: null
         };
 
         this.onCityChange = this.onCityChange.bind(this);
@@ -72,6 +72,7 @@ class BaseGenerator extends Component {
     }
 
     componentDidMount() {
+        this.props.setBaseClick(this.handleSaveBase);
         if (this.state.startDate !== undefined && this.state.endDate !== undefined) {
             this.setState({dates: [utilDate.getDate(this.state.startDate), utilDate.getDate(this.state.endDate)]});
         }
@@ -167,30 +168,6 @@ class BaseGenerator extends Component {
             }).then(data => {
             this.setState({materials: data});
         });
-    };
-
-    setBase = (data) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_BASE}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-                if (response.codeResult === null || response.codeResult === undefined) {
-                    if (response.status > 200) {
-                        this.props.refresh(0);
-                        this.setState({process: 1});
-                    }
-                } else {
-                    this.props.refresh(response.codeResult);
-                    this.setState({process: response.codeResult});
-                }
-            });
     };
 
     onCityChange(e) {
@@ -308,29 +285,59 @@ class BaseGenerator extends Component {
         return dateFormat(newDate, "yyyymmdd");
     };
 
-    handleClick = (event) => {
+    handleSaveBase = () => {
+        console.log('save base');
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
-            const id = this.state.idClientKiloliter;
-            const city = this.state.city;
-            const market = this.state.market;
-            const bussines = this.state.bussines;
-            const line = this.state.line === undefined ? null : this.state.line;
-            const material = this.state.material === undefined ? null : this.state.material;
-            this.setBase({
-                "idClientKiloliter": id,
-                "description": this.state.description.toString(),
-                "dateStart": this.dateToISO(this.state.dates[0]),
-                "dateEnd": this.dateToISO(this.state.dates[1]),
-                "originSystem": "SVM",
-                "codeCity": (city === undefined || city === null) ? 0 : city.codeDataType.toString(),
-                "codeMarket": (market === undefined || market === null ) ? 0 : market.codeDataType.toString(),
-                "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
-                "linePlan": (line === undefined || line === null || line.linePlan === "") ? 0 : line.linePlan.toString(),
-                "codeMaterial": (material === 0 || material === null) ? 0 : material.codeMaterial.toString(),
-            });
+            let data = this.getData();
+            this.setBase(data);
             this.setState({dates: null});
         }
+    };
+
+    getData() {
+        const id = this.state.idClientKiloliter;
+        const city = this.state.city;
+        const market = this.state.market;
+        const bussines = this.state.bussines;
+        const line = this.state.line === undefined ? null : this.state.line;
+        const material = this.state.material === undefined ? null : this.state.material;
+        return {
+            "idClientKiloliter": id,
+            "description": this.state.description.toString(),
+            "dateStart": this.dateToISO(this.state.dates[0]),
+            "dateEnd": this.dateToISO(this.state.dates[1]),
+            "originSystem": "SVM",
+            "codeCity": (city === undefined || city === null) ? 0 : city.codeDataType.toString(),
+            "codeMarket": (market === undefined || market === null) ? 0 : market.codeDataType.toString(),
+            "codeTypeBusiness": (bussines === undefined || bussines === null) ? 0 : bussines.codeDataType.toString(),
+            "linePlan": (line === undefined || line === null || line.linePlan === "") ? 0 : line.linePlan.toString(),
+            "codeMaterial": (material === 0 || material === null) ? 0 : material.codeMaterial.toString()
+        };
+    }
+
+    setBase = (data) => {
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_BASE}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                if (response.codeResult === null || response.codeResult === undefined) {
+                    if (response.status > 200) {
+                        this.props.refresh(0);
+                        this.setState({process: 1});
+                    }
+                } else {
+                    this.props.refresh(response.codeResult);
+                    this.setState({process: response.codeResult});
+                }
+            });
     };
 
     render() {
@@ -338,7 +345,8 @@ class BaseGenerator extends Component {
         return (
             <div>
                 {
-                    process ? this.renderForm() : <CircularProgress size={500} style={{ color: '#5DADE2'[200] }} thickness={5}/>
+                    process ? this.renderForm() :
+                        <CircularProgress size={500} style={{color: '#5DADE2'[200]}} thickness={5}/>
                 }
             </div>
         );
@@ -355,7 +363,7 @@ class BaseGenerator extends Component {
                             </Col>
                             <Col xs={6} lg={6} md={4} sd={3}>
                                 <InputText id="code" type="text" size="30"
-                                           value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter }
+                                           value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter}
                                            onChange={(e) => this.setState({codeSeg: e.target.value})}
                                            disabled="disabled" className="imput" style={{width: '200px'}}/>
                             </Col>
@@ -476,19 +484,6 @@ class BaseGenerator extends Component {
                                           showClear={true} style={{width: '200px'}}/>
                             </Col>
                         </Row>
-                        <Row>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Button label="Generar" onClick={this.handleClick} className="button"/>
-                            </Col>
-                        </Row>
                     </Grid>
                 </Card>
             </div>
@@ -498,7 +493,7 @@ class BaseGenerator extends Component {
 
 BaseGenerator.propTypes = {
     segment: PropTypes.object.isRequired,
-    refresh: PropTypes.func.isRequired,
+    refresh: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(BaseGenerator);
