@@ -21,8 +21,12 @@ class SegmentationGenerator extends Component {
             level: segment.numberLevel,
             k1: segment.factorK1,
             k2: segment.factorK2,
-            process: 1,
-        }
+            process: 1
+        };
+    }
+
+    componentDidMount() {
+        this.props.setSegmentClick(this.handleSaveSegment);
     }
 
     shouldComponentUpdate(next_props, next_state) {
@@ -57,7 +61,8 @@ class SegmentationGenerator extends Component {
             });
     };
 
-    handleClick = (event) => {
+    handleSaveSegment = () => {
+        console.log('save segment');
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
             const level = this.state.city;
@@ -80,7 +85,8 @@ class SegmentationGenerator extends Component {
         return (
             <div>
                 {
-                    process ? this.renderForm() : <CircularProgress size={500} style={{ color: '#5DADE2'[200] }} thickness={5}/>
+                    process ? this.renderForm() :
+                        <CircularProgress size={500} style={{color: '#5DADE2'[200]}} thickness={5}/>
                 }
             </div>
         );
@@ -137,15 +143,6 @@ class SegmentationGenerator extends Component {
                                 <label className="LabelDetail">Para limite superior</label>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col xs={5}>
-                            </Col>
-                            <Col xs={2}>
-                            </Col>
-                            <Col xs={5}>
-                                <Button label="Generar" onClick={this.handleClick} className="button"/>
-                            </Col>
-                        </Row>
                     </Grid>
                 </Card>
             </div>
@@ -155,7 +152,7 @@ class SegmentationGenerator extends Component {
 
 SegmentationGenerator.propTypes = {
     segment: PropTypes.object.isRequired,
-    refresh: PropTypes.func.isRequired,
+    refresh: PropTypes.func.isRequired
 };
 export default SegmentationGenerator;
 

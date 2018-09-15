@@ -32,9 +32,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 class EnhancedTable extends Component {
 
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
+        this.BaseGenerator = React.createRef();
         this.state = {
             order: 'asc',
             orderBy: 'id',
@@ -327,6 +327,10 @@ class EnhancedTable extends Component {
             this.showResponse(response);
     };
 
+    saveBase = () => {
+        this.BaseGenerator.current.handleSaveBase();
+    };
+
     /**
      * Dialog Generated Base Segmentation Form
      * @returns {XML}
@@ -346,10 +350,13 @@ class EnhancedTable extends Component {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <BaseGenerator segment={this.state.segment} refresh={this.handleClose}/>
+                        <BaseGenerator segment={this.state.segment} refresh={this.handleClose}
+                                       setBaseClick={click => this.clickChild = click}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
+                    <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
+                            className="buttonBlue"/>
                     <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
                             className="ui-button-secondary"/>
                 </DialogActions>
@@ -375,10 +382,13 @@ class EnhancedTable extends Component {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}/>
+                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}
+                                               setSegmentClick={click => this.clickChild = click}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
+                    <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
+                            className="buttonBlue"/>
                     <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
                             className="ui-button-secondary"/>
                 </DialogActions>
@@ -582,7 +592,8 @@ const styles = theme => ({
 EnhancedTable.propTypes = {
     classes: PropTypes.object.isRequired,
     updateDates: PropTypes.func.isRequired,
-    newBase: PropTypes.func.isRequired
+    newBase: PropTypes.func.isRequired,
+    setBase: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(EnhancedTable);
