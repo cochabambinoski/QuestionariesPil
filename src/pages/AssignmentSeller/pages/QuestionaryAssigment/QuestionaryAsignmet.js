@@ -60,7 +60,8 @@ class QuestionaryAsignmet extends Component {
             {
                 filterList.map((questionary) => (
                     <Questionary questionary={questionary} key={questionary.id}
-                                 onSelectedQuestionaryClick={this.props.onSelectedQuestionary}/>
+                                 onSelectedQuestionaryClick={this.props.onSelectedQuestionary}
+                                 parentComponent={QuestionaryAsignmet.name}/>
                 ))
             }
         </List>

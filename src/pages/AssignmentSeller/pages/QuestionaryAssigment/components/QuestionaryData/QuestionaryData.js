@@ -2,9 +2,10 @@ import React from 'react';
 import './styles.css'
 import {Button} from "../../../../../../../node_modules/primereact/button";
 import {Card} from 'primereact/card';
+import AnswerList from "../../../../../AnswersQuestionnaire/pages/AnswerList/AnswerList";
+import QuestionaryAsignmet from "../../QuestionaryAsignmet";
 
-const QuestionaryData = ({data, handleQuestionaryLocationDataClick}) => {
-
+const QuestionaryData = ({data, handleQuestionaryDataClick, parentComponent}) => {
 
     return (
         <div>
@@ -14,9 +15,17 @@ const QuestionaryData = ({data, handleQuestionaryLocationDataClick}) => {
                     <div>{data.fechaId} {data.usuarioId}</div>
                     <br/>
                     <span>
-                        <Button label="Iniciar Asignacion"  onClick={() => {
-                            handleQuestionaryLocationDataClick(data)
-                        }}/>
+                        {
+                            parentComponent === "QuestionaryAsignmet" ?
+                                <Button label="Iniciar Asignacion"  onClick={() => {
+                                    handleQuestionaryDataClick(data)
+                                }}/>:
+                                parentComponent === "AnswerList" ?
+                                    <Button label="Seleccionar encuesta"  onClick={() => {
+                                        handleQuestionaryDataClick(data)
+                                    }}/>: null
+                        }
+
                     </span>
                 </div>
             </Card>

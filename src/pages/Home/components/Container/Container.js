@@ -5,6 +5,7 @@ import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContain
 import {Start} from "../../../Start/Start";
 import ListSegment from "../../../ListSegments/pages/ListSegments";
 import AsigmentQuestionaryContainer from "../../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
+import AnswerContainer from "../../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 
 class Container extends Component {
     render() {
@@ -16,7 +17,8 @@ class Container extends Component {
                         this.props.idMenu === '1080502' ?
                             <QuestionaryContainer/>
                             : this.props.idMenu === '1080503' ? <AsigmentQuestionaryContainer/> :
-                            this.props.idMenu === '1080600' ? <ListSegment/> : null
+                            this.props.idMenu === '1080600' ? <ListSegment/> :
+                                this.props.idMenu === '1080504' ? <AnswerContainer/> : null
                 }
             </div>
         );
