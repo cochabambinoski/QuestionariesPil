@@ -62,7 +62,6 @@ class SegmentationGenerator extends Component {
     };
 
     handleSaveSegment = () => {
-        console.log('save segment');
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
             const level = this.state.city;
