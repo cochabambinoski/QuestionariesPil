@@ -16,13 +16,6 @@ class QuestionaryContainer extends Component {
     }
 
     showMessage(title, detail) {
-        console.log("container - showMessage/Detail: " + detail);
-        // this.setState((prevState, props) => {
-        //     return {
-        //         title: title,
-        //         detail: detail,
-        //     }
-        // });
         this.setState({title: title});
         this.setState({detail: detail});
     }

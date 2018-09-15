@@ -46,13 +46,18 @@ class Questionnaires extends Component {
     }
 
     componentDidMount() {
-        console.log("QuestionnairesList - componentDidMount/props: " + JSON.stringify(this.props));
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
             .then(results => {
                 return results.json();
             }).then(data => {
             this.setState({questionnaires: data});
         })
+        const title = this.props.title;
+        const detail = this.props.detail;
+        if (title !== null && detail !== null){
+            this.showSuccess(title, detail);
+            this.props.showMessage(null, null);
+        }
     }
 
     deleteQuestionary(item) {
@@ -108,26 +113,11 @@ class Questionnaires extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        const title = nextProps.title;
-        const detail = nextProps.detail;
-        console.log("componentWillReceiveProps - title: " + title);
-        console.log("componentWillReceiveProps - detail: " + detail);
-        console.log("validation 1: " + title !== null && detail !== null);
-        console.log("validation 2: " + title && detail);
-        if (title !== null && detail !== null){
-            console.log("both aren't null");
-            this.showSuccess(title, detail);
-            this.props.showMessage(null, null);
-        }
-    }
-
     render() {
         return (
             <div>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
-                <Messages ref={(el) => this.messages = el}></Messages>
                 <Toolbar className="toolbarFullWidth">
                     <div>
                         <Button label="Nuevo"
@@ -136,6 +126,7 @@ class Questionnaires extends Component {
                                 }}/>
                     </div>
                 </Toolbar>
+                <Messages ref={(el) => this.messages = el}></Messages>
                 <br/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     {

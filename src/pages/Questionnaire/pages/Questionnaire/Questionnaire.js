@@ -132,7 +132,6 @@ class Questionnaire extends Component {
             return results.json();
         }).then(data => {
             if (data === "Ok") {
-                // this.showSuccess("", "Cuestionario guardado");
                 this.props.showMessage("", "Cuestionario guardado");
                 this.handleCancel();
                 this.props.changeIdQuestionarySelected(null);
