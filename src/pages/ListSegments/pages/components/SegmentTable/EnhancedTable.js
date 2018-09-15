@@ -355,7 +355,7 @@ class EnhancedTable extends Component {
                     <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
                             className="buttonBlue"/>
                     <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
+                            className="ui-button-secondary buttonSecundary"/>
                 </DialogActions>
             </Dialog>
         );
@@ -387,7 +387,7 @@ class EnhancedTable extends Component {
                     <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
                             className="buttonBlue"/>
                     <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
+                            className="ui-button-secondary buttonSecundary"/>
                 </DialogActions>
             </Dialog>
         );
