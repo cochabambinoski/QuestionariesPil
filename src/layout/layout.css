@@ -2509,156 +2509,22 @@ pre[class*="language-"] {
   margin-left: -1.2em;
   margin-right: -1.2em; }
 
-.titleBody {
-  background-image: linear-gradient(65deg, #5DADE2, #2471A3);
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif; }
-
-.dialogTitle {
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20px; }
-
-.dialogBody {
-  margin-top: 1em !important;
-  font-family: 'Open Sans', sans-serif;
-  font-size: inherit; }
-
-.icons {
-  margin: 1em;
-  height: 120px; }
-
-.iconButtonDel {
-  color: #D9534F; }
-
-.iconButton {
-  color: #2980B9; }
-
-.myToolbar {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px;
-  margin-top: 1em; }
-
-.calendar {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  margin-right: 0.2em !important; }
-
-.buttonBlue {
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important; }
-
-.buttonSecundary {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important; }
-
-.root {
-  width: 100% !important;
-  margin-top: 1em;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px; }
-
-.table {
-  minWidth: 720; }
-
-.cells {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px; }
-
-.spacer {
-  flex: 1 1 100% !important; }
-
-.toolbarTable {
-  background-color: #FFFFFF;
-  flex: 0 0 auto !important;
-  width: 100% !important; }
-
-.headTable {
-  background-color: #5B5D74;
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: bold !important; }
-
-.sortLabel {
-  color: #FFFFF0 !important; }
-
-.ui-messages-error {
-  background-color: #D9534F !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
 .MuiList-padding-16 {
   background: #4d505b; }
 
-.ui-messages-success {
-  background-color: #558B2F !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.ui-messages-info {
-  background-color: #5DADE2 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.ui-messages-warn {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.label {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: bold !important; }
-
-.imput {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  width: 200px !important;
-  margin-bottom: 0.5em !important; }
-
-.imputSmall {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  width: 50px !important;
-  margin-bottom: 0.5em; }
-
-.button {
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  width: 200px;
-  margin-bottom: 0.5em; }
-
-.LabelDetail {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 14px !important;
-  font-weight: normal !important; }
-
 .navItemsColor {
-    color: #f3f4f9 !important; }
+  color: #f3f4f9 !important; }
 
 .navItemBackground:hover {
-    background: #2471a3 !important; }
+  background: #2471a3 !important; }
 
 .MuiListItem-button-27 {
-    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; }
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; }
 
 .list {
-    background: transparent !important;
-    width: 100%;
-    position: relative;
-    overflow: auto;
-    maxHeight: 800;
-    marginBottom: 5; }
+  background: transparent !important;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  maxHeight: 800;
+  marginBottom: 5; }
