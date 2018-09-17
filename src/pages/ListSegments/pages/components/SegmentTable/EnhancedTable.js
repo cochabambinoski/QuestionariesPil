@@ -187,12 +187,10 @@ class EnhancedTable extends Component {
      */
     chargeTable = (start, end) => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
-        console.log(start, end, url);
         fetch(url)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.setState(prevState => ({
                 data: data
             }));
@@ -282,7 +280,6 @@ class EnhancedTable extends Component {
      * @param todate
      */
     updateDates = (fromDate, todate) => {
-        console.log(fromDate, todate);
         let start = fromDate.getTime() === this.state.startDate.getTime();
         let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
@@ -359,7 +356,7 @@ class EnhancedTable extends Component {
                     <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
                             className="buttonBlue"/>
                     <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
+                            className="ui-button-secondary buttonSecundary"/>
                 </DialogActions>
             </Dialog>
         );
@@ -391,7 +388,7 @@ class EnhancedTable extends Component {
                     <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
                             className="buttonBlue"/>
                     <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
+                            className="ui-button-secondary buttonSecundary"/>
                 </DialogActions>
             </Dialog>
         );

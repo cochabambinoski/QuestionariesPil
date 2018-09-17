@@ -286,7 +286,6 @@ class BaseGenerator extends Component {
     };
 
     handleSaveBase = () => {
-        console.log('save base');
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
             let data = this.getData();
@@ -328,6 +327,7 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
+                console.log(response);
                 if (response.codeResult === null || response.codeResult === undefined) {
                     if (response.status > 200) {
                         this.props.refresh(0);
