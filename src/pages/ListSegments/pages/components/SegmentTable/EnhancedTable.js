@@ -29,6 +29,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import style from "./table.css";
 
 class EnhancedTable extends Component {
 
@@ -283,7 +284,7 @@ class EnhancedTable extends Component {
         let finish = todate.getTime() === this.state.endDate.getTime();
         if (!start || !finish) {
             this.setState({startDate: fromDate, endDate: todate});
-            this.chargeTable(fromDate, todate);
+            this.chargeTable(fromDate, todate)
         }
     };
 
@@ -467,8 +468,7 @@ class EnhancedTable extends Component {
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
         return (
             <Paper className="root" classes="">
-                <EnhancedTableToolbar className="toolbarTable" numSelected={selected.length}
-                                      dateStart={this.state.startDate}
+                <EnhancedTableToolbar numSelected={selected.length} dateStart={this.state.startDate}
                                       dateEnd={this.state.endDate} updateDates={this.updateDates}
                                       newBase={event => this.handleBase(event, 0)}/>
                 <div className={classes.tableWrapper}>

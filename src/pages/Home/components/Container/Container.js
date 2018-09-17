@@ -8,16 +8,25 @@ import AsigmentQuestionaryContainer from "../../../AssignmentScreen/pages/Asigme
 
 class Container extends Component {
     render() {
+        const route = this.props.idMenu.transaccion != undefined ? this.props.idMenu.transaccion.ruta : null;
+        let component = null;
+        switch (route) {
+            case 'Start':
+                component = <Start/>
+                break;
+            case 'QuestionaryContainer':
+                component = <QuestionaryContainer/>
+                break;
+            case 'AssignmentQuestionary':
+                component = <AsigmentQuestionaryContainer/>
+                break;
+            case 'ListSegment':
+                component = <ListSegment/>
+                break;
+        }
         return (
             <div style={{marginTop: '5px'}}>
-                {
-                    this.props.idMenu === '1080501' ?
-                        <Start/> :
-                        this.props.idMenu === '1080502' ?
-                            <QuestionaryContainer/>
-                            : this.props.idMenu === '1080503' ? <AsigmentQuestionaryContainer/> :
-                            this.props.idMenu === '1080600' ? <ListSegment/> : null
-                }
+                {component}
             </div>
         );
     }

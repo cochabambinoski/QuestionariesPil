@@ -87,7 +87,7 @@ class MobileSellerListAssigment extends Component {
         filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerAssignedType);
         filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerAssignedBranch);
         this.saveListAux(filterList);
-        return <List className={this.props.classes.root} subheader={<li/>}>
+        return <List className="list" subheader={<li/>}>
             {filterList.map(mobileSeller => (
                 <MobileSellerItem
                     mobileSeller={mobileSeller}

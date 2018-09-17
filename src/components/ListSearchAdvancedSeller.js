@@ -223,7 +223,7 @@ class ListSearchAdvancedSeller extends Component {
                 innerComponent = <div className={classNames(classes.column, text)}>
                     <h2>Tipos de Usuario</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
-                        <List className={this.props.classes.root} subheader={<li/>}>
+                        <List className="list" subheader={<li/>}>
                             {this.props.list.map(typeSeller => (
                                 <ListItem key={typeSeller.id} dense button className={classes.listItem}>
                                     <ListItemText primary={typeSeller.nombre}/>
@@ -243,7 +243,7 @@ class ListSearchAdvancedSeller extends Component {
                 innerComponent = <div className={classNames(classes.column, classes.helper, text)}>
                     <h2>Ciudades</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
-                        <List className={this.props.classes.root} subheader={<li/>}>
+                        <List className="list" subheader={<li/>}>
                             {this.props.list.map(city => (
                                 <ListItem key={city.id} dense button className={classes.listItem}>
                                     <ListItemText primary={city.nombre}/>
@@ -264,7 +264,7 @@ class ListSearchAdvancedSeller extends Component {
                 innerComponent = <div className={classNames(classes.column, classes.helper, text)}>
                     <h2>Sucursales</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
-                        <List className={this.props.classes.root} subheader={<li/>}>
+                        <List className="list" subheader={<li/>}>
                             {
                                 this.typeSearchAdvances() ?
                                     this.props.querySearchSellerByBranch.map(branch => (
