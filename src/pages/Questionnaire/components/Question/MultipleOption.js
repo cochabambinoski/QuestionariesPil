@@ -72,7 +72,7 @@ class MultipleOption extends Component {
         return (
             <div className="ui-g" style={{width: '350px', marginBottom: '10px'}}>
                 <ScrollPanel style={{width: '100%', height: '110px', marginBottom: '10px'}}>
-                    <div style={{paddingBottom: '15px'}}>
+                    <div style={{paddingBottom: '15px', paddingTop: '10px'}}>
                         {
                             this.props.lsOptions.map((option, index) => {
                                 return (

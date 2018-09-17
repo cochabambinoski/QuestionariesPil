@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import EnhancedTable from "./components/SegmentTable/EnhancedTable";
 import Title from "../../Title/Title";
+import style from "./components/SegmentTable/table.css";
 
 const styles = theme => ({});
 

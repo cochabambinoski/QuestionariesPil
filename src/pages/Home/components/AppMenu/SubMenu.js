@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 const styles = theme => ({
     root: {
@@ -27,9 +27,9 @@ class SubMenu extends Component {
         this.setState({anchorEl: event.currentTarget});
     };
 
-    handleMenuItemClick = (event, index) => {
+    handleMenuItemClick = (event, index, option) => {
         let idSubMenu = this.props.submenus[index].id;
-        this.props.setIdMenu(idSubMenu);
+        this.props.setIdMenu(option);
         this.setState({selectedIndex: idSubMenu, anchorEl: null});
     };
 
@@ -50,10 +50,11 @@ class SubMenu extends Component {
                             aria-controls="lock-menu"
                             aria-label="When device is locked"
                             onClick={this.handleClickListItem}
+                            className="navItemBackground"
                         >
-                            <ListItemText
-                                primary={title}
-                            />
+                            <ListItemText>
+                                <div className="navItemsColor">{title}</div>
+                            </ListItemText>
                         </ListItem>
                     </List>
                     <Menu
@@ -66,9 +67,10 @@ class SubMenu extends Component {
                             <MenuItem
                                 key={option.id}
                                 selected={index === this.state.selectedIndex}
-                                onClick={event => this.handleMenuItemClick(event, index)}
+                                onClick={event => this.handleMenuItemClick(event, index, option)}
+                                className="navItemBackground"
                             >
-                                {option.label}
+                                <div className="navItemsColor">{option.label}</div>
                             </MenuItem>
                         ))}
                     </Menu>

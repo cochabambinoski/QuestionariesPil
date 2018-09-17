@@ -2,6 +2,7 @@
 /* General */
 /* Menu Dark*/
 /* Menu Light*/
+/* Final Menu */
 /* Topbar */
 /* GreenButton */
 /* YellowButton */
@@ -258,19 +259,19 @@ a {
     -o-transition: left 0.3s;
     -webkit-transition: left 0.3s;
     transition: left 0.3s;
-    background: #f3f4f9;
+    background: #4d505b;
     /* Old browsers */
-    background: -moz-linear-gradient(top, #f3f4f9 0%, #d7dbe8 100%);
+    background: -moz-linear-gradient(top, #4d505b 0%, #3b3e47 100%);
     /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f4f9), color-stop(100%, #d7dbe8));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4d505b), color-stop(100%, #3b3e47));
     /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f3f4f9 0%, #d7dbe8 100%);
+    background: -webkit-linear-gradient(top, #4d505b 0%, #3b3e47 100%);
     /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f3f4f9 0%, #d7dbe8 100%);
+    background: -o-linear-gradient(top, #4d505b 0%, #3b3e47 100%);
     /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f3f4f9 0%, #d7dbe8 100%);
+    background: -ms-linear-gradient(top, #4d505b 0%, #3b3e47 100%);
     /* IE10+ */
-    background: linear-gradient(to bottom, #f3f4f9 0%, #d7dbe8 100%);
+    background: linear-gradient(to bottom, #4d505b 0%, #3b3e47 100%);
     /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
     /* IE6-9 */ }
@@ -279,7 +280,7 @@ a {
       margin-left: 84px;
       height: 30px;
       width: 100px;
-      background: url(./images/logo.svg) top left no-repeat;
+      background: url(./images/logo-white.svg) top left no-repeat;
       background-size: 100px 30px; }
     .layout-wrapper .layout-sidebar .profile {
       text-align: center;
@@ -290,7 +291,7 @@ a {
       .layout-wrapper .layout-sidebar .profile > a {
         display: inline-block;
         cursor: pointer;
-        color: #232428;
+        color: #ffffff;
         text-decoration: none;
         margin-bottom: 10px;
         -moz-transition: color 0.3s;
@@ -309,7 +310,7 @@ a {
         .layout-wrapper .layout-sidebar .profile > a:hover {
           color: #0388e5; }
       .layout-wrapper .layout-sidebar .profile > ul {
-        background-color: #ffffff;
+        background-color: #2e3035;
         text-align: left;
         overflow: hidden;
         max-height: 0;
@@ -338,14 +339,14 @@ a {
       .layout-wrapper .layout-sidebar ul li a {
         cursor: pointer;
         position: relative;
-        color: #232428;
+        color: #ffffff;
         text-decoration: none;
         font-size: 14px;
         padding: 15px;
         padding-right: 33px;
         display: block;
         box-sizing: border-box;
-        border-top: 1px solid rgba(207, 211, 224, 0.6); }
+        border-top: 1px solid rgba(52, 56, 65, 0.6); }
         .layout-wrapper .layout-sidebar ul li a span {
           margin-left: .3em; }
         .layout-wrapper .layout-sidebar ul li a .menu-badge {
@@ -365,7 +366,7 @@ a {
             color: #ffffff; }
       .layout-wrapper .layout-sidebar ul li.active-menuitem > a {
         border-bottom: 0 none;
-        background-color: #ffffff;
+        background-color: #2e3035;
         color: #0388e5; }
         .layout-wrapper .layout-sidebar ul li.active-menuitem > a .menuitem-toggle-icon {
           background: none !important;
@@ -383,7 +384,7 @@ a {
       .layout-wrapper .layout-sidebar ul li.active-menuitem > ul {
         max-height: 500px; }
       .layout-wrapper .layout-sidebar ul li ul {
-        background-color: #ffffff;
+        background-color: #2e3035;
         overflow: hidden;
         padding-left: 20px;
         max-height: 0;
@@ -408,7 +409,7 @@ a {
         .layout-wrapper .layout-sidebar ul li ul li:last-child > a {
           border-bottom: 0 none; }
       .layout-wrapper .layout-sidebar ul li:last-child > a {
-        border-bottom: 1px solid rgba(207, 211, 224, 0.6); }
+        border-bottom: 1px solid rgba(52, 56, 65, 0.6); }
       .layout-wrapper .layout-sidebar ul li.red-badge > a .menuitem-badge {
         background-color: #ef6262;
         color: #a83d3b; }
@@ -2501,140 +2502,29 @@ pre[class*="language-"] {
   font-family: 'Open Sans', sans-serif !important; }
 
 .toolbarTable {
+  background-color: #FFFFFF; }
+
+.toolbarFullWidth {
   background-color: #FFFFFF;
   margin-left: -1.2em;
   margin-right: -1.2em; }
 
-.titleBody {
-  background-image: linear-gradient(65deg, #5DADE2, #2471A3);
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif; }
+.MuiList-padding-16 {
+  background: #4d505b; }
 
-.dialogTitle {
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20px; }
+.navItemsColor {
+  color: #f3f4f9 !important; }
 
-.dialogBody {
-  margin-top: 1em !important;
-  font-family: 'Open Sans', sans-serif;
-  font-size: inherit; }
+.navItemBackground:hover {
+  background: #2471a3 !important; }
 
-.icons {
-  margin: 1em;
-  height: 120px; }
+.MuiListItem-button-27 {
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; }
 
-.iconButtonDel {
-  color: #D9534F; }
-
-.iconButton {
-  color: #2980B9; }
-
-.myToolbar {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px;
-  margin-top: 1em; }
-
-.calendar {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  margin-right: 0.2em !important; }
-
-.buttonBlue {
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important; }
-
-.buttonSecundary {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important; }
-
-.root {
-  width: 100% !important;
-  margin-top: 1em;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px; }
-
-.table {
-  minWidth: 720; }
-
-.cells {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px; }
-
-.spacer {
-  flex: 1 1 100% !important; }
-
-.toolbarTable {
-  background-color: #FFFFFF;
-  flex: 0 0 auto !important;
-  width: 100% !important; }
-
-.headTable {
-  background-color: #5B5D74;
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: bold !important; }
-
-.sortLabel {
-  color: #FFFFF0 !important; }
-
-.ui-messages-error {
-  background-color: #D9534F !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.ui-messages-success {
-  background-color: #558B2F !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.ui-messages-info {
-  background-color: #5DADE2 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.ui-messages-warn {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important; }
-
-.label {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: bold !important; }
-
-.imput {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  width: 200px !important;
-  margin-bottom: 0.5em !important; }
-
-.imputSmall {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  width: 50px !important;
-  margin-bottom: 0.5em; }
-
-.button {
-  color: #FFFFF0 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: normal !important;
-  width: 200px;
-  margin-bottom: 0.5em; }
-
-.LabelDetail {
-  color: #525252 !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 14px !important;
-  font-weight: normal !important; }
+.list {
+  background: transparent !important;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  maxHeight: 800;
+  marginBottom: 5; }

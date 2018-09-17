@@ -14,17 +14,19 @@ function Modal(props) {
                 open={props.open}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+                <DialogTitle id="alert-dialog-title" className="titleBody">
+                    <h1 className="dialogTitle">{props.title}</h1>
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" className="dialogBody">
                         {props.message}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.handleConfirm} color="primary" autoFocus>
+                    <Button label="Aceptar" onClick={props.handleConfirm} className="ui-button-secondary">
                         Aceptar
                     </Button>
-                    <Button onClick={props.handleCancel} color="primary" autoFocus>
+                    <Button label="Cancelar" onClick={props.handleCancel} className="ui-button-secondary">
                         Cancelar
                     </Button>
                 </DialogActions>

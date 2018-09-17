@@ -6,20 +6,34 @@ import {getQuestionarySelected} from "../../reducers";
 
 class QuestionaryContainer extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: null,
+            detail: null,
+        };
+        this.showMessage = this.showMessage.bind(this);
+    }
+
+    showMessage(title, detail) {
+        this.setState({title: title});
+        this.setState({detail: detail});
+    }
 
     render() {
-
         const {questionarySelected} = this.props;
         return (
             <div>
                 {
                     questionarySelected === null ?
-                        <Questionnaires/>
+                        <Questionnaires title={this.state.title} detail={this.state.detail} showMessage={this.showMessage}/>
                         : questionarySelected.action === "NEW" ?
-                        <Questionnaire questionary={null} /> :
+                        <Questionnaire questionary={null}/> :
                         questionarySelected.action === "EDIT" ?
-                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}/> :
-                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id} readOnly={true}/>
+                            <Questionnaire questionary={questionarySelected}
+                                           questionnaireId1={questionarySelected.idQuestionary.id} showMessage={this.showMessage}/> :
+                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}
+                                           readOnly={true} showMessage={this.showMessage}/>
 
                 }
             </div>

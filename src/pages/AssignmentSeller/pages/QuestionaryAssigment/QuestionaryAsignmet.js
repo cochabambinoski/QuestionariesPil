@@ -56,7 +56,7 @@ class QuestionaryAsignmet extends Component {
         if(this.props.queryMobileSeller !== ""){
             filterList = this.filterItems(questionaries, this.props.queryQuestionaerAssigment);
         }
-        return <List className={this.props.classes.root} subheader={<li />}>
+        return <List className="list" subheader={<li />}>
             {
                 filterList.map((questionary) => (
                     <Questionary questionary={questionary} key={questionary.id}

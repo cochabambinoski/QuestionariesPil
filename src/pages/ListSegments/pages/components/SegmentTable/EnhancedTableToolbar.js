@@ -5,6 +5,7 @@ import React, {Component} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Calendar} from "primereact/calendar";
 import {Button} from "primereact/button";
+import style from "./table.css";
 
 class EnhancedTableToolbar extends Component {
 
@@ -54,10 +55,9 @@ class EnhancedTableToolbar extends Component {
 
     render() {
         return (
-            <Toolbar classes="">
+            <Toolbar className="toolbarTable" classes="">
                 <div>
-                    <Button label="Nuevo" onClick={event => this.props.newBase(event, 0)} className="buttonBlue"
-                            classes=""/>
+                    <Button label="Nuevo" onClick={event => this.props.newBase(event, 0)} className="buttonBlue" classes=""/>
                 </div>
                 <div className="spacer"/>
                 <div>

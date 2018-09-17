@@ -6,6 +6,7 @@ import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
 import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
+import {Messages} from 'primereact/messages';
 import Constants from '../../../Constants.json';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
@@ -25,21 +26,14 @@ class Questionnaires extends Component {
             open: false,
             currentItem: -1,
         };
-        this.see = this.see.bind(this);
-        this.edit = this.edit.bind(this);
-    }
-
-    see() {
-        this.growl.show({severity: 'info', summary: 'See questionnaire', detail: ''});
-    }
-
-    edit() {
-
-        this.growl.show({severity: 'info', summary: 'Edit questionnaire', detail: ''});
     }
 
     showError(summary, detail) {
-        this.growl.show({severity: 'error', summary: summary, detail: detail});
+        this.messages.show({severity: 'error', summary: summary, detail: detail});
+    }
+
+    showSuccess(summary, detail) {
+        this.messages.show({severity: 'success', summary: summary, detail: detail});
     }
 
     changeIdQuestionaryClick(value) {
@@ -58,6 +52,12 @@ class Questionnaires extends Component {
             }).then(data => {
             this.setState({questionnaires: data});
         })
+        const title = this.props.title;
+        const detail = this.props.detail;
+        if (title !== null && detail !== null){
+            this.showSuccess(title, detail);
+            this.props.showMessage(null, null);
+        }
     }
 
     deleteQuestionary(item) {
@@ -118,8 +118,7 @@ class Questionnaires extends Component {
             <div>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
-                <Growl ref={(el) => this.growl = el}/>
-                <Toolbar className="toolbarTable">
+                <Toolbar className="toolbarFullWidth">
                     <div>
                         <Button label="Nuevo"
                                 onClick={() => {
@@ -127,6 +126,7 @@ class Questionnaires extends Component {
                                 }}/>
                     </div>
                 </Toolbar>
+                <Messages ref={(el) => this.messages = el}></Messages>
                 <br/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     {

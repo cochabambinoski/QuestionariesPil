@@ -6,7 +6,7 @@ import {logger} from 'redux-logger'
 //Estado inicial de nuestra aplicacion
 const initialState = {
     idUser: null,
-    idMenu : 1,
+    idMenu: {transaccion: {ruta: 'Start'}},
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
