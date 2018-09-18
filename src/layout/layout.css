@@ -2655,7 +2655,7 @@ pre[class*="language-"] {
 div[class^="MuiPaper-root"] ul {
   background: #4d505b !important; }
 
-div[class^="jss"] {
+ul[class^="jss"] {
   background: #4d505b !important; }
 
 .navItemBackground:hover {
