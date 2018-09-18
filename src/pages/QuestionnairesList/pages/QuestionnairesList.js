@@ -51,7 +51,7 @@ class Questionnaires extends Component {
                 return results.json();
             }).then(data => {
             this.setState({questionnaires: data});
-        })
+        });
         const title = this.props.title;
         const detail = this.props.detail;
         if (title !== null && detail !== null){
@@ -100,18 +100,18 @@ class Questionnaires extends Component {
     openModal = (item) => {
         this.setState({currentItem: item});
         this.setState({open: true});
-    }
+    };
 
     closeModal = () => {
         this.setState({open: false});
-    }
+    };
 
     handleRemove = () => {
         this.closeModal();
         this.setState((prevState, props) => {
             this.deleteQuestionary(prevState.currentItem);
         });
-    }
+    };
 
     render() {
         return (
@@ -126,14 +126,14 @@ class Questionnaires extends Component {
                                 }}/>
                     </div>
                 </Toolbar>
-                <Messages ref={(el) => this.messages = el}></Messages>
+                <Messages ref={(el) => this.messages = el}/>
                 <br/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     {
                         this.state.questionnaires.map((item) => {
                             return (
-                                <div>
-                                    <Card title={item.name} key={item.id}>
+                                <div key={item.id}>
+                                    <Card title={item.name} >
                                         <div className="text">
                                             <div>Creado</div>
                                             <div>{item.fechaId} {item.usuarioId}</div>
