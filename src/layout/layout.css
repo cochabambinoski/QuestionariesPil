@@ -1875,7 +1875,7 @@ body {
         #layout-content .content-section.introduction .feature-intro a:hover {
           background-color: #d8eef4; }
     #layout-content .content-section.implementation {
-      background-color: #ffffff; }
+      background-color: #20272a; }
       #layout-content .content-section.implementation > h3 {
         font-weight: 400;
         margin-top: 30px;
@@ -2651,9 +2651,6 @@ pre[class*="language-"] {
 .navItemsColor {
   color: #f3f4f9 !important;
   font-family: 'Open Sans', sans-serif !important; }
-
-div[class^="MuiPaper-root"] ul {
-  background: #4d505b !important; }
 
 ul[class^="jss"] {
   background: #4d505b !important; }
