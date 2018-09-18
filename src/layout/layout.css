@@ -2645,14 +2645,14 @@ pre[class*="language-"] {
   font-size: 14px !important;
   font-weight: normal !important; }
 
-.MuiList-padding-16 {
+.MuiList-padding {
   background: #4d505b; }
 
 .navItemsColor {
   color: #f3f4f9 !important;
   font-family: 'Open Sans', sans-serif !important; }
 
-menu, dir {
+div[class^="MuiPaper-root"] {
   background: #4d505b !important; }
 
 .navItemBackground:hover {

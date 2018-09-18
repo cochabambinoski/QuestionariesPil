@@ -1,4 +1,4 @@
-.MuiList-padding-16 {
+.MuiList-padding {
   background: #4d505b;
 }
 
@@ -7,7 +7,7 @@
   font-family: 'Open Sans', sans-serif !important;
 }
 
-menu, dir {
+div[class^="MuiPaper-root"] {
   background: #4d505b !important;
 }
 
