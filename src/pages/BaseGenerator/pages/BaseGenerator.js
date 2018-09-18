@@ -13,7 +13,7 @@ import {Button} from "primereact/button";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as utilDate from "../../../utils/dateUtils";
-import baseStyle from "./BaseStyle.css"
+import baseStyle from "./BaseStyle.css";
 
 const styles = theme => ({
     row: {
@@ -327,6 +327,12 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
+                console.log(response);
+                if (response === undefined) {
+                    this.props.refresh(0);
+                    this.setState({process: 1});
+                    return;
+                }
                 if (response.codeResult === null || response.codeResult === undefined) {
                     if (response.status > 200) {
                         this.props.refresh(0);
