@@ -4,16 +4,12 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
 import Constants from "./../../../Constants.json";
 import {Grid, Row, Col} from 'react-flexbox-grid';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Card} from "primereact/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import segmentation from "./SegmentationStyle.css";
-
-const styles = theme => ({});
 
 class SegmentationGenerator extends Component {
 
@@ -107,7 +103,7 @@ class SegmentationGenerator extends Component {
                             <Col xs={3}>
                                 <InputText value={this.state.code}
                                            onChange={(e) => this.setState({code: e.target.value})}
-                                           disabled="disabled" className="imput !important"/>
+                                           disabled="disabled" className="imputSmall !important"/>
                             </Col>
                         </Row>
                         <Row>
@@ -117,7 +113,7 @@ class SegmentationGenerator extends Component {
                             <Col xs={3}>
                                 <InputText value={this.state.level} keyfilter="int"
                                            onChange={(e) => this.setState({level: e.target.value})}
-                                           className="imput !important"/>
+                                           className="imputSmall !important"/>
                             </Col>
                         </Row>
                         <Row>
@@ -127,7 +123,7 @@ class SegmentationGenerator extends Component {
                             <Col xs={2}>
                                 <InputText value={this.state.k1} keyfilter={/^\d*\.?\d{0,2}$/}
                                            onChange={(e) => this.setState({k1: e.target.value})}
-                                           className="imput !important"/>
+                                           className="imputSmall !important"/>
                             </Col>
                             <Col xs={5}>
                                 <label className="LabelDetail">Para limite inferior</label>
@@ -140,7 +136,7 @@ class SegmentationGenerator extends Component {
                             <Col xs={2}>
                                 <InputText value={this.state.k2} keyfilter={/^\d*\.?\d{0,2}$/}
                                            onChange={(e) => this.setState({k2: e.target.value})}
-                                           className="imput !important"/>
+                                           className="imputSmall !important"/>
                             </Col>
                             <Col xs={5}>
                                 <label className="LabelDetail">Para limite superior</label>
@@ -157,5 +153,5 @@ SegmentationGenerator.propTypes = {
     segment: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired
 };
-export default withStyles(styles)(SegmentationGenerator);
+export default SegmentationGenerator;
 
