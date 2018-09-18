@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import {Messages} from 'primereact/messages';
-import {Toolbar} from "primereact/toolbar";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -336,15 +335,13 @@ class EnhancedTable extends Component {
             this.showResponse(response);
         if (response > 0 && this.state.segment === 0) {
             this.getSegment(response);
-            //console.log(response , this.state.segment);
-            this.showInfo("Paso 2: ", "Debe crear los parametros de Segmentación")
+            this.showInfo("Paso 2: ", "Debe crear los parametros de Segmentación");
         }
     };
 
     handleCloseSegment = (response) => {
         this.setState({segmentOpen: false});
         this.chargeTable(this.state.startDate, this.state.endDate);
-        console.log(response);
         if (response >= 0) {
             this.showResponse(response);
 

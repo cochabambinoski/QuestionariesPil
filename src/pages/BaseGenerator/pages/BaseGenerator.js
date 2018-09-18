@@ -327,7 +327,6 @@ class BaseGenerator extends Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response);
                 if (response === undefined) {
                     this.props.refresh(0);
                     this.setState({process: 1});
