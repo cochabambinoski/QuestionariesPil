@@ -7,7 +7,7 @@ const QuestionaryData = ({data, handleQuestionaryLocationDataClick}) => {
 
 
     return (
-        <div>
+        <div className="list">
             <Card className="cardQuestionary" title={data.name} key={data.id}>
                 <div className="text">
                     <div>Creado</div>
