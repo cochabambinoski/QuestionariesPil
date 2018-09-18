@@ -27,7 +27,6 @@ class AsigmentQuestionaryContainer extends Component {
     }
 
     render() {
-        const {idQuestionary} = this.state;
         console.log(this.state.idQuestionary)
         return (
             <div>

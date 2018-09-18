@@ -20,6 +20,8 @@ class AppMenuT extends Component{
                                 case "Segmentación de clientes":
                                     return <SubMenu
                                         submenus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
+                                default:
+                                    return null;
                             }
                         })
                     })
