@@ -2652,7 +2652,10 @@ pre[class*="language-"] {
   color: #f3f4f9 !important;
   font-family: 'Open Sans', sans-serif !important; }
 
-div[class^="MuiPaper-root"] {
+div[class^="MuiPaper-root"] ul {
+  background: #4d505b !important; }
+
+div[class^="jss"] {
   background: #4d505b !important; }
 
 .navItemBackground:hover {
