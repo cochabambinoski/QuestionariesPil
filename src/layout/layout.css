@@ -280,7 +280,7 @@ a {
       margin-left: 84px;
       height: 30px;
       width: 100px;
-      background: url(./images/logo-white.svg) top left no-repeat;
+      background: url(../images/pil.png) top left no-repeat;
       background-size: 100px 30px; }
     .layout-wrapper .layout-sidebar .profile {
       text-align: center;
@@ -300,7 +300,9 @@ a {
         transition: color 0.3s; }
         .layout-wrapper .layout-sidebar .profile > a .username {
           display: inline-block;
-          margin-top: 8px; }
+          margin-top: 8px;
+          font-family: 'Open Sans', sans-serif;
+          font-size: small; }
           .layout-wrapper .layout-sidebar .profile > a .username:before {
             content: "";
             display: block; }
@@ -2552,6 +2554,11 @@ pre[class*="language-"] {
   font-size: 16px !important;
   font-weight: normal !important; }
 
+.buttonSecundary {
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: normal !important; }
+
 .root {
   width: 100% !important;
   margin-top: 1em;
@@ -2642,7 +2649,11 @@ pre[class*="language-"] {
   background: #4d505b; }
 
 .navItemsColor {
-  color: #f3f4f9 !important; }
+  color: #f3f4f9 !important;
+  font-family: 'Open Sans', sans-serif !important; }
+
+menu, dir {
+  background: #4d505b !important; }
 
 .navItemBackground:hover {
   background: #2471a3 !important; }
@@ -2657,3 +2668,9 @@ pre[class*="language-"] {
   overflow: auto;
   maxHeight: 800;
   marginBottom: 5; }
+
+.layout-wrapper .layout-sidebar .logo {
+  margin-left: 30px;
+  height: 90px;
+  width: 200px;
+  background-size: 200px 90px; }

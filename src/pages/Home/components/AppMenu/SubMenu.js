@@ -43,7 +43,7 @@ class SubMenu extends Component {
         return (
             <div className={classes.root}>
                 <div className="content-section implementation">
-                    <List component="nav">
+                    <List component="nav" className="MuiList-padding">
                         <ListItem
                             button
                             aria-haspopup="true"
@@ -61,8 +61,7 @@ class SubMenu extends Component {
                         id="lock-menu"
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
-                        onClose={this.handleClose}
-                    >
+                        onClose={this.handleClose}>
                         {submenus.map((option, index) => (
                             <MenuItem
                                 key={option.id}
