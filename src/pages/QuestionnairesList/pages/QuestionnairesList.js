@@ -117,6 +117,12 @@ class Questionnaires extends Component {
     render() {
         return (
             <div>
+                <ModalContainer>
+                    <Modal open={this.state.open} title={"Eliminar cuestionario"}
+                           message={"Está seguro de eliminar el cuestionario?"}
+                           handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+                    </Modal>
+                </ModalContainer>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                 <Toolbar className="toolbarFullWidth">
@@ -158,12 +164,6 @@ class Questionnaires extends Component {
                                         </div>
                                     </Card>
                                     <br/>
-                                    <ModalContainer>
-                                        <Modal open={this.state.open} title={"Eliminar cuestionario"}
-                                               message={"Está seguro de eliminar el cuestionario?"}
-                                               handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
-                                        </Modal>
-                                    </ModalContainer>
                                 </div>
                             )
                         })
