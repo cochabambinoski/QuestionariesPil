@@ -90,7 +90,8 @@ class Questionnaires extends Component {
             let index = getIndexQuestionary(this.state.questionnaires, item);
             let questionaries = this.state.questionnaires;
             if (data === "Ok" && index !== undefined) {
-                questionaries.splice(index, 1)
+                questionaries.splice(index, 1);
+                this.showSuccess("", "Cuestionario eliminado");
             }
             this.setState({questionaries: questionaries});
             this.setState({updateView: true});

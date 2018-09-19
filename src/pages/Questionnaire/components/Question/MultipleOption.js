@@ -59,7 +59,7 @@ class MultipleOption extends Component {
     removeOption(index) {
         if (this.props.assigned) {
             if (this.props.lsOptions[index].id != null) {
-                this.props.showError("No se pudo eliminar la pregunta", "El cuestionario ya está asignado");
+                this.props.showError("No se puede eliminar la pregunta", "El cuestionario ya está asignado");
             } else {
                 this.props.removeOption(index);
             }
