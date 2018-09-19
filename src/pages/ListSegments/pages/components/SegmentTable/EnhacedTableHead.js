@@ -10,22 +10,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Tooltip from "@material-ui/core/Tooltip";
 
-const styles = theme => ({
-    head: {
-        backgroundColor: '#5B5D74',
-        color: theme.palette.common.white,
-        fontFamily: 'Open Sans',
-        fontSize: '18px',
-        fontweight: '700'
-    },
-    sortLabel: {
-        color: theme.palette.common.white,
-    }
-});
-
 class EnhancedTableHead extends Component {
     constructor() {
-        super()
+        super();
     }
 
     createSortHandler = property => event => {
@@ -35,40 +22,40 @@ class EnhancedTableHead extends Component {
     rows = [
         {id: 'idClientKiloliter', numeric: true, disablePadding: false, label: 'Codigo'},
         {id: 'dateRegister', numeric: false, disablePadding: false, label: 'Fecha'},
-        {id: 'description', numeric: false, disablePadding: false, label: 'Descripción'},
+        {id: 'description', numeric: false, disablePadding: false, label: 'Descripción'}
     ];
 
     render() {
         const {classes} = this.props;
         const {onSelectAllClick, order, orderBy, numSelected, rowCount} = this.props;
         return (
-            <TableHead>
+            <TableHead classes="">
                 <TableRow>
                     {this.rows.map(row => {
                         return (
                             <TableCell
                                 key={row.id} numeric={row.numeric} padding='2px'
-                                sortDirection={orderBy === row.id ? order : false} className={classes.head}>
+                                sortDirection={orderBy === row.id ? order : false} className="headTable" classes="">
                                 <Tooltip title="Ordenar" placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-                                         enterDelay={300} className={classes.head}>
+                                         enterDelay={300} className="head" classes="">
                                     <TableSortLabel active={orderBy === row.id} direction={order}
-                                                    onClick={this.createSortHandler(row.id)} className={classes.head}>
+                                                    onClick={this.createSortHandler(row.id)}>
                                         {row.label}
                                     </TableSortLabel>
                                 </Tooltip>
                             </TableCell>
                         );
                     }, this)}
-                    <TableCell className={classes.head}>
+                    <TableCell className="headTable">
                         Base
                     </TableCell>
-                    <TableCell className={classes.head}>
+                    <TableCell className="headTable">
                         Segmentación
                     </TableCell>
-                    <TableCell className={classes.head}>
+                    <TableCell className="headTable">
                         Reporte
                     </TableCell>
-                    <TableCell className={classes.head}>
+                    <TableCell className="headTable">
                         Borrar
                     </TableCell>
                 </TableRow>
@@ -83,7 +70,7 @@ EnhancedTableHead.propTypes = {
     onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.string.isRequired,
     orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
+    rowCount: PropTypes.number.isRequired
 };
 
-export default withStyles(styles)(EnhancedTableHead);
+export default EnhancedTableHead;

@@ -12,8 +12,20 @@ const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: '#3b3e47',
+        background: '#3b3e47',
+        important: 'true',
     },
+    menuItem: {
+        background: '#3b3e47',
+        '&:hover': {
+            backgroundColor: '#2471a3',
+            '& $primary, & $icon': {
+                color: '#2471a3',
+            },
+        },
+    },
+    important: 'true',
 });
 
 class SubMenu extends Component {
@@ -40,41 +52,38 @@ class SubMenu extends Component {
     render() {
         const {classes, title, submenus} = this.props;
         const {anchorEl} = this.state;
+        console.log(submenus)
         return (
             <div className={classes.root}>
                 <div className="content-section implementation">
-                    <List component="nav">
+                    <List component="nav" className={classes.root}>
                         <ListItem
                             button
                             aria-haspopup="true"
                             aria-controls="lock-menu"
                             aria-label="When device is locked"
                             onClick={this.handleClickListItem}
-                            className="navItemBackground"
-                        >
+                            className="navItemBackground">
                             <ListItemText>
                                 <div className="navItemsColor">{title}</div>
                             </ListItemText>
                         </ListItem>
                     </List>
-                    <Menu
-                        id="lock-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={this.handleClose}
-                    >
-                        {submenus.map((option, index) => (
-                            <MenuItem
-                                key={option.id}
-                                selected={index === this.state.selectedIndex}
-                                onClick={event => this.handleMenuItemClick(event, index, option)}
-                                className="navItemBackground"
-                            >
-                                <div className="navItemsColor">{option.label}</div>
-                            </MenuItem>
-                        ))}
-                    </Menu>
                 </div>
+                <Menu style={{padding: 0, margin: 0}}
+                      id="lock-menu"
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={this.handleClose}>
+                    {submenus.map((option, index) => (
+                        <MenuItem style={{padding: 20}}
+                                  key={option.id}
+                                  onClick={event => this.handleMenuItemClick(event, index, option)}
+                                  className={classes.menuItem}>
+                            <div className="navItemsColor">{option.label}</div>
+                        </MenuItem>
+                    ))}
+                </Menu>
             </div>
         )
     }

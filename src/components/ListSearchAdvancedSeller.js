@@ -30,8 +30,6 @@ import {
     addParamFilterMobileSellerAssignedType,
     addParamFilterMobileSellerBranch,
     addParamFilterMobileSellerType, changeOperationIdBranchSeller, changeOperationIdBranchSellerAssigned, cleanFilter,
-    concatFilterMobileSellerAssignedBranch,
-    concatFilterMobileSellerBranch,
     deleteParamFilterMobileSellerAssignedBranch,
     deleteParamFilterMobileSellerAssignedType,
     deleteParamFilterMobileSellerBranch,
@@ -39,11 +37,8 @@ import {
 } from "../actions";
 import {
     existElementInList,
-    getIndexQuestionary,
     remove,
     filter,
-    getIndexItem,
-    changeOperationId
 } from '../Util/ArrayFilterUtil';
 
 const styles = theme => ({

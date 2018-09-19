@@ -21,9 +21,9 @@ class AppInlineProfile extends Component {
     render() {
         return  (
             <div className="profile">
-                <div>
-                    <img src="assets/layout/images/profile.png" alt=""/>
-                </div>
+                {/*<div>*/}
+                    {/*<img src="assets/layout/images/profile.png" alt=""/>*/}
+                {/*</div>*/}
                 <a className="profile-link" onClick={this.onClick}>
                     <span className="username">{this.props.user.persona.nombre}</span>
                     <i className="fa fa-fw fa-cog"/>

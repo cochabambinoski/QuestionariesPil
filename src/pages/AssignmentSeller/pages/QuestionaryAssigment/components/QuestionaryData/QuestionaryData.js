@@ -8,7 +8,7 @@ import QuestionaryAsignmet from "../../QuestionaryAsignmet";
 const QuestionaryData = ({data, handleQuestionaryDataClick, parentComponent}) => {
 
     return (
-        <div>
+        <div className="list">
             <Card className="cardQuestionary" title={data.name} key={data.id}>
                 <div className="text">
                     <div>Creado</div>

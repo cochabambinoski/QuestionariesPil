@@ -9,20 +9,23 @@ import AnswerContainer from "../../../AnswersQuestionnaire/pages/AnswerContainer
 
 class Container extends Component {
     render() {
-        const route = this.props.idMenu.transaccion != undefined ? this.props.idMenu.transaccion.ruta : null;
+        const route = this.props.idMenu.transaccion !== undefined ? this.props.idMenu.transaccion.ruta : null;
         let component = null;
         switch (route) {
             case 'Start':
-                component = <Start/>
+                component = <Start/>;
                 break;
             case 'QuestionaryContainer':
-                component = <QuestionaryContainer/>
+                component = <QuestionaryContainer/>;
                 break;
             case 'AssignmentQuestionary':
-                component = <AsigmentQuestionaryContainer/>
+                component = <AsigmentQuestionaryContainer/>;
                 break;
             case 'ListSegment':
-                component = <ListSegment/>
+                component = <ListSegment/>;
+                break;
+            default:
+                component = <Start/>;
                 break;
         }
         return (

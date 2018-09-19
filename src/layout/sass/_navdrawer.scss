@@ -1,9 +1,18 @@
-.MuiList-padding-16 {
+.MuiList-padding {
   background: #4d505b;
 }
 
 .navItemsColor {
   color: #f3f4f9 !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+//div[class^="MuiPaper-root"] ul{
+//  background: #f3f4f9 !important;
+//}
+
+ul[class^="jss"] {
+  background: #4d505b !important;
 }
 
 .navItemBackground:hover {
@@ -21,4 +30,11 @@
   overflow: auto;
   maxHeight: 800;
   marginBottom: 5;
+}
+
+.layout-wrapper .layout-sidebar .logo {
+  margin-left: 30px;
+  height: 120px;
+  width: 200px;
+  background-size: 200px 120px;
 }

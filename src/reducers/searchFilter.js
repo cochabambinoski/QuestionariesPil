@@ -31,7 +31,6 @@ const initialState = (
 );
 
 export function searchFilter(state = initialState, action) {
-    const array = state.queryAdvancedMobileSellerBranch;
     switch (action.type) {
         case EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST: {
             return {...state, queryQuestionaryAssigned: action.payload};
