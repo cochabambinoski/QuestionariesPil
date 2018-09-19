@@ -6,16 +6,16 @@ import Title from "../../../Title/Title";
 
 class AnswerContainer extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             currentComponent: AnswerList.constructor.name
         }
     }
 
-    changeCurrentComponent(newCurrentComponent){
-        this.setState({currentComponent : newCurrentComponent})
-    }
+    changeCurrentComponent = newCurrentComponent => {
+        this.setState({currentComponent: newCurrentComponent})
+    };
 
     render() {
         return (
@@ -25,7 +25,7 @@ class AnswerContainer extends Component {
                 <br/>
                 {
                     this.state.currentComponent === AnswerList.constructor.name ?
-                        <AnswerList/> :
+                        <AnswerList changeCurrentComponent={this.changeCurrentComponent}/> :
                         this.state.currentComponent === AnswerDetail.constructor.name ?
                             <AnswerDetail/> : null
                 }
@@ -34,8 +34,6 @@ class AnswerContainer extends Component {
     }
 }
 
-AnswerContainer.propTypes = {
-
-};
+AnswerContainer.propTypes = {};
 
 export default AnswerContainer;

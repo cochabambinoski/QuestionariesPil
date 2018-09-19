@@ -24,6 +24,9 @@ class Container extends Component {
             case 'ListSegment':
                 component = <ListSegment/>;
                 break;
+            case 'AnwserQuestionaryContainer':
+                component = <AnswerContainer/>;
+                break;
             default:
                 component = <Start/>;
                 break;

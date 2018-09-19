@@ -42,9 +42,14 @@ class AnswerList extends Component {
         this.setState({questionnaireSelected: idQuestionary})
     };
 
-    handleListItemClick = (event, index) => {
-        console.log(index)
-        this.setState({ selectedIndex: index });
+    handleListItemClick = (event, questionnaire) => {
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + questionnaire.id)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            console.log(data);
+            this.setState({AnswerList: data, questionnaireSelected: questionnaire,selectedIndex: questionnaire.id});
+        })
     };
 
     render() {
@@ -59,8 +64,8 @@ class AnswerList extends Component {
                         <br/>
                         <div>
                             {
-                                this.state.questionnaireList.length >0 ?
-                                    <List component="nav">
+                                this.state.questionnaireList.length > 0 ?
+                                    <List style={{background: '#f3f4f9'}}>
                                         {
                                             this.state.questionnaireList.map(questionnaire => (
                                                 <ListItem button
