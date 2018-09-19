@@ -1,16 +1,12 @@
 import React, {Component} from 'react';
 import List from '@material-ui/core/List';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Constants from "../../../../Constants";
-import { Grid, Col, Row} from "react-flexbox-grid";
+import {Col, Grid, Row} from "react-flexbox-grid";
 import Questionary from "../../../AssignmentSeller/pages/QuestionaryAssigment";
 import Title from "../../../Title/Title";
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import AnswerItem from "./components/AnswerItem";
 
 const styles = theme => ({
     root: {
@@ -37,7 +33,7 @@ class AnswerList extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-                console.log(data);
+            console.log(data);
             this.setState({questionnaireList: data});
         })
     }
@@ -53,26 +49,29 @@ class AnswerList extends Component {
 
     render() {
         console.log(this.state.selectedIndex);
+        console.log(this.state.AnswerList);
         return (
-            <Grid fluid >
-                <Row >
+            <Grid fluid>
+                <Row>
                     <Col xs md={6}>
                         <Title tilte={'Cuestionarios'}
-                                    subtitle={'Aqui podra seleccionar la encuesta de la cual quiera desee ver sus respuestas.'}/>
+                               subtitle={'Aqui podra seleccionar la encuesta de la cual quiera desee ver sus respuestas.'}/>
                         <br/>
-                            <div>
+                        <div>
                             {
                                 this.state.questionnaireList.length >0 ?
                                     <List component="nav">
                                         {
                                             this.state.questionnaireList.map(questionnaire => (
                                                 <ListItem button
-                                                    key={questionnaire.id}
-                                                    selected={this.state.selectedIndex === questionnaire.id}
-                                                    onClick={event => this.handleListItemClick(event, questionnaire.id)}>
-                                                    <Questionary questionary={questionnaire}
-                                                                 parentComponent={AnswerList.name}
-                                                                 onSelectedQuestionaryClick={this.handleSelectedQuestionary}/>
+                                                          key={questionnaire.id}
+                                                          selected={this.state.selectedIndex === questionnaire.id}
+                                                          onClick={event => this.handleListItemClick(event, questionnaire)}>
+                                                    <Questionary
+                                                        style={{width: '100%', height: '100%', background: '#f3f4f9'}}
+                                                        questionary={questionnaire}
+                                                        parentComponent={AnswerList.name}
+                                                        onSelectedQuestionaryClick={this.handleSelectedQuestionary}/>
                                                 </ListItem>
                                             ))
                                         }
@@ -87,14 +86,12 @@ class AnswerList extends Component {
                                subtitle={'Aqui podra encontrar todas las encuestas respondidas segun el cuestionario seleccionado.'}/>
                         <br/>
                         {
-                            this.state.AnswerList.length >0 ?
+                            this.state.AnswerList.length > 0 ?
                                 <List>
                                     {
-                                        this.state.questionnaireList.map(questionnaire => (
-                                            <Questionary questionary={questionnaire}
-                                                         key={questionnaire.id}
-                                                         parentComponent={AnswerList.name}
-                                                         onSelectedQuestionaryClick={this.handleSelectedQuestionary}/>
+                                        this.state.AnswerList.map(answer => (
+                                            <AnswerItem answer={answer}
+                                                         key={answer.id}/>
                                         ))
                                     }
                                 </List>

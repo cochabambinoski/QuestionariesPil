@@ -4,7 +4,7 @@ class AnswerItem extends Component {
     render() {
         return (
             <div>
-
+                {this.props.answer.id}
             </div>
         );
     }
