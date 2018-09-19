@@ -28,7 +28,13 @@ class FreeAnswer extends Component {
     }
 
     addOption() {
-        this.props.addOption({option: 'Sin validacion'});
+        this.props.addOption({
+            option: 'Sin validacion',
+            sociedadId: 'BO81',
+            usuarioId: this.props.user.username,
+            operacionId: 1,
+            fechaId: null,
+        });
     }
 
     updateTypeOption(value, index) {
@@ -37,7 +43,13 @@ class FreeAnswer extends Component {
 
     componentWillMount() {
         if (this.props.lsOptions.length === 0) {
-            this.props.addOption({option: 'Sin validacion'});
+            this.props.addOption({
+                option: 'Sin validacion',
+                sociedadId: 'BO81',
+                usuarioId: this.props.user.username,
+                operacionId: 1,
+                fechaId: null,
+            });
         } else {
             this.setState({selected: {option: this.props.lsOptions[0].option}});
         }

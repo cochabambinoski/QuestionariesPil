@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import { Growl } from 'primereact/growl';
+import {InputText} from 'primereact/inputtext';
+import {Dropdown} from 'primereact/dropdown';
+import {Growl} from 'primereact/growl';
 import Constants from '../../../../Constants.json';
 import MultipleOption from './MultipleOption.js';
 import MultipleSelection from './MultipleSelection.js';
@@ -39,6 +39,7 @@ class Question extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.showError = this.showError.bind(this);
     }
+
     onTypeChange(e) {
         let question = this.state.squestion;
         question.lsQuestionOptions = [];
@@ -47,28 +48,38 @@ class Question extends Component {
             squestion: question
         }));
     }
+
     addOption(newOption) {
         let auxQuestion = this.state.squestion;
         auxQuestion.lsQuestionOptions.push(newOption);
-        this.setState({ squestion: auxQuestion });
+        this.setState({squestion: auxQuestion});
     }
+
     updateOption(value, index) {
         let auxQuestion = this.state.squestion;
         auxQuestion.lsQuestionOptions[index].option = value;
-        this.setState({ squestion: auxQuestion });
+        this.setState({squestion: auxQuestion});
     }
+
     removeOption(index) {
         if (this.props.asigned)
             this.showError("No se pueden eliminar opciones de un cuestionario asignado");
         else {
             let auxQuestion = this.state.squestion;
-            auxQuestion.lsQuestionOptions.splice(index, 1);
-            this.setState({ squestion: auxQuestion });
+            let option = auxQuestion.lsQuestionOptions[index];
+            if (option.operacionId === 1) {
+                auxQuestion.lsQuestionOptions[index].operacionId = 0;
+            } else if (option.operacionId === null) {
+                auxQuestion.lsQuestionOptions.splice(index, 1);
+            }
+            this.setState({squestion: auxQuestion});
         }
     }
+
     showError(summary, detail) {
-        this.growl.show({ severity: 'error', summary: summary, detail: detail });
+        this.growl.show({severity: 'error', summary: summary, detail: detail});
     }
+
     addQuestion() {
         let question = {
             id: this.state.squestion.id,
@@ -86,6 +97,7 @@ class Question extends Component {
         this.handleClose();
         this.props.addQuestion(question, this.props.selectedQuestionIndex);
     }
+
     handleClose() {
         this.setState({
             squestion: {
@@ -104,11 +116,13 @@ class Question extends Component {
         });
         this.props.closeQuestion();
     }
+
     setQuestion(name) {
         let question = this.state.squestion;
         question.question = name;
-        this.setState({ squestion: question });
+        this.setState({squestion: question});
     }
+
     showOptions() {
 
     }
@@ -116,12 +130,13 @@ class Question extends Component {
     componentWillMount() {
         if (this.props !== undefined && this.props.question != null) {
             let question = this.props.question;
-            this.setState({ squestion: question });
+            this.setState({squestion: question});
             if (question.type != null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {
-                this.setState({ selectedValidation: question.lsQuestionOptions[0] });
+                this.setState({selectedValidation: question.lsQuestionOptions[0]});
             }
         }
     }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps !== undefined && nextProps.question != null) {
             let question = nextProps.question;
@@ -129,7 +144,7 @@ class Question extends Component {
                 squestion: question
             }));
             if (question.type != null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {
-                this.setState({ selectedValidation: question.lsQuestionOptions[0] });
+                this.setState({selectedValidation: question.lsQuestionOptions[0]});
             }
         }
     }
@@ -140,26 +155,28 @@ class Question extends Component {
             switch (this.state.squestion.type.codigoSap) {
                 case Constants.CODSAP_MULTIPLE_OPTION:
                     innerComponent = <MultipleOption lsOptions={this.state.squestion.lsQuestionOptions}
-                        addOption={this.addOption}
-                        updateOption={this.updateOption}
-                        removeOption={this.removeOption}
-                        readOnly={this.props.readOnly}
-                        addQuestion={this.addQuestion}
-                        handleClose={this.handleClose}
-                        assigned={this.props.assigned}
-                        showError={this.showError}
+                                                     addOption={this.addOption}
+                                                     updateOption={this.updateOption}
+                                                     removeOption={this.removeOption}
+                                                     readOnly={this.props.readOnly}
+                                                     addQuestion={this.addQuestion}
+                                                     handleClose={this.handleClose}
+                                                     assigned={this.props.assigned}
+                                                     showError={this.showError}
+                                                     user={this.props.user}
                     />;
                     break;
                 case Constants.CODSAP_MULTIPLE_SELECTION:
                     innerComponent = <MultipleSelection lsOptions={this.state.squestion.lsQuestionOptions}
-                        addOption={this.addOption}
-                        updateOption={this.updateOption}
-                        removeOption={this.removeOption}
-                        readOnly={this.props.readOnly}
-                        addQuestion={this.addQuestion}
-                        handleClose={this.handleClose}
-                        assigned={this.props.assigned}
-                        showError={this.showError}
+                                                        addOption={this.addOption}
+                                                        updateOption={this.updateOption}
+                                                        removeOption={this.removeOption}
+                                                        readOnly={this.props.readOnly}
+                                                        addQuestion={this.addQuestion}
+                                                        handleClose={this.handleClose}
+                                                        assigned={this.props.assigned}
+                                                        showError={this.showError}
+                                                        user={this.props.user}
                     />;
                     break;
                 case Constants.CODSAP_FREE_ANSWER:
@@ -169,28 +186,33 @@ class Question extends Component {
                         lsOptions={this.state.squestion.lsQuestionOptions}
                         addQuestion={this.addQuestion}
                         handleClose={this.handleClose}
-                        addOption={this.addOption} />;
+                        user={this.props.user}
+                        addOption={this.addOption}/>;
                     break;
                 case Constants.CODSAP_RANGE:
-                    innerComponent = <Range updateOption={this.updateOption} lsOptions={this.state.squestion.lsQuestionOptions}
-                        readOnly={this.props.readOnly}
-                        addQuestion={this.addQuestion}
-                        handleClose={this.handleClose}
-                        addOption={this.addOption}
-                        showError={this.showError} />;
+                    innerComponent =
+                        <Range updateOption={this.updateOption} lsOptions={this.state.squestion.lsQuestionOptions}
+                               readOnly={this.props.readOnly}
+                               addQuestion={this.addQuestion}
+                               handleClose={this.handleClose}
+                               addOption={this.addOption}
+                               showError={this.showError}
+                               user={this.props.user}/>;
                     break;
                 case Constants.CODSAP_IMAGE:
                     innerComponent = <Image readOnly={this.props.readOnly}
-                        addQuestion={this.addQuestion}
-                        handleClose={this.handleClose} />;
+                                            addQuestion={this.addQuestion}
+                                            handleClose={this.handleClose}
+                                            user={this.props.user}/>;
                     break;
-                default: innerComponent = null;
+                default:
+                    innerComponent = null;
             }
         }
 
         return (
             <div>
-                <Growl ref={(el) => this.growl = el} />
+                <Growl ref={(el) => this.growl = el}/>
                 <div className="card">
                     <h1>Pregunta</h1>
                     <div className="ui-g">
@@ -201,25 +223,32 @@ class Question extends Component {
                                         <p>{'Pregunta: ' + this.state.squestion.question}</p>
                                         <p>{this.state.squestion.type != null ? 'Tipo: ' + this.state.squestion.type.nombre : ''}</p>
                                         {innerComponent}
-                                        <Button label="Cerrar" onClick={this.handleClose} />
+                                        <Button label="Cerrar" onClick={this.handleClose}/>
                                     </div>
                                     :
                                     <div>
                                         <div className="ui-g form-group">
                                             <div className="card card-w-title">
-                                                <InputText id="float-input" placeholder="Pregunta" type="text" required maxLength="255" size="40" value={this.state.squestion.question} onChange={(e) => this.setQuestion(e.target.value)} />
+                                                <InputText id="float-input" placeholder="Pregunta" type="text" required
+                                                           maxLength="255" size="40"
+                                                           value={this.state.squestion.question}
+                                                           onChange={(e) => this.setQuestion(e.target.value)}/>
                                                 <p></p>
                                                 {
-                                                     this.state.squestion.type != null && this.state.squestion.id != null ?
+                                                    this.state.squestion.type != null && this.state.squestion.id != null ?
                                                         <p>{'Tipo: ' + this.state.squestion.type.nombre}</p> :
-                                                        <Dropdown value={this.state.squestion.type} options={this.props.questionTypes} onChange={this.onTypeChange} style={{ width: '300px' }} placeholder="Seleccione un tipo" optionLabel="nombre" />
+                                                        <Dropdown value={this.state.squestion.type}
+                                                                  options={this.props.questionTypes}
+                                                                  onChange={this.onTypeChange} style={{width: '300px'}}
+                                                                  placeholder="Seleccione un tipo"
+                                                                  optionLabel="nombre"/>
                                                 }
                                                 {innerComponent}
                                             </div>
                                         </div>
                                         {
-                                            this.state.squestion.type == null?
-                                                <Button label="Cerrar" onClick={this.handleClose} />:null
+                                            this.state.squestion.type == null ?
+                                                <Button label="Cerrar" onClick={this.handleClose}/> : null
                                         }
                                     </div>
                             }
@@ -232,6 +261,7 @@ class Question extends Component {
         );
     }
 }
+
 const mapStateToProps = state => ({
     user: getUser(state),
 });
