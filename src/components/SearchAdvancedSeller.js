@@ -110,12 +110,12 @@ class SearchAdvancedSeller extends Component {
 
                         <ListSearchAdvancedSeller
                             typeSearch={this.props.typeSearch} list={this.props.typeSeller}
-                            type={Constants.LIST_TYPE_SELLERS}/>
+                            type={Constants.LIST_TYPE_SELLERS} idQuestionary={this.props.idQuestionary}/>
                         <ListSearchAdvancedSeller
-                            typeSearch={this.props.typeSearch} list={this.props.cities} type={Constants.LIST_CITY}/>
+                            typeSearch={this.props.typeSearch} list={this.props.cities} type={Constants.LIST_CITY} idQuestionary={this.props.idQuestionary}/>
                         <ListSearchAdvancedSeller
                             typeSearch={this.props.typeSearch} list={this.props.typeSeller}
-                            type={Constants.LIST_BRANCHES}/>
+                            type={Constants.LIST_BRANCHES} idQuestionary={this.props.idQuestionary}/>
 
                     </ExpansionPanelDetails>
                 </ExpansionPanel>

@@ -86,7 +86,8 @@ class ListSearchAdvancedSeller extends Component {
         this.state = {
             checked: [0],
             citiesSelectedList: [],
-            branchesList: []
+            branchesList: [],
+            cities:[],
         }
     }
 
@@ -209,6 +210,15 @@ class ListSearchAdvancedSeller extends Component {
         this.props.cleanFilter()
     }
 
+    componentDidMount() {
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_CITIES_BY_QUESTIONNAIRE}${encodeURIComponent(this.props.idQuestionary)}`;
+        fetch(url).then(results => {
+            return results.json();
+        }).then(data => {
+            this.setState({cities: data})
+        });
+    }
+
     render() {
         const {classes} = this.props;
         let innerComponent = null;
@@ -239,7 +249,7 @@ class ListSearchAdvancedSeller extends Component {
                     <h2>Ciudades</h2>
                     <ScrollPanel style={{width: '100%', height: '250px'}} className="custom">
                         <List className="list" subheader={<li/>}>
-                            {this.props.list.map(city => (
+                            {this.state.cities.map(city => (
                                 <ListItem key={city.id} dense button className={classes.listItem}>
                                     <ListItemText primary={city.nombre}/>
                                     <ListItemSecondaryAction>

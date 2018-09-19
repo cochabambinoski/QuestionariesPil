@@ -15,6 +15,7 @@
   "GET_TYPES_BY_CLASS": "getTypesByClass?classId=",
   "GET_QUESTIONNAIRE_BY_ID": "getQuestionaryById",
   "GET_RANGES_BY_QUESTIONNAIRE": "getQuestionaryRangeByQuestionaryId",
+  "GET_CITIES_BY_QUESTIONNAIRE": "getCitiesByQuestionaryId?idQuestionary=",
   "GET_CLIENT_KILOLITERS_RANGE": "clientkilolitersbydaterange",
   "DEL_CLIENT_KILOLITER": "clientkiloliterdelete",
   "REPORT_PDF": "reportpdf",

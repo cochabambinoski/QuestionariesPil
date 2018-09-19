@@ -89,6 +89,7 @@ class AssignmentQuestionary extends Component {
             hasNewAssignments: false,
             open: false,
             openConfirmMessage: false,
+            questionaryRanges: [],
         }
     }
 
@@ -250,7 +251,8 @@ class AssignmentQuestionary extends Component {
     }
 
     componentWillUnmount() {
-        this.setState({date2: null})
+        this.setState({date2: null});
+        this.cancelAssignamentSeller();
     }
 
     render() {
@@ -306,7 +308,7 @@ class AssignmentQuestionary extends Component {
                                 style={{margin: '5px', verticalAlign: 'left'}}/>
                     </div>
                 </Toolbar>
-                <Messages ref={(el) => this.messages = el}></Messages>
+                <Messages ref={(el) => this.messages = el}/>
                 <br/>
                 {
                     this.props.idQuestionary ?
@@ -314,7 +316,7 @@ class AssignmentQuestionary extends Component {
                             <Row>
                                 <Col xs>
 
-                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}/>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER} idQuestionary={this.props.idQuestionary.id}/>
                                     <MobileSellerList idQuestionary={idQuestionary.id}
                                                       isEdit={false}
                                                       getAssignment={this.getAssignment}
@@ -323,7 +325,7 @@ class AssignmentQuestionary extends Component {
 
                                 <Col xs>
 
-                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}/>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED} idQuestionary={this.props.idQuestionary.id}/>
                                     <MobileSellerListAssigment idQuestionary={idQuestionary.id}
                                                                isEdit={true}
                                                                loadAssignments={this.loadAssignments}
