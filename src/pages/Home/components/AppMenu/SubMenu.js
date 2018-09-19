@@ -52,7 +52,6 @@ class SubMenu extends Component {
     render() {
         const {classes, title, submenus} = this.props;
         const {anchorEl} = this.state;
-        console.log(submenus)
         return (
             <div className={classes.root}>
                 <div className="content-section implementation">

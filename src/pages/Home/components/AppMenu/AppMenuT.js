@@ -11,7 +11,6 @@ class AppMenuT extends Component{
             <div className="Menus">
                 {
                     this.props.menus.map((item) => {
-                        console.log( this.props.menus);
                         return item.items.map((itemMenu) => {
                             switch (itemMenu.label) {
                                 case "Supervision":

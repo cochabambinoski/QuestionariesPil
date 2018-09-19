@@ -140,7 +140,6 @@ class MobileSellerListAssigment extends Component {
 }
 
 MobileSellerListAssigment.propTypes = {
-    idQuestionary: PropTypes.string.isRequired,
     isEdit: PropTypes.bool.isRequired,
 };
 
