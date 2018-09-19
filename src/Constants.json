@@ -1,6 +1,6 @@
 {
-  "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_WEB_BI": "http://localhost:8086/bi/",
+  "ROUTE_WEB_SERVICES": "http://192.168.241.103:8085/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_WEB_BI": "http://localhost:8080/bi/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "GET_USER_BY_ID": "getUserById?idUser=",
