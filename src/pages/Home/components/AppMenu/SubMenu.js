@@ -8,21 +8,22 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
 
-const styles = withStyles => ({
+const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,
         backgroundColor: '#3b3e47',
-        background: '#3b3e47' ,
+        background: '#3b3e47',
         important: 'true',
-
     },
-    navItemBackground:{
-        hover:{
-            background: '#2471a3' ,
-            important: 'true',
+    menuItem: {
+        background: '#3b3e47',
+        '&:hover': {
+            backgroundColor: '#2471a3',
+            '& $primary, & $icon': {
+                color: '#2471a3',
+            },
         },
-        background: '#2471a3' ,
     },
     important: 'true',
 });
@@ -63,30 +64,26 @@ class SubMenu extends Component {
                             aria-label="When device is locked"
                             onClick={this.handleClickListItem}
                             className="navItemBackground">
-                            <ListItemText >
+                            <ListItemText>
                                 <div className="navItemsColor">{title}</div>
                             </ListItemText>
                         </ListItem>
                     </List>
-
-                    <Menu
-                        id="lock-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={this.handleClose}>
-                        className={classes.root}
-                        {submenus.map((option, index) => (
-                            <MenuItem
-                                key={option.id}
-                                selected={index === this.state.selectedIndex}
-                                onClick={event => this.handleMenuItemClick(event, index, option)}
-                                className={classes.root}
-                            >
-                                <div className="navItemsColor">{option.label}</div>
-                            </MenuItem>
-                        ))}
-                    </Menu>
                 </div>
+                <Menu style={{padding: 0, margin: 0}}
+                      id="lock-menu"
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={this.handleClose}>
+                    {submenus.map((option, index) => (
+                        <MenuItem style={{padding: 20}}
+                                  key={option.id}
+                                  onClick={event => this.handleMenuItemClick(event, index, option)}
+                                  className={classes.menuItem}>
+                            <div className="navItemsColor">{option.label}</div>
+                        </MenuItem>
+                    ))}
+                </Menu>
             </div>
         )
     }
