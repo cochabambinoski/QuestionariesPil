@@ -90,7 +90,8 @@ class Questionnaires extends Component {
             let index = getIndexQuestionary(this.state.questionnaires, item);
             let questionaries = this.state.questionnaires;
             if (data === "Ok" && index !== undefined) {
-                questionaries.splice(index, 1)
+                questionaries.splice(index, 1);
+                this.showSuccess("", "Cuestionario eliminado");
             }
             this.setState({questionaries: questionaries});
             this.setState({updateView: true});
@@ -116,6 +117,12 @@ class Questionnaires extends Component {
     render() {
         return (
             <div>
+                <ModalContainer>
+                    <Modal open={this.state.open} title={"Eliminar cuestionario"}
+                           message={"Está seguro de eliminar el cuestionario?"}
+                           handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+                    </Modal>
+                </ModalContainer>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                 <Toolbar className="toolbarFullWidth">
@@ -157,12 +164,6 @@ class Questionnaires extends Component {
                                         </div>
                                     </Card>
                                     <br/>
-                                    <ModalContainer>
-                                        <Modal open={this.state.open} title={"Eliminar cuestionario"}
-                                               message={"Está seguro de eliminar el cuestionario?"}
-                                               handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
-                                        </Modal>
-                                    </ModalContainer>
                                 </div>
                             )
                         })

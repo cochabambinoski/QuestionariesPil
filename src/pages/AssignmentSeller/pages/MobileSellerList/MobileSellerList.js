@@ -146,7 +146,6 @@ class MobileSellerList extends Component {
 }
 
 MobileSellerList.propTypes = {
-    idQuestionary: PropTypes.string.isRequired,
     isEdit: PropTypes.bool.isRequired,
 };
 

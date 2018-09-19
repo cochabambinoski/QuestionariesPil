@@ -41,8 +41,20 @@ class Range extends Component {
 
     componentWillMount() {
         if (this.props.lsOptions.length === 0) {
-            this.props.addOption({option: ''});
-            this.props.addOption({option: ''});
+            this.props.addOption({
+                option: '',
+                sociedadId: 'BO81',
+                usuarioId: this.props.user.username,
+                operacionId: 1,
+                fechaId: null,
+            });
+            this.props.addOption({
+                option: '',
+                sociedadId: 'BO81',
+                usuarioId: this.props.user.username,
+                operacionId: 1,
+                fechaId: null,
+            });
         }
     }
 

@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import {Messages} from 'primereact/messages';
-import {Toolbar} from "primereact/toolbar";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -99,15 +98,11 @@ class EnhancedTable extends Component {
     };
 
     showResponse = (response) => {
-        switch (response) {
-            case 0: {
-                this.showError('Error', 'Ocurrió un error al procesar la transacción');
-                return;
-            }
-            case 1: {
-                this.showSuccess('Procesado', 'La transacción se realizó correctamente');
-                return;
-            }
+        if (response > 0) {
+            this.showSuccess('Procesado', 'La transacción se realizó correctamente');
+        }
+        else {
+            this.showError('Error', 'Ocurrió un error al procesar la transacción');
         }
     };
 
@@ -315,13 +310,42 @@ class EnhancedTable extends Component {
     };
 
     handleClose = (response) => {
-        this.setState({baseOpen: false});
         this.setState({deleteOpen: false});
         this.setState({toDelete: null});
+        this.chargeTable(this.state.startDate, this.state.endDate);
+    };
+
+    getSegment(id) {
+        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITER}/${id}`;
+        fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.setState(prevState => ({
+                segment: data
+            }));
+            this.setState({segmentOpen: true});
+        });
+    }
+
+    handleCloseBase = (response) => {
+        this.setState({baseOpen: false});
+        this.chargeTable(this.state.startDate, this.state.endDate);
+        if (response >= 0)
+            this.showResponse(response);
+        if (response > 0 && this.state.segment === 0) {
+            this.getSegment(response);
+            this.showInfo("Paso 2: ", "Debe crear los parametros de Segmentación");
+        }
+    };
+
+    handleCloseSegment = (response) => {
         this.setState({segmentOpen: false});
         this.chargeTable(this.state.startDate, this.state.endDate);
-        if (response === 1 || response === 0)
+        if (response >= 0) {
             this.showResponse(response);
+
+        }
     };
 
     saveBase = () => {
@@ -337,7 +361,7 @@ class EnhancedTable extends Component {
         return (
             <Dialog
                 open={this.state.baseOpen}
-                onClose={this.handleClose}
+                onClose={this.handleCloseBase}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -347,14 +371,14 @@ class EnhancedTable extends Component {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <BaseGenerator segment={this.state.segment} refresh={this.handleClose}
+                        <BaseGenerator segment={this.state.segment} refresh={this.handleCloseBase}
                                        setBaseClick={click => this.clickChild = click}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
                             className="buttonBlue"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseBase}
                             className="ui-button-secondary buttonSecundary"/>
                 </DialogActions>
             </Dialog>
@@ -370,7 +394,7 @@ class EnhancedTable extends Component {
         return (
             <Dialog
                 open={this.state.segmentOpen}
-                onClose={this.handleClose}
+                onClose={this.handleCloseSegment}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -379,14 +403,14 @@ class EnhancedTable extends Component {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleClose}
+                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleCloseSegment}
                                                setSegmentClick={click => this.clickChild = click}/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
                             className="buttonBlue"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
+                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseSegment}
                             className="ui-button-secondary buttonSecundary"/>
                 </DialogActions>
             </Dialog>

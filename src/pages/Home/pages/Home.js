@@ -217,9 +217,6 @@ class Home extends Component {
                                 <ScrollPanel style={{height: '100%', with: '100%'}}>
                                     <div className="logo"/>
                                     <AppInlineProfile/>
-                                    {
-                                        console.log(this.state.menus)
-                                    }
                                     <AppMenuT
                                         menus={this.state.menus}
                                         sessionActive={this.props.sessionActive}

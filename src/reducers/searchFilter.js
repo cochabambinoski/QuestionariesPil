@@ -108,13 +108,13 @@ export function searchFilter(state = initialState, action) {
         case DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE: {
             return {
                 ...state,
-                queryAdvancedMobileSellerAssignedType: state.queryAdvancedMobileSellerAssignedType.filter(item => item !== action.payload),
+                queryAdvancedMobileSellerAssignedType: state.queryAdvancedMobileSellerAssignedType.filter(item => item.id !== action.payload.id),
             }
         }
         case DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH: {
             return {
                 ...state,
-                queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.filter(item => item !== action.payload),
+                queryAdvancedMobileSellerAssignedBranch: state.queryAdvancedMobileSellerAssignedBranch.filter(item => item.id !== action.payload.id),
             }
         }
         case CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED: {;

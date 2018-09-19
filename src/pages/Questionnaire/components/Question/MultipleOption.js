@@ -34,7 +34,11 @@ class MultipleOption extends Component {
         let newOption = {
             "id": null,
             "question": null,
-            "option": "Opcion"
+            "option": "Opcion",
+            "sociedadId": 'BO81',
+            "usuarioId": this.props.user.username,
+            "operacionId": 1,
+            "fechaId": null,
         };
         this.props.addOption(newOption);
     }
@@ -59,7 +63,7 @@ class MultipleOption extends Component {
     removeOption(index) {
         if (this.props.assigned) {
             if (this.props.lsOptions[index].id != null) {
-                this.props.showError("No se pudo eliminar la pregunta", "El cuestionario ya está asignado");
+                this.props.showError("No se puede eliminar la pregunta", "El cuestionario ya está asignado");
             } else {
                 this.props.removeOption(index);
             }
@@ -76,20 +80,21 @@ class MultipleOption extends Component {
                         {
                             this.props.lsOptions.map((option, index) => {
                                 return (
-                                    <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
-                                        <RadioButton value={option.option} checked={false}/>
-                                        {
-                                            this.props.readOnly ?
-                                                <div>{option.option}</div> :
-                                                <div>
-                                                    <InputText value={option.option}
-                                                               onChange={(e) => this.updateOption(e.target.value, index)}/>
-                                                    <Button icon="pi pi-minus" onClick={() => {
-                                                        this.removeOption(index)
-                                                    }}/>
-                                                </div>
-                                        }
-                                    </div>
+                                    option.operacionId === 1 ?
+                                        <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
+                                            <RadioButton value={option.option} checked={false}/>
+                                            {
+                                                this.props.readOnly ?
+                                                    <div>{option.option}</div> :
+                                                    <div>
+                                                        <InputText value={option.option}
+                                                                   onChange={(e) => this.updateOption(e.target.value, index)}/>
+                                                        <Button icon="pi pi-minus" onClick={() => {
+                                                            this.removeOption(index)
+                                                        }}/>
+                                                    </div>
+                                            }
+                                        </div> : null
                                 )
                             })
                         }

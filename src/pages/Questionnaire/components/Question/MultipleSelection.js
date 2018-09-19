@@ -34,8 +34,12 @@ class MultipleSelection extends Component {
         let newOption = {
             "id": null,
             "question": null,
-            "option": "Opcion"
-        }
+            "option": "Opcion",
+            "sociedadId": 'BO81',
+            "usuarioId": this.props.user.username,
+            "operacionId": 1,
+            "fechaId": null,
+        };
         this.props.addOption(newOption);
     }
 
@@ -77,9 +81,10 @@ class MultipleSelection extends Component {
                         {
                             this.props.lsOptions.map((option, index) => {
                                 return (
-                                    <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
-                                        <Checkbox checked={false}/>
-                                        <span>
+                                    option.operacionId === 1 ?
+                                        <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
+                                            <Checkbox checked={false}/>
+                                            <span>
                                     {
                                         this.props.readOnly ?
                                             <div>{option.option}</div> :
@@ -92,7 +97,7 @@ class MultipleSelection extends Component {
                                             </div>
                                     }
                                 </span>
-                                    </div>
+                                        </div> : null
                                 )
                             })
                         }

@@ -27,7 +27,6 @@ class AsigmentQuestionaryContainer extends Component {
     }
 
     render() {
-        console.log(this.state.idQuestionary)
         return (
             <div>
                 {
@@ -35,7 +34,7 @@ class AsigmentQuestionaryContainer extends Component {
                         <div className="text">
                             <Title tilte={'Asignación de Cuestionarios'}
                                    subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
-                            <Messages ref={(el) => this.messages = el}></Messages>
+                            <Messages ref={(el) => this.messages = el}/>
                             <br/>
                             <InputText value={this.state.value1}
                                        onChange={(e) => this.props.editQueryTextAssignedQuestionary(e.target.value)}
