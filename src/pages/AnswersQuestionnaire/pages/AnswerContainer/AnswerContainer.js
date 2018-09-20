@@ -3,31 +3,45 @@ import PropTypes from 'prop-types';
 import AnswerDetail from "../AnswerDetail/AnswerDetail";
 import AnswerList from "../AnswerList/AnswerList";
 import Title from "../../../Title/Title";
+import GraphicsDetail from "../GraphicsDetail/GraphicsDetail";
 
 class AnswerContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            currentComponent: AnswerList.constructor.name
+            currentComponent: AnswerList.constructor.name,
+            questionarySelected: null,
+            currentAnswer: null,
+            showGraphics:false,
+            answers:[],
         }
     }
 
-    changeCurrentComponent = newCurrentComponent => {
-        this.setState({currentComponent: newCurrentComponent})
+    changeCurrentAnswer = currentAnswer => {
+        this.setState({currentAnswer: currentAnswer})
+    };
+
+    showAnswersGraphics = (answers, questionarySelected) => {
+        this.setState({answers: answers, showGraphics: true, questionarySelected: questionarySelected})
     };
 
     render() {
+        console.log(this.state.showGraphics);
+        console.log(this.state.currentAnswer);
+        console.log(this.state.answers);
         return (
             <div>
                 <Title tilte={'Encuestas respondidas'}
                        subtitle={'Aqui podra encontrar todas las encuestas respondidas por nuestros clientes.'}/>
                 <br/>
                 {
-                    this.state.currentComponent === AnswerList.constructor.name ?
-                        <AnswerList changeCurrentComponent={this.changeCurrentComponent}/> :
-                        this.state.currentComponent === AnswerDetail.constructor.name ?
-                            <AnswerDetail/> : null
+                    this.state.currentAnswer === null && this.state.answers.length <= 0 ?
+                        <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
+                        showAnswersGraphics={this.showAnswersGraphics}/> :
+                        this.state.showGraphics === false ?
+                            <AnswerDetail answer={this.state.currentAnswer}/> :
+                            <GraphicsDetail answers={this.state.answers} questionarySelected={this.state.questionarySelected}/>
                 }
             </div>
         );

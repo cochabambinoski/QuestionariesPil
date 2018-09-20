@@ -21,7 +21,7 @@ const QuestionaryData = ({data, handleQuestionaryDataClick, parentComponent}) =>
                                     handleQuestionaryDataClick(data)
                                 }}/>:
                                 parentComponent === "AnswerList" ?
-                                    <Button label="Seleccionar encuesta"  onClick={() => {
+                                    <Button label="Ver Grafico"  onClick={() => {
                                         handleQuestionaryDataClick(data)
                                     }}/>: null
                         }

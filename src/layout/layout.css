@@ -2645,15 +2645,17 @@ pre[class*="language-"] {
   font-size: 14px !important;
   font-weight: normal !important; }
 
-.MuiList-padding {
-  background: #4d505b; }
-
 .navItemsColor {
   color: #f3f4f9 !important;
   font-family: 'Open Sans', sans-serif !important; }
 
-ul[class^="jss"] {
-  background: #4d505b !important; }
+div[class^="MuiPaper-root"] ul {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important; }
+
+ul[class^="MuiList-padding"] {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important; }
 
 .navItemBackground:hover {
   background: #2471a3 !important; }

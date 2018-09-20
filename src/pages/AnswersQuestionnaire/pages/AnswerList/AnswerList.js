@@ -7,11 +7,16 @@ import Questionary from "../../../AssignmentSeller/pages/QuestionaryAssigment";
 import Title from "../../../Title/Title";
 import ListItem from '@material-ui/core/ListItem';
 import AnswerItem from "./components/AnswerItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import {Button} from "../../../../../node_modules/primereact/button";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import QuestionaryData
+    from "../../../AssignmentSeller/pages/QuestionaryAssigment/components/QuestionaryData/QuestionaryData";
 
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        maxWidth: 400,
         backgroundColor: theme.palette.background.paper,
     },
 });
@@ -33,7 +38,6 @@ class AnswerList extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
             this.setState({questionnaireList: data});
         })
     }
@@ -42,41 +46,43 @@ class AnswerList extends Component {
         this.setState({questionnaireSelected: idQuestionary})
     };
 
+    showGraphic(){
+        console.log("showGraphic")
+    }
+
+
     handleListItemClick = (event, questionnaire) => {
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + questionnaire.id)
             .then(results => {
                 return results.json();
             }).then(data => {
-            console.log(data);
-            this.setState({AnswerList: data, questionnaireSelected: questionnaire,selectedIndex: questionnaire.id});
+            this.setState({AnswerList: data, questionnaireSelected: questionnaire, selectedIndex: questionnaire.id});
         })
     };
 
     render() {
-        console.log(this.state.selectedIndex);
-        console.log(this.state.AnswerList);
+        const {classes} = this.props;
         return (
-            <Grid fluid>
-                <Row>
-                    <Col xs md={6}>
-                        <Title tilte={'Cuestionarios'}
-                               subtitle={'Aqui podra seleccionar la encuesta de la cual quiera desee ver sus respuestas.'}/>
+            <Grid fluid className='nomargin'>
+                <Row className='nomargin'>
+                    <Col className='nomargin' xs md={6}>
+                        <Title tilte={'Encuestas'}
+                               subtitle={'Aqui podra seleccionar la encuesta de la cual deseas ver el detalle de sus respuetas.'}/>
                         <br/>
-                        <div>
+                        <div  className="itemList">
                             {
                                 this.state.questionnaireList.length > 0 ?
-                                    <List style={{background: '#f3f4f9'}}>
+                                    <List>
                                         {
                                             this.state.questionnaireList.map(questionnaire => (
                                                 <ListItem button
                                                           key={questionnaire.id}
                                                           selected={this.state.selectedIndex === questionnaire.id}
                                                           onClick={event => this.handleListItemClick(event, questionnaire)}>
-                                                    <Questionary
-                                                        style={{width: '100%', height: '100%', background: '#f3f4f9'}}
-                                                        questionary={questionnaire}
+                                                    <QuestionaryData
+                                                        data={questionnaire}
                                                         parentComponent={AnswerList.name}
-                                                        onSelectedQuestionaryClick={this.handleSelectedQuestionary}/>
+                                                        handleQuestionaryDataClick={this.showGraphic}/>
                                                 </ListItem>
                                             ))
                                         }
@@ -86,20 +92,34 @@ class AnswerList extends Component {
                             }
                         </div>
                     </Col>
-                    <Col xs md={6}>
-                        <Title tilte={'Encuestas respondidas'}
-                               subtitle={'Aqui podra encontrar todas las encuestas respondidas segun el cuestionario seleccionado.'}/>
+                    <Col className='nomargin' xs md={6}>
+                        <Title tilte={'Respondido por:'}
+                               subtitle={'Aqui podra encontrar a todas las personas que respondieron las encuestas seleccionado.'}/>
                         <br/>
                         {
                             this.state.AnswerList.length > 0 ?
-                                <List>
-                                    {
-                                        this.state.AnswerList.map(answer => (
-                                            <AnswerItem answer={answer}
-                                                         key={answer.id}/>
-                                        ))
-                                    }
-                                </List>
+                                <div>
+                                    <Button label="Mostrar Graficos" onClick={() => {this.props.showAnswersGraphics(this.state.AnswerList, this.state.questionnaireSelected)}} />
+                                    <div  className="itemList">
+                                        <List >
+                                            {
+                                                this.state.AnswerList.map(answer => (
+                                                    <ListItem  button
+                                                               onClick={event => this.props.changeCurrentAnswer(answer)}>
+                                                        <ListItemText primary={"Respuesta # " + answer.id}/>
+                                                        {
+                                                            answer.interviewedName ?
+                                                                <ListItemText primary={answer.interviewedName}/> :
+                                                                <ListItemText primary={answer.mobileClient.cliente.nombreFactura}/>
+
+                                                        }
+                                                        <Button label="Ver Detalle"/>
+                                                    </ListItem>
+                                                ))
+                                            }
+                                        </List>
+                                    </div>
+                                </div>
                                 :
                                 null
                         }

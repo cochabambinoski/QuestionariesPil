@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
 
-class AnswerDetail extends Component {
 
+class GraphicsDetail extends Component {
     state = {
         value: 0,
     };
@@ -16,8 +13,10 @@ class AnswerDetail extends Component {
         this.setState({value});
     };
 
+
     render() {
-        console.log(this.props.answer);
+        console.log(this.props.answers);
+        console.log(this.props.questionarySelected);
         return (
             <div>
                 <Paper square style={{width: '100%'}}>
@@ -29,8 +28,8 @@ class AnswerDetail extends Component {
                         textColor="primary"
                     >
                         {
-                            this.props.answer.lsAnswerDetails.map((answers) => {
-                               return  <Tab label={answers.question.question}/>
+                            this.props.questionarySelected.lsQuestions.map((question) => {
+                                return  <Tab label={question.question}/>
                             })
                         }
                     </Tabs>
@@ -41,4 +40,4 @@ class AnswerDetail extends Component {
     }
 }
 
-export default AnswerDetail;
+export default GraphicsDetail;
