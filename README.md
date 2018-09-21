@@ -14,9 +14,9 @@
 
 #### IPs del archivo Constants
 
-- **Dirección de los webservices:** ROUTE_WEB_SERVICES: "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/"
-- **Dirección de los webservices del bi (segmentación):** ROUTE_WEB_BI: "http://localhost:8086/bi/"
-- **Link de svm para la redirección una vez caducada la sesión:** ROUTE_SVM: "https://bocbqa10.pilandina.com.bo/vmovil/business/login.jsf"
+- ROUTE_WEB_SERVICES - Dirección de los webservices 
+- ROUTE_WEB_BI - Dirección de los webservices del bi (segmentación)
+- ROUTE_SVM - Link de svm para la redirección una vez caducada la sesión
 
 #### Links adicionales
 - Entrada sobre cómo definir la estructura de los archivos en React: https://medium.com/@alexmngn/how-to-better-organize-your-react-applications-2fd3ea1920f1
