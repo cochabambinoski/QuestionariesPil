@@ -4,7 +4,10 @@ class Graphics extends Component {
     render() {
         return (
             <div>
-
+                {
+                    this.props.question ?
+                    this.props.question.id : null
+                }
             </div>
         );
     }

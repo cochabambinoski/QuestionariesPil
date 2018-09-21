@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import * as PropTypes from "prop-types";
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Graphics from "../Graphics/Graphics";
 
 function TabContainer(props) {
     return (
@@ -28,39 +28,52 @@ const styles = theme => ({
 class GraphicsDetail extends Component {
     state = {
         value: 0,
+        currentQuestion: null,
+        listAnswerCurrent: [],
     };
 
     handleChange = (event, value) => {
         this.setState({value});
     };
 
+    generateListAnswerQuestion(idQuestion){
+        let listAnswersQuestion = [];
+        this.props.answers.forEach((answers) => {
+            answers.lsAnswerDetails.forEach((answerDetail) =>{
+                if (answerDetail.question.id === idQuestion && !listAnswersQuestion.includes(answerDetail)){
+                    listAnswersQuestion.push(answerDetail);
+                    return false;
+                }
+            })
+        });
+        return listAnswersQuestion
+    }
+
+    generateGraphics(question){
+        this.setState({currentQuestion: question, listAnswerCurrent: this.generateListAnswerQuestion(question.id)});
+    }
 
     render() {
-        console.log(this.props.answers);
-        console.log(this.props.questionarySelected);
         const { classes } = this.props;
         const { value } = this.state;
         return (
             <div>
-                <Paper square style={{width: '100%'}}>
-                    <Tabs
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        fullWidth
-                        indicatorColor="primary"
-                        textColor="primary"
-                    >
-                        {
-                            this.props.questionarySelected.lsQuestions.map((question) => {
-                                return  <Tab label={question.question}/>
-                            })
-                        }
-                    </Tabs>
-                    {value === 0 && <TabContainer>Item One</TabContainer>}
-                    {value === 1 && <TabContainer>Item Two</TabContainer>}
-                    {value === 2 && <TabContainer>Item Three</TabContainer>}
-                </Paper>
 
+
+                <BottomNavigation
+                    value={value}
+                    onChange={this.handleChange}
+                    showLabels
+                    className={classes.root}>
+                    {
+                        this.props.questionarySelected.lsQuestions.map((question) => {
+                            return  <BottomNavigationAction label={question.question} onClick={() => {this.generateGraphics(question)}} />
+                        })
+                    }
+                </BottomNavigation>
+                {
+                    <Graphics question={this.state.currentQuestion} listAnswerCurrent={this.state.listAnswerCurrent}/>
+                }
             </div>
         );
     }

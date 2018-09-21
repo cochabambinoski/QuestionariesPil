@@ -17,9 +17,7 @@ const QuestionaryData = ({data, handleQuestionaryDataClick, parentComponent}) =>
                     <span>
                         {
                             parentComponent === "QuestionaryAsignmet" ?
-                                <Button label="Iniciar Asignacion"  onClick={() => {
-                                    handleQuestionaryDataClick(data)
-                                }}/>:
+                                <Button label="Iniciar Asignacion"  onClick={() => {handleQuestionaryDataClick(data)}}/>:
                                 parentComponent === "AnswerList" ?
                                     <Button label="Ver Grafico"  onClick={() => {
                                         handleQuestionaryDataClick(data)
