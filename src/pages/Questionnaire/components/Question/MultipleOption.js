@@ -81,7 +81,7 @@ class MultipleOption extends Component {
                             this.props.lsOptions.map((option, index) => {
                                 return (
                                     option.operacionId === 1 ?
-                                        <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
+                                        <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}} key={index}>
                                             <RadioButton value={option.option} checked={false}/>
                                             {
                                                 this.props.readOnly ?
