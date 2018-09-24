@@ -105,8 +105,9 @@ class AnswerList extends Component {
                                             {
                                                 this.state.AnswerList.map(answer => (
                                                     <ListItem  button
-                                                               onClick={event => this.props.changeCurrentAnswer(answer)}>
-                                                        <ListItemText primary={"Respuesta # " + answer.id}/>
+                                                               onClick={event => this.props.changeCurrentAnswer(answer)}
+                                                               key={answer.id}>
+                                                        <ListItemText primary={"Respuesta # " + answer.id} />
                                                         {
                                                             answer.interviewedName ?
                                                                 <ListItemText primary={answer.interviewedName}/> :

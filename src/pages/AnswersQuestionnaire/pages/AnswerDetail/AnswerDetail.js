@@ -17,7 +17,6 @@ class AnswerDetail extends Component {
     };
 
     render() {
-        console.log(this.props.answer);
         return (
             <div>
                 <Paper square style={{width: '100%'}}>
