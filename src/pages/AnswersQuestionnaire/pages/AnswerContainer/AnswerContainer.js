@@ -27,9 +27,6 @@ class AnswerContainer extends Component {
     };
 
     render() {
-        console.log(this.state.showGraphics);
-        console.log(this.state.currentAnswer);
-        console.log(this.state.answers);
         return (
             <div>
                 <Title tilte={'Encuestas respondidas'}
