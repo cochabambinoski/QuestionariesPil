@@ -389,7 +389,7 @@ class Questionnaire extends Component {
                         <Col xs>
                             {
                                 this.state.openQuestion ?
-                                    <div style={{width: '100%', height: '40vh'}}>
+                                    <div style={{width: '100%', height: '400px'}}>
                                         <div>
                                             <Question questionTypes={this.state.questionTypes}
                                                       readOnly={this.props.readOnly}
@@ -405,7 +405,7 @@ class Questionnaire extends Component {
                             }
                             <div>
                                 <ScrollPanel
-                                    style={{width: '100%', height: this.state.openQuestion ? '45vh' : '100vh'}}>
+                                    style={{width: '100%', height: this.state.openQuestion ? '455px' : '865px'}}>
                                     <Questions questions={this.state.lsQuestions}
                                                removeQuestion={this.removeQuestion}
                                                readOnly={this.props.readOnly}
