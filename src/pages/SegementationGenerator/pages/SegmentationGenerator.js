@@ -96,52 +96,52 @@ class SegmentationGenerator extends Component {
             <div>
                 <Card>
                     <Grid>
-                        <Row>
-                            <Col xs={5}>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Codigo:</label>
-                            </Col>
-                            <Col xs={3}>
+                            </div>
+                            <div className="col-auto divColSmall">
                                 <InputText value={this.state.code}
                                            onChange={(e) => this.setState({code: e.target.value})}
                                            disabled="disabled" className="imputSmall !important"/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={5}>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Numero de Niveles:</label>
-                            </Col>
-                            <Col xs={3}>
+                            </div>
+                            <div className="col-auto divColSmall">
                                 <InputText value={this.state.level} keyfilter="int"
                                            onChange={(e) => this.setState({level: e.target.value})}
                                            className="imputSmall !important"/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={5}>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Factor K1:</label>
-                            </Col>
-                            <Col xs={2}>
+                            </div>
+                            <div className="col-auto divColSmall">
                                 <InputText value={this.state.k1} keyfilter={/^\d*\.?\d{0,2}$/}
                                            onChange={(e) => this.setState({k1: e.target.value})}
                                            className="imputSmall !important"/>
-                            </Col>
-                            <Col xs={5}>
+                            </div>
+                            <div className="col-auto divCol">
                                 <label className="LabelDetail">Para limite inferior</label>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={5}>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Factor K2:</label>
-                            </Col>
-                            <Col xs={2}>
+                            </div>
+                            <div className="col-auto divColSmall">
                                 <InputText value={this.state.k2} keyfilter={/^\d*\.?\d{0,2}$/}
                                            onChange={(e) => this.setState({k2: e.target.value})}
-                                           className="imputSmall !important"/>
-                            </Col>
-                            <Col xs={5}>
+                                           className="imputSmall !important" validateOnly={true}/>
+                            </div>
+                            <div className="col-auto divCol">
                                 <label className="LabelDetail">Para limite superior</label>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     </Grid>
                 </Card>
             </div>
