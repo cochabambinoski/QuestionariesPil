@@ -13,8 +13,8 @@ class AnswerContainer extends Component {
             currentComponent: AnswerList.constructor.name,
             questionarySelected: null,
             currentAnswer: null,
-            showGraphics:false,
-            answers:[],
+            showGraphics: false,
+            answers: [],
         }
     }
 
@@ -26,6 +26,10 @@ class AnswerContainer extends Component {
         this.setState({answers: answers, showGraphics: true, questionarySelected: questionarySelected})
     };
 
+    backAnswerList = () => {
+        this.setState({answers: [], showGraphics: false, questionarySelected: null})
+    };
+
     render() {
         return (
             <div>
@@ -35,10 +39,12 @@ class AnswerContainer extends Component {
                 {
                     this.state.currentAnswer === null && this.state.answers.length <= 0 ?
                         <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
-                        showAnswersGraphics={this.showAnswersGraphics}/> :
+                                    showAnswersGraphics={this.showAnswersGraphics}/> :
                         this.state.showGraphics === false ?
                             <AnswerDetail answer={this.state.currentAnswer}/> :
-                            <GraphicsDetail answers={this.state.answers} questionarySelected={this.state.questionarySelected}/>
+                            <GraphicsDetail answers={this.state.answers}
+                                            questionarySelected={this.state.questionarySelected}
+                                            backAnswerList={this.backAnswerList}/>
                 }
             </div>
         );

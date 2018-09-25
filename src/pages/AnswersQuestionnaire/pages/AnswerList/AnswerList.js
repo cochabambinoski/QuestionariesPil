@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
-import List from '@material-ui/core/List';
 import {withStyles} from '@material-ui/core/styles';
 import Constants from "../../../../Constants";
-import {Col, Grid, Row} from "react-flexbox-grid";
-import Questionary from "../../../AssignmentSeller/pages/QuestionaryAssigment";
-import Title from "../../../Title/Title";
+import {Grid} from "react-flexbox-grid";
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import AnswerItem from "./components/AnswerItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import {Button} from "../../../../../node_modules/primereact/button";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import QuestionaryData
-    from "../../../AssignmentSeller/pages/QuestionaryAssigment/components/QuestionaryData/QuestionaryData";
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Avatar from '@material-ui/core/Avatar';
+import WorkIcon from '@material-ui/icons/Work';
+import IconButton from '@material-ui/core/IconButton';
+import PieChart from '@material-ui/icons/PieChart';
+import Banner from "../../../../components/Banner/Banner";
 
 const styles = theme => ({
     root: {
@@ -56,17 +55,22 @@ class AnswerList extends Component {
             .then(results => {
                 return results.json();
             }).then(data => {
-            this.setState({AnswerList: data, questionnaireSelected: questionnaire, selectedIndex: questionnaire.id});
+            //this.setState({AnswerList: data, questionnaireSelected: questionnaire, selectedIndex: questionnaire.id});
+            this.props.showAnswersGraphics(data, questionnaire)
         })
     };
+
+    showAnswerGraphics(questionary){
+        this.props.showAnswersGraphics(this.state.AnswerList, questionary)
+    }
 
     render() {
         const {classes} = this.props;
         return (
             <Grid fluid className='nomargin'>
-                <Row className='nomargin'>
-                    <Col className='nomargin' xs md={6}>
-                        <Title tilte={'Encuestas'}
+
+
+                        <Banner tilte={'Encuestas'}
                                subtitle={'Aqui podra seleccionar la encuesta de la cual deseas ver el detalle de sus respuetas.'}/>
                         <br/>
                         <div  className="itemList">
@@ -79,10 +83,16 @@ class AnswerList extends Component {
                                                           key={questionnaire.id}
                                                           selected={this.state.selectedIndex === questionnaire.id}
                                                           onClick={event => this.handleListItemClick(event, questionnaire)}>
-                                                    <QuestionaryData
-                                                        data={questionnaire}
-                                                        parentComponent={AnswerList.name}
-                                                        handleQuestionaryDataClick={this.showGraphic}/>
+                                                    <Avatar>
+                                                        <WorkIcon />
+                                                    </Avatar>
+                                                    <ListItemText primary="Nombre" secondary={questionnaire.name} />
+                                                    <ListItemText primary="Creado" secondary={questionnaire.fechaId} />
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton aria-label="Comments" onClick={() => this.showAnswerGraphics(questionnaire)} >
+                                                            <PieChart />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
                                                 </ListItem>
                                             ))
                                         }
@@ -91,41 +101,8 @@ class AnswerList extends Component {
                                     null
                             }
                         </div>
-                    </Col>
-                    <Col className='nomargin' xs md={6}>
-                        <Title tilte={'Respondido por:'}
-                               subtitle={'Aqui podra encontrar a todas las personas que respondieron las encuestas seleccionado.'}/>
-                        <br/>
-                        {
-                            this.state.AnswerList.length > 0 ?
-                                <div>
-                                    <Button label="Mostrar Graficos" onClick={() => {this.props.showAnswersGraphics(this.state.AnswerList, this.state.questionnaireSelected)}} />
-                                    <div  className="itemList">
-                                        <List >
-                                            {
-                                                this.state.AnswerList.map(answer => (
-                                                    <ListItem  button
-                                                               onClick={event => this.props.changeCurrentAnswer(answer)}
-                                                               key={answer.id}>
-                                                        <ListItemText primary={"Respuesta # " + answer.id} />
-                                                        {
-                                                            answer.interviewedName ?
-                                                                <ListItemText primary={answer.interviewedName}/> :
-                                                                <ListItemText primary={answer.mobileClient.cliente.nombreFactura}/>
 
-                                                        }
-                                                        <Button label="Ver Detalle"/>
-                                                    </ListItem>
-                                                ))
-                                            }
-                                        </List>
-                                    </div>
-                                </div>
-                                :
-                                null
-                        }
-                    </Col>
-                </Row>
+
             </Grid>
         );
     }
