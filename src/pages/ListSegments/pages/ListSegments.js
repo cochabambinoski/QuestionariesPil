@@ -37,12 +37,9 @@ class ListSegments extends Component {
                             monitorHeight
                             refreshRate={32}
                             render={({size}) => {
-                                console.log(size);
                                 if (size.width < 1024) {
-                                    console.log(size.width);
                                     return <SegmentList/>;
                                 } else {
-                                    console.log(size.width);
                                     return <EnhancedTable/>;
                                 }
                             }}
