@@ -80,25 +80,6 @@ class SegmentationGenerator extends Component {
         }
     };
 
-    baseValue = () => {
-        let toRegexRange = require('to-regex-range');
-        const regex = new RegExp('^' + toRegexRange('1', '3') + '$');
-        console.log(regex);
-        return regex;
-    };
-
-    render() {
-        const {process} = this.state;
-        return (
-            <div>
-                {
-                    process ? this.renderForm() :
-                        <CircularProgress size={500} style={{color: '#5DADE2'[200]}} thickness={5}/>
-                }
-            </div>
-        );
-    }
-
     handleChangeK1(e) {
         const val = e.target.value;
         if (val.length <= 4 && (/^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val) || /^([1-3]{1})$/.test(val))) {
@@ -114,6 +95,18 @@ class SegmentationGenerator extends Component {
                 k2: val
             });
         }
+    }
+
+    render() {
+        const {process} = this.state;
+        return (
+            <div>
+                {
+                    process ? this.renderForm() :
+                        <CircularProgress size={500} style={{color: '#5DADE2'[200]}} thickness={5}/>
+                }
+            </div>
+        );
     }
 
     renderForm() {
