@@ -78,7 +78,7 @@ class GraphicsDetail extends Component {
                                       textColor="primary"
                                       scrollable
                                       scrollButtons="auto"
-                                      style={{margin: 0, padding: 0}}
+                                      style={{marginRight: 10, padding: 0}}
                                     value={value} onChange={this.handleChange} showLabels className={classes.root}>
                                     {
                                         this.props.questionarySelected.lsQuestions.map((question) => {
