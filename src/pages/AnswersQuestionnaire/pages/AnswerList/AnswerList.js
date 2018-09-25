@@ -77,10 +77,6 @@ class AnswerList extends Component {
         return (
             <Grid fluid className='nomargin'>
 
-
-                        <Banner tilte={'Encuestas'}
-                               subtitle={'Aqui podra seleccionar la encuesta de la cual deseas ver el detalle de sus respuetas.'}/>
-                        <br/>
                         <div  className="itemList">
                             {
                                 this.state.questionnaireList.length > 0 ?

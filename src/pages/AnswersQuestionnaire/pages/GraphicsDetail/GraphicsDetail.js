@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Graphics from "../Graphics/Graphics";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -11,6 +9,9 @@ import Divider from '@material-ui/core/Divider';
 import GoogleMapsComponent from "../../../../components/GoogleMaps/GoogleMapsComponent";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import ArrowBack from "@material-ui/icons/ArrowBack";
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const styles = theme => ({
     root: {
@@ -71,25 +72,27 @@ class GraphicsDetail extends Component {
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
                         this.handleSetStateFirstSellerSearch()
                     }}/>}>
-                        <IconButton aria-label="Comments"  onClick={() => this.props.backAnswerList()} >
+                        <IconButton aria-label="Comments" onClick={() => this.props.backAnswerList()}>
                             <ArrowBack/>
                         </IconButton>
                         <ExpansionPanelDetails>
-                            <BottomNavigation
-                                value={value}
-                                onChange={this.handleChange}
-                                showLabels
-                                className={classes.root}>
-
-                                {
-                                    this.props.questionarySelected.lsQuestions.map((question) => {
-                                        return <BottomNavigationAction label={question.question} key={question.id}
-                                                                       onClick={() => {
-                                                                           this.generateGraphics(question)
-                                                                       }}/>
-                                    })
-                                }
-                            </BottomNavigation>
+                            <AppBar position="static" color="default">
+                                <Tabs
+                                      indicatorColor="primary"
+                                      textColor="primary"
+                                      scrollable
+                                      scrollButtons="auto"
+                                    value={value} onChange={this.handleChange} showLabels className={classes.root}>
+                                    {
+                                        this.props.questionarySelected.lsQuestions.map((question) => {
+                                            return <Tab  label={question.question} key={question.id}
+                                                                           onClick={() => {
+                                                                               this.generateGraphics(question)
+                                                                           }}/>
+                                        })
+                                    }
+                                </Tabs>
+                            </AppBar>
                         </ExpansionPanelDetails>
                     </ExpansionPanelSummary>
                     <Divider/>

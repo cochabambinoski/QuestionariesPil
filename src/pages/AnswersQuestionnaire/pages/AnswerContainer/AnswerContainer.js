@@ -31,20 +31,25 @@ class AnswerContainer extends Component {
     };
 
     render() {
+        console.log( this.state.showGraphics === false );
         return (
             <div>
-                <Title tilte={'Encuestas respondidas'}
-                       subtitle={'Aqui podra encontrar todas las encuestas respondidas por nuestros clientes.'}/>
+                {
+                    this.state.showGraphics === false ?
+                        <Title tilte={'Encuestas respondidas'}
+                               subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/> :
+                        <Title tilte={'Encuestas respondidas'}
+                               subtitle={'Seleccione una pregunta para ver sus detalles.'}/>
+                }
                 <br/>
                 {
                     this.state.currentAnswer === null && this.state.answers.length <= 0 ?
                         <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
                                     showAnswersGraphics={this.showAnswersGraphics}/> :
-                        this.state.showGraphics === false ?
-                            <AnswerDetail answer={this.state.currentAnswer}/> :
+                        this.state.showGraphics === true ?
                             <GraphicsDetail answers={this.state.answers}
                                             questionarySelected={this.state.questionarySelected}
-                                            backAnswerList={this.backAnswerList}/>
+                                            backAnswerList={this.backAnswerList}/> : null
                 }
             </div>
         );
