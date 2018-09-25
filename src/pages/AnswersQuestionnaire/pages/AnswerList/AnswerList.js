@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
-import WorkIcon from '@material-ui/icons/Work';
+import Assignment from '@material-ui/icons/Assignment';
 import IconButton from '@material-ui/core/IconButton';
 import PieChart from '@material-ui/icons/PieChart';
 import Banner from "../../../../components/Banner/Banner";
@@ -92,7 +92,7 @@ class AnswerList extends Component {
                                                           selected={this.state.selectedIndex === questionnaire.id}
                                                           onClick={event => this.handleListItemClick(event, questionnaire)}>
                                                     <Avatar>
-                                                        <WorkIcon />
+                                                        <Assignment />
                                                     </Avatar>
                                                     <ListItemText primary="Nombre" secondary={questionnaire.name} />
                                                     <ListItemText primary="Creado" secondary={questionnaire.fechaId} />
