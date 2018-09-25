@@ -101,7 +101,7 @@ class SegmentationGenerator extends Component {
 
     handleChangeK1(e) {
         const val = e.target.value;
-        if (val.length <= 4 && /^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val)) {
+        if (val.length <= 4 && (/^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val) || /^([1-3]{1})$/.test(val))) {
             this.setState({
                 k1: val
             });
@@ -109,7 +109,7 @@ class SegmentationGenerator extends Component {
     }
     handleChangeK2(e) {
         const val = e.target.value;
-        if (val.length <= 4 && /^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val)) {
+        if (val.length <= 4 && (/^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val) || /^([1-3]{1})$/.test(val))) {
             this.setState({
                 k2: val
             });
