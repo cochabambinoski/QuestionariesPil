@@ -15,8 +15,16 @@ import Banner from "../../../../components/Banner/Banner";
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: 400,
         backgroundColor: theme.palette.background.paper,
+        position: 'relative',
+        overflow: 'auto',
+    },
+    listSection: {
+        backgroundColor: 'inherit',
+    },
+    ul: {
+        backgroundColor: 'inherit',
+        padding: 0,
     },
 });
 
@@ -76,7 +84,7 @@ class AnswerList extends Component {
                         <div  className="itemList">
                             {
                                 this.state.questionnaireList.length > 0 ?
-                                    <List>
+                                    <List className={classes.root} subheader={<li />}>
                                         {
                                             this.state.questionnaireList.map(questionnaire => (
                                                 <ListItem button
