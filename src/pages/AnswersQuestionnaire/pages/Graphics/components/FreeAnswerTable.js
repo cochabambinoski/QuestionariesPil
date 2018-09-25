@@ -56,7 +56,7 @@ class FreeAnswerTable extends Component {
                                 return(
                                     <TableRow key={answer.id}>
                                         <CustomTableCell component="th" scope="row"> {answer.answer.interviewedName !== null ? answer.answer.interviewedName : answer.answer.mobileClient.nombrerepresentate }</CustomTableCell>
-                                        <CustomTableCell numeric> {answer.answerDetail}</CustomTableCell>
+                                        <CustomTableCell style={{textAlign: 'left',}} numeric> {answer.answerDetail}</CustomTableCell>
                                     </TableRow>
                                 )
                             })

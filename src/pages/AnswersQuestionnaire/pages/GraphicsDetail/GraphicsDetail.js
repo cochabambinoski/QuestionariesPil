@@ -68,27 +68,29 @@ class GraphicsDetail extends Component {
         return (
             <div>
                 <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {this.handleSetStateFirstSellerSearch()}}/>}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
+                        this.handleSetStateFirstSellerSearch()
+                    }}/>}>
                         <IconButton aria-label="Comments" onClick={() => this.props.backAnswerList()}>
                             <ArrowBack/>
                         </IconButton>
                         <ExpansionPanelDetails>
-                                <Tabs position="static" color="default"
-                                      indicatorColor="primary"
-                                      textColor="primary"
-                                      scrollable
-                                      scrollButtons="auto"
-                                      style={{marginRight: 10, padding: 0}}
-                                    value={value} onChange={this.handleChange} showLabels className={classes.root}>
-                                    {
-                                        this.props.questionarySelected.lsQuestions.map((question) => {
-                                            return <Tab  label={question.question} key={question.id}
-                                                                           onClick={() => {
-                                                                               this.generateGraphics(question)
-                                                                           }}/>
-                                        })
-                                    }
-                                </Tabs>
+                            <Tabs position="static" color="default"
+                                  indicatorColor="primary"
+                                  textColor="primary"
+                                  scrollable
+                                  scrollButtons="auto"
+                                  style={{marginRight: 10, padding: 0}}
+                                  value={value} onChange={this.handleChange} showLabels className={classes.root}>
+                                {
+                                    this.props.questionarySelected.lsQuestions.map((question) => {
+                                        return <Tab label={question.question} key={question.id}
+                                                    onClick={() => {
+                                                        this.generateGraphics(question)
+                                                    }}/>
+                                    })
+                                }
+                            </Tabs>
                         </ExpansionPanelDetails>
                     </ExpansionPanelSummary>
                     <Divider/>

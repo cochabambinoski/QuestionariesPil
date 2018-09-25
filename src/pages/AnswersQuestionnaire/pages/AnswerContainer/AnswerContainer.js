@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import AnswerDetail from "../AnswerDetail/AnswerDetail";
 import AnswerList from "../AnswerList/AnswerList";
 import Title from "../../../Title/Title";
 import GraphicsDetail from "../GraphicsDetail/GraphicsDetail";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import SnackBarContentView from "../../../../components/SnackBarContent/SnackBarContentView";
 
 class AnswerContainer extends Component {
 
@@ -15,6 +15,7 @@ class AnswerContainer extends Component {
             currentAnswer: null,
             showGraphics: false,
             answers: [],
+            open: false,
         }
     }
 
@@ -23,11 +24,24 @@ class AnswerContainer extends Component {
     };
 
     showAnswersGraphics = (answers, questionarySelected) => {
+        if (answers.length === 0)this.handleClick();
         this.setState({answers: answers, showGraphics: true, questionarySelected: questionarySelected})
     };
 
     backAnswerList = () => {
         this.setState({answers: [], showGraphics: false, questionarySelected: null})
+    };
+
+    handleClick = () => {
+        this.setState({ open: true });
+    };
+
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ open: false });
     };
 
     render() {
@@ -51,6 +65,21 @@ class AnswerContainer extends Component {
                                             questionarySelected={this.state.questionarySelected}
                                             backAnswerList={this.backAnswerList}/> : null
                 }
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                >
+                    <SnackBarContentView
+                        onClose={this.handleClose}
+                        variant="info"
+                        message="Esta encuesta no fue respondida."
+                    />
+                </Snackbar>
             </div>
         );
     }
