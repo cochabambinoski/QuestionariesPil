@@ -10,7 +10,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Assignment from '@material-ui/icons/Assignment';
 import IconButton from '@material-ui/core/IconButton';
 import PieChart from '@material-ui/icons/PieChart';
-import Banner from "../../../../components/Banner/Banner";
 
 const styles = theme => ({
     root: {
