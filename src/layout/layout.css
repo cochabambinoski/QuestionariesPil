@@ -2715,3 +2715,28 @@ ul[class^="MuiList-padding"] {
   height: 120px;
   width: 200px;
   background-size: 200px 120px; }
+
+.titleBody {
+  background-image: linear-gradient(75deg, #2471a3, #5DADE2) !important;
+  color: #FFFFF0;
+  padding: 1.5em;
+  margin-top: -0.33em;
+  margin-left: -1.2em;
+  margin-right: -1.2em;
+  font-family: 'Open Sans', sans-serif; }
+
+.titleA {
+  font-weight: bold;
+  font-size: xx-large; }
+  @media only screen and (max-width: 720px) {
+    .titleA {
+      font-weight: bold;
+      font-size: x-large; } }
+
+.titleB {
+  font-weight: normal;
+  font-size: large; }
+  @media only screen and (max-width: 720px) {
+    .titleB {
+      font-weight: normal;
+      font-size: medium; } }
