@@ -2676,3 +2676,7 @@ ul[class^="MuiList-padding"] {
   height: 120px;
   width: 200px;
   background-size: 200px 120px; }
+
+.MuiExpansionPanelDetails-root-169 {
+  display: flex;
+  padding: 0px 0px 0px !important; }
