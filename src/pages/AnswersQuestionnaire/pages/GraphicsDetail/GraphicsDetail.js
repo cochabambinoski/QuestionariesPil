@@ -9,7 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import GoogleMapsComponent from "../../../../components/GoogleMaps/GoogleMapsComponent";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import ArrowBack from "@material-ui/icons/ArrowBack";
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
@@ -76,8 +75,7 @@ class GraphicsDetail extends Component {
                             <ArrowBack/>
                         </IconButton>
                         <ExpansionPanelDetails>
-                            <AppBar position="static" color="default">
-                                <Tabs
+                                <Tabs position="static" color="default"
                                       indicatorColor="primary"
                                       textColor="primary"
                                       scrollable
@@ -92,7 +90,6 @@ class GraphicsDetail extends Component {
                                         })
                                     }
                                 </Tabs>
-                            </AppBar>
                         </ExpansionPanelDetails>
                     </ExpansionPanelSummary>
                     <Divider/>
