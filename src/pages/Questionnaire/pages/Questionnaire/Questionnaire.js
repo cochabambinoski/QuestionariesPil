@@ -28,6 +28,13 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
+import ModalContainer from "../../../../widgets/Modal/pages/modal";
+import Modal from "../../../../widgets/Modal/components/modal";
+import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions/DialogActions";
+import Dialog from "@material-ui/core/Dialog/Dialog";
 
 const styles = theme => ({
     root: {
@@ -64,6 +71,8 @@ class Questionnaire extends Component {
             selectedQuestionIndex: -1,
             ranges: [],
             expandPanelRange: true,
+            lsQuestionsImmutableAux: [],
+            immutableQuestion: null,
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -211,6 +220,7 @@ class Questionnaire extends Component {
                 this.setState({name: data.name});
                 this.setState({description: data.description});
                 this.setState({lsQuestions: data.lsQuestions});
+                this.setImmutableCopy(data.lsQuestions);
                 this.setState({sociedadId: data.sociedadId});
                 this.setState({usuarioId: data.usuarioId});
                 this.setState({operacionId: data.operacionId});
@@ -229,9 +239,24 @@ class Questionnaire extends Component {
         }
     }
 
+    setImmutableCopy(lsQuestions){
+        let auxQuestions = [];
+        lsQuestions.forEach((question)=>{
+            let auxQuestion = {id: question.id,
+                lsQuestionOptions: []
+            };
+            question.lsQuestionOptions.forEach((option)=>{
+                auxQuestion.lsQuestionOptions.push({option: option.option});
+            });
+            auxQuestions.push(auxQuestion);
+        });
+        this.setState({lsQuestionsImmutableAux: auxQuestions});
+    }
+
     seeQuestion(index) {
         let question = this.state.lsQuestions[index];
         this.setState({selectedQuestion: question});
+        this.setState({immutableQuestion: null});
         this.setState({openQuestion: true});
     }
 
@@ -245,18 +270,21 @@ class Questionnaire extends Component {
         let question = this.state.lsQuestions[index];
         this.setState({selectedQuestionIndex: index});
         this.setState({selectedQuestion: question});
+        this.setState({immutableQuestion: this.state.lsQuestionsImmutableAux[index]});
         this.setState({openQuestion: true});
     }
 
     closeQuestion() {
         this.setState({selectedQuestionIndex: -1});
         this.setState({selectedQuestion: {id: null, question: null}});
+        this.setState({immutableQuestion: null});
         this.setState({openQuestion: false});
     }
 
     handleNewQuestion() {
         this.setState({selectedQuestionIndex: -1});
         this.setState({selectedQuestion: {id: null, question: null}});
+        this.setState({immutableQuestion: null});
         this.setState({openQuestion: true});
     }
 
@@ -355,10 +383,11 @@ class Questionnaire extends Component {
                                                 :
                                                 <InputTextarea className="description"
                                                                placeholder="Descripcion (opcional)"
-                                                               type="text" maxLength="255" size="32"
+                                                               type="text" maxLength="255"
+                                                               style={{width: '385px'}}
                                                                value={this.state.description}
                                                                onChange={(e) => this.setState({description: e.target.value})}
-                                                               rows={5} cols={20} autoResize={false}/>
+                                                               rows={4} autoResize={false}/>
                                             }
                                         </div>
                                     </div>
@@ -387,25 +416,35 @@ class Questionnaire extends Component {
                         </Col>
 
                         <Col xs>
-                            {
-                                this.state.openQuestion ?
-                                    <div style={{width: '100%', height: '400px'}}>
-                                        <div>
+                            < ModalContainer>
+                                <Dialog
+                                    open={this.state.openQuestion}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description">
+                                    <DialogTitle id="alert-dialog-title" className="titleBody">
+                                        <h1 className="dialogTitle">Pregunta</h1>
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description" className="dialogBody">
                                             <Question questionTypes={this.state.questionTypes}
                                                       readOnly={this.props.readOnly}
                                                       questions={this.state.lsQuestions}
+                                                      immutableQuestion={this.state.immutableQuestion}
                                                       addQuestion={this.addQuestion}
                                                       question={this.state.selectedQuestion}
                                                       closeQuestion={this.closeQuestion}
                                                       assigned={this.state.assigned}
                                                       setOptionDependency={this.setOptionDependency}
                                                       selectedQuestionIndex={this.state.selectedQuestionIndex}/>
-                                        </div>
-                                    </div> : <div/>
-                            }
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                    </DialogActions>
+                                </Dialog>
+                            </ModalContainer>
                             <div>
                                 <ScrollPanel
-                                    style={{width: '100%', height: this.state.openQuestion ? '455px' : '865px'}}>
+                                    style={{width: '100%', height: 'calc(100vh - 310px)'}}>
                                     <Questions questions={this.state.lsQuestions}
                                                removeQuestion={this.removeQuestion}
                                                readOnly={this.props.readOnly}

@@ -18,14 +18,27 @@ class Range extends Component {
         if (emptyOptions.length === 0) {
             const min = parseInt(this.props.lsOptions[0].option, 10);
             const max = parseInt(this.props.lsOptions[1].option, 10);
+            if (this.props.assigned && this.props.immutableQuestion !== null && this.props.immutableQuestion !== undefined) {
+                const immutableOptions = this.props.immutableQuestion.lsQuestionOptions;
+                const initialMin = parseInt(immutableOptions[0].option, 10);
+                const initialMax = parseInt(immutableOptions[1].option, 10);
+                if (initialMin !== null && initialMin < min) {
+                    this.props.showError("Cuestionario ya asignado", "No se puede cambiar el mínimo a más de " + initialMin);
+                    return false;
+                }
+                if (initialMax !== null && initialMax > max) {
+                    this.props.showError("Cuestionario ya asignado", "No se puede cambiar el máximo a un valor menor a " + initialMax);
+                    return false;
+                }
+            }
             if (min >= max) {
-                this.props.showError("El maximo debe ser mayor al minimo", "");
+                this.props.showError("", "El maximo debe ser mayor al minimo");
                 return false;
             } else {
                 return true;
             }
         } else {
-            this.props.showError("Añada rangos", "");
+            this.props.showError("", "Añada rangos");
             return false;
         }
     }
@@ -60,8 +73,7 @@ class Range extends Component {
 
     render() {
         return (
-            <div className="ui-g" style={{width: '250px', marginBottom: '10px'}}>
-
+            <div className="ui-g" style={{width: '250px', marginTop: '15px'}}>
                 <div className="ui-g">
                     <div className="ui-g-6">
                         <div className="ui-g form-group">
