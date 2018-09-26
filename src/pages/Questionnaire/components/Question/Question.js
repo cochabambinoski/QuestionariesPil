@@ -14,6 +14,7 @@ import Image from './Image.js';
 import {connect} from 'react-redux';
 import {getUser} from "../../../../reducers";
 import {Button} from "../../../../../node_modules/primereact/button";
+import './Question.css';
 
 class Question extends Component {
     constructor(props) {
@@ -215,7 +216,7 @@ class Question extends Component {
 
         return (
             <div>
-                <Messages ref={(el) => this.messages = el}></Messages>
+                <Messages ref={(el) => this.messages = el} className="pi-times:before"></Messages>
                 <div style={{padding: '20px', minHeight: '215px'}}>
                     {
                         this.props.readOnly ?

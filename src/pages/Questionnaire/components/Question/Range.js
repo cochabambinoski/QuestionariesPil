@@ -23,11 +23,13 @@ class Range extends Component {
                 const initialMin = parseInt(immutableOptions[0].option, 10);
                 const initialMax = parseInt(immutableOptions[1].option, 10);
                 if (initialMin !== null && initialMin < min) {
-                    this.props.showError("Cuestionario ya asignado", "No se puede cambiar el mínimo a más de " + initialMin);
+                    this.props.showError("Cuestionario asignado", "No se puede cambiar el mínimo a más de " + initialMin);
+                    this.updateOption(initialMin, 0);
                     return false;
                 }
                 if (initialMax !== null && initialMax > max) {
-                    this.props.showError("Cuestionario ya asignado", "No se puede cambiar el máximo a un valor menor a " + initialMax);
+                    this.props.showError("Cuestionario asignado", "No se puede cambiar el máximo a un valor menor a " + initialMax);
+                    this.updateOption(initialMax, 1);
                     return false;
                 }
             }
