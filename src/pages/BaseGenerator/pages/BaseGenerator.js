@@ -12,6 +12,10 @@ import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as utilDate from "../../../utils/dateUtils";
 
+const styles = theme => ({
+
+});
+
 class BaseGenerator extends Component {
 
     constructor(props) {
@@ -461,5 +465,5 @@ BaseGenerator.propTypes = {
     refresh: PropTypes.func.isRequired
 };
 
-export default BaseGenerator;
+export default withStyles(styles)(BaseGenerator);
 
