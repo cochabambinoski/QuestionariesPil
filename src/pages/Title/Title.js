@@ -2,7 +2,7 @@
  * Created by smirandaz on 09/11/2018.
  */
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import style from "./title.css";
 
 class Title extends Component {
