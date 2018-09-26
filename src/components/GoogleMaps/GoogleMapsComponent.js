@@ -77,7 +77,6 @@ class GoogleMapsComponent extends Component {
     onMapReady(event) {
         let overlaysAnswer = [];
         if(this.props.answers.length > 0){
-            console.log(this.props.answers);
             this.props.answers.forEach((answer) => {
                 overlaysAnswer.push(new google.maps.Marker({position: {lat: answer.latitude, lng: answer.longitude},
                     title: answer.interviewedName ? answer.interviewedName : answer.mobileClient.nombrerepresentate,

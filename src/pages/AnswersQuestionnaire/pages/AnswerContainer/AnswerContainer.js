@@ -45,7 +45,6 @@ class AnswerContainer extends Component {
     };
 
     render() {
-        console.log( this.state.showGraphics === false );
         return (
             <div>
                 {
