@@ -6,6 +6,9 @@ import GridListTileBar from "@material-ui/core/GridListTileBar/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import InfoIcon from '@material-ui/icons/Info';
 import { withStyles } from '@material-ui/core/styles';
+import Image from 'pimg';
+import Constants from "../../../../../Constants";
+
 
 const styles = theme => ({
     root: {
@@ -35,7 +38,7 @@ class ImageAnswerView extends Component {
                     </GridListTile>
                     {this.props.data.map(answer => (
                         <GridListTile key={answer.id}>
-                            <img src={'https://image.redbull.com/rbcom/052/2017-07-20/9e342907-6759-42d5-9648-a10acdf5ee93/0010/1/1050/700/1/gopro-imagen.png'} alt={answer.question.question}/>
+                            <Image src={Constants.ROUTE_WEB_SERVICES+Constants.GET_IMAGE_ANSWER+answer.answerDetail} alt={answer.question.question}/>
                             <GridListTileBar
                                 title={answer.title}
                                 subtitle={<span>Por: {answer.answer.interviewedName ? answer.answer.interviewedName : answer.answer.mobileClient.nombrerepresentate}</span>}
