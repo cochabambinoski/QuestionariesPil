@@ -11,17 +11,6 @@ import {Dropdown} from "primereact/dropdown";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as utilDate from "../../../utils/dateUtils";
-import baseStyle from "./BaseStyle.css";
-
-const styles = theme => ({
-    row: {
-        margin: ".1em"
-    },
-    col: {
-        margin: '.1em'
-    },
-    with: '50%'
-});
 
 class BaseGenerator extends Component {
 
@@ -472,5 +461,5 @@ BaseGenerator.propTypes = {
     refresh: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(BaseGenerator);
+export default BaseGenerator;
 
