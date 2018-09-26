@@ -8,9 +8,14 @@ import {InputText} from 'primereact/inputtext';
 class Range extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            firstMin: null,
+            firstMax: null,
+        };
         this.addQuestion = this.addQuestion.bind(this);
         this.updateOption = this.updateOption.bind(this);
         this.validateFields = this.validateFields.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     validateFields() {
@@ -24,12 +29,12 @@ class Range extends Component {
                 const initialMax = parseInt(immutableOptions[1].option, 10);
                 if (initialMin !== null && initialMin < min) {
                     this.props.showError("Cuestionario asignado", "No se puede cambiar el mínimo a más de " + initialMin);
-                    this.updateOption(initialMin, 0);
+                    this.updateOption(this.state.firstMin, 0);
                     return false;
                 }
                 if (initialMax !== null && initialMax > max) {
                     this.props.showError("Cuestionario asignado", "No se puede cambiar el máximo a un valor menor a " + initialMax);
-                    this.updateOption(initialMax, 1);
+                    this.updateOption(this.state.firstMax, 1);
                     return false;
                 }
             }
@@ -54,6 +59,16 @@ class Range extends Component {
         this.props.updateOption(value, index);
     }
 
+    handleClose() {
+        if (this.state.firstMin !== null && this.state.firstMax !== null) {
+            this.updateOption(this.state.firstMin, 0);
+            this.updateOption(this.state.firstMax, 1);
+            this.setState({firstMin: null});
+            this.setState({firstMax: null});
+        }
+        this.props.handleClose();
+    }
+
     componentWillMount() {
         if (this.props.lsOptions.length === 0) {
             this.props.addOption({
@@ -70,6 +85,9 @@ class Range extends Component {
                 operacionId: 1,
                 fechaId: null,
             });
+        } else {
+            this.setState({firstMin: this.props.lsOptions[0].option});
+            this.setState({firstMax: this.props.lsOptions[1].option});
         }
     }
 
@@ -117,7 +135,7 @@ class Range extends Component {
                         <div>
                             <span>
                                 <Button label="Aceptar" onClick={this.addQuestion}/>
-                                <Button label="Cancelar" onClick={this.props.handleClose} className="ui-button-danger"/>
+                                <Button label="Cancelar" onClick={this.handleClose} className="ui-button-danger"/>
                             </span>
                         </div>
                 }
