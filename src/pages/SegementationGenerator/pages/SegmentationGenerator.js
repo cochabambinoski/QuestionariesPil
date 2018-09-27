@@ -1,13 +1,11 @@
 /**
  * Created by smirandaz on 08/31/2018.
  */
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Constants from "./../../../Constants.json";
-import {Grid, Row, Col} from 'react-flexbox-grid';
+import {Col, Grid, Row} from 'react-flexbox-grid';
 import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
 import {Card} from "primereact/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -64,11 +62,6 @@ class SegmentationGenerator extends Component {
     handleSaveSegment = () => {
         if (this.state.description !== null && this.state.dates !== null) {
             this.setState({process: 0});
-            const level = this.state.city;
-            const market = this.state.market;
-            const bussines = this.state.bussines;
-            const line = this.state.line;
-            const material = this.state.material;
             this.setSegmentation({
                 "idClientKiloliter": this.state.code,
                 "numberLevel": this.state.level,
