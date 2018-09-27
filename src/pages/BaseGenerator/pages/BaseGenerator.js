@@ -5,13 +5,16 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {Card} from "primereact/card";
 import {withStyles} from "@material-ui/core/styles";
-import {Col, Grid, Row} from "react-flexbox-grid";
 import {InputText} from "primereact/inputtext";
 import {Calendar} from "primereact/calendar";
 import {Dropdown} from "primereact/dropdown";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as utilDate from "../../../utils/dateUtils";
+
+const styles = theme => ({
+
+});
 
 class BaseGenerator extends Component {
 
@@ -348,135 +351,109 @@ class BaseGenerator extends Component {
         return (
             <div>
                 <Card style={{width: '100%'}} classes="">
-                    <Grid classes="">
-                        <Row between="xs">
-                            <Col xs={6} lg={6} md={4} sd={3}>
-                                <label htmlFor="float-input" className="label">Codigo: </label>
-                            </Col>
-                            <Col xs={6} lg={6} md={4} sd={3}>
-                                <InputText id="code" type="text" size="30"
-                                           value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter}
-                                           onChange={(e) => this.setState({codeSeg: e.target.value})}
-                                           disabled="disabled" className="imput" style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6} md={4} sd={3}>
-                            </Col>
-                            <Col xs={6} lg={6} md={4} sd={3}>
-                            </Col>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Descripción: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <InputText id="description" type="text" size="45" value={this.state.description}
-                                           onChange={(e) => this.setState({description: e.target.value})}
-                                           className="imput" style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Rango de Fechas: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
-                                          onChange={(e) => this.setState({dates: e.value})}
-                                          selectionMode="range" readonlyInput={true}
-                                          className="imput" style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Ciudad: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Dropdown value={this.state.city} options={this.state.cities}
-                                          onChange={this.onCityChange}
-                                          itemTemplate={this.cityTemplate}
-                                          placeholder="Todos"
-                                          optionLabel="nameDataType" filter={true}
-                                          filterPlaceholder="Seleccione Ciudad"
-                                          filterBy="nameDataType" className="imput"
-                                          showClear={true} style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Mercado: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Dropdown value={this.state.market} options={this.state.markets}
-                                          onChange={this.onMarketChange}
-                                          itemTemplate={this.marketTemplate}
-                                          placeholder="Todos"
-                                          optionLabel="nameDataType" filter={true}
-                                          filterPlaceholder="Seleccione Mercado"
-                                          filterBy="nameDataType" className="imput"
-                                          showClear={true} style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Tipo de Negocio: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Dropdown value={this.state.bussines} options={this.state.bussiness}
-                                          onChange={this.onBussinesChange}
-                                          itemTemplate={this.bussinesTemplate}
-                                          placeholder="Todos"
-                                          optionLabel="nameDataType" filter={true}
-                                          filterPlaceholder="Seleccione Negocio"
-                                          filterBy="nameDataType" className="imput"
-                                          showClear={true} style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                            </Col>
-                        </Row>
-                        <Row between="xs">
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Linea: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Dropdown value={this.state.line} options={this.state.lines}
-                                          onChange={this.onLineChange} itemTemplate={this.lineTemplate}
-                                          placeholder="Todos"
-                                          optionLabel="linePlan"
-                                          filter={true} filterPlaceholder="Seleccione Linea"
-                                          filterBy="linePlan" className="imput"
-                                          showClear={true} style={{width: '200px'}}/>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <label htmlFor="float-input" className="label">Material: </label>
-                            </Col>
-                            <Col xs={6} lg={6}>
-                                <Dropdown value={this.state.material} options={this.state.materials}
-                                          onChange={this.onMaterialChange}
-                                          itemTemplate={this.materialTemplate}
-                                          placeholder="Todos" optionLabel="material"
-                                          filter={true} filterPlaceholder="Seleccione Material"
-                                          filterBy="material" className="imput"
-                                          showClear={true} style={{width: '200px'}}/>
-                            </Col>
-                        </Row>
-                    </Grid>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Codigo: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <InputText id="code" type="text" size="30"
+                                       value={this.state.idClientKiloliter === 0 ? null : this.state.idClientKiloliter}
+                                       onChange={(e) => this.setState({codeSeg: e.target.value})}
+                                       disabled="disabled" className="imput" style={{width: '200px'}}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Descripción: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <InputText id="description" type="text" size="45" value={this.state.description}
+                                       onChange={(e) => this.setState({description: e.target.value})}
+                                       className="imput" style={{width: '200px'}}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Rango de Fechas: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
+                                      onChange={(e) => this.setState({dates: e.value})}
+                                      selectionMode="range" readonlyInput={true}
+                                      className="imput" style={{width: '200px'}}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Ciudad: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <Dropdown value={this.state.city} options={this.state.cities}
+                                      onChange={this.onCityChange}
+                                      itemTemplate={this.cityTemplate}
+                                      placeholder="Todos"
+                                      optionLabel="nameDataType" filter={true}
+                                      filterPlaceholder="Seleccione Ciudad"
+                                      filterBy="nameDataType" className="imput"
+                                      showClear={true} style={{width: '200px'}}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Mercado: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <Dropdown value={this.state.market} options={this.state.markets}
+                                      onChange={this.onMarketChange}
+                                      itemTemplate={this.marketTemplate}
+                                      placeholder="Todos"
+                                      optionLabel="nameDataType" filter={true}
+                                      filterPlaceholder="Seleccione Mercado"
+                                      filterBy="nameDataType" className="imput"
+                                      showClear={true} style={{width: '200px'}}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Tipo de Negocio: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <Dropdown value={this.state.bussines} options={this.state.bussiness}
+                                      onChange={this.onBussinesChange}
+                                      itemTemplate={this.bussinesTemplate}
+                                      placeholder="Todos"
+                                      optionLabel="nameDataType" filter={true}
+                                      filterPlaceholder="Seleccione Negocio"
+                                      filterBy="nameDataType" className="imput"
+                                      showClear={true} style={{width: '200px'}}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label">Linea: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <Dropdown value={this.state.line} options={this.state.lines}
+                                      onChange={this.onLineChange} itemTemplate={this.lineTemplate}
+                                      placeholder="Todos"
+                                      optionLabel="linePlan"
+                                      filter={true} filterPlaceholder="Seleccione Linea"
+                                      filterBy="linePlan" className="imput"
+                                      showClear={true} style={{width: '200px'}}/>
+                        </div>
+                        <div className="col-auto divCol">
+                            <label htmlFor="float-input" className="label space">Material: </label>
+                        </div>
+                        <div className="col-auto divCol">
+                            <Dropdown value={this.state.material} options={this.state.materials}
+                                      onChange={this.onMaterialChange}
+                                      itemTemplate={this.materialTemplate}
+                                      placeholder="Todos" optionLabel="material"
+                                      filter={true} filterPlaceholder="Seleccione Material"
+                                      filterBy="material" className="imput"
+                                      showClear={true} style={{width: '200px'}}/>
+                        </div>
+                    </div>
                 </Card>
             </div>
         );
@@ -488,5 +465,5 @@ BaseGenerator.propTypes = {
     refresh: PropTypes.func.isRequired
 };
 
-export default BaseGenerator;
+export default withStyles(styles)(BaseGenerator);
 
