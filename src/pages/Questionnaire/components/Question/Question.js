@@ -4,7 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {InputText} from 'primereact/inputtext';
 import {Dropdown} from 'primereact/dropdown';
-import {Growl} from 'primereact/growl';
+import {Messages} from 'primereact/messages';
 import Constants from '../../../../Constants.json';
 import MultipleOption from './MultipleOption.js';
 import MultipleSelection from './MultipleSelection.js';
@@ -14,6 +14,7 @@ import Image from './Image.js';
 import {connect} from 'react-redux';
 import {getUser} from "../../../../reducers";
 import {Button} from "../../../../../node_modules/primereact/button";
+import './Question.css';
 
 class Question extends Component {
     constructor(props) {
@@ -77,7 +78,7 @@ class Question extends Component {
     }
 
     showError(summary, detail) {
-        this.growl.show({severity: 'error', summary: summary, detail: detail});
+        this.messages.show({severity: 'error', summary: summary, detail: detail});
     }
 
     addQuestion() {
@@ -191,12 +192,15 @@ class Question extends Component {
                     break;
                 case Constants.CODSAP_RANGE:
                     innerComponent =
-                        <Range updateOption={this.updateOption} lsOptions={this.state.squestion.lsQuestionOptions}
+                        <Range updateOption={this.updateOption}
+                               lsOptions={this.state.squestion.lsQuestionOptions}
+                               immutableQuestion={this.props.immutableQuestion}
                                readOnly={this.props.readOnly}
                                addQuestion={this.addQuestion}
                                handleClose={this.handleClose}
                                addOption={this.addOption}
                                showError={this.showError}
+                               assigned={this.props.assigned}
                                user={this.props.user}/>;
                     break;
                 case Constants.CODSAP_IMAGE:
@@ -212,50 +216,41 @@ class Question extends Component {
 
         return (
             <div>
-                <Growl ref={(el) => this.growl = el}/>
-                <div className="card">
-                    <h1>Pregunta</h1>
-                    <div className="ui-g">
-                        <div className="ui-g-6 text">
-                            {
-                                this.props.readOnly ?
-                                    <div>
-                                        <p>{'Pregunta: ' + this.state.squestion.question}</p>
-                                        <p>{this.state.squestion.type != null ? 'Tipo: ' + this.state.squestion.type.nombre : ''}</p>
-                                        {innerComponent}
-                                        <Button label="Cerrar" onClick={this.handleClose}/>
-                                    </div>
-                                    :
-                                    <div>
-                                        <div className="ui-g form-group">
-                                            <div className="card card-w-title">
-                                                <InputText id="float-input" placeholder="Pregunta" type="text" required
-                                                           maxLength="255" size="40"
-                                                           value={this.state.squestion.question}
-                                                           onChange={(e) => this.setQuestion(e.target.value)}/>
-                                                <p></p>
-                                                {
-                                                    this.state.squestion.type != null && this.state.squestion.id != null ?
-                                                        <p>{'Tipo: ' + this.state.squestion.type.nombre}</p> :
-                                                        <Dropdown value={this.state.squestion.type}
-                                                                  options={this.props.questionTypes}
-                                                                  onChange={this.onTypeChange} style={{width: '300px'}}
-                                                                  placeholder="Seleccione un tipo"
-                                                                  optionLabel="nombre"/>
-                                                }
-                                                {innerComponent}
-                                            </div>
-                                        </div>
-                                        {
-                                            this.state.squestion.type == null ?
-                                                <Button label="Cerrar" onClick={this.handleClose}/> : null
-                                        }
-                                    </div>
-                            }
-                        </div>
-
-                    </div>
-
+                <Messages ref={(el) => this.messages = el} className="pi-times:before"></Messages>
+                <div style={{padding: '20px', minHeight: '215px'}}>
+                    {
+                        this.props.readOnly ?
+                            <div>
+                                <p>{this.state.squestion.question}</p>
+                                <p>{this.state.squestion.type != null ? 'Tipo: ' + this.state.squestion.type.nombre : ''}</p>
+                                {innerComponent}
+                                <Button label="Cerrar" onClick={this.handleClose}/>
+                            </div>
+                            :
+                            <div>
+                                <div style={{marginBottom: '20px'}}>
+                                    <InputText id="float-input" placeholder="Pregunta" type="text" required
+                                               maxLength="255" size="40"
+                                               value={this.state.squestion.question}
+                                               onChange={(e) => this.setQuestion(e.target.value)}/>
+                                    <p></p>
+                                    {
+                                        this.state.squestion.type != null && this.state.squestion.id != null ?
+                                            <p>{'Tipo: ' + this.state.squestion.type.nombre}</p> :
+                                            <Dropdown value={this.state.squestion.type}
+                                                      options={this.props.questionTypes}
+                                                      onChange={this.onTypeChange} style={{width: '300px'}}
+                                                      placeholder="Seleccione un tipo"
+                                                      optionLabel="nombre"/>
+                                    }
+                                    {innerComponent}
+                                </div>
+                                {
+                                    this.state.squestion.type == null ?
+                                        <Button label="Cerrar" nClick={this.handleClose}/> : null
+                                }
+                            </div>
+                    }
                 </div>
             </div>
         );
