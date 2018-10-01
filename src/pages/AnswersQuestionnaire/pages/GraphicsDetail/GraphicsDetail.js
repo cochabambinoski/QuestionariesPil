@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Graphics from "../Graphics/Graphics";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
@@ -11,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import './style.css';
 
 const styles = theme => ({
     root: {
@@ -23,34 +23,42 @@ const styles = theme => ({
     padding: 0,
 });
 
+function generateListAnswers(idQuestion, listAnswers) {
+    let listAnswersQuestion = [];
+    listAnswers.forEach((answers) => {
+        answers.lsAnswerDetails.forEach((answerDetail) => {
+            if (answerDetail.question.id === idQuestion && !listAnswersQuestion.includes(answerDetail)) {
+                listAnswersQuestion.push(answerDetail);
+                console.log("includes");
+                return false;
+            }
+        })
+    });
+    return listAnswersQuestion
+}
+
 class GraphicsDetail extends Component {
-    state = {
-        value: 0,
-        currentQuestion: null,
-        listAnswerCurrent: [],
-        expandFirstSellerSearch: false,
-    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: 0,
+            currentQuestion: props.questionarySelected.lsQuestions[0],
+            listAnswerCurrent: generateListAnswers(props.questionarySelected.lsQuestions[0].id, props.answers),
+            expandFirstSellerSearch: false,
+        };
+    }
 
     handleChange = (event, value) => {
         this.setState({value});
     };
 
-    generateListAnswerQuestion(idQuestion) {
-        let listAnswersQuestion = [];
-        this.props.answers.forEach((answers) => {
-            answers.lsAnswerDetails.forEach((answerDetail) => {
-                if (answerDetail.question.id === idQuestion && !listAnswersQuestion.includes(answerDetail)) {
-                    listAnswersQuestion.push(answerDetail);
-                    return false;
-                }
-            })
+    generateGraphics = (question) => {
+        this.setState({
+            currentQuestion: question,
+            listAnswerCurrent: generateListAnswers(question.id, this.props.answers)
         });
-        return listAnswersQuestion
-    }
-
-    generateGraphics(question) {
-        this.setState({currentQuestion: question, listAnswerCurrent: this.generateListAnswerQuestion(question.id)});
-    }
+    };
 
     handleSetStateFirstSellerSearch = () => {
         const isExpanded = this.state.expandFirstSellerSearch;
@@ -63,35 +71,34 @@ class GraphicsDetail extends Component {
 
 
     render() {
-        const {classes} = this.props;
         const {value} = this.state;
         return (
             <div>
                 <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
-                        this.handleSetStateFirstSellerSearch()
-                    }}/>}>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon onClick={() => {
+                            this.handleSetStateFirstSellerSearch()
+                        }}/>}>
                         <IconButton aria-label="Comments" onClick={() => this.props.backAnswerList()}>
                             <ArrowBack/>
                         </IconButton>
-                        <ExpansionPanelDetails>
-                            <Tabs position="static" color="default"
-                                  indicatorColor="primary"
-                                  textColor="primary"
-                                  scrollable
-                                  scrollButtons="auto"
-                                  style={{marginRight: 10, padding: 0}}
-                                  value={value} onChange={this.handleChange} showLabels className={classes.root}>
-                                {
-                                    this.props.questionarySelected.lsQuestions.map((question) => {
-                                        return <Tab label={question.question} key={question.id}
-                                                    onClick={() => {
-                                                        this.generateGraphics(question)
-                                                    }}/>
-                                    })
-                                }
-                            </Tabs>
-                        </ExpansionPanelDetails>
+                        <Tabs className='tabs-style'
+                              position="static"
+                              color="default"
+                              indicatorColor="primary"
+                              textColor="primary"
+                              scrollable
+                              scrollButtons="auto"
+                              value={value} onChange={this.handleChange}>
+                            {
+                                this.props.questionarySelected.lsQuestions.map((question) => {
+                                    return <Tab label={question.question} key={question.id}
+                                                onClick={() => {
+                                                    this.generateGraphics(question)
+                                                }}/>
+                                })
+                            }
+                        </Tabs>
                     </ExpansionPanelSummary>
                     <Divider/>
                     <GoogleMapsComponent answers={this.props.answers}/>

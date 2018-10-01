@@ -8,6 +8,15 @@ import InfoIcon from '@material-ui/icons/Info';
 import { withStyles } from '@material-ui/core/styles';
 import Image from 'pimg';
 import Constants from "../../../../../Constants";
+import ModalContainer from "../../../../../widgets/Modal/pages/modal";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
+import Question from "../../../../Questionnaire/components/Question/Question";
+import DialogActions from "@material-ui/core/DialogActions/DialogActions";
+import {Col} from "react-flexbox-grid";
+import Button from "@material-ui/core/Button/Button";
 
 
 const styles = theme => ({
@@ -28,6 +37,23 @@ const styles = theme => ({
 });
 
 class ImageAnswerView extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            openDialog: false,
+            answerDetail: null,
+        }
+    }
+
+    openDialog(answerDetail){
+        this.setState({ openDialog: true, answerDetail: answerDetail})
+    }
+
+    closeDialog(answerDetail){
+        this.setState({ openDialog: false})
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -43,7 +69,7 @@ class ImageAnswerView extends Component {
                                 title={answer.title}
                                 subtitle={<span>Por: {answer.answer.interviewedName ? answer.answer.interviewedName : answer.answer.mobileClient.nombrerepresentate}</span>}
                                 actionIcon={
-                                    <IconButton className={classes.icon}>
+                                    <IconButton className={classes.icon} onClick={event => this.openDialog(answer.answerDetail )}>
                                         <InfoIcon/>
                                     </IconButton>
                                 }
@@ -51,6 +77,26 @@ class ImageAnswerView extends Component {
                         </GridListTile>
                     ))}
                 </GridList>
+                < ModalContainer>
+                    <Dialog
+                        open={this.state.openDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description">
+                        <DialogTitle id="alert-dialog-title" className="titleBody">
+                            <h1 className="dialogTitle">Imagen</h1>
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description" className="dialogBody">
+                                <Image src={Constants.ROUTE_WEB_SERVICES+Constants.GET_IMAGE_ANSWER+ this.state.answerDetail} alt={this.state.answerDetail}/>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button label="Cancelar" onClick={event => this.closeDialog()} className="ui-button-secondary">
+                                Cerrar
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </ModalContainer>
             </div>
         );
     }
