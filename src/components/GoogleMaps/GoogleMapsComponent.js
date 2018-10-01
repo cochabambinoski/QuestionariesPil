@@ -76,11 +76,15 @@ class GoogleMapsComponent extends Component {
 
     onMapReady(event) {
         let overlaysAnswer = [];
-        if(this.props.answers.length > 0){
+        if (this.props.answers.length > 0) {
             this.props.answers.forEach((answer) => {
-                overlaysAnswer.push(new google.maps.Marker({position: {lat: answer.latitude, lng: answer.longitude},
-                    title: answer.interviewedName ? answer.interviewedName : answer.mobileClient.nombrerepresentate,
-                snippet: !answer.interviewedName ? answer.mobileClient.codClienteSap : null}))
+                if (answer.latitude !== 0 && answer.longitude !== 0) {
+                    overlaysAnswer.push(new google.maps.Marker({
+                        position: {lat: answer.latitude, lng: answer.longitude},
+                        title: answer.interviewedName ? answer.interviewedName : answer.mobileClient.nombrerepresentate,
+                        snippet: !answer.interviewedName ? answer.mobileClient.codClienteSap : null
+                    }))
+                }
             })
         }
         this.setState({
