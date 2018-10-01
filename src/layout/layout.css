@@ -2036,7 +2036,7 @@ body {
         padding: 8px 20px 7px;
         text-align: left;
         border: solid 1px #b7d0d8;
-        word-break: all; }
+        word-break: break-all; }
       #layout-content .content-section .doc-table tbody td {
         padding: 8px 20px;
         border: 1px solid #d4e1e3;
@@ -2504,10 +2504,10 @@ pre[class*="language-"] {
   font-family: 'Open Sans', sans-serif !important; }
 
 .toolbarTable {
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF !important; }
 
 .toolbarFullWidth {
-  background-color: #FFFFFF;
+  background-color: #FFFFFF !important;
   margin-left: -1.2em;
   margin-right: -1.2em; }
 
@@ -2612,16 +2612,31 @@ pre[class*="language-"] {
 .label {
   color: #525252 !important;
   font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: bold !important; }
+
+.divCol {
+  min-width: 12em; }
+
+.divColSmall {
+  min-width: 6em; }
+
+.space {
+  margin-left: 1.5em; }
+  @media only screen and (max-width: 1024px) {
+    .space {
+      margin-left: 0.0em; } }
 
 .imput {
   color: #525252 !important;
   font-family: 'Open Sans', sans-serif !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: normal !important;
   width: 200px !important;
   margin-bottom: 0.5em !important; }
+  @media only screen and (max-width: 720px) {
+    .imput {
+      width: 120px !important; } }
 
 .imputSmall {
   color: #525252 !important;
@@ -2644,6 +2659,30 @@ pre[class*="language-"] {
   font-family: 'Open Sans', sans-serif !important;
   font-size: 14px !important;
   font-weight: normal !important; }
+
+.fullDialog {
+  margin-top: 10em;
+  margin-bottom: 10em;
+  margin-left: 10em;
+  margin-right: 10em; }
+  @media only screen and (max-width: 1270px) {
+    .fullDialog {
+      margin-top: 10em;
+      margin-bottom: 10em;
+      margin-left: 35em;
+      margin-right: 35em; } }
+  @media only screen and (max-width: 1024px) {
+    .fullDialog {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      margin-left: 1em;
+      margin-right: 1em; } }
+  @media only screen and (max-width: 720px) {
+    .fullDialog {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      margin-left: 1em;
+      margin-right: 1em; } }
 
 .navItemsColor {
   color: #f3f4f9 !important;
@@ -2676,6 +2715,31 @@ ul[class^="MuiList-padding"] {
   height: 120px;
   width: 200px;
   background-size: 200px 120px; }
+
+.titleBody {
+  background-image: linear-gradient(75deg, #2471a3, #5DADE2) !important;
+  color: #FFFFF0;
+  padding: 1.5em;
+  margin-top: -0.33em;
+  margin-left: -1.2em;
+  margin-right: -1.2em;
+  font-family: 'Open Sans', sans-serif; }
+
+.titleA {
+  font-weight: bold;
+  font-size: xx-large; }
+  @media only screen and (max-width: 720px) {
+    .titleA {
+      font-weight: bold;
+      font-size: x-large; } }
+
+.titleB {
+  font-weight: normal;
+  font-size: large; }
+  @media only screen and (max-width: 720px) {
+    .titleB {
+      font-weight: normal;
+      font-size: medium; } }
 
 .MuiExpansionPanelDetails-root-169 {
   display: flex;

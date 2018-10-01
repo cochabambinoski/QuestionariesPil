@@ -10,7 +10,7 @@ class FreeAnswer extends Component {
         super(props);
         this.state = {
             selected: {option: 'Sin validacion'},
-        }
+        };
         this.addQuestion = this.addQuestion.bind(this);
         this.updateTypeOption = this.updateTypeOption.bind(this);
         this.addOption = this.addOption.bind(this);
@@ -73,7 +73,7 @@ class FreeAnswer extends Component {
                         this.props.readOnly ?
                             <div>Tipo de validacion: {this.props.lsOptions[0].option}</div> :
                             <Dropdown value={this.state.selected} options={validationTypes}
-                                      onChange={(e) => this.updateTypeOption(e.value, 0)} style={{width: '300px'}}
+                                      onChange={(e) => this.updateTypeOption(e.value, 0)} style={{width: '300px', marginBottom:'20px', marginTop:'20px'}}
                                       placeholder="Seleccione una validacion" optionLabel="option"/>
                     }
                 </div>

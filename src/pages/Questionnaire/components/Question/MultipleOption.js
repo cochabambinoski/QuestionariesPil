@@ -51,7 +51,7 @@ class MultipleOption extends Component {
     updateOption(value, index) {
         if (this.props.assigned) {
             if (this.props.lsOptions[index].id != null) {
-                this.props.showError("No se pudo actualizar la pregunta", "El cuestionario ya está asignado");
+                this.props.showError("", "No se puede actualizar la opción de un cuestionario ya asignado");
             } else {
                 this.props.updateOption(value, index);
             }
@@ -63,7 +63,7 @@ class MultipleOption extends Component {
     removeOption(index) {
         if (this.props.assigned) {
             if (this.props.lsOptions[index].id != null) {
-                this.props.showError("No se puede eliminar la pregunta", "El cuestionario ya está asignado");
+                this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
             } else {
                 this.props.removeOption(index);
             }
@@ -75,8 +75,7 @@ class MultipleOption extends Component {
     render() {
         return (
             <div className="ui-g" style={{width: '350px', marginBottom: '10px'}}>
-                <ScrollPanel style={{width: '100%', height: '110px', marginBottom: '10px'}}>
-                    <div style={{paddingBottom: '15px', paddingTop: '10px'}}>
+                    <div style={{paddingBottom: '15px', paddingTop: '10px', overflow:'auto', maxHeight:'150px', width: '100%',  marginBottom: '10px'}}>
                         {
                             this.props.lsOptions.map((option, index) => {
                                 return (
@@ -99,12 +98,10 @@ class MultipleOption extends Component {
                             })
                         }
                     </div>
-
-                </ScrollPanel>
                 <br/>
                 {
                     this.props.readOnly ? <div></div> :
-                        <div>
+                        <div style={{width: '400px'}}>
                             <Button label="Añadir opcion" onClick={this.addOption} className="ui-button-secondary"/>
 
 

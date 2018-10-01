@@ -20,7 +20,7 @@ class Image extends Component {
     }
     render() {
         return (
-            <div className="ui-g" style={{ width: '250px', marginBottom: '10px' }}>
+            <div className="ui-g" style={{ width: '250px', marginTop: '20px'}}>
                 {
                     this.props.readOnly ? <div/> :
                         <div>

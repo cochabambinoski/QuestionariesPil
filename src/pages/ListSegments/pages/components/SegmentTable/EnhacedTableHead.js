@@ -49,14 +49,14 @@ class EnhancedTableHead extends Component {
                     <TableCell className="headTable">
                         Base
                     </TableCell>
-                    <TableCell className="headTable">
-                        Segmentación
-                    </TableCell>
-                    <TableCell className="headTable">
-                        Reporte
-                    </TableCell>
-                    <TableCell className="headTable">
-                        Borrar
+                        <TableCell className="headTable">
+                            Segmentación
+                        </TableCell>
+                        <TableCell className="headTable">
+                            Reporte
+                        </TableCell>
+                        <TableCell className="headTable">
+                            Borrar
                     </TableCell>
                 </TableRow>
             </TableHead>

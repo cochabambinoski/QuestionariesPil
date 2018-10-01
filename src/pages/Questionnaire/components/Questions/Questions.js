@@ -20,10 +20,12 @@ class Questions extends Component {
     openModal = (index) => {
         this.setState({currentIndex: index});
         this.setState({open: true});
-    }
+    };
+
     closeModal = () => {
         this.setState({open: false});
-    }
+    };
+
     handleRemove = () => {
         this.closeModal();
         this.setState((prevState, props) => {
@@ -48,7 +50,8 @@ class Questions extends Component {
         return (
             <div>
                 <ModalContainer>
-                    <Modal open={this.state.open} title={"Eliminar pregunta"} message={"Está seguro de eliminar la pregunta?"}
+                    <Modal open={this.state.open} title={"Eliminar pregunta"}
+                           message={"Está seguro de eliminar la pregunta?"}
                            handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
                     </Modal>
                 </ModalContainer>

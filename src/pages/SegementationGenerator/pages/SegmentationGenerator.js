@@ -8,6 +8,7 @@ import {Col, Grid, Row} from 'react-flexbox-grid';
 import {InputText} from 'primereact/inputtext';
 import {Card} from "primereact/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {InputMask} from 'primereact/inputmask';
 
 class SegmentationGenerator extends Component {
 
@@ -72,6 +73,23 @@ class SegmentationGenerator extends Component {
         }
     };
 
+    handleChangeK1(e) {
+        const val = e.target.value;
+        if (val.length <= 4 && (/^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val) || /^([1-3]{1})$/.test(val))) {
+            this.setState({
+                k1: val
+            });
+        }
+    }
+    handleChangeK2(e) {
+        const val = e.target.value;
+        if (val.length <= 4 && (/^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val) || /^([1-3]{1})$/.test(val))) {
+            this.setState({
+                k2: val
+            });
+        }
+    }
+
     render() {
         const {process} = this.state;
         return (
@@ -89,52 +107,53 @@ class SegmentationGenerator extends Component {
             <div>
                 <Card>
                     <Grid>
-                        <Row>
-                            <Col xs={5}>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Codigo:</label>
-                            </Col>
-                            <Col xs={3}>
+                            </div>
+                            <div className="col-auto divColSmall">
                                 <InputText value={this.state.code}
                                            onChange={(e) => this.setState({code: e.target.value})}
                                            disabled="disabled" className="imputSmall !important"/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={5}>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Numero de Niveles:</label>
-                            </Col>
-                            <Col xs={3}>
-                                <InputText value={this.state.level} keyfilter="int"
+                            </div>
+                            <div className="col-auto divColSmall">
+                                <InputText value={this.state.level} keyfilter={/^([1-3]{1})$/}
                                            onChange={(e) => this.setState({level: e.target.value})}
-                                           className="imputSmall !important"/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={5}>
+                                           className="imputSmall !important" maxLength="1"/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Factor K1:</label>
-                            </Col>
-                            <Col xs={2}>
-                                <InputText value={this.state.k1} keyfilter={/^\d*\.?\d{0,2}$/}
-                                           onChange={(e) => this.setState({k1: e.target.value})}
+                            </div>
+                            <div className="col-auto divColSmall">
+                                <InputText value={this.state.k1} maxLength="4"
+                                           onChange={this.handleChangeK1.bind(this)}
                                            className="imputSmall !important"/>
-                            </Col>
-                            <Col xs={5}>
+                            </div>
+                            <div className="col-auto divCol">
                                 <label className="LabelDetail">Para limite inferior</label>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={5}>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto divCol">
                                 <label className="label">Factor K2:</label>
-                            </Col>
-                            <Col xs={2}>
-                                <InputText value={this.state.k2} keyfilter={/^\d*\.?\d{0,2}$/}
-                                           onChange={(e) => this.setState({k2: e.target.value})}
+                            </div>
+                            <div className="col-auto divColSmall">
+                                <InputText value={this.state.k2} maxLength="4"
+                                           onChange={this.handleChangeK2.bind(this)}
                                            className="imputSmall !important"/>
-                            </Col>
-                            <Col xs={5}>
+
+                            </div>
+                            <div className="col-auto divCol">
                                 <label className="LabelDetail">Para limite superior</label>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     </Grid>
                 </Card>
             </div>

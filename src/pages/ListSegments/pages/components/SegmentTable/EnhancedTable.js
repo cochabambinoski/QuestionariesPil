@@ -34,6 +34,7 @@ class EnhancedTable extends Component {
     constructor(props) {
         super(props);
         this.BaseGenerator = React.createRef();
+        this.SegmentationGenerator = React.createRef();
         this.state = {
             order: 'asc',
             orderBy: 'id',
@@ -360,11 +361,12 @@ class EnhancedTable extends Component {
         const {classes} = this.props;
         return (
             <Dialog
+                className="fullDialog"
+                fullScreen
                 open={this.state.baseOpen}
                 onClose={this.handleCloseBase}
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
+                aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title"
                              className="titleBody">
                     <h1 className="dialogTitle">{"Generación de Segmentación Base"}</h1>
