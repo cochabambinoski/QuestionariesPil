@@ -98,8 +98,8 @@ class GoogleMapsComponent extends Component {
 
     render() {
         const options = {
-            center: {lat: 36.890257, lng: 30.707417},
-            zoom: 12
+            center: {lat: -17.378151587309603, lng: -66.25526416493591},
+            zoom: 5
         };
 
         const footer = <div>
