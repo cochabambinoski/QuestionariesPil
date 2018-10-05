@@ -5,6 +5,7 @@ import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContain
 import {Start} from "../../../Start/Start";
 import ListSegment from "../../../ListSegments/pages/ListSegments";
 import AsigmentQuestionaryContainer from "../../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
+import AnswerContainer from "../../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 
 class Container extends Component {
     render() {
@@ -22,6 +23,9 @@ class Container extends Component {
                 break;
             case 'ListSegment':
                 component = <ListSegment/>;
+                break;
+            case 'AnwserQuestionaryContainer':
+                component = <AnswerContainer/>;
                 break;
             default:
                 component = <Start/>;

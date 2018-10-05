@@ -9,6 +9,7 @@
   "SAVE_RANGE": "saveQuestionaryRange/",
   "GET_ALL_CITIES": "allDepartments/",
   "GET_ALL_BRANCHES": "getListBranchs/",
+  "GET_ANSwERS": "filledAnswers?questionaryId=",
   "ROUTE_SVM": "http://localhost:8087/vmovil/business/login.jsf",
   "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary=",
   "GET_ASSIGNMENTS_BY_ID_QUESTIONARY": "getAssignmentsByIdQuestionary?idQuestionary=",
@@ -52,5 +53,6 @@
   "CITIES_LIST": "CITIES_LIST",
   "BRANCHES_LIST": "BRANCHES_LIST",
   "ADD_BRANCHES_LIST": "ADD_BRANCHES_LIST",
-  "ASSING_QUESTIONARIES":"assignQuestionaries"
+  "ASSING_QUESTIONARIES":"assignQuestionaries",
+  "GET_IMAGE_ANSWER":"getImageAnswer?imageName="
 }

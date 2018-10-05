@@ -9,7 +9,8 @@ class Questionary extends Component {
         return (
             <div>
                 <QuestionaryData data={this.props.questionary}
-                                 handleQuestionaryLocationDataClick={this.props.onSelectedQuestionaryClick}/>
+                                 handleQuestionaryDataClick={this.props.onSelectedQuestionaryClick}
+                                parentComponent={this.props.parentComponent}/>
             </div>
         );
     }

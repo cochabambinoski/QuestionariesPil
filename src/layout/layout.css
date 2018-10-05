@@ -2740,3 +2740,7 @@ ul[class^="MuiList-padding"] {
     .titleB {
       font-weight: normal;
       font-size: medium; } }
+
+.MuiExpansionPanelDetails-root {
+  display: flex;
+  padding: 0px 0px 0px !important; }

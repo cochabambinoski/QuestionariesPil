@@ -137,13 +137,11 @@ class ListSearchAdvancedSeller extends Component {
                 if (existElementInList(item, citiesSelected)) {
                     remove(citiesSelected, item);
                     const branchListCity = getBranchByIdCity(this.props.branches, item.id);
-                    console.log(branchListCity)
                     branchListCity.forEach((branch) => (this.typeSearchAdvances() ? this.props.deleteParamFilterMobileSellerBranch(branch) :
                         this.props.deleteParamFilterMobileSellerAssignedBranch(branch)));
                 } else {
                     citiesSelected.push(item);
                     const branchListCity = getBranchByIdCity(this.props.branches, item.id);
-                    console.log(branchListCity)
                     branchListCity.forEach((branch) => (this.typeSearchAdvances() ? this.props.addParamFilterMobileSellerBranch(branch) :
                         this.props.addParamFilterMobileSellerAssignedBranch(branch)));
                 }
