@@ -1,0 +1,10 @@
+.tab{
+    background: #ffffff
+}
+.light-text{
+    color: lightgray;
+}
+.normal-text{
+    color: grey;
+    font-weight: 600;
+}

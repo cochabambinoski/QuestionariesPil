@@ -1,0 +1,38 @@
+.navItemsColor {
+  color: #f3f4f9 !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+div[class^="MuiPaper-root"] ul {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+ul[class^="MuiList-padding"] {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.navItemBackground:hover {
+  background: #2471a3 !important;
+}
+
+.MuiListItem-button-27 {
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.list {
+  background: transparent !important;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  maxHeight: 800;
+  marginBottom: 5;
+}
+
+.layout-wrapper .layout-sidebar .logo {
+  margin-left: 30px;
+  height: 120px;
+  width: 200px;
+  background-size: 200px 120px;
+}
