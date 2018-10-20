@@ -124,10 +124,6 @@ class Question extends Component {
         this.setState({squestion: question});
     }
 
-    showOptions() {
-
-    }
-
     componentWillMount() {
         if (this.props !== undefined && this.props.question != null) {
             let question = this.props.question;

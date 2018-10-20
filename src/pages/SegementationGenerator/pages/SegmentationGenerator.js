@@ -3,12 +3,12 @@
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Constants from "./../../../Constants.json";
-import {Col, Grid, Row} from 'react-flexbox-grid';
+import {Grid} from 'react-flexbox-grid';
 import {InputText} from 'primereact/inputtext';
 import {Card} from "primereact/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {InputMask} from 'primereact/inputmask';
+import {sendSegmentation} from "../../../actions/indexthunk";
+import connect from "react-redux/es/connect/connect";
 
 class SegmentationGenerator extends Component {
 
@@ -37,17 +37,8 @@ class SegmentationGenerator extends Component {
      * @param data
      */
     setSegmentation = (data) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_SEGMENT}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
+        this.props.sendSegmentation(data)
+            .then((response) => {
                 if (response.codeResult === null || response.codeResult === undefined) {
                     if (response.status > 200) {
                         this.setState({process: 1});
@@ -81,6 +72,7 @@ class SegmentationGenerator extends Component {
             });
         }
     }
+
     handleChangeK2(e) {
         const val = e.target.value;
         if (val.length <= 4 && (/^(([0-2]{0,1})(\.\d{0,2})?)$/.test(val) || /^([1-3]{1})$/.test(val))) {
@@ -165,5 +157,10 @@ SegmentationGenerator.propTypes = {
     segment: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired
 };
-export default SegmentationGenerator;
+
+const mapDispatchToProps = dispatch => ({
+    sendSegmentation: value => dispatch(sendSegmentation(value)),
+});
+
+export default connect(null, mapDispatchToProps)(SegmentationGenerator);
 
