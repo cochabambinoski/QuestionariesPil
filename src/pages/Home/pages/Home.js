@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
+import {getReachesTypes, getSystemsTypes} from "../../../actions/indexthunk";
 
 class Home extends Component {
     state = {
@@ -156,18 +157,6 @@ class Home extends Component {
             }).then(data => {
             this.props.setTypeSeller(data);
         });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_SYSTEM)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setSystemTypes(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_REACH)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setReachTypes(data);
-        });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
             .then(results => {
                 return results.json();
@@ -186,6 +175,8 @@ class Home extends Component {
             }).then(data => {
             this.props.setInitialBranches(data);
         });
+        this.props.getSystemsTypes(Constants.CLASS_NAME_SYSTEM);
+        this.props.getReachesTypes(Constants.CLASS_NAME_REACH);
     }
 
     render() {
@@ -259,8 +250,8 @@ const mapDispatchToProps = dispatch => ({
     setUser: value => dispatch(actions.setUser(value)),
     setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
     setInitialBranches: value => dispatch(actions.getAllBranches(value)),
-    setSystemTypes: value => dispatch(actions.setSystemTypes(value)),
-    setReachTypes: value => dispatch(actions.setReachTypes(value)),
+    getSystemsTypes: value => dispatch(getSystemsTypes(value)),
+    getReachesTypes: value => dispatch(getReachesTypes(value)),
 });
 
 const mapStateToProps = state => (
