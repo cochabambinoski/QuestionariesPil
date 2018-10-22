@@ -247,7 +247,7 @@ class Question extends Component {
                                 </div>
                                 {
                                     this.state.squestion.type == null ?
-                                        <Button label="Cerrar" nClick={this.handleClose}/> : null
+                                        <Button label="Cerrar" onClick={this.handleClose}/> : null
                                 }
                             </div>
                     }

@@ -8,6 +8,7 @@ import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
 import {InputText} from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
+import {RadioButton} from 'primereact/radiobutton';
 import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
 import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
@@ -15,7 +16,13 @@ import Constants from '../../../../Constants.json';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
-import {getCreateQuestionary, getQuestionarySelected, getUser} from "../../../../reducers";
+import {
+    getCreateQuestionary,
+    getQuestionarySelected,
+    getReachTypes,
+    getSystemTypes,
+    getUser
+} from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
@@ -73,6 +80,8 @@ class Questionnaire extends Component {
             expandPanelRange: true,
             lsQuestionsImmutableAux: [],
             immutableQuestion: null,
+            system: this.props.systemTypes[0],
+            reach: this.props.reachTypes[0],
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -115,6 +124,8 @@ class Questionnaire extends Component {
                 name: this.state.name,
                 description: this.state.description,
                 lsQuestions: this.state.lsQuestions,
+                system: this.state.system,
+                reach: this.state.reach,
                 sociedadId: 'BO81',
                 usuarioId: this.props.user.username,
                 operacionId: 1,
@@ -221,6 +232,8 @@ class Questionnaire extends Component {
                 this.setState({description: data.description});
                 this.setState({lsQuestions: data.lsQuestions});
                 this.setImmutableCopy(data.lsQuestions);
+                this.setState({system: data.system});
+                this.setState({reach: data.reach});
                 this.setState({sociedadId: data.sociedadId});
                 this.setState({usuarioId: data.usuarioId});
                 this.setState({operacionId: data.operacionId});
@@ -239,13 +252,13 @@ class Questionnaire extends Component {
         }
     }
 
-    setImmutableCopy(lsQuestions){
+    setImmutableCopy(lsQuestions) {
         let auxQuestions = [];
-        lsQuestions.forEach((question)=>{
+        lsQuestions.forEach((question) => {
             let auxQuestion = {id: question.id,
                 lsQuestionOptions: []
             };
-            question.lsQuestionOptions.forEach((option)=>{
+            question.lsQuestionOptions.forEach((option) => {
                 auxQuestion.lsQuestionOptions.push({option: option.option});
             });
             auxQuestions.push(auxQuestion);
@@ -390,6 +403,57 @@ class Questionnaire extends Component {
                                                                rows={4} autoResize={false}/>
                                             }
                                         </div>
+
+                                        <div>
+                                            Seleccione a qué sistema corresponde la encuesta:
+                                            <div className="radio-container">
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb1" name="system"
+                                                                 value={this.props.systemTypes[0]}
+                                                                 onChange={(e) => this.setState({system: e.value})}
+                                                                 checked={this.state.system && this.state.system.nombre === this.props.systemTypes[0].nombre}
+                                                                 disabled={this.props.readOnly} />
+                                                    <label htmlFor="rb1"
+                                                           className="p-radiobutton-label">{this.props.systemTypes[0].nombre}</label>
+                                                </div>
+
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb2" name="system"
+                                                                 value={this.props.systemTypes[1]}
+                                                                 onChange={(e) => this.setState({system: e.value})}
+                                                                 checked={this.state.system && this.state.system.nombre === this.props.systemTypes[1].nombre}
+                                                                 disabled={this.props.readOnly} />
+                                                    <label htmlFor="rb2"
+                                                           className="p-radiobutton-label">{this.props.systemTypes[1].nombre}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            Seleccione el alcance de la encuesta:
+                                            <div className="radio-container">
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb3" name="reach"
+                                                                 value={this.props.reachTypes[0]}
+                                                                 onChange={(e) => this.setState({reach: e.value})}
+                                                                 checked={this.state.reach && this.state.reach.nombre === this.props.reachTypes[0].nombre}
+                                                                 disabled={this.props.readOnly} />
+                                                    <label htmlFor="rb3"
+                                                           className="p-radiobutton-label">{this.props.reachTypes[0].nombre}</label>
+                                                </div>
+
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb4" name="reach"
+                                                                 value={this.props.reachTypes[1]}
+                                                                 onChange={(e) => this.setState({reach: e.value})}
+                                                                 checked={this.state.reach && this.state.reach.nombre === this.props.reachTypes[1].nombre}
+                                                                 disabled={this.props.readOnly} />
+                                                    <label htmlFor="rb4"
+                                                           className="p-radiobutton-label">{this.props.reachTypes[1].nombre}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -471,6 +535,8 @@ const mapStateToProps = state => ({
     questionarySelected: getQuestionarySelected(state),
     constCreateQuestionary: getCreateQuestionary(state),
     user: getUser(state),
+    systemTypes: getSystemTypes(state),
+    reachTypes: getReachTypes(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -23,3 +23,10 @@
 .description {
     width: 60%;
 }
+.radio-container{
+    margin: 10px;
+}
+.radio-item{
+    display: inline-block;
+    width: 150px;
+}

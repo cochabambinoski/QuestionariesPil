@@ -156,6 +156,18 @@ class Home extends Component {
             }).then(data => {
             this.props.setTypeSeller(data);
         });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_SYSTEM)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.setSystemTypes(data);
+        });
+        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_REACH)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            this.props.setReachTypes(data);
+        });
         fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
             .then(results => {
                 return results.json();
@@ -246,7 +258,9 @@ const mapDispatchToProps = dispatch => ({
     setMenu: value => dispatch(actions.setMenu(value)),
     setUser: value => dispatch(actions.setUser(value)),
     setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
-    setInitialBranches: value => dispatch(actions.getAllBranches(value))
+    setInitialBranches: value => dispatch(actions.getAllBranches(value)),
+    setSystemTypes: value => dispatch(actions.setSystemTypes(value)),
+    setReachTypes: value => dispatch(actions.setReachTypes(value)),
 });
 
 const mapStateToProps = state => (
