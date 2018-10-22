@@ -1,3 +1,16 @@
 .pi-times:before {
     content: "" !important;
 }
+
+.ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider{
+    background-color: #9ccc65 !important;
+}
+
+.ui-inputswitch .ui-inputswitch-slider {
+    background: #f4511e !important;
+}
+
+.required {
+    background-color: #c5e1a5;
+    width: fit-content;
+}
