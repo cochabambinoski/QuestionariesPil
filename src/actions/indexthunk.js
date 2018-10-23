@@ -28,3 +28,28 @@ export const getQuestionnairesByReach = reach => {
                 })
     }
 };
+
+export const getQuetionnaireById = id => {
+    return () => {
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                return response;
+            });
+    };
+};
+
+
+export const getClientsByNitOrNameInSystem = (searchTerm, systemName) => {
+    return () => {
+        const system = systemName === 'POS' ? Constants.ROUTE_WEB_SERVICES_POS : Constants.ROUTE_WEB_SERVICES;
+        return fetch(`${system}${Constants.GET_CLIENTS_BY_NIT_OR_NAME}${encodeURIComponent(searchTerm)}`)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                return response;
+            });
+    };
+};

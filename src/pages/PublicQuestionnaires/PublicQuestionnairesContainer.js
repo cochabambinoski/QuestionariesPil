@@ -27,13 +27,17 @@ class PublicQuestionnairesContainer extends Component {
         this.setState({questionnaireSelected: id});
     };
 
+    invalidateQuestionnaire = () => {
+        this.setState({questionnaireSelected: null});
+    };
+
     render() {
         return (
             <div>
                 {
                     this.props.connection === false ? <ErrorPage/> :
                         this.state.questionnaireSelected !== null ?
-                            <AnswerPageContainer questionnaireId={this.state.questionnaireSelected}/> :
+                            <AnswerPageContainer questionnaireId={this.state.questionnaireSelected} invalidateQuestionnaire={this.invalidateQuestionnaire}/> :
                             <div>
                                 <Header title={'Cuestionarios'}/>
                                 <PublicQuestionnairesList questionnaires={this.props.questionnaires}
