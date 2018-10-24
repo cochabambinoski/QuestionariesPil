@@ -52,8 +52,18 @@ class AnswerPage extends Component {
     };
 
     cancel = () => {
-        if (this.state.firstTimeOpen) this.props.invalidateQuestionnaire();
-        else this.setState({openClientModal: false})
+        if (this.state.firstTimeOpen) {
+            this.props.invalidateQuestionnaire();
+        } else {
+            if (this.state.interviewedName !== "" || this.state.client !== null)
+                this.setState({openClientModal: false});
+            else
+                this.showMessage();
+        }
+    };
+
+    showMessage = () => {
+        alert('Seleccione un cliente o ingrese su nombre');
     };
 
     renderClientModal() {
@@ -78,13 +88,14 @@ class AnswerPage extends Component {
                                         <InputText id="float-input" type="text" size="30" maxLength="50"
                                                    value={this.state.searchClient} placeholder="Nit / Nombre"
                                                    onChange={(e) => this.setState({searchClient: e.target.value})}/>
-                                        <Button icon="pi pi-check" onClick={() => {
+                                        <Button icon="pi pi-minus" onClick={() => {
                                             this.cleanClient()
                                         }}/>
                                         </span>
                                             <Select ref="select" placeholder='Seleccione un cliente'
                                                     options={this.state.clientsList}
                                                     value={this.state.client}
+                                                    noOptionsMessage={() => 'No hay opciones'}
                                                     onChange={client => {
                                                         this.setState({client})
                                                     }}
