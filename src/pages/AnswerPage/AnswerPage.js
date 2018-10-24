@@ -28,17 +28,19 @@ class AnswerPage extends Component {
     }
 
     searchClient = () => {
-        if(this.state.searchClient.length < 4){
+        if (this.state.searchClient.length < 5) {
             this.setState({showMinCharsMessage: true});
             return;
         }
-        this.props.getClientsByNitOrNameInSystem(this.state.searchClient, this.state.questionnaire.system.nombre)
+        const system = this.state.questionnaire.system.nombre;
+        this.props.getClientsByNitOrNameInSystem(this.state.searchClient, system)
             .then(response => {
                 let auxClients = [];
                 response.forEach(client => {
+                    const label = client.nombreFactura + ' - ' + client.nit;
                     auxClients.push({
                         value: client,
-                        label: `${client.nombreFactura} - ${client.nit}`
+                        label: system === 'SVM' && client.codigo!==null ? label + ' - ' + client.codigo : label,
                     })
                 });
                 this.setState({clientsList: auxClients});
@@ -94,7 +96,10 @@ class AnswerPage extends Component {
                                         <InputText id="float-input" type="text" size="30" maxLength="50"
                                                    value={this.state.searchClient}
                                                    placeholder={this.state.questionnaire.system.nombre === 'POS' ? "Nit / Nombre" : "Nit / Codigo / Nombre "}
-                                                   onChange={(e) => this.setState({searchClient: e.target.value, showMinCharsMessage: false})}/>
+                                                   onChange={(e) => this.setState({
+                                                       searchClient: e.target.value,
+                                                       showMinCharsMessage: false
+                                                   })}/>
                                         <Button icon="pi pi-minus" onClick={() => {
                                             this.cleanClient()
                                         }}/>
@@ -108,7 +113,8 @@ class AnswerPage extends Component {
                                                     }}
                                             />
                                             {this.state.showMinCharsMessage ?
-                                            <div style={{color: 'red'}}>Debe ingresar mínimamente 4 caracteres para la búsqueda</div>:null}
+                                                <div style={{color: 'red'}}>Debe ingresar mínimamente 5 caracteres para
+                                                    la búsqueda</div> : null}
                                         </div>
                                 }
 
