@@ -86,7 +86,7 @@ class AnswerPage extends Component {
 
                                             <span style={{marginBottom: '15px'}}>
                                         <InputText id="float-input" type="text" size="30" maxLength="50"
-                                                   value={this.state.searchClient} placeholder="Nit / Nombre"
+                                                   value={this.state.searchClient} placeholder={this.state.questionnaire.system.nombre==='POS'?"Nit / Nombre":"Nit / Codigo / Nombre "}
                                                    onChange={(e) => this.setState({searchClient: e.target.value})}/>
                                         <Button icon="pi pi-minus" onClick={() => {
                                             this.cleanClient()
