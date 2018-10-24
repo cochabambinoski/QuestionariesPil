@@ -40,3 +40,6 @@ export const getQueryMobileSellerAssignedType = (state) => state.searchFilter.qu
 export const getQueryMobileSellerAssignedBranch = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedBranch;
 
 export const getQuestionnaries = (state) => state.questionnaires.questionnaires;
+export const getQuestionTypes = (state) => state.initialData.questionTypes;
+export const getCities = (state) => state.initialData.cities;
+export const getBranches = (state) => state.initialData.lsBranches;

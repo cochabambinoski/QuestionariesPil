@@ -11,12 +11,11 @@ import {InputTextarea} from 'primereact/inputtextarea';
 import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
 import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
-import Constants from '../../../../Constants.json';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
-import {getCreateQuestionary, getQuestionarySelected, getUser} from "../../../../reducers";
-import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
+import {getCreateQuestionary, getQuestionarySelected, getQuestionTypes, getUser} from "../../../../reducers";
+import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions/index";
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
 import {Col, Row} from 'react-flexbox-grid';
@@ -29,12 +28,17 @@ import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
-import Modal from "../../../../widgets/Modal/components/modal";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import Dialog from "@material-ui/core/Dialog/Dialog";
+import {
+    getAssignmentsByQuestionnaire,
+    getQuestionsTypes,
+    getQuetionnaireById,
+    saveQuestionnaire
+} from "../../../../actions/indexthunk";
 
 const styles = theme => ({
     root: {
@@ -129,27 +133,21 @@ class Questionnaire extends Component {
             this.showWarning("", "Debe establecer el rango del cuestionario");
             return
         }
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({questionaries: questionaries, questionaryRange: ranges}),
-            headers: {
-                'Accept': '*/*',
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        }).then(results => {
-            return results.json();
-        }).then(data => {
-            if (data === "Ok") {
-                this.props.showMessage("", "Cuestionario guardado");
-                this.handleCancel();
-                this.props.changeIdQuestionarySelected(null);
-            }
-            else {
-                this.showError("", "Error al guardar");
-            }
-        });
-
+        this.props.saveQuestionnaire(questionaries, ranges)
+            .then((result) => {
+                switch (result) {
+                    case "OK":
+                        this.props.showMessage("", "Cuestionario guardado");
+                        this.handleCancel();
+                        this.props.changeIdQuestionarySelected(null);
+                        break;
+                    case "ERROR":
+                        this.showError("", "Error al guardar");
+                        break;
+                    default:
+                        break;
+                }
+            });
     }
 
     removeQuestion(index) {
@@ -196,13 +194,7 @@ class Questionnaire extends Component {
     };
 
     componentDidMount() {
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent('TIPPREG')}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionTypes: data});
-        });
+        this.props.getQuestionsTypes('TIPPREG');
         const {questionnaireId1} = this.props;
         if (questionnaireId1 != null) {
             this.getQuestionnaire(questionnaireId1)
@@ -211,41 +203,35 @@ class Questionnaire extends Component {
 
     getQuestionnaire(id) {
         if (id !== undefined) {
-            let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`;
-            fetch(url)
-                .then(results => {
-                    return results.json();
-                }).then(data => {
-                this.setState({questionnaireId: data.id});
-                this.setState({name: data.name});
-                this.setState({description: data.description});
-                this.setState({lsQuestions: data.lsQuestions});
-                this.setImmutableCopy(data.lsQuestions);
-                this.setState({sociedadId: data.sociedadId});
-                this.setState({usuarioId: data.usuarioId});
-                this.setState({operacionId: data.operacionId});
-                this.setState({fechaId: data.fechaId});
-                this.setState({received: false});
-            });
-            let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(id)}`;
-            fetch(rangeUrl)
-                .then(results => {
-                    return results.json();
-                }).then(data => {
-                const questionerQuestionnaires = data;
-                if (questionerQuestionnaires.length > 0)
-                    this.setState({assigned: true});
-            });
+            this.props.getQuetionnaireById(id)
+                .then((data) => {
+                    this.setState({questionnaireId: data.id});
+                    this.setState({name: data.name});
+                    this.setState({description: data.description});
+                    this.setState({lsQuestions: data.lsQuestions});
+                    this.setImmutableCopy(data.lsQuestions);
+                    this.setState({sociedadId: data.sociedadId});
+                    this.setState({usuarioId: data.usuarioId});
+                    this.setState({operacionId: data.operacionId});
+                    this.setState({fechaId: data.fechaId});
+                    this.setState({received: false});
+                });
+            this.props.getAssignmentsByQuestionnaire(id)
+                .then((data) => {
+                    if (data.length > 0)
+                        this.setState({assigned: true});
+                });
         }
     }
 
-    setImmutableCopy(lsQuestions){
+    setImmutableCopy(lsQuestions) {
         let auxQuestions = [];
-        lsQuestions.forEach((question)=>{
-            let auxQuestion = {id: question.id,
+        lsQuestions.forEach((question) => {
+            let auxQuestion = {
+                id: question.id,
                 lsQuestionOptions: []
             };
-            question.lsQuestionOptions.forEach((option)=>{
+            question.lsQuestionOptions.forEach((option) => {
                 auxQuestion.lsQuestionOptions.push({option: option.option});
             });
             auxQuestions.push(auxQuestion);
@@ -426,7 +412,7 @@ class Questionnaire extends Component {
                                     </DialogTitle>
                                     <DialogContent>
                                         <DialogContentText id="alert-dialog-description" className="dialogBody">
-                                            <Question questionTypes={this.state.questionTypes}
+                                            <Question questionTypes={this.props.questionTypes}
                                                       readOnly={this.props.readOnly}
                                                       questions={this.state.lsQuestions}
                                                       immutableQuestion={this.state.immutableQuestion}
@@ -471,6 +457,7 @@ const mapStateToProps = state => ({
     questionarySelected: getQuestionarySelected(state),
     constCreateQuestionary: getCreateQuestionary(state),
     user: getUser(state),
+    questionTypes: getQuestionTypes(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -478,6 +465,10 @@ const mapDispatchToProps = dispatch => ({
     changeIdExistingQuestionary: value => dispatch(changeIdExistingQuestionary(value)),
     setIdMenu: value => dispatch(setMenuContainer(value)),
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
+    saveQuestionnaire: (first, second) => dispatch(saveQuestionnaire(first, second)),
+    getQuestionsTypes: value => dispatch(getQuestionsTypes(value)),
+    getQuetionnaireById: value => dispatch(getQuetionnaireById(value)),
+    getAssignmentsByQuestionnaire: value => dispatch(getAssignmentsByQuestionnaire(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Questionnaire));

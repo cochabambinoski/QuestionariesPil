@@ -5,17 +5,16 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
 import {Button} from 'primereact/button';
-import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
-import Constants from '../../../Constants.json';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
-import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
 import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
+import {deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
+import {getQuestionnaries} from "../../../reducers";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -46,56 +45,29 @@ class Questionnaires extends Component {
     }
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionnaires: data});
-        });
+        this.props.fetchGetQuestionaries();
         const title = this.props.title;
         const detail = this.props.detail;
-        if (title !== null && detail !== null){
+        if (title !== null && detail !== null) {
             this.showSuccess(title, detail);
             this.props.showMessage(null, null);
         }
     }
 
     deleteQuestionary(item) {
-        let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(item.id)}`;
-        fetch(rangeUrl)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            const questionerQuestionnaires = data;
-            if (questionerQuestionnaires.length > 0) {
-                this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado")
-            } else {
-                this.sendDeleteRequest(item);
-            }
-        });
-    }
-
-    sendDeleteRequest(item) {
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': '*/*',
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        })
-            .then(results => {
-                return results.json();
-            }).catch(error => console.error('Error:', error)).then(data => {
-            let index = getIndexQuestionary(this.state.questionnaires, item);
-            let questionaries = this.state.questionnaires;
-            if (data === "Ok" && index !== undefined) {
-                questionaries.splice(index, 1);
-                this.showSuccess("", "Cuestionario eliminado");
-            }
-            this.setState({questionaries: questionaries});
-            this.setState({updateView: true});
-        });
+        this.props.deleteQuestionnaire(item)
+            .then((result) => {
+                switch (result) {
+                    case "DELETED":
+                        this.showSuccess("Cuestionario eliminado");
+                        break;
+                    case "ASSIGNED":
+                        this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado");
+                        break;
+                    default:
+                        break;
+                }
+            });
     }
 
     openModal = (item) => {
@@ -137,10 +109,10 @@ class Questionnaires extends Component {
                 <br/>
                 <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
                     {
-                        this.state.questionnaires.map((item) => {
+                        this.props.questionnaires.map((item) => {
                             return (
                                 <div key={item.id}>
-                                    <Card title={item.name} >
+                                    <Card title={item.name}>
                                         <div className="text">
                                             <div>Creado</div>
                                             <div>{item.fechaId} {item.usuarioId}</div>
@@ -174,10 +146,14 @@ class Questionnaires extends Component {
     }
 }
 
-const mapStateToProps = dispatch => ({});
+const mapStateToProps = state => ({
+    questionnaires: getQuestionnaries(state),
+});
 
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
+    fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
+    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questionnaires);
