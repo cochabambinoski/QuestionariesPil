@@ -6,10 +6,11 @@ import {initialData, getTypeByCodSap as _getTypeCodeSap, getBrancgesByIdCity as 
 import {assignmentUser} from './assignmentUser'
 import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
+import {questionnaires} from "./questionnaires";
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -36,3 +37,8 @@ export const getQueryMobileSellerType = (state) => state.searchFilter.queryAdvan
 export const getQueryMobileSellerBranch = (state) => state.searchFilter.queryAdvancedMobileSellerBranch;
 export const getQueryMobileSellerAssignedType = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedType;
 export const getQueryMobileSellerAssignedBranch = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedBranch;
+
+export const getQuestionnaries = (state) => state.questionnaires.questionnaires;
+export const getQuestionTypes = (state) => state.initialData.questionTypes;
+export const getCities = (state) => state.initialData.cities;
+export const getBranches = (state) => state.initialData.lsBranches;

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Constants from "../../../../Constants";
 import Questionary from "./index";
 import './styles.css'
 import PropTypes from "prop-types";
@@ -7,7 +6,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import {withStyles} from "@material-ui/core";
 import {connect} from 'react-redux';
-import {getQueryQuestionerAssigment} from "../../../../reducers";
+import {getQueryQuestionerAssigment, getQuestionnaries} from "../../../../reducers";
+import {fetchGetQuestionaries} from "../../../../actions/indexthunk";
 
 const styles = theme => ({
     root: {
@@ -37,15 +37,10 @@ class QuestionaryAsignmet extends Component {
     }
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionnaires: data});
-        })
+        this.props.fetchGetQuestionaries();
     }
 
-    filterItems = (questionaries ,query) => {
+    filterItems = (questionaries, query) => {
         return questionaries.filter((el) =>
             el.name.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
@@ -53,10 +48,10 @@ class QuestionaryAsignmet extends Component {
 
     stringToComponent(questionaries) {
         let filterList = questionaries;
-        if(this.props.queryMobileSeller !== ""){
+        if (this.props.queryMobileSeller !== "") {
             filterList = this.filterItems(questionaries, this.props.queryQuestionaerAssigment);
         }
-        return <List className="list" subheader={<li />}>
+        return <List className="list" subheader={<li/>}>
             {
                 filterList.map((questionary) => (
                     <Questionary questionary={questionary} key={questionary.id}
@@ -68,7 +63,7 @@ class QuestionaryAsignmet extends Component {
     };
 
     render() {
-        const {questionnaires} = this.state
+        const questionnaires = this.props.questionnaires;
         return (
             <div>
                 {
@@ -84,7 +79,12 @@ QuestionaryAsignmet.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    queryQuestionaerAssigment: getQueryQuestionerAssigment(state)
+    queryQuestionaerAssigment: getQueryQuestionerAssigment(state),
+    questionnaires: getQuestionnaries(state),
 });
 
-export default connect(mapStateToProps, null)(withStyles(styles)(QuestionaryAsignmet));
+const mapDispatchToProps = dispatch => ({
+    fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(QuestionaryAsignmet));
