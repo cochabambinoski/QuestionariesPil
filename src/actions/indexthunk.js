@@ -15,11 +15,13 @@ export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
 export const SET_QUESTIONNAIRES_DATA = 'SET_QUESTIONNAIRES_DATA';
 export const SET_QUESTIONNAIRE_ASSIGNEMENTS = 'SET_QUESTIONNAIRE_ASSIGNEMENTS';
 export const GET_QUESTION_TYPES = 'GET_QUESTION_TYPES';
+export const SET_CONNECTION = 'SET_CONNECTION';
 
 const setQuestionnaireAssignments = payload => ({type: SET_QUESTIONNAIRE_ASSIGNEMENTS, payload});
 const uploadQuestionnaires = payload => ({type: UPLOAD_QUESTIONNNAIRES, payload});
 const setQuestionnairesData = payload => ({type: SET_QUESTIONNAIRES_DATA, payload});
 export const setQuestionTypes = payload => ({type: GET_QUESTION_TYPES, payload});
+const setConnection = payload => ({type: SET_CONNECTION, payload});
 
 export const fetchGetQuestionaries = () => {
     return dispatch => {
@@ -384,6 +386,39 @@ export const sendBase = data => {
             .then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
+                return response;
+            });
+    };
+};
+
+export const getQuestionnairesByReach = reach => {
+    return dispatch => {
+        dispatch(uploadQuestionnaires(true));
+        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRES_BY_REACH}${encodeURIComponent(reach)}`)
+            .then(results => {
+                return results.json();
+            }).then(
+                data => {
+                    dispatch(setQuestionnairesData(data));
+                    dispatch(uploadQuestionnaires(false));
+                    dispatch(setConnection(true));
+                    console.log("data: " + data);
+                },
+                error => {
+                    dispatch(setConnection(false));
+                    console.log("error: " + error);
+                    return error;
+                })
+    }
+};
+
+export const getClientsByNitOrNameInSystem = (searchTerm, systemName) => {
+    return () => {
+        const system = systemName === 'POS' ? Constants.ROUTE_WEB_SERVICES_POS : Constants.ROUTE_WEB_SERVICES;
+        return fetch(`${system}${Constants.GET_CLIENTS_BY_NIT_OR_NAME}${encodeURIComponent(searchTerm)}`)
+            .then(results => {
+                return results.json();
+            }).then(response => {
                 return response;
             });
     };

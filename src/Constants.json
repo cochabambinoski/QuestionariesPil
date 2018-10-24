@@ -1,6 +1,7 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
   "ROUTE_WEB_BI": "http://localhost:8086/bi/",
+  "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "GET_USER_BY_ID": "getUserById?idUser=",
@@ -54,5 +55,7 @@
   "BRANCHES_LIST": "BRANCHES_LIST",
   "ADD_BRANCHES_LIST": "ADD_BRANCHES_LIST",
   "ASSING_QUESTIONARIES":"assignQuestionaries",
-  "GET_IMAGE_ANSWER":"getImageAnswer?imageName="
+  "GET_IMAGE_ANSWER":"getImageAnswer?imageName=",
+  "GET_QUESTIONNAIRES_BY_REACH":"getQuestionnairesByReach?reach=",
+  "GET_CLIENTS_BY_NIT_OR_NAME":"getClientByNitOrName?searchTerm="
 }

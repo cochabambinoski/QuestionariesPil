@@ -1,0 +1,72 @@
+.headerBody {
+  background: #4D4949;
+  color: #fffff0;
+  padding: 1.5em;
+  padding-left: 50px;
+  margin-top: -0.33em;
+  margin-left: -1.2em;
+  margin-right: -1.2em;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header-title{
+  font-size: 25px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.header-subtitle{
+  font-size: 15px;
+}
+
+
+.footer{
+  background: #EF5350;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  font-size: 17px;
+  padding: 7px;
+  position: fixed;
+  bottom: 0px;
+  width: 100%
+}
+
+.container{
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 40px;
+}
+
+.questionnaire{
+  height: 180px; 
+  border: 0px; 
+  color:white;
+}
+
+.item{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.card-title{
+  font-size: 18px;
+}
+
+.card-body{
+  font-weight: bold;
+}
+
+.card-content{
+  padding: 15px;
+  color:white !important;
+  border:0px !important;
+  margin: 10px;
+  text-align: center;
+}
+
+.card-button{
+  border: 2px solid white !important;
+  margin-top: 15px; 
+  font-family: 'Montserrat', sans-serif !important;
+}

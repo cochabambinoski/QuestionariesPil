@@ -7,10 +7,11 @@ import {assignmentUser} from './assignmentUser'
 import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
 import {questionnaires} from "./questionnaires";
+import {connection} from "./connection";
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;

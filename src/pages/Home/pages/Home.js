@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
+import PublicQuestionnaires from "../../PublicQuestionnaires/PublicQuestionnairesContainer";
 import {
     getBranches,
     getChargeTypes,
@@ -169,7 +170,7 @@ class Home extends Component {
             <div>
                 {
                     this.props.user === null ?
-                        <ErrorPage/>
+                        <PublicQuestionnaires/>
                         :
                         <div className={wrapperClass}>
                             <Dialog
