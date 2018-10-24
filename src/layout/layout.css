@@ -2745,15 +2745,20 @@ ul[class^="MuiList-padding"] {
   display: flex;
   padding: 0px 0px 0px !important; }
 
+@font-face {
+  font-family: 'Arnold';
+  font-weight: 400;
+  src: local("Arnold"), url(./../fonts/arnold_2_1.ttf) format("truetype"); }
+
 .headerBody {
-  background: #4D4949;
+  background: #5A3215;
   color: #fffff0;
   padding: 1.5em;
   padding-left: 50px;
   margin-top: -0.33em;
   margin-left: -1.2em;
   margin-right: -1.2em;
-  font-family: 'Montserrat', sans-serif; }
+  font-family: 'Arnold'; }
 
 .header-title {
   font-size: 25px;
@@ -2764,7 +2769,7 @@ ul[class^="MuiList-padding"] {
   font-size: 15px; }
 
 .footer {
-  background: #EF5350;
+  background: #A75520;
   color: white;
   font-family: 'Montserrat', sans-serif;
   text-align: center;
@@ -2779,6 +2784,12 @@ ul[class^="MuiList-padding"] {
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 40px; }
+
+.container-background {
+  background: url(./../images/fondomadera.svg);
+  width: 100%;
+  height: 100vh;
+  background-size: cover; }
 
 .questionnaire {
   height: 180px;
@@ -2799,16 +2810,24 @@ ul[class^="MuiList-padding"] {
   color: white !important;
   border: 0px !important;
   margin: 10px;
-  text-align: center; }
+  text-align: center;
+  background: transparent; }
 
 .card-button {
   border: 2px solid white !important;
   margin-top: 15px;
-  font-family: 'Montserrat', sans-serif !important; }
+  font-family: 'Montserrat', sans-serif !important;
+  background: #2BC6CA; }
+
+@font-face {
+  font-family: 'Arnold';
+  font-weight: 400;
+  src: local("Arnold"), url(./../fonts/arnold_2_1.ttf) format("truetype"); }
 
 .dialog-client-title {
   font-family: 'Montserrat', sans-serif !important;
-  font-weight: bold; }
+  font-weight: bold;
+  color: white; }
 
 .dialog-client-body {
   font-family: 'Montserrat', sans-serif !important; }
@@ -2819,6 +2838,13 @@ ul[class^="MuiList-padding"] {
 .radio-item-client {
   display: inline-block;
   width: 150px; }
+
+.client-user-input-container {
+  width: 450px; }
+
+.client-user-input {
+  display: inline-block;
+  min-width: 200px; }
 
 .client-input {
   font-family: 'Montserrat', sans-serif !important;
@@ -2835,10 +2861,65 @@ ul[class^="MuiList-padding"] {
 .client-input-name {
   font-family: 'Montserrat', sans-serif !important;
   font-size: 22px;
-  border: 2px solid #b3afaf;
+  background: #FFF7A94D;
   width: fit-content;
   border-radius: 3px;
   display: inline-block;
   padding: 10px;
   min-width: 500px;
-  min-height: 42px; }
+  min-height: 44px; }
+
+.background-square-input {
+  font-family: 'Montserrat', sans-serif !important;
+  background-color: #FFF7A9;
+  border-radius: 3px;
+  margin-top: 10px; }
+
+.background-square-input .input .base {
+  background: #FFF7A9; }
+
+.background-input {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 22px;
+  background: #FFF7A94D;
+  width: fit-content;
+  border-radius: 20px;
+  display: inline-block;
+  padding: 10px;
+  min-width: 500px;
+  min-height: 44px; }
+
+.dialog-background {
+  background-color: #c99e67 !important;
+  border: 5px solid #5a3115;
+  color: white; }
+
+.green-button {
+  background: #3AAA35 !important;
+  width: fit-content;
+  border-radius: 20px !important;
+  border: 2px solid #94C11F !important;
+  box-shadow: 0 0 0 3px #076633 !important;
+  padding: 10px;
+  color: white;
+  font-family: 'Arnold' !important; }
+
+.red-button {
+  background: #e42613 !important;
+  width: fit-content;
+  border-radius: 20px !important;
+  border: 2px solid #E73843 !important;
+  box-shadow: 0 0 0 3px #BE1622 !important;
+  padding: 10px;
+  color: white;
+  font-family: 'Arnold' !important; }
+
+.brown-button {
+  background: #5a3115 !important;
+  width: fit-content;
+  border-radius: 20px !important;
+  border: 2px solid #a75520  !important;
+  box-shadow: 0 0 0 3px #412813  !important;
+  padding: 10px;
+  color: white;
+  font-family: 'Arnold' !important; }
