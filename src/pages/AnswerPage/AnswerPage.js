@@ -23,10 +23,15 @@ class AnswerPage extends Component {
             clientsList: [],
             interviewedName: "",
             firstTimeOpen: true,
+            showMinCharsMessage: false,
         };
     }
 
     searchClient = () => {
+        if(this.state.searchClient.length < 4){
+            this.setState({showMinCharsMessage: true});
+            return;
+        }
         this.props.getClientsByNitOrNameInSystem(this.state.searchClient, this.state.questionnaire.system.nombre)
             .then(response => {
                 let auxClients = [];
@@ -47,7 +52,8 @@ class AnswerPage extends Component {
         this.setState({
             client: null,
             searchClient: "",
-            clientsList: []
+            clientsList: [],
+            showMinCharsMessage: false
         });
     };
 
@@ -86,8 +92,9 @@ class AnswerPage extends Component {
 
                                             <span style={{marginBottom: '15px'}}>
                                         <InputText id="float-input" type="text" size="30" maxLength="50"
-                                                   value={this.state.searchClient} placeholder={this.state.questionnaire.system.nombre==='POS'?"Nit / Nombre":"Nit / Codigo / Nombre "}
-                                                   onChange={(e) => this.setState({searchClient: e.target.value})}/>
+                                                   value={this.state.searchClient}
+                                                   placeholder={this.state.questionnaire.system.nombre === 'POS' ? "Nit / Nombre" : "Nit / Codigo / Nombre "}
+                                                   onChange={(e) => this.setState({searchClient: e.target.value, showMinCharsMessage: false})}/>
                                         <Button icon="pi pi-minus" onClick={() => {
                                             this.cleanClient()
                                         }}/>
@@ -100,6 +107,8 @@ class AnswerPage extends Component {
                                                         this.setState({client})
                                                     }}
                                             />
+                                            {this.state.showMinCharsMessage ?
+                                            <div style={{color: 'red'}}>Debe ingresar mínimamente 4 caracteres para la búsqueda</div>:null}
                                         </div>
                                 }
 

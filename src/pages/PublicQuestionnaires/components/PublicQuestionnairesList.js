@@ -4,7 +4,7 @@ import { Grid, Row } from 'react-flexbox-grid';
 
 const PublicQuestionnairesList = ({questionnaires, handleClick}) => (
     <Grid>
-        <Row >
+        <Row>
             {questionnaires.map((questionnaire, index) => (
                 <PublicQuestionnaire questionnaire={questionnaire} handleClick={handleClick} index={index}/>
             ))}
