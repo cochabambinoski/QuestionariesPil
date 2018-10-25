@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import connect from "react-redux/es/connect/connect";
 import Header from "./../PublicQuestionnaires/components/Header";
-import {getQuetionnaireById} from "../../actions/indexthunk";
+import { getQuetionnaireById } from "../../actions/indexthunk";
 import AnswerPage from "./AnswerPage";
 
 class AnswerPageContainer extends Component {
@@ -15,7 +15,7 @@ class AnswerPageContainer extends Component {
     componentDidMount() {
         this.props.getQuetionnaireById(this.props.questionnaireId)
             .then(response => {
-                this.setState({questionnaire: response})
+                this.setState({ questionnaire: response });
             });
     }
 
@@ -25,10 +25,10 @@ class AnswerPageContainer extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container-background">
                 {
                     this.state.questionnaire ?
-                        <AnswerPage questionnaire={this.state.questionnaire} invalidateQuestionnaire={this.invalidateQuestionnaire}/>
+                        <AnswerPage questionnaire={this.state.questionnaire} invalidateQuestionnaire={this.invalidateQuestionnaire} />
                         : <div>Cargando...</div>
                 }
             </div>

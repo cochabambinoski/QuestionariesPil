@@ -1,6 +1,13 @@
+@font-face{
+    font-family: 'Arnold';
+    font-weight: 400;
+    src: local('Arnold'), url(./../fonts/arnold_2_1.ttf) format('truetype');
+  }  
+
 .dialog-client-title{
     font-family: 'Montserrat', sans-serif !important;
     font-weight: bold;
+  color: white;
 }
 
 .dialog-client-body{
@@ -13,6 +20,29 @@
 .radio-item-client{
     display: inline-block;
     width: 150px;
+}
+
+.client-user-input-container{
+  width: 450px;
+}
+
+.client-container-item{
+    margin: 10px;
+}
+
+.gender-item{
+    display: inline-block;
+    width: 150px;
+}
+
+.client-user-input-left{
+    display: inline-block;
+    min-width: 200px;
+  }
+
+.client-user-input-right{
+  display: inline-block;
+  min-width: 300px;
 }
 
 .client-input{
@@ -32,7 +62,7 @@
 .client-input-name{
     font-family: 'Montserrat', sans-serif !important;
     font-size: 22px;
-    border: 2px solid #b3afaf;
+    background: #FFF7A94D;
     width: fit-content;
     border-radius: 3px;
     display: inline-block;
@@ -41,3 +71,63 @@
     min-height: 44px;
 }
 
+.background-square-input{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #FFF7A9;
+    border-radius: 3px;
+    margin-top: 10px;
+}
+.background-square-input .input .base {
+    background: #FFF7A9,
+}
+
+.background-input{
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 22px;
+    background: #FFF7A94D;
+    width: fit-content;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 10px;
+    min-width: 500px;
+    min-height: 44px;
+}
+
+.dialog-background{
+  background-color: #c99e67 !important;
+  border:5px solid #5a3115;
+  color: white;
+}
+
+.green-button{
+    background: #3AAA35 !important;
+    width: fit-content;
+    border-radius: 20px !important;
+    border:2px solid #94C11F !important;
+    box-shadow: 0 0 0 3px #076633 !important;
+    padding: 10px;
+    color: white;
+    font-family: 'Arnold' !important;
+}
+
+.red-button{
+    background: #e42613 !important;
+    width: fit-content;
+    border-radius: 20px !important;
+    border:2px solid #E73843 !important;
+    box-shadow: 0 0 0 3px #BE1622 !important;
+    padding: 10px;
+    color: white;
+    font-family: 'Arnold' !important;
+}
+
+.brown-button{
+    background: #5a3115 !important;
+    width: fit-content;
+    border-radius: 20px !important;
+    border:2px solid #a75520  !important;
+    box-shadow: 0 0 0 3px #412813  !important;
+    padding: 10px;
+    color: white;
+    font-family: 'Arnold' !important;
+}

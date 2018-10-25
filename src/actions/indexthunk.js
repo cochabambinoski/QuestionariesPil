@@ -403,11 +403,9 @@ export const getQuestionnairesByReach = reach => {
                     dispatch(setQuestionnairesData(data));
                     dispatch(uploadQuestionnaires(false));
                     dispatch(setConnection(true));
-                    console.log("data: " + data);
                 },
                 error => {
                     dispatch(setConnection(false));
-                    console.log("error: " + error);
                     return error;
                 })
     }
@@ -419,9 +417,47 @@ export const getClientsByNitOrNameInSystem = (searchTerm, systemName) => {
         return fetch(`${system}${Constants.GET_CLIENTS_BY_NIT_OR_NAME}${encodeURIComponent(searchTerm)}`)
             .then(results => {
                 return results.json();
+            }).then(
+                response => response,
+                error => "ERROR"
+            );
+    };
+};
+
+export const getClientUserByClient = clientId => {
+    return () => {
+        return fetch(`${Constants.ROUTE_WEB_SERVICES_POS}${Constants.GET_CLIENT_USER_BY_CLIENT}${encodeURIComponent(clientId)}`)
+            .then(results => {
+                return results.json();
             }).then(response => {
-                return response;
-            });
+                    return response;
+                },
+                error => {
+                    return error;
+                });
+    };
+};
+
+export const saveClientUser = clientUser => {
+    return () => {
+        return fetch(`${Constants.ROUTE_WEB_SERVICES_POS}${Constants.SAVE_CLIENT_USER}`,
+            {
+                method: 'POST',
+                body: JSON.stringify(clientUser),
+                headers: {
+                    'Accept': '*/*',
+                    'Content-type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(results => {
+                return results.json();
+            }).then(
+                response => {
+                    return "OK";
+                },
+                error => {
+                    return "ERROR";
+                });
     };
 };
 

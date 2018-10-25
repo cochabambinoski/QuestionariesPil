@@ -59,5 +59,7 @@
   "ASSING_QUESTIONARIES":"assignQuestionaries",
   "GET_IMAGE_ANSWER":"getImageAnswer?imageName=",
   "GET_QUESTIONNAIRES_BY_REACH":"getQuestionnairesByReach?reach=",
-  "GET_CLIENTS_BY_NIT_OR_NAME":"getClientByNitOrName?searchTerm="
+  "GET_CLIENTS_BY_NIT_OR_NAME":"getClientByNitOrName?searchTerm=",
+  "GET_CLIENT_USER_BY_CLIENT":"getClientUserByClient?clientId=",
+  "SAVE_CLIENT_USER":"saveClientUser"
 }

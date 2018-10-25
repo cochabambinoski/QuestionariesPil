@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import {getQuestionnairesByReach} from "../../actions/indexthunk";
 import {getQuestionnaries} from "../../reducers";
 import ErrorPage from "../ErrorPage/pages/ErrorPage";
+import ClientVerifier from "../../components/ClientVerifier";
 
 class PublicQuestionnairesContainer extends Component {
     constructor(props) {
@@ -14,8 +15,13 @@ class PublicQuestionnairesContainer extends Component {
         this.state = {
             questionnaires: [],
             questionnaireSelected: null,
+            openClientModal: false,
         };
     }
+
+    modalState = value => {
+        this.setState({openClientModal: value});
+    };
 
     componentDidMount() {
         this.props.getQuestionnairesByReach('PUBLICO');
@@ -33,16 +39,24 @@ class PublicQuestionnairesContainer extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container-background">
                 {
                     this.props.connection === false ? <ErrorPage/> :
                         this.state.questionnaireSelected !== null ?
                             <AnswerPageContainer questionnaireId={this.state.questionnaireSelected} invalidateQuestionnaire={this.invalidateQuestionnaire}/> :
                             <div>
                                 <Header title={'Cuestionarios'}/>
+                                <ClientVerifier
+                                    modalState={this.modalState}
+                                    openClientModal={this.state.openClientModal}
+                                    setClientAndInterviewed={null}
+                                    questionnaire={null}
+                                    invalidateQuestionnaire={null}/>
                                 <PublicQuestionnairesList questionnaires={this.props.questionnaires}
                                                           handleClick={this.handleClick}/>
-                                <Footer/>
+                            <div onClick={() => this.setState({openClientModal: true})}>
+                                <Footer />
+                    </div>
                             </div>
                 }
             </div>
