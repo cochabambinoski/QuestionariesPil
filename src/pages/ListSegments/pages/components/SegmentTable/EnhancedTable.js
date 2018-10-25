@@ -28,6 +28,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {connect} from 'react-redux';
+import {deleteSegment, getSegment, getSegmentationData} from "../../../../../actions/indexthunk";
 
 class EnhancedTable extends Component {
 
@@ -155,23 +157,16 @@ class EnhancedTable extends Component {
      * deleteDialog
      */
     deleteSegment = () => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.DEL_CLIENT_KILOLITER}/${this.state.toDelete}`;
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .catch(error => {
-                console.error('Error:', error);
-                this.showError('Error', 'No se pudo eliminar la segmentación');
-            })
-            .then(response => {
-                this.chargeTable(this.state.startDate, this.state.endDate);
-                this.handleClose();
-                if (response !== undefined || response !== null)
-                    this.showSuccess('Eliminado', 'Se elimino una segmentación');
+        this.props.deleteSegment(this.state.toDelete)
+            .then((result) => {
+                if (result === "ERROR") {
+                    this.showError('Error', 'No se pudo eliminar la segmentación');
+                } else {
+                    this.chargeTable(this.state.startDate, this.state.endDate);
+                    this.handleClose();
+                    if (result !== undefined || result !== null)
+                        this.showSuccess('Eliminado', 'Se elimino una segmentación');
+                }
             });
     };
 
@@ -181,15 +176,12 @@ class EnhancedTable extends Component {
      * @param end
      */
     chargeTable = (start, end) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState(prevState => ({
-                data: data
-            }));
-        });
+        this.props.getSegmentationData(start, end)
+            .then((data) => {
+                this.setState(prevState => ({
+                    data: data
+                }));
+            });
     };
 
     /**
@@ -317,16 +309,13 @@ class EnhancedTable extends Component {
     };
 
     getSegment(id) {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITER}/${id}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState(prevState => ({
-                segment: data
-            }));
-            this.setState({segmentOpen: true});
-        });
+        this.props.getSegment(id)
+            .then((data) => {
+                this.setState(prevState => ({
+                    segment: data
+                }));
+                this.setState({segmentOpen: true});
+            });
     }
 
     handleCloseBase = (response) => {
@@ -619,4 +608,10 @@ EnhancedTable.propTypes = {
     setBase: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(EnhancedTable);
+const mapDispatchToProps = dispatch => ({
+    getSegment: value => dispatch(getSegment(value)),
+    getSegmentationData: (start, end) => dispatch(getSegmentationData(start, end)),
+    deleteSegment: value => dispatch(deleteSegment(value)),
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(EnhancedTable));

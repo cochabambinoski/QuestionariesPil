@@ -1,12 +1,13 @@
 import {
+    GET_ALL_BRANCHES,
+    GET_ALL_DEPARTAMENTS,
     GET_INITIAL_DATA,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
-    GET_ALL_DEPARTAMENTS,
-    GET_ALL_BRANCHES,
     SET_REACH_TYPES,
     SET_SYSTEM_TYPES
 } from "../action-types/actionTypes";
+import {GET_QUESTION_TYPES} from "../actions/indexthunk";
 
 const initialState = (
     {
@@ -14,6 +15,7 @@ const initialState = (
         typeSeller: null,
         cities: null,
         lsBranches: null,
+        questionTypes: null,
     }
 );
 
@@ -33,6 +35,9 @@ export const initialData = (state = initialState, action) => {
         }
         case GET_ALL_BRANCHES: {
             return {...state, lsBranches: action.payload};
+        }
+        case GET_QUESTION_TYPES: {
+            return {...state, questionTypes: action.payload};
         }
         case SET_SYSTEM_TYPES: {
             return {...state, systemTypes: action.payload};

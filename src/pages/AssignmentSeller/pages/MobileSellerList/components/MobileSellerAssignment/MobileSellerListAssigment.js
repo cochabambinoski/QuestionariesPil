@@ -11,8 +11,8 @@ import {
     getQueryMobileSellerAssignedBranch,
     getQueryMobileSellerAssignedType
 } from "../../../../../../reducers";
-import Constants from "../../../../../../Constants.json";
 import {saveMobileSellerAssignedListAux} from "../../../../../../actions";
+import {getAssignedMobileSellersByQuestionnaire} from "../../../../../../actions/indexthunk";
 
 const styles = theme => ({
     root: {
@@ -99,19 +99,17 @@ class MobileSellerListAssigment extends Component {
         </List>
     }
 
-    saveListAux(filterList){
+    saveListAux(filterList) {
         if (filterList.length !== this.props.assignmentUser.mobileSellerAssignedAux.length) {
             this.props.saveMobileSellerAssignedListAux(filterList);
         }
     }
 
     getAssignedMobileSellers = (idQuestionary) => {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ASSIGNMENTS_BY_ID_QUESTIONARY + idQuestionary)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.loadAssignments(data);
-        });
+        this.props.getAssignedMobileSellersByQuestionnaire(idQuestionary)
+            .then((data) => {
+                this.props.loadAssignments(data);
+            });
     };
 
     componentDidMount() {
@@ -153,6 +151,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     saveMobileSellerAssignedListAux: value => dispatch(saveMobileSellerAssignedListAux(value)),
+    getAssignedMobileSellersByQuestionnaire: value => dispatch(getAssignedMobileSellersByQuestionnaire(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MobileSellerListAssigment));

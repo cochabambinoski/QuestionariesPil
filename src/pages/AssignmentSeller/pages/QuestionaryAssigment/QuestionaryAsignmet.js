@@ -7,7 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import {withStyles} from "@material-ui/core";
 import {connect} from 'react-redux';
-import {getQueryQuestionerAssigment} from "../../../../reducers";
+import {getQueryQuestionerAssigment, getQuestionnaries} from "../../../../reducers";
+import {fetchGetQuestionaries} from "../../../../actions/indexthunk";
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
@@ -45,12 +46,7 @@ class QuestionaryAsignmet extends Component {
     }
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionnaires: data});
-        })
+        this.props.fetchGetQuestionaries();
     }
 
     filterItems = (questionaries, query) => {
@@ -106,6 +102,7 @@ class QuestionaryAsignmet extends Component {
     };
 
     render() {
+        const questionnaires = this.props.questionnaires;
         const {questionnaires} = this.state;
         return (
             <div>
@@ -123,7 +120,12 @@ QuestionaryAsignmet.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    queryQuestionaerAssigment: getQueryQuestionerAssigment(state)
+    queryQuestionaerAssigment: getQueryQuestionerAssigment(state),
+    questionnaires: getQuestionnaries(state),
 });
 
-export default connect(mapStateToProps, null)(withStyles(styles)(QuestionaryAsignmet));
+const mapDispatchToProps = dispatch => ({
+    fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(QuestionaryAsignmet));

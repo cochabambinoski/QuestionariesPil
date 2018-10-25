@@ -14,7 +14,7 @@ class AsigmentQuestionaryContainer extends Component {
         this.state = {
             idQuestionary: null,
             message: null,
-        }
+        };
         this.showSuccess = this.showSuccess.bind(this);
     }
 
