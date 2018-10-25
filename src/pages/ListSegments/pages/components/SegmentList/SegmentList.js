@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import PropTypes from 'prop-types';
 import green from '@material-ui/core/colors/green';
 import Card from '@material-ui/core/Card';
 import * as utilDate from "../../../../../utils/dateUtils";
@@ -24,8 +23,8 @@ import SegmentationGenerator from "../../../../SegementationGenerator/pages/Segm
 import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import {Calendar} from "primereact/calendar";
-//import {changeIdExistingQuestionary} from '../../../actions/index';
-//import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
+import {deleteSegment, getSegment, getSegmentationData} from "../../../../../actions/indexthunk";
+import {connect} from 'react-redux';
 
 const styles = theme => ({
     root: {
@@ -177,16 +176,13 @@ class SegmentList extends Component {
     };
 
     getSegment(id) {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITER}/${id}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState(prevState => ({
-                segment: data
-            }));
-            this.setState({segmentOpen: true});
-        });
+        this.props.getSegment(id)
+            .then((data) => {
+                this.setState(prevState => ({
+                    segment: data
+                }));
+                this.setState({segmentOpen: true});
+            });
     }
 
     handleSegment = (event, id) => {
@@ -401,16 +397,12 @@ class SegmentList extends Component {
     }
 
     chargeList = (start, end) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.GET_CLIENT_KILOLITERS_RANGE}/${utilDate.dateToISO(start)}/${utilDate.dateToISO(end)}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            console.log(data);
-            this.setState(prevState => ({
-                segments: data
-            }));
-        });
+        this.props.getSegmentationData(start, end)
+            .then((data) => {
+                this.setState(prevState => ({
+                    segments: data
+                }));
+            });
     };
 
     renderToolbar() {
@@ -422,7 +414,7 @@ class SegmentList extends Component {
                               onChange={(e) => this.setState({dates: e.value})}
                               selectionMode="range" readonlyInput={true} className="calendar"/>
                 </div>
-                <div >
+                <div>
                     <Button label="Buscar" onClick={this.handlerFilter} className="buttonBlue"/>
                 </div>
             </Toolbar>
@@ -535,4 +527,10 @@ SegmentList.propTypes = {
     theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, {withTheme: true})(SegmentList);
+const mapDispatchToProps = dispatch => ({
+    getSegment: value => dispatch(getSegment(value)),
+    getSegmentationData: (start, end) => dispatch(getSegmentationData(start, end)),
+    deleteSegment: value => dispatch(deleteSegment(value)),
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(SegmentList));

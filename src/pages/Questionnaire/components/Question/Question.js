@@ -31,7 +31,7 @@ class Question extends Component {
             required: 1,
             questionOption: null,
             received: true,
-            squestion: null
+            squestion: null,
         };
         this.onTypeChange = this.onTypeChange.bind(this);
         this.addOption = this.addOption.bind(this);
@@ -94,7 +94,7 @@ class Question extends Component {
             sociedadId: 'BO81',
             usuarioId: this.props.user.username,
             operacionId: 1,
-            fechaId: null
+            fechaId: null,
         };
         this.handleClose();
         this.props.addQuestion(question, this.props.selectedQuestionIndex);
@@ -113,7 +113,7 @@ class Question extends Component {
                 sociedadId: null,
                 usuarioId: null,
                 operacionId: null,
-                fechaId: null
+                fechaId: null,
             }
         });
         this.props.closeQuestion();
@@ -133,10 +133,6 @@ class Question extends Component {
         else
             question.required = 0;
         this.setState({squestion: question});
-    }
-
-    showOptions() {
-
     }
 
     componentWillMount() {
@@ -267,7 +263,7 @@ class Question extends Component {
                                 </div>
                                 {
                                     this.state.squestion.type == null ?
-                                        <Button label="Cerrar" nClick={this.handleClose}/> : null
+                                        <Button label="Cerrar" onClick={this.handleClose}/> : null
                                 }
                             </div>
                     }
@@ -278,6 +274,6 @@ class Question extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: getUser(state)
+    user: getUser(state),
 });
 export default connect(mapStateToProps, null)(Question);

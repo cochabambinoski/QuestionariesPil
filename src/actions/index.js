@@ -49,7 +49,8 @@ import {
     REMOVE_ALL_ASSIGNEMENT_USER,
     CLEAN_FILTER,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
-    CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED, SAVE_MOBILE_ASSIGNED_LIST_AUX, DELETE_MOBILE_ASSIGNED_LIST_AUX
+    CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED, SAVE_MOBILE_ASSIGNED_LIST_AUX, DELETE_MOBILE_ASSIGNED_LIST_AUX,
+    SET_REACH_TYPES, SET_SYSTEM_TYPES
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -161,3 +162,7 @@ export const saveMobileSellerAssignedListAux = payload => ({type : SAVE_MOBILE_A
 export const deleteSaveMobileSellerListAux = payload => ({type : DELETE_MOBILE_LIST_AUX, payload});
 
 export const deleteSaveMobileSellerAssignedListAux = payload => ({type : DELETE_MOBILE_ASSIGNED_LIST_AUX, payload});
+
+export const setSystemTypes = payload => ({type: SET_SYSTEM_TYPES, payload});
+
+export const setReachTypes = payload => ({type: SET_REACH_TYPES, payload});

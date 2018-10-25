@@ -22,6 +22,17 @@ import Button from '@material-ui/core/Button';
 import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
+import PublicQuestionnaires from "../../PublicQuestionnaires/PublicQuestionnairesContainer";
+import {
+    getBranches,
+    getChargeTypes,
+    getCities,
+    getMenuByUser,
+    getQuestionnaireStateTypes,
+    getTypesByClass,
+    getUserById
+} from "../../../actions/indexthunk";
+import {getReachesTypes, getSystemsTypes} from "../../../actions/indexthunk";
 
 class Home extends Component {
     state = {
@@ -135,45 +146,18 @@ class Home extends Component {
     }
 
     componentDidMount() {
-
         this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + this.getParameterByName('user'))
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({menus: data});
-            this.props.setMenu(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_ESTQUEST)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setTypesQuestionerQuestionary(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_CARGOPER)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setTypeSeller(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setUser(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_DEPARTAMENTS)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setInitDepataments(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setInitialBranches(data);
-        });
+        this.props.getMenuByUser(this.getParameterByName('user'))
+            .then((response) => {
+                this.setState({menus: response});
+            });
+        this.props.getQuestionnaireStateTypes(Constants.CLASS_NAME_ESTQUEST);
+        this.props.getChargeTypes(Constants.CLASS_NAME_CARGOPER);
+        this.props.getUserById(this.getParameterByName('user'));
+        this.props.getCities();
+        this.props.getBranches();
+        this.props.getSystemsTypes(Constants.CLASS_NAME_SYSTEM);
+        this.props.getReachesTypes(Constants.CLASS_NAME_REACH);
     }
 
     render() {
@@ -189,7 +173,7 @@ class Home extends Component {
             <div>
                 {
                     this.props.user === null ?
-                        <ErrorPage/>
+                        <PublicQuestionnaires/>
                         :
                         <div className={wrapperClass}>
                             <Dialog
@@ -200,7 +184,8 @@ class Home extends Component {
                                 <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
+                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su
+                                        sesion
                                         en el SVM.
                                     </DialogContentText>
                                 </DialogContent>
@@ -241,12 +226,15 @@ const mapDispatchToProps = dispatch => ({
     },
     actions: bindActionCreators(actions, dispatch),
     setIdUser: value => dispatch(actions.setIdUser(value)),
-    setTypesQuestionerQuestionary: value => dispatch(actions.setInitialDataQuestionerQuestionary(value)),
-    setTypeSeller: value => dispatch(actions.setInitialDataTypesSeller(value)),
-    setMenu: value => dispatch(actions.setMenu(value)),
-    setUser: value => dispatch(actions.setUser(value)),
-    setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
-    setInitialBranches: value => dispatch(actions.getAllBranches(value))
+    getMenuByUser: value => dispatch(getMenuByUser(value)),
+    getUserById: value => dispatch(getUserById(value)),
+    getTypesByClass: value => dispatch(getTypesByClass(value)),
+    getCities: value => dispatch(getCities(value)),
+    getBranches: value => dispatch(getBranches(value)),
+    getQuestionnaireStateTypes: value => dispatch(getQuestionnaireStateTypes(value)),
+    getChargeTypes: value => dispatch(getChargeTypes(value)),
+    getSystemsTypes: value => dispatch(getSystemsTypes(value)),
+    getReachesTypes: value => dispatch(getReachesTypes(value)),
 });
 
 const mapStateToProps = state => (

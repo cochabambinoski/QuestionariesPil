@@ -2,10 +2,8 @@ import React from 'react';
 import './styles.css'
 import {Button} from "../../../../../../../node_modules/primereact/button";
 import {Card} from 'primereact/card';
-import AnswerList from "../../../../../AnswersQuestionnaire/pages/AnswerList/AnswerList";
-import QuestionaryAsignmet from "../../QuestionaryAsignmet";
 
-const QuestionaryData = ({data, handleQuestionaryDataClick, parentComponent}) => {
+const QuestionaryData = ({data, handleQuestionaryDataClick}) => {
 
     return (
         <div className="list">
@@ -14,17 +12,9 @@ const QuestionaryData = ({data, handleQuestionaryDataClick, parentComponent}) =>
                     <div>Creado</div>
                     <div>{data.fechaId} {data.usuarioId}</div>
                     <br/>
-                    <span>
-                        {
-                            parentComponent === "QuestionaryAsignmet" ?
-                                <Button label="Iniciar Asignacion"  onClick={() => {handleQuestionaryDataClick(data)}}/>:
-                                parentComponent === "AnswerList" ?
-                                    <Button label="Ver Grafico"  onClick={() => {
-                                        handleQuestionaryDataClick(data)
-                                    }}/>: null
-                        }
-
-                    </span>
+                    <div>
+                        <Button label="Iniciar Asignacion" onClick={() => {handleQuestionaryDataClick(data)}}/>
+                    </div>
                 </div>
             </Card>
         </div>

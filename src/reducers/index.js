@@ -6,10 +6,12 @@ import {initialData, getTypeByCodSap as _getTypeCodeSap, getBrancgesByIdCity as 
 import {assignmentUser} from './assignmentUser'
 import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
+import {questionnaires} from "./questionnaires";
+import {connection} from "./connection";
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -30,9 +32,16 @@ export const getTypesSeller = state => state.initialData.typeSeller;
 export const getAllCity = state => state.initialData.cities;
 export const getAllBranch = state => state.initialData.lsBranches;
 export const getBranchByIdCity = (lsBranch, idCity) => (_getBrancgesByIdCity(lsBranch, idCity));
+export const getSystemTypes = state => state.initialData.systemTypes;
+export const getReachTypes = state => state.initialData.reachTypes;
 
 
 export const getQueryMobileSellerType = (state) => state.searchFilter.queryAdvancedMobileSellerType;
 export const getQueryMobileSellerBranch = (state) => state.searchFilter.queryAdvancedMobileSellerBranch;
 export const getQueryMobileSellerAssignedType = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedType;
 export const getQueryMobileSellerAssignedBranch = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedBranch;
+
+export const getQuestionnaries = (state) => state.questionnaires.questionnaires;
+export const getQuestionTypes = (state) => state.initialData.questionTypes;
+export const getCities = (state) => state.initialData.cities;
+export const getBranches = (state) => state.initialData.lsBranches;

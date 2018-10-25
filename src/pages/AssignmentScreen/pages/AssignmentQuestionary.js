@@ -39,6 +39,7 @@ import {
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Modal from "../../../widgets/Modal/components/modal";
 import Title from "../../Title/Title";
+import {saveAssignment} from "../../../actions/indexthunk";
 
 const styles = theme => ({
     root: {
@@ -142,21 +143,11 @@ class AssignmentQuestionary extends Component {
                 questionerQuestionaryList.push(questionQuestionary);
             }
         }
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.ASSING_QUESTIONARIES}`;
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(questionerQuestionaryList),
-            headers: {
-                'Accept': '*/*',
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        }).then(res => res.json().then(data => {
+        this.props.saveAssignment(questionerQuestionaryList)
+            .then((response) => {
                 this.cancelAssignamentSeller();
                 this.props.showSuccess("", "La asignación se realizó exitosamente.");
-            })
-        )
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
+            });
     };
 
     cancelAssignamentSeller = () => {
@@ -316,7 +307,8 @@ class AssignmentQuestionary extends Component {
                             <Row>
                                 <Col xs>
 
-                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER} idQuestionary={this.props.idQuestionary.id}/>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}
+                                                          idQuestionary={this.props.idQuestionary.id}/>
                                     <MobileSellerList idQuestionary={idQuestionary.id}
                                                       isEdit={false}
                                                       getAssignment={this.getAssignment}
@@ -325,7 +317,8 @@ class AssignmentQuestionary extends Component {
 
                                 <Col xs>
 
-                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED} idQuestionary={this.props.idQuestionary.id}/>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}
+                                                          idQuestionary={this.props.idQuestionary.id}/>
                                     <MobileSellerListAssigment idQuestionary={idQuestionary.id}
                                                                isEdit={true}
                                                                loadAssignments={this.loadAssignments}
@@ -367,6 +360,7 @@ const mapDispatchToProps = dispatch => ({
     deleteSaveMobileSellerAssignedListAux: value => dispatch(deleteSaveMobileSellerAssignedListAux(value)),
     removeAllAssignmentUser: value => dispatch(removeAllAssignmentUser(value)),
     editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
+    saveAssignment: value => dispatch(saveAssignment(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AssignmentQuestionary));
