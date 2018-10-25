@@ -382,7 +382,8 @@ class ClientVerifier extends Component {
                                                                           ...this.state.clientUser,
                                                                           birthday: e.value
                                                                       }
-                                                                  })}
+                                                                  })} monthNavigator={true}
+                                                                  yearNavigator={true} yearRange="1900:2030"
                                                                   showIcon={true} readOnlyInput={true}/>
                                                     </div>
                                                 </div>
