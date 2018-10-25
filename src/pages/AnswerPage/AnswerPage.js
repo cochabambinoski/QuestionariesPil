@@ -15,6 +15,7 @@ class AnswerPage extends Component {
             clientsList: [],
             interviewedName: "",
             firstTimeOpen: true,
+            showMinCharsMessage: false,
         };
     }
 

@@ -13,6 +13,7 @@ import {
     SAVE_MOBILE_ASSIGNED_LIST_AUX,
     DELETE_MOBILE_ASSIGNED_LIST_AUX
 } from "../action-types/actionTypes";
+import {SET_QUESTIONNAIRE_ASSIGNEMENTS} from "../actions/indexthunk";
 
 const initialState = (
     {
@@ -95,6 +96,8 @@ export function assignmentUser(state = initialState, action) {
                 mobileSellers: sellers
             }
         }
+        case SET_QUESTIONNAIRE_ASSIGNEMENTS:
+            return {...state, assignmentsNumber: action.payload};
         default:
             return state;
     }
