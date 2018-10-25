@@ -103,7 +103,6 @@ class QuestionaryAsignmet extends Component {
 
     render() {
         const questionnaires = this.props.questionnaires;
-        const {questionnaires} = this.state;
         return (
             <div>
                 {this.renderModal()}

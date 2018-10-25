@@ -273,19 +273,22 @@ class QuestionnaireRange extends Component {
 
                     </div>
 
-                    <div className="ui-g-6">
-                        <h3>Sucursal</h3>
-                        {this.props.lsBranches.map((branch, index) => {
-                            return (
-                                <div className="ui-g-12">
-                                    <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange}
-                                              checked={this.containsBranch(branch)} disabled={this.props.readOnly}/>
-                                    <label htmlFor={branch.id}>{branch.nombre}</label>
-                                </div>
-                            )
-                        })}
-                    </div>
-
+                    {
+                        this.props.system !== null && this.props.system.nombre === 'SVM' ?
+                            <div className="ui-g-6">
+                                <h3>Sucursal</h3>
+                                {this.props.lsBranches.map((branch, index) => {
+                                    return (
+                                        <div className="ui-g-12">
+                                            <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange}
+                                                      checked={this.containsBranch(branch)}
+                                                      disabled={this.props.readOnly}/>
+                                            <label htmlFor={branch.id}>{branch.nombre}</label>
+                                        </div>
+                                    )
+                                })}
+                            </div> : null
+                    }
 
                 </div>
 

@@ -455,6 +455,7 @@ class Questionnaire extends Component {
                                         <ScrollPanel style={{width: '100%', height: '600px'}}>
                                             <QuestionnaireRange updateRanges={this.updateRanges}
                                                                 readOnly={this.props.readOnly}
+                                                                system={this.state.system}
                                                                 questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id : undefined}/>
                                         </ScrollPanel>
                                     </ExpansionPanelDetails>
