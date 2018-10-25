@@ -199,20 +199,20 @@ class ClientVerifier extends Component {
     };
 
     close = () => {
-        if (this.props.questionnaire === null)
+        if (this.props.questionnaire === null) {
             this.setState({
-                openMessageModal: false,
-                openClientModal: false,
-                openClientUserModal: false,
                 client: null,
                 clientUser: null,
                 interviewedName: "",
                 searchClient: "",
                 firstTimeOpen: true,
                 showRegisterError: false,
-                password: null
+                password: null,
+                openClientModal: false,
+                openClientUserModal: false,
+                openMessageModal: false,
             });
-        else
+        } else
             this.setState({openMessageModal: false, showRegisterError: false, password: null});
     };
 
@@ -348,7 +348,7 @@ class ClientVerifier extends Component {
                                                     <div className="client-user-input-left">Nombres</div>
                                                     <div className="client-user-input-right"><InputText
                                                         maxLength="50" value={this.state.clientUser.firstNames}
-                                                        keyfilter="alpha" style={{background: '#FFF7A94D'}}
+                                                        keyfilter={/^[a-z\d\-_\s]+$/i} style={{background: '#FFF7A94D'}}
                                                         onChange={(e) => this.setState({
                                                             clientUser: {
                                                                 ...this.state.clientUser,
@@ -362,7 +362,7 @@ class ClientVerifier extends Component {
                                                     <div className="client-user-input-left">Apellidos</div>
                                                     <div className="client-user-input-right"><InputText
                                                         maxLength="50" value={this.state.clientUser.lastNames}
-                                                        keyfilter="alpha" style={{background: '#FFF7A94D'}}
+                                                        keyfilter={/^[a-z\d\-_\s]+$/i} style={{background: '#FFF7A94D'}}
                                                         onChange={(e) => this.setState({
                                                             clientUser: {
                                                                 ...this.state.clientUser,
@@ -539,7 +539,7 @@ class ClientVerifier extends Component {
     };
 
     validateEmail = email => {
-        const pattern = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+\\.[A-Za-z]+$');
+        const pattern = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+\\.[A-Za-z0-9._%+-]+$');
         const valid = pattern.test(email);
         this.setState({emailInvalid: !valid});
         return valid;
@@ -556,7 +556,7 @@ class ClientVerifier extends Component {
         const incomplete = this.checkIfIncomplete(clientUser);
         const birthdayValid = this.validateBirthday(clientUser.birthday);
         const emailValid = this.validateEmail(clientUser.email);
-        const pswValid = this.state.password !== null ? this.validatePassword(this.state.password) : true;
+        const pswValid = this.state.password !== null && this.state.password !== '' ? this.validatePassword(this.state.password) : true;
         if (incomplete)
             this.setState({mandatoryInvalid: true});
         return !incomplete && birthdayValid && emailValid && pswValid;
@@ -575,11 +575,11 @@ class ClientVerifier extends Component {
         const clientUser = this.state.clientUser;
         if (!this.validateAllFields(clientUser)) return;
         clientUser.birthday = this.dateToString(clientUser.birthday);
-        clientUser.password = this.state.password !== null ? this.transformPassword(this.state.password) : clientUser.password;
+        clientUser.password = this.state.password !== null && this.state.password !== '' ? this.transformPassword(this.state.password) : clientUser.password;
         this.props.saveClientUser(clientUser)
             .then(response => {
                 if (response.toString() === "OK")
-                    this.setState({openClientUserModal: false, openMessageModal: true});
+                    this.setState({openMessageModal: true, openClientUserModal: false});
                 else
                     this.setState({showRegisterError: true});
             });
