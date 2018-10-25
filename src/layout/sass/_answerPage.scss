@@ -26,9 +26,23 @@
   width: 450px;
 }
 
-.client-user-input{
+.client-container-item{
+    margin: 10px;
+}
+
+.gender-item{
+    display: inline-block;
+    width: 150px;
+}
+
+.client-user-input-left{
+    display: inline-block;
+    min-width: 200px;
+  }
+
+.client-user-input-right{
   display: inline-block;
-  min-width: 200px;
+  min-width: 300px;
 }
 
 .client-input{
