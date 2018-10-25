@@ -32,6 +32,7 @@ import {
     getTypesByClass,
     getUserById
 } from "../../../actions/indexthunk";
+import {getReachesTypes, getSystemsTypes} from "../../../actions/indexthunk";
 
 class Home extends Component {
     state = {
@@ -155,6 +156,8 @@ class Home extends Component {
         this.props.getUserById(this.getParameterByName('user'));
         this.props.getCities();
         this.props.getBranches();
+        this.props.getSystemsTypes(Constants.CLASS_NAME_SYSTEM);
+        this.props.getReachesTypes(Constants.CLASS_NAME_REACH);
     }
 
     render() {
@@ -230,6 +233,8 @@ const mapDispatchToProps = dispatch => ({
     getBranches: value => dispatch(getBranches(value)),
     getQuestionnaireStateTypes: value => dispatch(getQuestionnaireStateTypes(value)),
     getChargeTypes: value => dispatch(getChargeTypes(value)),
+    getSystemsTypes: value => dispatch(getSystemsTypes(value)),
+    getReachesTypes: value => dispatch(getReachesTypes(value)),
 });
 
 const mapStateToProps = state => (

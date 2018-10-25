@@ -1,6 +1,7 @@
 import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
+import {setReachTypes, setSystemTypes} from "./index";
 import {
     addMobileSellers,
     getAllBranches,
@@ -421,5 +422,23 @@ export const getClientsByNitOrNameInSystem = (searchTerm, systemName) => {
             }).then(response => {
                 return response;
             });
+    };
+};
+
+export const getSystemsTypes = payload => {
+    return dispatch => {
+        return dispatch(getTypesByClass(payload))
+            .then((response) => {
+                dispatch(setSystemTypes(response));
+            })
+    };
+};
+
+export const getReachesTypes = payload => {
+    return dispatch => {
+        return dispatch(getTypesByClass(payload))
+            .then((response) => {
+                dispatch(setReachTypes(response));
+            })
     };
 };

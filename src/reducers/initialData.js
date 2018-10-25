@@ -4,6 +4,8 @@ import {
     GET_INITIAL_DATA,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
+    SET_REACH_TYPES,
+    SET_SYSTEM_TYPES
 } from "../action-types/actionTypes";
 import {GET_QUESTION_TYPES} from "../actions/indexthunk";
 
@@ -36,6 +38,12 @@ export const initialData = (state = initialState, action) => {
         }
         case GET_QUESTION_TYPES: {
             return {...state, questionTypes: action.payload};
+        }
+        case SET_SYSTEM_TYPES: {
+            return {...state, systemTypes: action.payload};
+        }
+        case SET_REACH_TYPES: {
+            return {...state, reachTypes: action.payload};
         }
         default:
             return state;
