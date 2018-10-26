@@ -55,7 +55,7 @@ class FreeAnswerTable extends Component {
                             this.props.data.data.answers.map((answer) => {
                                 return(
                                     <TableRow key={answer.id}>
-                                        <CustomTableCell component="th" scope="row"> {answer.answer.interviewedName !== null ? answer.answer.interviewedName : answer.answer.mobileClient.nombrerepresentate }</CustomTableCell>
+                                        <CustomTableCell component="th" scope="row"> {answer.answer.interviewedName !== null ? answer.answer.interviewedName : answer.answer.cliente.nombre_factura }</CustomTableCell>
                                         <CustomTableCell style={{textAlign: 'left',}} numeric> {answer.answerDetail}</CustomTableCell>
                                     </TableRow>
                                 )
