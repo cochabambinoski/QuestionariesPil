@@ -4,6 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {InputText} from 'primereact/inputtext';
 import {Dropdown} from 'primereact/dropdown';
+import {InputSwitch} from 'primereact/inputswitch';
 import {Messages} from 'primereact/messages';
 import Constants from '../../../../Constants.json';
 import MultipleOption from './MultipleOption.js';
@@ -88,7 +89,7 @@ class Question extends Component {
             type: this.state.squestion.type,
             questionOption: this.state.squestion.questionOption,
             question: this.state.squestion.question,
-            required: 1,
+            required: this.state.squestion.required,
             lsQuestionOptions: this.state.squestion.lsQuestionOptions,
             sociedadId: 'BO81',
             usuarioId: this.props.user.username,
@@ -107,7 +108,7 @@ class Question extends Component {
                 type: null,
                 questionOption: null,
                 question: null,
-                required: 1,
+                required: 0,
                 lsQuestionOptions: [],
                 sociedadId: null,
                 usuarioId: null,
@@ -121,6 +122,16 @@ class Question extends Component {
     setQuestion(name) {
         let question = this.state.squestion;
         question.question = name;
+        this.setState({squestion: question});
+    }
+
+    setRequired(value) {
+        console.log(value);
+        let question = this.state.squestion;
+        if (value === true)
+            question.required = 1;
+        else
+            question.required = 0;
         this.setState({squestion: question});
     }
 
@@ -225,10 +236,19 @@ class Question extends Component {
                             :
                             <div>
                                 <div style={{marginBottom: '20px'}}>
-                                    <InputText id="float-input" placeholder="Pregunta" type="text" required
-                                               maxLength="255" size="40"
-                                               value={this.state.squestion.question}
-                                               onChange={(e) => this.setQuestion(e.target.value)}/>
+                                    <div>
+                                        <InputText id="float-input" placeholder="Pregunta" type="text" required
+                                                   maxLength="255" size="40"
+                                                   value={this.state.squestion.question}
+                                                   onChange={(e) => this.setQuestion(e.target.value)}/>
+                                    </div>
+                                    <p></p>
+                                    <div style={{marginLeft: '5px'}}>
+                                        <label>Obligatorio: </label>
+                                        <InputSwitch checked={this.state.squestion.required}
+                                                     onChange={(e) => this.setRequired(e.value)} style={{}}/>
+                                    </div>
+
                                     <p></p>
                                     {
                                         this.state.squestion.type != null && this.state.squestion.id != null ?

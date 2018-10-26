@@ -61,6 +61,7 @@ class Questions extends Component {
                             question.operacionId === 1 ?
                                 <Card title={question.question} subTitle={question.type.nombre}
                                       className="card ui-card-shadow text" key={question.id}>
+                                    <p className="required">{question.required == 1 ? 'Obligatorio':''}</p>
                                     <div>
                                         {
                                             this.props.readOnly ?
