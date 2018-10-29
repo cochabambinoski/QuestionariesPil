@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
@@ -20,7 +20,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
-import {getIdUser, getUser} from "../../../reducers";
+import {getIdUser, getMenu, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 import PublicQuestionnaires from "../../PublicQuestionnaires/PublicQuestionnairesContainer";
 import {
@@ -33,6 +33,14 @@ import {
     getUserById
 } from "../../../actions/indexthunk";
 import {getReachesTypes, getSystemsTypes} from "../../../actions/indexthunk";
+import {Link, Route, Switch} from "react-router-dom";
+import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
+import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
+import QuestionaryContainer from "../../QuestionnairesList/QuestionaryContainer";
+import {Start} from "../../Start/Start";
+import ListSegment from "../../ListSegments/pages/ListSegments";
+import {BrowserRouter} from 'react-router-dom';
+import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
 
 class Home extends Component {
     state = {
@@ -170,52 +178,59 @@ class Home extends Component {
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
         return (
-            <div>
-                {
-                    this.props.user === null ?
-                        <PublicQuestionnaires/>
-                        :
-                        <div className={wrapperClass}>
-                            <Dialog
-                                open={this.state.open}
-                                onClose={this.handleClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description">
-                                <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su
-                                        sesion
-                                        en el SVM.
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={this.handleClose} color="primary" autoFocus>
-                                        Aceptar
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
+            <BrowserRouter>
+                {/*<Route path="/PublicQuestionnaires" strict exact component={PublicQuestionnaires}/>*/}
+                {/*<Route path="/" exact render={Home}/>*/}
+                <Fragment>
+                    {
+                        this.props.user === null ?
+                            <PublicQuestionnaires/>
+                            :
+                            <div className={wrapperClass}>
+                                <Dialog
+                                    open={this.state.open}
+                                    onClose={this.handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description">
+                                    <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
+                                            Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su
+                                            sesion
+                                            en el SVM.
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                                            Aceptar
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
 
-                            <AppTopbar onToggleMenu={this.onToggleMenu}/>
+                                <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
-                            <div className={sidebarClassName}>
-                                <ScrollPanel style={{height: '100%', with: '100%'}}>
-                                    <div className="logo"/>
-                                    <AppInlineProfile/>
-                                    <AppMenuT
-                                        menus={this.state.menus}
-                                        sessionActive={this.props.sessionActive}
-                                        onSelectedMenu={this.handleChangeContainer}/>
-                                </ScrollPanel>
+                                <div className={sidebarClassName}>
+                                    <ScrollPanel style={{height: '100%', with: '100%'}}>
+                                        <div className="logo"/>
+                                        <AppInlineProfile/>
+                                        <AppMenuT
+                                            menus={this.state.menus}
+                                            sessionActive={this.props.sessionActive}
+                                            onSelectedMenu={this.handleChangeContainer}/>
+                                    </ScrollPanel>
+                                </div>
+                                <div className="layout-main">
+                                    <Route path="" exact component={Start}/>
+                                    <Route path="/Questionaries" exact component={QuestionaryContainer}/>
+                                    <Route path="/Questionaries/New" exact component={Questionnaire}/>
+                                    <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
+                                    <Route path="/Answers" exact component={AnswerContainer}/>
+                                    <Route path="/Segment" exact component={ListSegment}/>
+                                </div>
                             </div>
-                            <div className="layout-main">
-                                <Container>
-
-                                </Container>
-                            </div>
-                        </div>
-                }
-            </div>
+                    }
+                </Fragment>
+            </BrowserRouter>
         );
     }
 }
@@ -241,6 +256,7 @@ const mapStateToProps = state => (
     {
         idUser: getIdUser(state),
         user: getUser(state),
+        idMenu: getMenu(state)
     }
 );
 

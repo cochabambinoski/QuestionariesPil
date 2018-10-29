@@ -7,6 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
+import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
+import {Start} from "../../../Start/Start";
 
 const styles = theme => ({
     root: {
@@ -49,6 +52,23 @@ class SubMenu extends Component {
         this.setState({anchorEl: null});
     };
 
+    getUrl=(option) => {
+        switch (option.transaccion.ruta) {
+            case 'Start':
+                return "/";
+            case 'QuestionaryContainer':
+                return "/Questionaries";
+            case 'AssignmentQuestionary':
+                return "/Assigment";
+            case 'AnwserQuestionaryContainer':
+                return "/Answers";
+            case 'ListSegment':
+                return "/Segment";
+            default:
+                return "/";
+        }
+    };
+
     render() {
         const {classes, title, submenus} = this.props;
         const {anchorEl} = this.state;
@@ -75,12 +95,14 @@ class SubMenu extends Component {
                       open={Boolean(anchorEl)}
                       onClose={this.handleClose}>
                     {submenus.map((option, index) => (
-                        <MenuItem style={{padding: 20}}
-                                  key={option.id}
-                                  onClick={event => this.handleMenuItemClick(event, index, option)}
-                                  className={classes.menuItem}>
-                            <div className="navItemsColor">{option.label}</div>
-                        </MenuItem>
+                        <Link to={{pathname: this.getUrl(option)}}>
+                            <MenuItem style={{padding: 20}}
+                                      key={option.id}
+                                      onClick={event => this.handleMenuItemClick(event, index, option)}
+                                      className={classes.menuItem}>
+                                <div className="navItemsColor">{option.label}</div>
+                            </MenuItem>
+                        </Link>
                     ))}
                 </Menu>
             </div>
