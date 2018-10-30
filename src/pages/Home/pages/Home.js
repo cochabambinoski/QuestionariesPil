@@ -145,6 +145,11 @@ class Home extends Component {
         this.growl.show({severity: 'info', summary: 'See' + menuName, detail: ''});
     }
 
+    shouldComponentUpdate(nextProps) {
+        return (nextProps.ids !== this.props.ids
+            || nextProps.data !== this.props.data);
+    }
+
     componentDidMount() {
         this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
         this.props.getMenuByUser(this.getParameterByName('user'))
