@@ -15,7 +15,6 @@ import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import {deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
 import {getQuestionnaries} from "../../../reducers";
-import {Link} from "react-router-dom";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -100,12 +99,10 @@ class Questionnaires extends Component {
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                 <Toolbar className="toolbarFullWidth">
                     <div>
-                        <Link to={{pathname: '/Questionaries/New'}}>
                             <Button label="Nuevo"
                                     onClick={() => {
                                         this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
                                     }}/>
-                        </Link>
                     </div>
                 </Toolbar>
                 <Messages ref={(el) => this.messages = el}/>

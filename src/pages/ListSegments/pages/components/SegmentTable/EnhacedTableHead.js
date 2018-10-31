@@ -3,7 +3,6 @@
  */
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {withStyles} from "@material-ui/core/styles";
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableCell from "@material-ui/core/TableCell";
@@ -11,9 +10,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Tooltip from "@material-ui/core/Tooltip";
 
 class EnhancedTableHead extends Component {
-    constructor() {
-        super();
-    }
 
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
@@ -26,8 +22,7 @@ class EnhancedTableHead extends Component {
     ];
 
     render() {
-        const {classes} = this.props;
-        const {onSelectAllClick, order, orderBy, numSelected, rowCount} = this.props;
+        const { order, orderBy} = this.props;
         return (
             <TableHead classes="">
                 <TableRow>

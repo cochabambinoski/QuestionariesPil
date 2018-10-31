@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import connect from "react-redux/es/connect/connect";
-import Header from "./../PublicQuestionnaires/components/Header";
 import { getQuetionnaireById } from "../../actions/indexthunk";
 import AnswerPage from "./AnswerPage";
 

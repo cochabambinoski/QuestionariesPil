@@ -8,8 +8,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import QuestionaryContainer from "../../../QuestionnairesList/QuestionaryContainer";
-import {Start} from "../../../Start/Start";
 
 const styles = theme => ({
     root: {

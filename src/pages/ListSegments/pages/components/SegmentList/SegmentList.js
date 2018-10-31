@@ -94,8 +94,7 @@ class SegmentList extends Component {
      */
     handlerFilter = event => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
-            this.state.startDate = this.state.dates[0];
-            this.state.enDate = this.state.dates[1];
+            this.setState({startDate : this.state.dates[0], enDate : this.state.dates[1]});
             this.updateDates(this.state.startDate, this.state.enDate);
         }
     };
@@ -271,7 +270,6 @@ class SegmentList extends Component {
      * @returns {XML}
      */
     renderBase() {
-        const {classes} = this.props;
         return (
             <Dialog
                 className="fullDialog"
@@ -305,7 +303,6 @@ class SegmentList extends Component {
      * @returns {XML}
      */
     renderSegment() {
-        const {classes} = this.props;
         return (
             <Dialog
                 open={this.state.segmentOpen}
@@ -381,10 +378,13 @@ class SegmentList extends Component {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <img src={require('./../../../../../images/file-pdf.svg')} className="icons"
+                             alt="PDF"
                              onClick={this.handlePDFReport}/>
                         <img src={require('./../../../../../images/file-excel.svg')} className="icons"
+                             alt="Excel"
                              onClick={this.handleXLSReport}/>
                         <img src={require('./../../../../../images/file-document.svg')} className="icons"
+                             alt="Documento"
                              onClick={this.handleTXTReport}/>
                     </DialogContentText>
                 </DialogContent>
@@ -422,12 +422,6 @@ class SegmentList extends Component {
     }
 
     renderList() {
-        const {classes, theme} = this.props;
-        const fab = {
-            color: "primary",
-            className: classes.fab,
-            icon: <AddIcon/>
-        };
         return (
             <div>{
                 this.state.segments.map((item) => {
@@ -493,7 +487,7 @@ class SegmentList extends Component {
     };
 
     render() {
-        const {classes, theme} = this.props;
+        const {classes} = this.props;
         const fab = {
             color: "primary",
             className: classes.fab,

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Constants from "../../../../Constants";
 import Questionary from "./index";
 import './styles.css'
 import PropTypes from "prop-types";

@@ -5,7 +5,6 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Checkbox} from 'primereact/checkbox';
 import {InputText} from 'primereact/inputtext';
-import {ScrollPanel} from "../../../../../node_modules/primereact/scrollpanel";
 
 class MultipleSelection extends Component {
     constructor(props) {
@@ -73,7 +72,6 @@ class MultipleSelection extends Component {
     }
 
     render() {
-        const options = this.props.lsOptions;
         return (
             <div style={{width: '370px', marginBottom: '10px'}}>
                     <div style={{paddingBottom: '15px', paddingTop: '10px', width: '100%', overflow:'auto', maxHeight: '150px', marginBottom: '10px'}}>

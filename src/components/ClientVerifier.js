@@ -63,11 +63,6 @@ class ClientVerifier extends Component {
         };
     }
 
-    setDate(clientUser) {
-        const birthday = clientUser.birthday;
-
-    };
-
     handleClickShowPassword = () => {
         this.setState(state => ({showPassword: !state.showPassword}));
     };

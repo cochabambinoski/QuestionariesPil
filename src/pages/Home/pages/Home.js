@@ -3,7 +3,6 @@ import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
 import classNames from 'classnames';
-import Container from "../components/Container/Container";
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
@@ -19,7 +18,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
 import {getIdUser, getMenu, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 import PublicQuestionnaires from "../../PublicQuestionnaires/PublicQuestionnairesContainer";
@@ -29,17 +27,17 @@ import {
     getCities,
     getMenuByUser,
     getQuestionnaireStateTypes,
+    getReachesTypes,
+    getSystemsTypes,
     getTypesByClass,
     getUserById
 } from "../../../actions/indexthunk";
-import {getReachesTypes, getSystemsTypes} from "../../../actions/indexthunk";
-import {Link, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
 import QuestionaryContainer from "../../QuestionnairesList/QuestionaryContainer";
 import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
-import {BrowserRouter} from 'react-router-dom';
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
 
 class Home extends Component {
@@ -221,6 +219,7 @@ class Home extends Component {
                                 </div>
                                 <div className="layout-main">
                                     <Route path="" exact component={Start}/>
+                                    <Route path="/PublicQuestionnaires" exact component={PublicQuestionnaires}/>
                                     <Route path="/Questionaries" exact component={QuestionaryContainer}/>
                                     <Route path="/Questionaries/New" exact component={Questionnaire}/>
                                     <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>

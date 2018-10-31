@@ -14,10 +14,8 @@ export function Pie() {
 
 
 Pie.prototype.addData = function (answers) {
-    let index;
     let indexAux;
     answers.forEach((answer) => {
-        index = 0;
         indexAux = getIndex(answer, this.data.answers);
         if (indexAux !== -1) {
             this.data.datasets[0].data[indexAux] = this.data.datasets[0].data[indexAux] + 1 ;
@@ -29,15 +27,13 @@ Pie.prototype.addData = function (answers) {
     })
 };
 
-
-function includeOption(answerCurrent, answerList) {
-    let value = false;
-    answerList.forEach((answer) => {
-        value = answer.answerDetail === answerCurrent.answerDetail;
-    });
-    return value;
-
-}
+// function includeOption(answerCurrent, answerList) {
+//     let value = false;
+//     answerList.forEach((answer) => {
+//         value = answer.answerDetail === answerCurrent.answerDetail;
+//     });
+//     return value;
+// }
 
 const getIndex = (answerCurrent, answerList) => {
     for (let i = 0; i < answerList.length; i++) {
