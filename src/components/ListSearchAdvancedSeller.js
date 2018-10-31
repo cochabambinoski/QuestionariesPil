@@ -29,17 +29,16 @@ import {
     addParamFilterMobileSellerAssignedBranch,
     addParamFilterMobileSellerAssignedType,
     addParamFilterMobileSellerBranch,
-    addParamFilterMobileSellerType, changeOperationIdBranchSeller, changeOperationIdBranchSellerAssigned, cleanFilter,
+    addParamFilterMobileSellerType,
+    changeOperationIdBranchSeller,
+    changeOperationIdBranchSellerAssigned,
+    cleanFilter,
     deleteParamFilterMobileSellerAssignedBranch,
     deleteParamFilterMobileSellerAssignedType,
     deleteParamFilterMobileSellerBranch,
     deleteParamFilterMobileSellerType
 } from "../actions";
-import {
-    existElementInList,
-    remove,
-    filter,
-} from '../Util/ArrayFilterUtil';
+import {existElementInList, filter, remove,} from '../Util/ArrayFilterUtil';
 
 const styles = theme => ({
     root: {
