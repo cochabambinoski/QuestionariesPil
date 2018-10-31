@@ -13,7 +13,7 @@ import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
-import {deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
+import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
 import {getQuestionnaries} from "../../../reducers";
 
 class Questionnaires extends Component {
@@ -23,7 +23,8 @@ class Questionnaires extends Component {
             questionnaires: [],
             updateView: true,
             open: false,
-            currentItem: -1,
+            modal: false,
+            currentItem: -1
         };
     }
 
@@ -41,7 +42,7 @@ class Questionnaires extends Component {
 
     QuestionSelected(idQuestionary, action) {
         this.idQuestionary = idQuestionary;
-        this.action = action
+        this.action = action;
     }
 
     componentDidMount() {
@@ -70,19 +71,51 @@ class Questionnaires extends Component {
             });
     }
 
+    closeQuestionary(item) {
+	    this.exitModal();
+        this.props.closeQuestionary(item)
+            .then((result) => {
+            	console.log('result', result);
+                switch (result) {
+                    case "CLOSED":
+                        this.showSuccess("Cuestionario Cerrado");
+                        break;
+                    default:
+                        break;
+                }
+            });
+    }
+
     openModal = (item) => {
         this.setState({currentItem: item});
         this.setState({open: true});
+    };
+
+    enterModal = (item) => {
+        console.log(item);
+        this.setState({currentItem: item});
+        this.setState({modal: true});
     };
 
     closeModal = () => {
         this.setState({open: false});
     };
 
+    exitModal = () => {
+        this.setState({modal: false});
+    };
+
     handleRemove = () => {
         this.closeModal();
         this.setState((prevState, props) => {
             this.deleteQuestionary(prevState.currentItem);
+        });
+    };
+
+    handleClose = () => {
+        this.closeModal();
+        this.setState((prevState, props) => {
+            this.closeQuestionary(prevState.currentItem);
         });
     };
 
@@ -94,6 +127,10 @@ class Questionnaires extends Component {
                            message={"Está seguro de eliminar el cuestionario?"}
                            handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
                     </Modal>
+                    <Modal open={this.state.modal} title={"Cerrar cuestionario"}
+                           message={"Está seguro de cerrar el cuestionario?"}
+                           handleConfirm={this.handleClose} handleCancel={this.exitModal}>
+                    </Modal>
                 </ModalContainer>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
@@ -101,7 +138,7 @@ class Questionnaires extends Component {
                     <div>
                         <Button label="Nuevo"
                                 onClick={() => {
-                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"));
                                 }}/>
                     </div>
                 </Toolbar>
@@ -119,25 +156,28 @@ class Questionnaires extends Component {
                                             <br/>
                                             <span>
 
-                                            <Button label="Ver" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))
-                                            }}/>
+                                                <Button label="Ver" onClick={() => {
+                                                    this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"));
+                                                }}/>
 
+                                                <Button label="Editar" onClick={() => {
+                                                    this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"));
+                                                }}/>
 
-                                            <Button label="Editar" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))
-                                            }}/>
+                                                <Button label="Cerrar" onClick={() => {
+                                                    this.enterModal(item);
+                                                }}/>
 
-                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-                                                this.openModal(item)
-                                            }}/>
+                                                <Button label="Eliminar" className="ui-button-danger" onClick={() => {
+                                                    this.openModal(item);
+                                                }}/>
 
-                                    </span>
+                                            </span>
                                         </div>
                                     </Card>
                                     <br/>
                                 </div>
-                            )
+                            );
                         })
                     }
                 </ScrollPanel>
@@ -147,13 +187,14 @@ class Questionnaires extends Component {
 }
 
 const mapStateToProps = state => ({
-    questionnaires: getQuestionnaries(state),
+    questionnaires: getQuestionnaries(state)
 });
 
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
+    closeQuestionary: value => dispatch(closeQuestionnaire(value)),
     fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
-    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value)),
+    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questionnaires);

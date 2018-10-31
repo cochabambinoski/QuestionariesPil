@@ -35,6 +35,7 @@
   "POST_CLIENT_KILOLITERS_SEGMENT": "clientkilolitersegmentation",
   "GET_ALL_DEPARTAMENTS": "allDepartments",
   "DELETE_QUESTIONARY": "deleteQuestionary",
+  "CLOSE_QUESTIONARY": "setStatusQuestionerQuestionary",
   "GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE": "getQuestionerQuestionaryByQuestionary",
   "CODSAP_MULTIPLE_OPTION": "TIPPREG1",
   "CODSAP_MULTIPLE_SELECTION": "TIPPREG2",

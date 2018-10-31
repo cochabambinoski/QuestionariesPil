@@ -51,6 +51,15 @@ export const deleteQuestionnaire = item => {
     }
 };
 
+export const closeQuestionnaire = item => {
+    return (dispatch, getState) => {
+        return dispatch(getAssignmentsNumberByQuestionnaire(item))
+            .then(() => {
+                    return dispatch(sendCloseRequest(item));
+            })
+    }
+};
+
 export const sendDeleteRequest = item => {
     return (dispatch, getState) => {
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
@@ -70,6 +79,30 @@ export const sendDeleteRequest = item => {
                 const newQuestionnaires = questionnaires.splice(0);
                 dispatch(setQuestionnairesData(newQuestionnaires));
                 return "DELETED"
+            }
+        }).catch(error => console.error('Error:', error));
+    };
+};
+
+export const sendCloseRequest = item => {
+    return (dispatch, getState) => {
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.CLOSE_QUESTIONARY}?idQuestionerQuestionary=${encodeURIComponent(item.id)}`;
+        console.log(url);
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }).then(results => {
+            return results.json();
+        }).then(response => {
+            let index = getIndexQuestionary(getState().questionnaires, item);
+            let questionnaires = getState().questionnaires.questionnaires;
+            if (response === 'ok' && index !== undefined) {
+                console.log('response and index: ', response, questionnaires);
+                dispatch(setQuestionnairesData(questionnaires));
+                return "CLOSED"
             }
         }).catch(error => console.error('Error:', error));
     };
