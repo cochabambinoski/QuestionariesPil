@@ -37,6 +37,20 @@ export const fetchGetQuestionaries = () => {
     }
 };
 
+export const fetchGetQuestionariesByUser = user => {
+	return dispatch => {
+		dispatch(uploadQuestionnaires(true));
+		let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_QUESTIONNAIRES_BY_USER}?user=${encodeURIComponent(user)}`;
+		return fetch(url)
+			.then(results => {
+				return results.json();
+			}).then(data => {
+				dispatch(setQuestionnairesData(data));
+				dispatch(uploadQuestionnaires(false));
+			})
+	}
+};
+
 export const deleteQuestionnaire = item => {
     return (dispatch, getState) => {
         return dispatch(getAssignmentsNumberByQuestionnaire(item))

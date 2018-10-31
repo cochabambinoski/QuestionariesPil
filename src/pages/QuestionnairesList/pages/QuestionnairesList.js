@@ -13,8 +13,8 @@ import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
-import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
-import {getQuestionnaries} from "../../../reducers";
+import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';
+import {getQuestionnaries, getUser} from "../../../reducers";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -46,7 +46,8 @@ class Questionnaires extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchGetQuestionaries();
+        console.log('id user : ', this.props.user.id);
+        this.props.fetchGetQuestionariesByUser(this.props.user.id);
         const title = this.props.title;
         const detail = this.props.detail;
         if (title !== null && detail !== null) {
@@ -187,13 +188,14 @@ class Questionnaires extends Component {
 }
 
 const mapStateToProps = state => ({
-    questionnaires: getQuestionnaries(state)
+    questionnaires: getQuestionnaries(state),
+    user: getUser(state)
 });
 
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
     closeQuestionary: value => dispatch(closeQuestionnaire(value)),
-    fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
+	fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
     deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
 });
 
