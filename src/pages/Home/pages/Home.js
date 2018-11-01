@@ -29,6 +29,7 @@ import QuestionaryContainer from "../../QuestionnairesList/QuestionaryContainer"
 import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
+import SplashPage from "../../SplashPage/SplashPage";
 
 class Home extends Component {
     state = {
@@ -166,7 +167,7 @@ class Home extends Component {
                 <Fragment>
                     {
                         this.props.user === null ?
-                            <PublicQuestionnaires/>
+                            <SplashPage/>
                             :
                             <div className={wrapperClass}>
                                 <Dialog
@@ -202,9 +203,9 @@ class Home extends Component {
                                     </ScrollPanel>
                                 </div>
                                 <div className="layout-main">
-                                    <Route path="" exact component={Start}/>
-                                    <Route path="/PublicQuestionnaires" exact component={PublicQuestionnaires}/>
-                                    <Route path="/Questionaries" exact component={QuestionaryContainer}/>
+                                    <Route path="/" exact component={Start}/>
+                                    <Route path="/PublicQuestionnaires" exact strict component={PublicQuestionnaires}/>
+                                    <Route path="/Questionaries" exact  component={QuestionaryContainer}/>
                                     <Route path="/Questionaries/New" exact component={Questionnaire}/>
                                     <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
                                     <Route path="/Answers" exact component={AnswerContainer}/>
