@@ -21,17 +21,7 @@ import Button from '@material-ui/core/Button';
 import {getIdUser, getMenu, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 import PublicQuestionnaires from "../../PublicQuestionnaires/PublicQuestionnairesContainer";
-import {
-    getBranches,
-    getChargeTypes,
-    getCities,
-    getMenuByUser,
-    getQuestionnaireStateTypes,
-    getReachesTypes,
-    getSystemsTypes,
-    getTypesByClass,
-    getUserById
-} from "../../../actions/indexthunk";
+import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
 import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
@@ -157,13 +147,7 @@ class Home extends Component {
             .then((response) => {
                 this.setState({menus: response});
             });
-        this.props.getQuestionnaireStateTypes(Constants.CLASS_NAME_ESTQUEST);
-        this.props.getChargeTypes(Constants.CLASS_NAME_CARGOPER);
-        this.props.getUserById(this.getParameterByName('user'));
-        this.props.getCities();
-        this.props.getBranches();
-        this.props.getSystemsTypes(Constants.CLASS_NAME_SYSTEM);
-        this.props.getReachesTypes(Constants.CLASS_NAME_REACH);
+        this.props.fetchInitialData(this.getParameterByName('user'));
     }
 
     render() {
@@ -241,14 +225,7 @@ const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actions, dispatch),
     setIdUser: value => dispatch(actions.setIdUser(value)),
     getMenuByUser: value => dispatch(getMenuByUser(value)),
-    getUserById: value => dispatch(getUserById(value)),
-    getTypesByClass: value => dispatch(getTypesByClass(value)),
-    getCities: value => dispatch(getCities(value)),
-    getBranches: value => dispatch(getBranches(value)),
-    getQuestionnaireStateTypes: value => dispatch(getQuestionnaireStateTypes(value)),
-    getChargeTypes: value => dispatch(getChargeTypes(value)),
-    getSystemsTypes: value => dispatch(getSystemsTypes(value)),
-    getReachesTypes: value => dispatch(getReachesTypes(value)),
+    fetchInitialData: value => dispatch(fetchInitialData(value)),
 });
 
 const mapStateToProps = state => (

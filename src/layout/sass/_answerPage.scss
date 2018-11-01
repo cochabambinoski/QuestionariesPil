@@ -1,6 +1,7 @@
 @font-face{
     font-family: 'Arnold';
     font-weight: 400;
+    font-display: fallback;
     src: local('Arnold'), url(./../fonts/arnold_2_1.ttf) format('truetype');
   }  
 

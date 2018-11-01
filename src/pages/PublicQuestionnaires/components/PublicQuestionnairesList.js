@@ -1,6 +1,6 @@
 import React from 'react';
 import PublicQuestionnaire from "./PublicQuestionnaire";
-import { Grid, Row } from 'react-flexbox-grid';
+import {Grid, Row} from 'react-flexbox-grid';
 
 const PublicQuestionnairesList = ({questionnaires, handleClick}) => (
     <Grid>
