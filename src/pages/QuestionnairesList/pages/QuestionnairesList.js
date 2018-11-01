@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Constants from './../../../Constants'
 import './QuestionnairesList.css';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -46,14 +47,17 @@ class Questionnaires extends Component {
     }
 
     componentDidMount() {
-        console.log('id user : ', this.props.user.id);
-        this.props.fetchGetQuestionariesByUser(this.props.user.id);
-        const title = this.props.title;
-        const detail = this.props.detail;
-        if (title !== null && detail !== null) {
-            this.showSuccess(title, detail);
-            this.props.showMessage(null, null);
-        }
+        this.getQuestionnaires();
+	    const title = this.props.title;
+	    const detail = this.props.detail;
+	    if (title !== null && detail !== null) {
+		    this.showSuccess(title, detail);
+		    this.props.showMessage(null, null);
+	    }
+    }
+
+    getQuestionnaires() {
+	    this.props.fetchGetQuestionariesByUser(this.props.user.id);
     }
 
     deleteQuestionary(item) {
@@ -80,6 +84,7 @@ class Questionnaires extends Component {
                 switch (result) {
                     case "CLOSED":
                         this.showSuccess("Cuestionario Cerrado");
+	                    this.getQuestionnaires();
                         break;
                     default:
                         break;
@@ -152,8 +157,12 @@ class Questionnaires extends Component {
                                 <div key={item.id}>
                                     <Card title={item.name}>
                                         <div className="text">
-                                            <div>Creado</div>
-                                            <div>{item.fechaId} {item.usuarioId}</div>
+                                            <div>Creado por {item.usuarioId}</div>
+                                            <div>{item.fechaId}</div>
+	                                        {
+	                                            item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
+		                                        <div>Abierto</div> : <div>Cerrado</div>
+	                                        }
                                             <br/>
                                             <span>
 

@@ -100,7 +100,7 @@ export const sendDeleteRequest = item => {
 
 export const sendCloseRequest = item => {
     return (dispatch, getState) => {
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.CLOSE_QUESTIONARY}?idQuestionerQuestionary=${encodeURIComponent(item.id)}`;
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.CLOSE_QUESTIONARY}${encodeURIComponent(item.id)}`;
         console.log(url);
         return fetch(url, {
             method: 'POST',
