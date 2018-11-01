@@ -60,23 +60,10 @@ class Home extends Component {
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
-        this.getParameterByName = this.getParameterByName.bind(this);
     }
 
     closeSessionHome() {
         this.setState({open: true});
-    }
-
-    getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[[\]]/g, '\\$&');
-        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        const id = decodeURIComponent(results[2].replace(/\+/g, ' '));
-        this.props.setIdUser(id);
-        return id;
     }
 
     onWrapperClick(event) {
@@ -144,11 +131,11 @@ class Home extends Component {
 
     componentDidMount() {
         this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
-        this.props.getMenuByUser(this.getParameterByName('user'))
+        this.props.getMenuByUser(this.props.userIdSvm)
             .then((response) => {
                 this.setState({menus: response});
             });
-        this.props.fetchInitialData(this.getParameterByName('user'));
+        this.props.fetchInitialData(this.props.userIdSvm);
     }
 
     render() {
@@ -162,8 +149,6 @@ class Home extends Component {
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
         return (
             <BrowserRouter>
-                {/*<Route path="/PublicQuestionnaires" strict exact component={PublicQuestionnaires}/>*/}
-                {/*<Route path="/" exact render={Home}/>*/}
                 <Fragment>
                     {
                         this.props.user === null ?

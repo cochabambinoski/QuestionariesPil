@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Button} from "primereact/button";
 import {Card} from "primereact/card";
 import {Col} from 'react-flexbox-grid';
+import Link from "react-router-dom/es/Link";
 
 const PublicQuestionnaire = ({ questionnaire, handleClick, index }) => {
     return (
@@ -14,10 +15,9 @@ const PublicQuestionnaire = ({ questionnaire, handleClick, index }) => {
                         <div>{questionnaire.system ? questionnaire.system.nombre : null}</div>
                         <div className="card-body">{questionnaire.description}</div>
                     </div>
-                    <Button label="Responder" onClick={() => {
-                        handleClick(questionnaire.id)
-                    }} className="brown-button" />
-
+                    <Link to={`/questions/${questionnaire.id}`}>
+                        <Button label="Responder" className="brown-button" />
+                    </Link>
                 </div>
             </Card>
         </Col>
