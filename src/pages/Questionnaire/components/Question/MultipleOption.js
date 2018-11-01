@@ -5,7 +5,6 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {RadioButton} from 'primereact/radiobutton';
-import {ScrollPanel} from "../../../../../node_modules/primereact/scrollpanel";
 
 class MultipleOption extends Component {
     constructor(props) {
