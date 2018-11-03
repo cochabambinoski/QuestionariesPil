@@ -161,7 +161,7 @@ class Questionnaires extends Component {
                                             <div>{item.fechaId}</div>
 	                                        {
 	                                            item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
-		                                        <div style={{backgroundColor: '#c5e1a5'}}>Abierto</div> : <div style={{backgroundColor: '#ffab91'}}>Cerrado</div>
+		                                        <div style={{backgroundColor: '#c5e1a5', width: 'auto'}}>Abierto</div> : <div style={{backgroundColor: '#ffab91', width: 'auto'}}>Cerrado</div>
 	                                        }
                                             <br/>
                                             <span>
