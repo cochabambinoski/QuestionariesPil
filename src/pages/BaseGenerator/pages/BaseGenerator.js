@@ -355,7 +355,7 @@ class BaseGenerator extends Component {
                         <div className="col-auto divCol">
                             <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                                       onChange={(e) => this.setState({dates: e.value})}
-                                      selectionMode="range" readonlyInput={true}
+                                      selectionMode="range" readOnlyInput="true"
                                       className="imput" style={{width: '200px'}}/>
                         </div>
                     </div>
