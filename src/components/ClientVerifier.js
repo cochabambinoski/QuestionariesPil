@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {encryptMD5} from "../utils/EncryptationUtil";
+import Link from "react-router-dom/es/Link";
 
 const customStyles = {
     control: (base, state) => ({
@@ -305,9 +306,11 @@ class ClientVerifier extends Component {
                             this.accept()
                         }} disabled={this.state.client === null && this.state.interviewedName === ""}
                                 className="green-button"/>
-                        <Button label="Cancelar" onClick={() => {
-                            this.cancel()
-                        }} className="red-button"/>
+                        <Link  to={`/questionnariesPil`}>
+                            <Button label="Cancelar" onClick={() => {
+                                this.cancel()
+                            }} className="red-button"/>
+                        </Link>
                     </DialogActions>
                 </div>
             </Dialog>

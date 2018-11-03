@@ -26,14 +26,20 @@ class QuestionaryContainer extends Component {
             <div>
                 {
                     questionarySelected === null ?
-                        <Questionnaires title={this.state.title} detail={this.state.detail} showMessage={this.showMessage}/>
+                        <Questionnaires title={this.state.title}
+                                        detail={this.state.detail}
+                                        showMessage={this.showMessage}/>
                         : questionarySelected.action === "NEW" ?
-                        <Questionnaire questionary={null} showMessage={this.showMessage}/> :
+                        <Questionnaire questionary={null}
+                                       showMessage={this.showMessage}/> :
                         questionarySelected.action === "EDIT" ?
                             <Questionnaire questionary={questionarySelected}
-                                           questionnaireId1={questionarySelected.idQuestionary.id} showMessage={this.showMessage}/> :
-                            <Questionnaire questionary={questionarySelected} questionnaireId1={questionarySelected.idQuestionary.id}
-                                           readOnly={true} showMessage={this.showMessage}/>
+                                           questionnaireId1={questionarySelected.idQuestionary.id}
+                                           showMessage={this.showMessage}/> :
+                            <Questionnaire questionary={questionarySelected}
+                                           questionnaireId1={questionarySelected.idQuestionary.id}
+                                           readOnly={true}
+                                           showMessage={this.showMessage}/>
 
                 }
             </div>

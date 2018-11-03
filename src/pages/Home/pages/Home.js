@@ -54,12 +54,15 @@ class Home extends Component {
             staticMenuInactive: false,
             overlayMenuActive: false,
             mobileMenuActive: false,
-            menus: []
+            menus: [],
+            title: null,
+            detail: null,
         };
         this.closeSessionHome = this.closeSessionHome.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
+        this.showMessage = this.showMessage.bind(this);
     }
 
     closeSessionHome() {
@@ -138,6 +141,11 @@ class Home extends Component {
         this.props.fetchInitialData(this.props.userIdSvm);
     }
 
+    showMessage(title, detail) {
+        this.setState({title: title});
+        this.setState({detail: detail});
+    }
+
     render() {
         let wrapperClass = classNames('layout-wrapper', {
             'layout-overlay': this.state.layoutMode === 'overlay',
@@ -190,8 +198,26 @@ class Home extends Component {
                                 <div className="layout-main">
                                     <Route path="/" exact component={Start}/>
                                     <Route path="/PublicQuestionnaires" exact strict component={PublicQuestionnaires}/>
+
+
                                     <Route path="/Questionaries" exact  component={QuestionaryContainer}/>
-                                    <Route path="/Questionaries/New" exact component={Questionnaire}/>
+                                    <Route path="/Questionaries/New" exact component={Questionnaire}
+                                            render={props => <Questionnaire questionary={null}/>}
+                                    />
+                                    <Route path="/Questionaries/show/:id" exact
+                                           render={props =>
+                                               <Questionnaire questionnaireId1={props.match.params.id}
+                                                              readOnly={true}
+                                                              showMessage={this.showMessage}/>}
+                                    />
+                                    <Route path="/Questionaries/:id" exact
+                                           render={props =>
+                                               <Questionnaire questionnaireId1={props.match.params.id}
+                                                              showMessage={this.showMessage}/>}
+                                    />
+
+
+
                                     <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
                                     <Route path="/Answers" exact component={AnswerContainer}/>
                                     <Route path="/Segment" exact component={ListSegment}/>
