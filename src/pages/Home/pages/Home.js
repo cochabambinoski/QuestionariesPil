@@ -20,16 +20,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import {getIdUser, getMenu, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
-import PublicQuestionnaires from "../../PublicQuestionnaires/PublicQuestionnairesContainer";
 import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
 import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
-import QuestionaryContainer from "../../QuestionnairesList/QuestionaryContainer";
 import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
 import SplashPage from "../../SplashPage/SplashPage";
+import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
+import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
+import {Messages} from "../../../../node_modules/primereact/messages";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import SnackBarContentView from "../../../components/SnackBarContent/SnackBarContentView";
+import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
+import GraphicsDetailContainer from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetailContainer";
 
 class Home extends Component {
     state = {
@@ -57,12 +62,13 @@ class Home extends Component {
             menus: [],
             title: null,
             detail: null,
+            message: null,
         };
         this.closeSessionHome = this.closeSessionHome.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
-        this.showMessage = this.showMessage.bind(this);
+      ///  this.showMessage = this.showMessage.bind(this);
     }
 
     closeSessionHome() {
@@ -146,6 +152,14 @@ class Home extends Component {
         this.setState({detail: detail});
     }
 
+    showSuccess(title, detail) {
+        this.messages.show({severity: 'success', summary: title, detail: detail});
+    }
+
+    handleClick = () => {
+        this.setState({ open: true });
+    };
+
     render() {
         let wrapperClass = classNames('layout-wrapper', {
             'layout-overlay': this.state.layoutMode === 'overlay',
@@ -158,6 +172,7 @@ class Home extends Component {
         return (
             <BrowserRouter>
                 <Fragment>
+                    <Messages ref={(el) => this.messages = el}/>
                     {
                         this.props.user === null ?
                             <SplashPage/>
@@ -195,32 +210,48 @@ class Home extends Component {
                                             onSelectedMenu={this.handleChangeContainer}/>
                                     </ScrollPanel>
                                 </div>
+
                                 <div className="layout-main">
-                                    <Route path="/" exact component={Start}/>
-                                    <Route path="/PublicQuestionnaires" exact strict component={PublicQuestionnaires}/>
+                                        <Route path="/" exact component={Start}/>
+                                    {/*Questionaries Create Show Edit Delete*/}
+                                        <Route path="/Questionaries" exact
+                                               render={() => <Questionnaires title={this.state.title}
+                                                                                detail={this.state.detail}
+                                                                                showMessage={this.showMessage}/>}
+                                               />
+                                        <Route path="/Questionaries/New" exact strict
+                                                render={() => <Questionnaire questionary={null}
+                                                                                showMessage={this.showMessage}/>}
+                                        />
+                                        <Route path="/Questionaries/Show/:id" exact strict
+                                               render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                                  readOnly={true}
+                                                                  showMessage={this.showMessage}/>}
+                                        />
+                                        <Route path="/Questionaries/Edit/:id" exact strict
+                                               render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                                  showMessage={this.showMessage}/>}
+                                        />
+                                    {/*Assigment Questionnaries*/}
 
+                                        <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
+                                        <Route path="/Assigment/:id" exact strict
+                                               render={props => <AssignmentQuestionary
+                                                   idQuestionary={props.match.params.id}
+                                                   onSelectedQuestionary={null}
+                                                   showSuccess={this.showSuccess}/>}
+                                        />
 
-                                    <Route path="/Questionaries" exact  component={QuestionaryContainer}/>
-                                    <Route path="/Questionaries/New" exact component={Questionnaire}
-                                            render={props => <Questionnaire questionary={null}/>}
-                                    />
-                                    <Route path="/Questionaries/show/:id" exact
-                                           render={props =>
-                                               <Questionnaire questionnaireId1={props.match.params.id}
-                                                              readOnly={true}
-                                                              showMessage={this.showMessage}/>}
-                                    />
-                                    <Route path="/Questionaries/:id" exact
-                                           render={props =>
-                                               <Questionnaire questionnaireId1={props.match.params.id}
-                                                              showMessage={this.showMessage}/>}
-                                    />
+                                    {/*Answers Questionnaries*/}
+                                        <Route path="/Answers" exact component={AnswerContainer}/>
+                                        <Route path="/Answers/:id" exact
+                                               render={props => <GraphicsDetail
+                                                   idQuestionary={props.match.params.id}
+                                               />}
+                                        />
 
-
-
-                                    <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
-                                    <Route path="/Answers" exact component={AnswerContainer}/>
-                                    <Route path="/Segment" exact component={ListSegment}/>
+                                    {/*Segment */}
+                                        <Route path="/Segment" exact component={ListSegment}/>
                                 </div>
                             </div>
                     }

@@ -15,6 +15,7 @@ import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import {deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
 import {getQuestionnaries} from "../../../reducers";
+import Link from "react-router-dom/es/Link";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -99,10 +100,12 @@ class Questionnaires extends Component {
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                 <Toolbar className="toolbarFullWidth">
                     <div>
+                        <Link to={`/Questionaries/New`}>
                             <Button label="Nuevo"
                                     onClick={() => {
                                         this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
                                     }}/>
+                        </Link>
                     </div>
                 </Toolbar>
                 <Messages ref={(el) => this.messages = el}/>
@@ -118,19 +121,22 @@ class Questionnaires extends Component {
                                             <div>{item.fechaId} {item.usuarioId}</div>
                                             <br/>
                                             <span>
+                                                <Link to={`/Questionaries/show/${item.id}`}>
+                                                    <Button label="Ver"
+                                                            // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))}}
+                                                    />
+                                                </Link>
 
-                                            <Button label="Ver" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))
-                                            }}/>
+                                                <Link to={`/Questionaries/Edit/${item.id}`}>
+                                                <Button label="Editar"
+                                                        // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}}
+                                                />
+                                                </Link>
 
 
-                                            <Button label="Editar" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))
-                                            }}/>
-
-                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-                                                this.openModal(item)
-                                            }}/>
+                                                <Button label="Eliminar" className="ui-button-danger" onClick={() => {
+                                                    this.openModal(item)
+                                                }}/>
 
                                     </span>
                                         </div>

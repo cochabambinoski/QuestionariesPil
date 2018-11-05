@@ -47,6 +47,7 @@ import {
     getQuetionnaireById,
     saveQuestionnaire
 } from "../../../../actions/indexthunk";
+import Link from "react-router-dom/es/Link";
 
 const styles = theme => ({
     root: {
@@ -152,7 +153,7 @@ class Questionnaire extends Component {
                         this.props.showMessage("", "Cuestionario guardado");
                         this.handleCancel();
                         this.props.changeIdQuestionarySelected(null);
-                        break;
+                        return <Link to={`/Questionaries`}/>;
                     case "ERROR":
                         this.showError("", "Error al guardar");
                         break;
@@ -217,6 +218,7 @@ class Questionnaire extends Component {
         if (id !== undefined) {
             this.props.getQuetionnaireById(id)
                 .then((data) => {
+                    console.log(data);
                     this.setState({questionnaireId: data.id});
                     this.setState({name: data.name});
                     this.setState({description: data.description});
@@ -292,8 +294,8 @@ class Questionnaire extends Component {
     }
 
     componentWillMount() {
-        if (this.props !== undefined && this.props.match !== undefined) {
-            const questionnaireId = this.props.match.params.id;
+        if (this.props.questionnaireId !== undefined && this.props.questionnaireId !== null) {
+            const questionnaireId = this.props.questionnaireId;
             this.getQuestionnaire(questionnaireId)
         }
     }
@@ -332,22 +334,25 @@ class Questionnaire extends Component {
                         {this.props.readOnly ?
                             <Row>
                                 <Col>
-                                    <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                        this.handleCancel()
-                                    }}/>
+                                    <Link to={`/Questionaries`}>
+                                        <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                        }}/>
+                                    </Link>
                                 </Col>
                             </Row>
                             :
                             <Row>
                                 <Col>
-                                    <Button label="Guardar" onClick={() => {
-                                        this.saveQuestionnaire()
-                                    }}/>
+                                        <Button label="Guardar" onClick={() => {
+                                            this.saveQuestionnaire()
+                                        }}/>
+
                                 </Col>
                                 <Col>
-                                    <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                        this.handleCancel()
-                                    }}/>
+                                    <Link to={`/Questionaries`}>
+                                        <Button label="Cancelar" className="ui-button-danger"
+                                        />
+                                    </Link>
                                 </Col>
                                 <Col>
                                     <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
@@ -459,7 +464,7 @@ class Questionnaire extends Component {
                                             <QuestionnaireRange updateRanges={this.updateRanges}
                                                                 readOnly={this.props.readOnly}
                                                                 system={this.state.system}
-                                                                questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id : undefined}/>
+                                                                questionnaireId={this.props.questionnaireId !== null ? this.props.questionnaireId : undefined}/>
                                         </ScrollPanel>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>

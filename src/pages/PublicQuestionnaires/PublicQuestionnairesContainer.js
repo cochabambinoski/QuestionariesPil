@@ -43,10 +43,10 @@ class PublicQuestionnairesContainer extends Component {
                     {
                         this.props.connection === false ? <ErrorPage/> :
                                 <Fragment>
-                                    <Route path="/questionaryPil/:id"
+                                    <Route path="/questionary/:id"
                                            render={props => <AnswerPageContainer questionnaireId={props.match.params.id}
                                                                                  invalidateQuestionnaire={this.invalidateQuestionnaire}/> }/>
-                                    <Route path="/questionnariesPil" component={PublicQuestionnairesListContainer}/>
+                                    <Route path="/" exact component={PublicQuestionnairesListContainer}/>
                                 </Fragment>
                     }
                 </div>

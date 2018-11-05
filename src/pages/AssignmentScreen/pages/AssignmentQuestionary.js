@@ -40,6 +40,7 @@ import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Modal from "../../../widgets/Modal/components/modal";
 import Title from "../../Title/Title";
 import {saveAssignment} from "../../../actions/indexthunk";
+import Link from "react-router-dom/es/Link";
 
 const styles = theme => ({
     root: {
@@ -129,6 +130,7 @@ class AssignmentQuestionary extends Component {
                 this.openModal();
             }
         }
+        // return <Link to={`/Assigment`}/>
     };
 
     saveAssignments = () => {
@@ -146,7 +148,8 @@ class AssignmentQuestionary extends Component {
         this.props.saveAssignment(questionerQuestionaryList)
             .then((response) => {
                 this.cancelAssignamentSeller();
-                this.props.showSuccess("", "La asignación se realizó exitosamente.");
+                // this.props.showSuccess("", "La asignación se realizó exitosamente.");
+                return <Link to={`/Assigment`}/>
             });
     };
 
@@ -156,7 +159,6 @@ class AssignmentQuestionary extends Component {
         this.props.deleteMobileSeller(null);
         this.props.deleteSaveMobileSellerListAux(null);
         this.props.deleteSaveMobileSellerAssignedListAux(null);
-        this.props.onSelectedQuestionary(null)
     };
 
     loadAssignments = (assignments) => {
@@ -269,28 +271,33 @@ class AssignmentQuestionary extends Component {
                 </ModalContainer>
                 <Toolbar className="toolbarFullWidth">
                     <div>
-                        <Button label="Cancelar" className="ui-button-danger"
-                                onClick={() => {
-                                    this.cancelAssignamentSeller()
-                                }}
-                                style={{margin: '5px', verticalAlign: 'left'}}/>
+                        <Link to={`/Assigment`}>
+                            <Button label="Cancelar" className="ui-button-danger"
+                                    onClick={() => {
+                                        this.cancelAssignamentSeller()
+                                    }}
+                                    style={{margin: '5px', verticalAlign: 'left'}}/>
+                        </Link>
 
                         <Calendar value={this.state.dates2}
                                   onChange={(e) => this.setState({dates2: e.value})}
                                   selectionMode="range" readonlyInput={true} locale={es}
                                   placeholder='Rango de fechas'/>
 
-                        <Button label="Completar Asignacion"
-                                onClick={() => {
-                                    this.handleSaveAssignment()
-                                }}
-                                style={{margin: '5px', verticalAlign: 'middle'}}/>
+                        <Link to={`/Assigment`}>
+                            <Button label="Completar Asignacion"
+                                    onClick={() => {
+                                        this.handleSaveAssignment()
+                                    }}
+                                    style={{margin: '5px', verticalAlign: 'middle'}}/>
+                        </Link>
 
                         <Button label="Asignar todos"
                                 onClick={() => {
                                     this.assignAllSeller()
                                 }}
                                 style={{margin: '5px', verticalAlign: 'middle'}}/>
+
                         <Button label="Quitar Todas las Asignaciones"
                                 className="ui-button-danger"
                                 onClick={() => {
@@ -308,8 +315,8 @@ class AssignmentQuestionary extends Component {
                                 <Col xs>
 
                                     <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}
-                                                          idQuestionary={this.props.idQuestionary.id}/>
-                                    <MobileSellerList idQuestionary={idQuestionary.id}
+                                                          idQuestionary={idQuestionary}/>
+                                    <MobileSellerList idQuestionary={idQuestionary}
                                                       isEdit={false}
                                                       getAssignment={this.getAssignment}
                                                       handleAddSeller={this.handleAddSeller}/>
@@ -318,8 +325,8 @@ class AssignmentQuestionary extends Component {
                                 <Col xs>
 
                                     <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}
-                                                          idQuestionary={this.props.idQuestionary.id}/>
-                                    <MobileSellerListAssigment idQuestionary={idQuestionary.id}
+                                                          idQuestionary={idQuestionary}/>
+                                    <MobileSellerListAssigment idQuestionary={idQuestionary}
                                                                isEdit={true}
                                                                loadAssignments={this.loadAssignments}
                                                                deleteAssignement={this.deleteAssignement}

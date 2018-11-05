@@ -12,6 +12,7 @@ import PieChart from '@material-ui/icons/PieChart';
 import {getQuestionnaries} from "../../../../reducers";
 import {fetchGetQuestionaries, getAnswersByQuestionnaire} from "../../../../actions/indexthunk";
 import {connect} from 'react-redux';
+import Link from "react-router-dom/es/Link";
 
 const styles = theme => ({
     root: {
@@ -76,22 +77,26 @@ class AnswerList extends Component {
                             <List className={classes.root} subheader={<li/>}>
                                 {
                                     this.props.questionnaires.map(questionnaire => (
-                                        <ListItem button
-                                                  key={questionnaire.id}
-                                                  selected={this.state.selectedIndex === questionnaire.id}
-                                                  onClick={event => this.handleListItemClick(event, questionnaire)}>
-                                            <Avatar>
-                                                <Assignment/>
-                                            </Avatar>
-                                            <ListItemText primary="Nombre" secondary={questionnaire.name}/>
-                                            <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
-                                            <ListItemSecondaryAction>
-                                                <IconButton aria-label="Comments"
-                                                            onClick={() => this.showAnswerGraphics(questionnaire)}>
-                                                    <PieChart/>
-                                                </IconButton>
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
+                                        <Link to={`/Answers/${questionnaire.id}`}>
+                                            <ListItem button
+                                                      key={questionnaire.id}
+                                              //        selected={this.state.selectedIndex === questionnaire.id}
+                                              //        onClick={event => this.handleListItemClick(event, questionnaire)}
+                                            >
+                                                <Avatar>
+                                                    <Assignment/>
+                                                </Avatar>
+                                                <ListItemText primary="Nombre" secondary={questionnaire.name}/>
+                                                <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
+                                                <ListItemSecondaryAction>
+                                                    <IconButton aria-label="Comments"
+                                                    //            onClick={() => this.showAnswerGraphics(questionnaire)}
+                                                    >
+                                                        <PieChart/>
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                        </Link>
                                     ))
                                 }
                             </List>

@@ -15,7 +15,7 @@ const PublicQuestionnaire = ({ questionnaire, handleClick, index }) => {
                         <div>{questionnaire.system ? questionnaire.system.nombre : null}</div>
                         <div className="card-body">{questionnaire.description}</div>
                     </div>
-                    <Link to={`/questions/${questionnaire.id}`}>
+                    <Link to={`/questionary/${questionnaire.id}`}>
                         <Button label="Responder" className="brown-button" />
                     </Link>
                 </div>

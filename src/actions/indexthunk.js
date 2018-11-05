@@ -1,7 +1,7 @@
 import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
-import {setReachTypes, setSystemTypes} from "./index";
+import {getAnswers, getAnswersQuestionnarie, setReachTypes, setSystemTypes} from "./index";
 import {
     addMobileSellers,
     getAllBranches,
@@ -506,4 +506,27 @@ export const fetchInitialData = user => {
                 dispatch(setReachTypes(reachTypes));
             });
     }
+};
+
+export const getAnswersAnsQuestionnaireByQuestionnaire = id => {
+    console.log(id);
+    return dispatch => {
+        Promise.all([
+            fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`),
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+            .then(([answers, questionnarie])=> {
+                console.log(answers);
+                console.log(questionnarie);
+                dispatch(getAnswers(answers));
+                dispatch(getAnswersQuestionnarie(questionnarie));
+            });
+        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                return response;
+            });
+    };
 };

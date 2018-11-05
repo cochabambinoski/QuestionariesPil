@@ -24,7 +24,7 @@ class AnswerContainer extends Component {
     };
 
     showAnswersGraphics = (answers, questionarySelected) => {
-        if (answers.length === 0)this.handleClick();
+        if (answers.length === 0) this.handleClick();
         this.setState({answers: answers, showGraphics: true, questionarySelected: questionarySelected})
     };
 
@@ -33,7 +33,7 @@ class AnswerContainer extends Component {
     };
 
     handleClick = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     handleClose = (event, reason) => {
@@ -41,29 +41,19 @@ class AnswerContainer extends Component {
             return;
         }
 
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
         return (
             <div>
-                {
-                    this.state.showGraphics === false ?
-                        <Title tilte={'Encuestas respondidas'}
-                               subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/> :
-                        <Title tilte={'Encuestas respondidas'}
-                               subtitle={'Seleccione una pregunta para ver sus detalles.'}/>
-                }
+
+                <Title tilte={'Encuestas respondidas'}
+                       subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/>
                 <br/>
-                {
-                    this.state.currentAnswer === null && this.state.answers.length <= 0 ?
-                        <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
-                                    showAnswersGraphics={this.showAnswersGraphics}/> :
-                        this.state.showGraphics === true ?
-                            <GraphicsDetail answers={this.state.answers}
-                                            questionarySelected={this.state.questionarySelected}
-                                            backAnswerList={this.backAnswerList}/> : null
-                }
+                <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
+                            showAnswersGraphics={this.showAnswersGraphics}/>
+
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',

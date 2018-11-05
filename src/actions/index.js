@@ -50,7 +50,11 @@ import {
     CLEAN_FILTER,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED, SAVE_MOBILE_ASSIGNED_LIST_AUX, DELETE_MOBILE_ASSIGNED_LIST_AUX,
-    SET_REACH_TYPES, SET_SYSTEM_TYPES
+    SET_REACH_TYPES, SET_SYSTEM_TYPES,
+    GET_ANSWERS,
+    SET_ANSWERS,
+    GET_QUESTIONNARIE_ANSWER,
+    SET_QUESTIONNARIE_ANSWER
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -166,3 +170,11 @@ export const deleteSaveMobileSellerAssignedListAux = payload => ({type : DELETE_
 export const setSystemTypes = payload => ({type: SET_SYSTEM_TYPES, payload});
 
 export const setReachTypes = payload => ({type: SET_REACH_TYPES, payload});
+
+export const getAnswers = payload => ({type: GET_ANSWERS, payload});
+
+export const setAnswers = payload => ({type: SET_ANSWERS, payload});
+
+export const getAnswersQuestionnarie = payload => ({type: GET_QUESTIONNARIE_ANSWER, payload});
+
+export const setAnswersQuestionnarie = payload => ({type: SET_QUESTIONNARIE_ANSWER, payload});

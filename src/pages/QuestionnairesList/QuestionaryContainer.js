@@ -12,7 +12,6 @@ class QuestionaryContainer extends Component {
             title: null,
             detail: null,
         };
-        this.showMessage = this.showMessage.bind(this);
     }
 
     showMessage(title, detail) {

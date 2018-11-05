@@ -8,10 +8,12 @@ import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
 import {questionnaires} from "./questionnaires";
 import {connection} from "./connection";
+import answers from "./answers";
+
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -45,3 +47,6 @@ export const getQuestionnaries = (state) => state.questionnaires.questionnaires;
 export const getQuestionTypes = (state) => state.initialData.questionTypes;
 export const getCities = (state) => state.initialData.cities;
 export const getBranches = (state) => state.initialData.lsBranches;
+
+export const getAnswers = state => state.answers;
+export const getQuestionnarieAnswers = (state) => state.questionnarie;
