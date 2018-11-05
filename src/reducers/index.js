@@ -2,16 +2,21 @@ import data from './data';
 import {user} from './user';
 import {idMenu} from './menu';
 import {searchFilter} from './searchFilter';
-import {initialData, getTypeByCodSap as _getTypeCodeSap, getBrancgesByIdCity as _getBrancgesByIdCity} from "./initialData";
+import {
+    getBrancgesByIdCity as _getBrancgesByIdCity,
+    getTypeByCodSap as _getTypeCodeSap,
+    initialData
+} from "./initialData";
 import {assignmentUser} from './assignmentUser'
 import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
 import {questionnaires} from "./questionnaires";
 import {connection} from "./connection";
+import {answer} from "./answer";
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection
+    user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answer
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -45,3 +50,8 @@ export const getQuestionnaries = (state) => state.questionnaires.questionnaires;
 export const getQuestionTypes = (state) => state.initialData.questionTypes;
 export const getCities = (state) => state.initialData.cities;
 export const getBranches = (state) => state.initialData.lsBranches;
+
+export const getMarkedOptions = (state) => state.answer.markedOptions;
+export const getTriedToSave = (state) => state.answer.triedToSave;
+export const getClient = (state) => state.answer.client;
+export const getinterviewedName = (state) => state.answer.interviewedName;

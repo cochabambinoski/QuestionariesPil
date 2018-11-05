@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {encryptMD5} from "../utils/EncryptationUtil";
+import {saveClient, saveInterviewedName} from "../actions";
 
 const customStyles = {
     control: (base, state) => ({
@@ -62,11 +63,6 @@ class ClientVerifier extends Component {
             password: null,
         };
     }
-
-    setDate(clientUser) {
-        const birthday = clientUser.birthday;
-
-    };
 
     handleClickShowPassword = () => {
         this.setState(state => ({showPassword: !state.showPassword}));
@@ -180,6 +176,7 @@ class ClientVerifier extends Component {
             clientsList: [],
             showMinCharsMessage: false
         });
+        this.props.saveClient(null);
         if (this.props.questionnaire !== null)
             this.props.setClientAndInterviewed(null, this.state.interviewedName);
     };
@@ -212,6 +209,8 @@ class ClientVerifier extends Component {
                 openClientUserModal: false,
                 openMessageModal: false,
             });
+            this.props.saveClient(null);
+            this.props.saveInterviewedName("");
         } else
             this.setState({openMessageModal: false, showRegisterError: false, password: null});
     };
@@ -275,7 +274,8 @@ class ClientVerifier extends Component {
                                                     options={this.state.clientsList}
                                                     value={this.state.client}
                                                     onChange={client => {
-                                                        this.setState({client})
+                                                        this.setState({client});
+                                                        this.props.saveClient(client);
                                                     }}
                                                     noOptionsMessage={() => 'No hay opciones'}
                                                     styles={customStyles}
@@ -294,7 +294,10 @@ class ClientVerifier extends Component {
 
                                                 <InputText type="text" size="30" maxLength="50"
                                                            value={this.state.interviewedName} placeholder="Nombre"
-                                                           onChange={(e) => this.setState({interviewedName: e.target.value})}
+                                                           onChange={(e) => {
+                                                               this.setState({interviewedName: e.target.value});
+                                                               this.props.saveInterviewedName(e.target.value);
+                                                           }}
                                                            style={{background: '#FFF7A94D'}}/>
                                             </div> : null
                                 }
@@ -611,6 +614,8 @@ const mapDispatchToProps = dispatch => ({
     getClientsByNitOrNameInSystem: (searchTerm, system) => dispatch(getClientsByNitOrNameInSystem(searchTerm, system)),
     getClientUserByClient: value => dispatch(getClientUserByClient(value)),
     saveClientUser: value => dispatch(saveClientUser(value)),
+    saveClient: value => dispatch(saveClient(value)),
+    saveInterviewedName: value => dispatch(saveInterviewedName(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientVerifier);
