@@ -12,13 +12,17 @@ import {RadioButton} from 'primereact/radiobutton';
 import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
 import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
-import Constants from '../../../../Constants.json';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
-import {getCreateQuestionary,
+import {
+    getCreateQuestionary,
+    getQuestionarySelected,
+    getQuestionTypes,
     getReachTypes,
-    getSystemTypes, getQuestionarySelected, getQuestionTypes, getUser} from "../../../../reducers";
+    getSystemTypes,
+    getUser
+} from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions/index";
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
@@ -32,7 +36,6 @@ import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
-import Modal from "../../../../widgets/Modal/components/modal";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";

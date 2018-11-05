@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { Button } from 'primereact/button';
+import {Button} from 'primereact/button';
 
 class Image extends Component {
     constructor(props) {

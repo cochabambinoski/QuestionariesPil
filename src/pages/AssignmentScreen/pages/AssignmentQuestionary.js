@@ -277,7 +277,7 @@ class AssignmentQuestionary extends Component {
 
                         <Calendar value={this.state.dates2}
                                   onChange={(e) => this.setState({dates2: e.value})}
-                                  selectionMode="range" readonlyInput={true} locale={es}
+                                  selectionMode="range" readOnlyInput="true" locale={es}
                                   placeholder='Rango de fechas'/>
 
                         <Button label="Completar Asignacion"

@@ -480,6 +480,35 @@ export const getReachesTypes = payload => {
     };
 };
 
+/**
+ * Executes all requests of initial data simultaneously
+ * @param user the user id, if there is any
+ * @returns {Function} dispatches all initial data actions to update the store
+ */
+export const fetchInitialData = user => {
+    return dispatch =>{
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_ESTQUEST)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_CARGOPER)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_USER_BY_ID}${user}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_DEPARTAMENTS}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_BRANCHES}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_SYSTEM)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_REACH)}`),
+        ])
+            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes])=> {
+                dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
+                dispatch(setInitialDataTypesSeller(chargeTypes));
+                dispatch(setUser(userById));
+                dispatch(getAllDepartaments(cities));
+                dispatch(getAllBranches(branches));
+                dispatch(setSystemTypes(systemTypes));
+                dispatch(setReachTypes(reachTypes));
+            });
+    }
+};
+
 export const saveAnswers = answers => {
     return () => {
         return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_ANSWERS}`,
