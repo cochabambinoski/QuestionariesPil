@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Constants from './../../../Constants'
 import './QuestionnairesList.css';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -13,8 +14,8 @@ import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
-import {deleteQuestionnaire, fetchGetQuestionaries} from '../../../actions/indexthunk';
-import {getQuestionnaries} from "../../../reducers";
+import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';
+import {getQuestionnaries, getUser} from "../../../reducers";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class Questionnaires extends Component {
             questionnaires: [],
             updateView: true,
             open: false,
-            currentItem: -1,
+            modal: false,
+            currentItem: -1
         };
     }
 
@@ -41,17 +43,21 @@ class Questionnaires extends Component {
 
     QuestionSelected(idQuestionary, action) {
         this.idQuestionary = idQuestionary;
-        this.action = action
+        this.action = action;
     }
 
     componentDidMount() {
-        this.props.fetchGetQuestionaries();
-        const title = this.props.title;
-        const detail = this.props.detail;
-        if (title !== null && detail !== null) {
-            this.showSuccess(title, detail);
-            this.props.showMessage(null, null);
-        }
+        this.getQuestionnaires();
+	    const title = this.props.title;
+	    const detail = this.props.detail;
+	    if (title !== null && detail !== null) {
+		    this.showSuccess(title, detail);
+		    this.props.showMessage(null, null);
+	    }
+    }
+
+    getQuestionnaires() {
+	    this.props.fetchGetQuestionariesByUser(this.props.user.id);
     }
 
     deleteQuestionary(item) {
@@ -70,19 +76,52 @@ class Questionnaires extends Component {
             });
     }
 
+    closeQuestionary(item) {
+	    this.exitModal();
+        this.props.closeQuestionary(item)
+            .then((result) => {
+            	console.log('result', result);
+                switch (result) {
+                    case "CLOSED":
+                        this.showSuccess("Cuestionario Cerrado");
+	                    this.getQuestionnaires();
+                        break;
+                    default:
+                        break;
+                }
+            });
+    }
+
     openModal = (item) => {
         this.setState({currentItem: item});
         this.setState({open: true});
+    };
+
+    enterModal = (item) => {
+        console.log(item);
+        this.setState({currentItem: item});
+        this.setState({modal: true});
     };
 
     closeModal = () => {
         this.setState({open: false});
     };
 
+    exitModal = () => {
+        this.setState({modal: false});
+    };
+
     handleRemove = () => {
         this.closeModal();
         this.setState((prevState, props) => {
             this.deleteQuestionary(prevState.currentItem);
+        });
+    };
+
+    handleClose = () => {
+        this.closeModal();
+        this.setState((prevState, props) => {
+            this.closeQuestionary(prevState.currentItem);
         });
     };
 
@@ -94,6 +133,10 @@ class Questionnaires extends Component {
                            message={"Está seguro de eliminar el cuestionario?"}
                            handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
                     </Modal>
+                    <Modal open={this.state.modal} title={"Cerrar cuestionario"}
+                           message={"Está seguro de cerrar el cuestionario?"}
+                           handleConfirm={this.handleClose} handleCancel={this.exitModal}>
+                    </Modal>
                 </ModalContainer>
                 <Title tilte={'Lista de Encuestas'}
                        subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
@@ -101,7 +144,7 @@ class Questionnaires extends Component {
                     <div>
                         <Button label="Nuevo"
                                 onClick={() => {
-                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"));
                                 }}/>
                     </div>
                 </Toolbar>
@@ -114,30 +157,37 @@ class Questionnaires extends Component {
                                 <div key={item.id}>
                                     <Card title={item.name}>
                                         <div className="text">
-                                            <div>Creado</div>
-                                            <div>{item.fechaId} {item.usuarioId}</div>
+                                            <div>Creado por {item.usuarioId}</div>
+                                            <div>{item.fechaId}</div>
+	                                        {
+	                                            item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
+		                                        <div className="open">Abierto</div> : <div className="close">Cerrado</div>
+	                                        }
                                             <br/>
                                             <span>
 
-                                            <Button label="Ver" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))
-                                            }}/>
+                                                <Button label="Ver" onClick={() => {
+                                                    this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"));
+                                                }}/>
 
+                                                <Button label="Editar" onClick={() => {
+                                                    this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"));
+                                                }}/>
 
-                                            <Button label="Editar" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))
-                                            }}/>
+                                                <Button label="Cerrar" onClick={() => {
+                                                    this.enterModal(item);
+                                                }}/>
 
-                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-                                                this.openModal(item)
-                                            }}/>
+                                                <Button label="Eliminar" className="ui-button-danger" onClick={() => {
+                                                    this.openModal(item);
+                                                }}/>
 
-                                    </span>
+                                            </span>
                                         </div>
                                     </Card>
                                     <br/>
                                 </div>
-                            )
+                            );
                         })
                     }
                 </ScrollPanel>
@@ -148,12 +198,14 @@ class Questionnaires extends Component {
 
 const mapStateToProps = state => ({
     questionnaires: getQuestionnaries(state),
+    user: getUser(state)
 });
 
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
-    fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
-    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value)),
+    closeQuestionary: value => dispatch(closeQuestionnaire(value)),
+	fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
+    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questionnaires);
