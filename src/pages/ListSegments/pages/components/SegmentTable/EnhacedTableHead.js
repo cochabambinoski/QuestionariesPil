@@ -3,7 +3,6 @@
  */
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {withStyles} from "@material-ui/core/styles";
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableCell from "@material-ui/core/TableCell";

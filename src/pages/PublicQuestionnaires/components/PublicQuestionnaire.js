@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-import { Col } from 'react-flexbox-grid';
+import {Button} from "primereact/button";
+import {Card} from "primereact/card";
+import {Col} from 'react-flexbox-grid';
 
 const PublicQuestionnaire = ({ questionnaire, handleClick, index }) => {
     return (

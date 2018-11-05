@@ -37,6 +37,20 @@ export const fetchGetQuestionaries = () => {
     }
 };
 
+export const fetchGetQuestionariesByUser = user => {
+	return dispatch => {
+		dispatch(uploadQuestionnaires(true));
+		let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_QUESTIONNAIRES_BY_USER}?user=${encodeURIComponent(user)}`;
+		return fetch(url)
+			.then(results => {
+				return results.json();
+			}).then(data => {
+				dispatch(setQuestionnairesData(data));
+				dispatch(uploadQuestionnaires(false));
+			})
+	}
+};
+
 export const deleteQuestionnaire = item => {
     return (dispatch, getState) => {
         return dispatch(getAssignmentsNumberByQuestionnaire(item))
@@ -47,6 +61,15 @@ export const deleteQuestionnaire = item => {
                 } else {
                     return dispatch(sendDeleteRequest(item));
                 }
+            })
+    }
+};
+
+export const closeQuestionnaire = item => {
+    return (dispatch, getState) => {
+        return dispatch(getAssignmentsNumberByQuestionnaire(item))
+            .then(() => {
+                    return dispatch(sendCloseRequest(item));
             })
     }
 };
@@ -70,6 +93,30 @@ export const sendDeleteRequest = item => {
                 const newQuestionnaires = questionnaires.splice(0);
                 dispatch(setQuestionnairesData(newQuestionnaires));
                 return "DELETED"
+            }
+        }).catch(error => console.error('Error:', error));
+    };
+};
+
+export const sendCloseRequest = item => {
+    return (dispatch, getState) => {
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.CLOSE_QUESTIONARY}${encodeURIComponent(item.id)}`;
+        console.log(url);
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }).then(results => {
+            return results.json();
+        }).then(response => {
+            let index = getIndexQuestionary(getState().questionnaires, item);
+            let questionnaires = getState().questionnaires.questionnaires;
+            if (response === 'ok' && index !== undefined) {
+                console.log('response and index: ', response, questionnaires);
+                dispatch(setQuestionnairesData(questionnaires));
+                return "CLOSED"
             }
         }).catch(error => console.error('Error:', error));
     };
@@ -477,4 +524,33 @@ export const getReachesTypes = payload => {
                 dispatch(setReachTypes(response));
             })
     };
+};
+
+/**
+ * Executes all requests of initial data simultaneously
+ * @param user the user id, if there is any
+ * @returns {Function} dispatches all initial data actions to update the store
+ */
+export const fetchInitialData = user => {
+    return dispatch =>{
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_ESTQUEST)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_CARGOPER)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_USER_BY_ID}${user}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_DEPARTAMENTS}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_BRANCHES}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_SYSTEM)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_REACH)}`),
+        ])
+            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes])=> {
+                dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
+                dispatch(setInitialDataTypesSeller(chargeTypes));
+                dispatch(setUser(userById));
+                dispatch(getAllDepartaments(cities));
+                dispatch(getAllBranches(branches));
+                dispatch(setSystemTypes(systemTypes));
+                dispatch(setReachTypes(reachTypes));
+            });
+    }
 };
