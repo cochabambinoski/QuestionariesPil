@@ -18,7 +18,6 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {encryptMD5} from "../utils/EncryptationUtil";
-import firebase from "firebase";
 import Constants from './../Constants.json';
 
 const customStyles = {
@@ -62,19 +61,10 @@ class ClientVerifier extends Component {
             passswordInvalid: false,
             mandatoryInvalid: false,
             password: null,
+            originalEmail: "",
+            showEmailInUseMessage: false,
         };
     }
-
-    componentDidMount = () => {
-        const config = {
-            apiKey: "AIzaSyD_E_h57rBRJl9QLNFrF_-KjbpVcQ1QriE",
-            authDomain: "pilexpress-fdb3e.firebaseapp.com",
-            databaseURL: "https://pilexpress-fdb3e.firebaseio.com",
-            projectId: "pilexpress-fdb3e",
-            storageBucket: "pilexpress-fdb3e.appspot.com",
-        };
-        firebase.initializeApp(config);
-    };
 
     setDate(clientUser) {
         const birthday = clientUser.birthday;
@@ -144,7 +134,7 @@ class ClientVerifier extends Component {
     getClientUserFromResponse = clientUser => {
         const transformedDate = new Date(clientUser.birthday);
         clientUser.birthday = transformedDate;
-        this.setState({clientUser: clientUser});
+        this.setState({clientUser: clientUser, originalEmail: clientUser.email});
         return clientUser;
     };
 
@@ -473,13 +463,16 @@ class ClientVerifier extends Component {
                                                             clientUser: {
                                                                 ...this.state.clientUser,
                                                                 email: e.target.value
-                                                            }
+                                                            },
+                                                            showEmailInUseMessage: false
                                                         })}/>
                                                     </div>
                                                 </div>
                                                 {this.state.emailInvalid ?
                                                     <div style={{color: 'red', fontSize: '14px'}}>El correo debe seguir
                                                         el formato: test@test.com</div> : null}
+                                                {this.state.showEmailInUseMessage ?
+                                                    <div style={{color: 'red', fontSize: '14px'}}>El correo ya se encuentra registrado</div> : null}
 
                                                 {this.state.clientUser.password === '' ? null :
                                                     <div className='client-container-item'>
@@ -492,6 +485,8 @@ class ClientVerifier extends Component {
                                                                 disabled={true}/>
                                                         </div>
                                                     </div>}
+                                                {this.state.passwordInvalid ?
+                                                    <div style={{color: 'red', fontSize: '14px'}}>La contraseña debe tener al menos 6 caracteres</div> : null}
 
                                                 <div className='client-container-item'>
                                                     <div className="client-user-input-left">
@@ -555,8 +550,7 @@ class ClientVerifier extends Component {
     };
 
     validatePassword = password => {
-        const pattern = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$');
-        const valid = pattern.test(password);
+        const valid = password.length >= 6;
         this.setState({passwordInvalid: !valid});
         return valid;
     };
@@ -565,10 +559,10 @@ class ClientVerifier extends Component {
         const incomplete = this.checkIfIncomplete(clientUser);
         const birthdayValid = this.validateBirthday(clientUser.birthday);
         const emailValid = this.validateEmail(clientUser.email);
-        // const pswValid = this.state.password !== null && this.state.password !== '' ? this.validatePassword(this.state.password) : true;
+        const pswValid = this.state.password !== null && this.state.password !== '' ? this.validatePassword(this.state.password) : true;
         if (incomplete)
             this.setState({mandatoryInvalid: true});
-        return !incomplete && birthdayValid && emailValid;
+        return !incomplete && birthdayValid && emailValid && pswValid;
     };
 
     dateToString = date => {
@@ -581,45 +575,26 @@ class ClientVerifier extends Component {
     };
 
     saveClientUser = () => {
-        const clientUser = this.state.clientUser;
-        const firebasePassword = this.state.password !== null && this.state.password !== '' ? this.state.password : null;
+        const clientUser = {...this.state.clientUser};
         if (!this.validateAllFields(clientUser)) return;
         clientUser.birthday = this.dateToString(clientUser.birthday);
-        clientUser.password = this.state.password !== null && this.state.password !== '' ? this.transformPassword(this.state.password) : clientUser.password;
-        this.props.saveClientUser(clientUser)
+        clientUser.password = this.state.password !== null && this.state.password !== '' ? this.state.password : clientUser.password;
+        this.props.saveClientUser(clientUser, this.state.originalEmail)
             .then(response => {
-                // if (response.toString() === "OK")
-                //     this.setState({openMessageModal: true, openClientUserModal: false});
-                // else
-                //     this.setState({showRegisterError: true});
-
                 switch (response.toString()) {
-                    case "OK":
-                        //proceder al guardado en firebase
-                        console.log("ok");
-                        // this.createFirebaseUser(clientUser.email, clientUser.password);
+                    case Constants.CREATED:
+                        this.setState({openMessageModal: true, openClientUserModal: false});
+                        break;
+                    case Constants.UPDATED:
+                        this.setState({openMessageModal: true, openClientUserModal: false});
                         break;
                     case Constants.MESSAGE_EXIST_EMAIL:
-                        //mostrar que el email ya lo esta usando otro usuario
-                        console.log("el email ya existe");
+                        this.setState({showEmailInUseMessage: true});
                         break;
                     default:
-                        //mostrar el mensaje de error que salga
-                        console.log("default");
+                        this.setState({showRegisterError: true});
                         break;
                 }
-            });
-    };
-
-    createFirebaseUser =(email, password)=>{
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(args => {
-                console.log("Success creating firebase user");
-            })
-            .catch(error => {
-                console.log("Error creating firebase user: " + error);
-                //Error: The email address is already in use by another account
-                console.log(error);
             });
     };
 
@@ -647,7 +622,7 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
     getClientsByNitOrNameInSystem: (searchTerm, system) => dispatch(getClientsByNitOrNameInSystem(searchTerm, system)),
     getClientUserByClient: value => dispatch(getClientUserByClient(value)),
-    saveClientUser: value => dispatch(saveClientUser(value)),
+    saveClientUser: (client, email) => dispatch(saveClientUser(client, email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientVerifier);
