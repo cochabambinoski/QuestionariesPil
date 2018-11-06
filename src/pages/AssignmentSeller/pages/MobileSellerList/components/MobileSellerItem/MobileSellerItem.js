@@ -4,6 +4,8 @@ import {Card} from "../../../../../../../node_modules/primereact/card";
 import './styles.css';
 import {connect} from 'react-redux';
 import {addAssignementUser, deleteAssignementUser, editAssignementUser} from '../../../../../../actions/index';
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import Icon from "@material-ui/core/Icon/Icon";
 
 class MobileSellerItem extends Component {
 	constructor(props) {
@@ -27,6 +29,11 @@ class MobileSellerItem extends Component {
 	handleEditSeller = (seller) => {
 		this.props.editAssignementUser(seller);
 	};
+
+	handleRoutes(id) {
+		console.log('mobiseller', id );
+
+	}
 
 	getDates = (seller) => {
 		const format = require('date-format');
@@ -55,7 +62,15 @@ class MobileSellerItem extends Component {
 							this.state.mobileSeller.vendedor.lsrutas[0] != null ?
 								<div>
 									<div className="light-text">Ruta</div>
-									<div>{this.state.mobileSeller.vendedor.lsrutas[0].ruta.nombre}</div>
+									<div>{this.state.mobileSeller.vendedor.lsrutas[0].ruta.nombre}
+										<IconButton color="#c5e1a5"
+										            onClick={() => {
+											            this.handleRoutes(this.state.mobileSeller.id);
+										            }}
+										            aria-label="Add an alarm">
+											<Icon>add</Icon>
+										</IconButton>
+									</div>
 								</div> : null
 						}
 						{

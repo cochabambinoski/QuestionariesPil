@@ -21,6 +21,7 @@ import {
     getQuestionTypes,
     getReachTypes,
     getSystemTypes,
+	getStatusTypes,
     getUser
 } from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions/index";
@@ -45,7 +46,7 @@ import {
     getAssignmentsByQuestionnaire,
     getQuestionsTypes,
     getQuetionnaireById,
-    saveQuestionnaire
+    saveQuestionnaire,
 } from "../../../../actions/indexthunk";
 
 const styles = theme => ({
@@ -87,6 +88,7 @@ class Questionnaire extends Component {
             immutableQuestion: null,
             system: this.props.systemTypes[0],
             reach: this.props.reachTypes[0],
+	        status: this.props.statusTypes[0],
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -123,6 +125,11 @@ class Questionnaire extends Component {
             return
         }
         let ranges = this.state.ranges;
+        if (this.state.status === null || this.state.status === undefined){
+        	console.log(this.state.status, this.props.statusTypes[0]);
+	        this.showWarning("", "no tiene estado");
+	        return
+        }
         let questionaries = [
             {
                 id: this.state.questionnaireId,
@@ -131,6 +138,7 @@ class Questionnaire extends Component {
                 lsQuestions: this.state.lsQuestions,
                 system: this.state.system,
                 reach: this.state.reach,
+                status: this.state.status,
                 sociedadId: 'BO81',
                 usuarioId: this.props.user.username,
                 operacionId: 1,
@@ -224,6 +232,7 @@ class Questionnaire extends Component {
                     this.setImmutableCopy(data.lsQuestions);
                     this.setState({system: data.system});
                     this.setState({reach: data.reach});
+	                this.setState({status: data.status});
                     this.setState({sociedadId: data.sociedadId});
                     this.setState({usuarioId: data.usuarioId});
                     this.setState({operacionId: data.operacionId});
@@ -526,6 +535,7 @@ const mapStateToProps = state => ({
     questionTypes: getQuestionTypes(state),
     systemTypes: getSystemTypes(state),
     reachTypes: getReachTypes(state),
+	statusTypes: getStatusTypes(state),
 });
 
 const mapDispatchToProps = dispatch => ({

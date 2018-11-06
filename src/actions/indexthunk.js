@@ -1,7 +1,7 @@
 import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
-import {setReachTypes, setSystemTypes} from "./index";
+import {setReachTypes, setStatusTypes, setSystemTypes} from "./index";
 import {
     addMobileSellers,
     getAllBranches,
@@ -526,6 +526,16 @@ export const getReachesTypes = payload => {
     };
 };
 
+export const getQuestionnaryStatusTypes = payload => {
+	return dispatch => {
+		return dispatch(getTypesByClass(payload))
+			.then((response) => {
+			    console.log('DISPATCH getQuestionnaryStatusTypes:', response);
+				dispatch(setStatusTypes(response));
+			})
+	};
+};
+
 /**
  * Executes all requests of initial data simultaneously
  * @param user the user id, if there is any
@@ -541,9 +551,10 @@ export const fetchInitialData = user => {
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_BRANCHES}`),
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_SYSTEM)}`),
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_REACH)}`),
+	        fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_STATUS)}`),
         ])
-            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
-            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes])=> {
+            .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, statusTypes])=> {
                 dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
                 dispatch(setInitialDataTypesSeller(chargeTypes));
                 dispatch(setUser(userById));
@@ -551,6 +562,7 @@ export const fetchInitialData = user => {
                 dispatch(getAllBranches(branches));
                 dispatch(setSystemTypes(systemTypes));
                 dispatch(setReachTypes(reachTypes));
+	            dispatch(setStatusTypes(statusTypes));
             });
     }
 };
