@@ -12,7 +12,7 @@ class FreeAnswer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputType: "pint",
+            inputType: null,
             isEnabled: true,
         };
     }
@@ -64,6 +64,7 @@ class FreeAnswer extends Component {
                 filter = "pnum";
                 break;
             default:
+                filter = null;
                 break;
         }
         this.setState({inputType: filter});
@@ -94,7 +95,7 @@ class FreeAnswer extends Component {
                                 <div style={{
                                     fontFamily: 'Montserrat',
                                     fontWeight: 'bold',
-                                    fontSize: '25px',
+                                    fontSize: '3vh',
                                     color: '#412813',
                                     display: 'inline-block',
                                     marginRight: '15px',
@@ -110,7 +111,7 @@ class FreeAnswer extends Component {
                                     minWidth: '500px',
                                     background: '#FFF7A94D',
                                     color: '#412813',
-                                    fontSize: '22px',
+                                    fontSize: '2.5vh',
                                     border: '0',
                                     marginTop: '15px',
                                 }}

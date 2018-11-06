@@ -42,6 +42,7 @@ import {
     GET_ALL_BRANCHES,
     GET_ALL_DEPARTAMENTS,
     GET_INITIAL_DATA,
+    IS_SAVING_ANSWER,
     REMOVE_ALL_ASSIGNEMENT_USER,
     SAVE_CLIENT,
     SAVE_INTERVIEWED_NAME,
@@ -51,6 +52,7 @@ import {
     SET_ID_USER,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
+    SET_MARKED_OPTIONS,
     SET_MENU,
     SET_MENU_CONTAINER,
     SET_REACH_TYPES,
@@ -203,8 +205,12 @@ export const setReachTypes = payload => ({type: SET_REACH_TYPES, payload});
 
 export const updateMarkedOptions = payload => ({type: UPDATE_MARKED_OPTIONS, payload});
 
+export const setMarkedOptions = payload => ({type: SET_MARKED_OPTIONS, payload});
+
 export const triedToSave = payload => ({type: TRIED_TO_SAVE, payload});
 
 export const saveClient = payload => ({type: SAVE_CLIENT, payload});
 
 export const saveInterviewedName = payload => ({type: SAVE_INTERVIEWED_NAME, payload});
+
+export const setSavingAnswer = payload => ({type: IS_SAVING_ANSWER, payload});

@@ -246,29 +246,30 @@ class ClientVerifier extends Component {
                 aria-describedby="alert-dialog-description">
                 <div className="dialog-background">
                     <DialogTitle id="alert-dialog-title">
-                        <h1 className="dialog-client-title">Buscar cliente</h1>
+                        <div className="dialog-client-title">Buscar cliente</div>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description" className="dialog-client-body">
-                            <div style={{width: '400px', height: '200px'}}>
+                            <div className='dialog'>
                                 {
                                     this.state.interviewedName.length > 0 ? null :
-                                        <div style={{marginBottom: '15px', color: 'white'}}>
+                                        <div style={{marginBottom: '15px'}}>
                                             Busque su cliente por nit o nombre:
 
-                                            <span style={{marginBottom: '15px'}}>
-                                                <InputText id="float-input" type="text" size="30" maxLength="50"
+                                            <div style={{marginBottom: '15px'}}>
+                                                <InputText id="float-input" type="text" maxLength="50"
                                                            value={this.state.searchClient}
+                                                           className='select-input'
                                                            placeholder="Nit / Nombre"
                                                            onChange={(e) => this.setState({
                                                                searchClient: e.target.value,
                                                                showMinCharsMessage: false
                                                            })}
-                                                           style={{background: '#FFF7A94D'}}/>
+                                                           style={{background: '#FFF7A94D', display: 'inline-block'}}/>
                                                 <Button icon="pi pi-minus" onClick={() => {
                                                     this.cleanClient()
-                                                }} style={{background: '#5a3115'}}/>
-                                            </span>
+                                                }} style={{background: '#5a3115', display: 'inline-block'}}/>
+                                            </div>
                                             <Select ref="select"
                                                     placeholder='Seleccione un cliente'
                                                     options={this.state.clientsList}
@@ -277,6 +278,7 @@ class ClientVerifier extends Component {
                                                         this.setState({client});
                                                         this.props.saveClient(client);
                                                     }}
+                                                    className='select'
                                                     noOptionsMessage={() => 'No hay opciones'}
                                                     styles={customStyles}
                                             />
@@ -292,7 +294,7 @@ class ClientVerifier extends Component {
                                             <div>
                                                 <div>Si no tiene un cliente registrado, ingrese aquí su nombre:</div>
 
-                                                <InputText type="text" size="30" maxLength="50"
+                                                <InputText type="text" maxLength="50" className='select-input-no-button'
                                                            value={this.state.interviewedName} placeholder="Nombre"
                                                            onChange={(e) => {
                                                                this.setState({interviewedName: e.target.value});

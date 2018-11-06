@@ -7,8 +7,8 @@ import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import QuestionContainer from "./QuestionContainer";
 import {Button} from 'primereact/button';
-import {getClient, getinterviewedName, getMarkedOptions} from "../../reducers";
-import {triedToSave} from "../../actions";
+import {getClient, getinterviewedName, getIsSavingAnswer, getMarkedOptions} from "../../reducers";
+import {setSavingAnswer, triedToSave} from "../../actions";
 import {Messages} from 'primereact/messages';
 
 class AnswerPage extends Component {
@@ -44,11 +44,14 @@ class AnswerPage extends Component {
     };
 
     handleSave = () => {
+        if (this.props.isSavingAnswer) return;
         this.props.triedToSave(true);
         if (this.allQuestionsHaveAnswers()) {
+            this.props.setSavingAnswer(true);
             const answers = [this.getAnswer()];
             this.props.saveAnswers(answers)
                 .then(response => {
+                    this.props.setSavingAnswer(false);
                     if (response.toString() === "OK")
                         this.props.saveSuccessful('Respuesta guardada con éxito', 'Gracias por participar.');
                     else
@@ -113,7 +116,7 @@ class AnswerPage extends Component {
         let option = null;
         if (markedOptions !== null && markedOptions !== undefined) {
             option = markedOptions.filter(detail => {
-                return detail.answer === precondition.option;
+                return detail.answerDetail === precondition.option;
             })
         }
         return option !== null && option.length !== 0;
@@ -149,14 +152,13 @@ class AnswerPage extends Component {
                                    handleMenuClick={this.props.handleMenuClick}
                                    structure={this.props.structure}/>
 
-                <div style={{textAlign: 'center'}}>
+                <div style={{textAlign: 'center', marginTop: '20px'}}>
                     <Button label="Guardar" onClick={
                         this.handleSave
                     }
                             className='green-button'
                             style={{
                                 fontSize: '20px',
-                                bottom: '15px',
                                 display: 'inline-block',
                                 marginRight: '15px'
                             }}/>
@@ -166,7 +168,6 @@ class AnswerPage extends Component {
                             className='red-button'
                             style={{
                                 fontSize: '20px',
-                                bottom: '15px',
                                 display: 'inline-block',
                                 marginLeft: '15px'
                             }}/>
@@ -181,6 +182,7 @@ const mapStateToProps = state => ({
     markedOptions: getMarkedOptions(state),
     client: getClient(state),
     interviewedName: getinterviewedName(state),
+    isSavingAnswer: getIsSavingAnswer(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -188,6 +190,7 @@ const mapDispatchToProps = dispatch => ({
     getClientUserByClient: value => dispatch(getClientUserByClient(value)),
     saveAnswers: value => dispatch(saveAnswers(value)),
     triedToSave: value => dispatch(triedToSave(value)),
+    setSavingAnswer: value => dispatch(setSavingAnswer(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerPage);

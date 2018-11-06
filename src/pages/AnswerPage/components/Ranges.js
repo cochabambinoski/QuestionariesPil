@@ -76,7 +76,7 @@ class FreeAnswer extends Component {
                                 <div style={{
                                     fontFamily: 'Montserrat',
                                     fontWeight: 'bold',
-                                    fontSize: '25px',
+                                    fontSize: '3vh',
                                     color: '#412813',
                                     display: 'inline-block',
                                     marginRight: '15px',
@@ -85,11 +85,11 @@ class FreeAnswer extends Component {
                                     <div className='required-label'>OBLIGATORIA</div> : null}
                             </div>
 
-                            <div style={{fontSize: '20px'}}>
+                            <div style={{fontSize: '2.5vh'}}>
                                 <div style={{display: 'inline-block', verticalAlign: 'middle', marginRight: '10px'}}>
                                     {this.state.min}
                                 </div>
-                                <div style={{width: '500px', display: 'inline-block', verticalAlign: 'middle'}}>
+                                <div style={{width: '50vw', display: 'inline-block', verticalAlign: 'middle'}}>
                                     <Slider min={this.state.min} max={this.state.max} step={1}
                                             value={selectedOption !== undefined ? selectedOption.answerDetail : null}
                                             onChange={(event, value) => this.selectOption(value)}/>

@@ -42,16 +42,17 @@ class QuestionContainer extends Component {
             <div>
                 <div style={{textAlign: 'center'}}>
                     <Button label="Anterior" onClick={this.goBack} style={{display: 'inline-block', margin: '15px'}}
-                            className='brown-button'/>
+                            className='brown-button' disabled={this.props.index === 0}/>
                     <div style={{
                         display: 'inline-block',
                         margin: '15px',
                         fontFamily: 'Arnold',
-                        fontSize: '20px',
+                        fontSize: '2vh',
                         color: '#412813'
                     }}>Pregunta {this.props.index + 1}</div>
-                    <Button label="Siguiente" onClick={this.goForward} style={{display: 'inline-block', margin: '15px'}}
-                            className='brown-button'/>
+                    <Button label="Siguiente" onClick={this.goForward}
+                            style={{display: 'inline-block', margin: '15px'}}
+                            className='brown-button' disabled={this.props.index === this.props.structure.length - 1}/>
                 </div>
                 <ScrollPanel style={{width: '100%', height: '500px'}}>
                     <div>

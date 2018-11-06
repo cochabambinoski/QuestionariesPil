@@ -55,3 +55,4 @@ export const getMarkedOptions = (state) => state.answer.markedOptions;
 export const getTriedToSave = (state) => state.answer.triedToSave;
 export const getClient = (state) => state.answer.client;
 export const getinterviewedName = (state) => state.answer.interviewedName;
+export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;

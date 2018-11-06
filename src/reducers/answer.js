@@ -1,4 +1,11 @@
-import {SAVE_CLIENT, SAVE_INTERVIEWED_NAME, TRIED_TO_SAVE, UPDATE_MARKED_OPTIONS} from "../action-types/actionTypes";
+import {
+    IS_SAVING_ANSWER,
+    SAVE_CLIENT,
+    SAVE_INTERVIEWED_NAME,
+    SET_MARKED_OPTIONS,
+    TRIED_TO_SAVE,
+    UPDATE_MARKED_OPTIONS
+} from "../action-types/actionTypes";
 
 const initialState = (
     {
@@ -6,6 +13,7 @@ const initialState = (
         triedToSave: false,
         client: null,
         interviewedName: "",
+        isSavingAnswer: false,
     }
 );
 
@@ -17,6 +25,12 @@ export function answer(state = initialState, action) {
             return {
                 ...state,
                 markedOptions: marked
+            }
+        }
+        case SET_MARKED_OPTIONS: {
+            return {
+                ...state,
+                markedOptions: action.payload
             }
         }
         case TRIED_TO_SAVE: {
@@ -35,6 +49,12 @@ export function answer(state = initialState, action) {
             return {
                 ...state,
                 interviewedName: action.payload
+            }
+        }
+        case IS_SAVING_ANSWER: {
+            return {
+                ...state,
+                isSavingAnswer: action.payload
             }
         }
         default:

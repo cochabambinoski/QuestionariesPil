@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
 import Header from "./../PublicQuestionnaires/components/Header";
 import {getQuetionnaireById} from "../../actions/indexthunk";
@@ -9,7 +9,7 @@ import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import classNames from 'classnames';
-import {saveClient, saveInterviewedName, triedToSave, updateMarkedOptions} from "../../actions";
+import {saveClient, saveInterviewedName, setMarkedOptions, triedToSave, updateMarkedOptions} from "../../actions";
 import ModalContainer from '../../widgets/Modal/pages/modal';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
@@ -53,7 +53,7 @@ class AnswerPageContainer extends Component {
     };
 
     cleanQuestionnaireAnswers = () => {
-        this.props.updateMarkedOptions({});
+        this.props.setMarkedOptions({});
         this.props.saveClient(null);
         this.props.saveInterviewedName("");
         this.props.triedToSave(false);
@@ -131,9 +131,9 @@ class AnswerPageContainer extends Component {
             });
 
             if (mobileMenuActive)
-                this.removeClass(document.body, 'body-overflow-hidden');
+                AnswerPageContainer.removeClass(document.body, 'body-overflow-hidden');
             else
-                this.addClass(document.body, 'body-overflow-hidden');
+                AnswerPageContainer.addClass(document.body, 'body-overflow-hidden');
         }
 
         event.preventDefault();
@@ -190,7 +190,7 @@ class AnswerPageContainer extends Component {
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description" className="dialog-client-body">
                             <div>
-                                <h1 style={{fontWeight: 'bold', marginBottom: '15px'}}>Salir del cuestionario</h1>
+                                <div style={{fontWeight: 'bold', marginBottom: '15px', fontSize: '3vh'}}>Salir del cuestionario</div>
                                 <div style={{marginBottom: '15px'}}>Esta seguro de que quiere salir del cuestionario sin
                                     guardar?
                                 </div>
@@ -245,7 +245,7 @@ class AnswerPageContainer extends Component {
                             </div>
 
 
-                            <div className="layout-main">
+                            <div className="layout-main main">
                                 <AnswerPage questionnaire={this.state.questionnaire}
                                             saveSuccessful={this.saveSuccessful}
                                             saveFailed={this.saveFailed}
@@ -267,6 +267,7 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
     getQuetionnaireById: value => dispatch(getQuetionnaireById(value)),
     updateMarkedOptions: value => dispatch(updateMarkedOptions(value)),
+    setMarkedOptions: value => dispatch(setMarkedOptions(value)),
     saveClient: value => dispatch(saveClient(value)),
     saveInterviewedName: value => dispatch(saveInterviewedName(value)),
     triedToSave: value => dispatch(triedToSave(value)),

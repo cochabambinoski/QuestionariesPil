@@ -67,7 +67,7 @@ class MultipleOption extends Component {
                                 <div style={{
                                     fontFamily: 'Montserrat',
                                     fontWeight: 'bold',
-                                    fontSize: '25px',
+                                    fontSize: '3vh',
                                     color: '#412813',
                                     display: 'inline-block',
                                     marginRight: '15px',
@@ -82,7 +82,7 @@ class MultipleOption extends Component {
                                             <div style={{
                                                 paddingTop: '20px',
                                                 fontFamily: 'Montserrat',
-                                                fontSize: '20px',
+                                                fontSize: '2.5vh',
                                                 color: '#5a3115',
                                             }}>
                                                 <RadioButton value={option}
