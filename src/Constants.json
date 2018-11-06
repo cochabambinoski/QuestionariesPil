@@ -1,7 +1,8 @@
 {
-  "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_WEB_BI": "http://localhost:8086/bi/",
-  "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
+  "ROUTE_WEB_SERVICES": "http://192.168.241.35:8085/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_WEB_BI": "http://192.168.241.35:8086/bi/",
+  "ROUTE_WEB_SERVICES_POS": "http://192.168.241.35:8086/pos/serviceREST/administrador/cliente/",
+  "ROUTE_WEB_SERVICES_MIDDLEWARE": "http://192.168.241.35:8086/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_MENU_BY_USER": "getMenuByUser?userId=",
   "GET_USER_BY_ID": "getUserById?idUser=",
@@ -61,5 +62,6 @@
   "GET_QUESTIONNAIRES_BY_REACH":"getQuestionnairesByReach?reach=",
   "GET_CLIENTS_BY_NIT_OR_NAME":"getClientByNitOrName?searchTerm=",
   "GET_CLIENT_USER_BY_CLIENT":"getClientUserByClient?clientId=",
-  "SAVE_CLIENT_USER":"saveClientUser"
+  "SAVE_CLIENT_USER":"saveClientUser",
+  "MESSAGE_EXIST_EMAIL":"El Correo ya se encuentra registrado"
 }

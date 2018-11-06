@@ -453,7 +453,7 @@ export const saveClientUser = clientUser => {
                 return results.json();
             }).then(
                 response => {
-                    return "OK";
+                    return response;
                 },
                 error => {
                     return "ERROR";

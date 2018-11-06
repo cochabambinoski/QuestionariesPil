@@ -18,6 +18,8 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {encryptMD5} from "../utils/EncryptationUtil";
+import firebase from "firebase";
+import Constants from './../Constants.json';
 
 const customStyles = {
     control: (base, state) => ({
@@ -62,6 +64,17 @@ class ClientVerifier extends Component {
             password: null,
         };
     }
+
+    componentDidMount = () => {
+        const config = {
+            apiKey: "AIzaSyD_E_h57rBRJl9QLNFrF_-KjbpVcQ1QriE",
+            authDomain: "pilexpress-fdb3e.firebaseapp.com",
+            databaseURL: "https://pilexpress-fdb3e.firebaseio.com",
+            projectId: "pilexpress-fdb3e",
+            storageBucket: "pilexpress-fdb3e.appspot.com",
+        };
+        firebase.initializeApp(config);
+    };
 
     setDate(clientUser) {
         const birthday = clientUser.birthday;
@@ -509,11 +522,6 @@ class ClientVerifier extends Component {
                                                             }}/>
                                                     </div>
                                                 </div>
-                                                {this.state.passwordInvalid ?
-                                                    <div style={{color: 'red', fontSize: '14px'}}>
-                                                        La contraseña debe ser de minimamente 6 caracteres y debe
-                                                        contener al menos una MAYUSCULA, una minúscula y
-                                                        numeros</div> : null}
                                             </div>
                                             : null}
                                     </div>
@@ -557,10 +565,10 @@ class ClientVerifier extends Component {
         const incomplete = this.checkIfIncomplete(clientUser);
         const birthdayValid = this.validateBirthday(clientUser.birthday);
         const emailValid = this.validateEmail(clientUser.email);
-        const pswValid = this.state.password !== null && this.state.password !== '' ? this.validatePassword(this.state.password) : true;
+        // const pswValid = this.state.password !== null && this.state.password !== '' ? this.validatePassword(this.state.password) : true;
         if (incomplete)
             this.setState({mandatoryInvalid: true});
-        return !incomplete && birthdayValid && emailValid && pswValid;
+        return !incomplete && birthdayValid && emailValid;
     };
 
     dateToString = date => {
@@ -574,15 +582,44 @@ class ClientVerifier extends Component {
 
     saveClientUser = () => {
         const clientUser = this.state.clientUser;
+        const firebasePassword = this.state.password !== null && this.state.password !== '' ? this.state.password : null;
         if (!this.validateAllFields(clientUser)) return;
         clientUser.birthday = this.dateToString(clientUser.birthday);
         clientUser.password = this.state.password !== null && this.state.password !== '' ? this.transformPassword(this.state.password) : clientUser.password;
         this.props.saveClientUser(clientUser)
             .then(response => {
-                if (response.toString() === "OK")
-                    this.setState({openMessageModal: true, openClientUserModal: false});
-                else
-                    this.setState({showRegisterError: true});
+                // if (response.toString() === "OK")
+                //     this.setState({openMessageModal: true, openClientUserModal: false});
+                // else
+                //     this.setState({showRegisterError: true});
+
+                switch (response.toString()) {
+                    case "OK":
+                        //proceder al guardado en firebase
+                        console.log("ok");
+                        // this.createFirebaseUser(clientUser.email, clientUser.password);
+                        break;
+                    case Constants.MESSAGE_EXIST_EMAIL:
+                        //mostrar que el email ya lo esta usando otro usuario
+                        console.log("el email ya existe");
+                        break;
+                    default:
+                        //mostrar el mensaje de error que salga
+                        console.log("default");
+                        break;
+                }
+            });
+    };
+
+    createFirebaseUser =(email, password)=>{
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(args => {
+                console.log("Success creating firebase user");
+            })
+            .catch(error => {
+                console.log("Error creating firebase user: " + error);
+                //Error: The email address is already in use by another account
+                console.log(error);
             });
     };
 
