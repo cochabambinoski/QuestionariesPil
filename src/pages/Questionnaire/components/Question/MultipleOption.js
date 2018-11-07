@@ -74,12 +74,13 @@ class MultipleOption extends Component {
 
 	render() {
 		return (
-			<div style={{marginBottom: '10px'}}>
+			<div style={{marginBottom: '20px'}}>
 				<div style={{
 					paddingBottom: '15px',
 					paddingTop: '10px',
+					width: '640px',
 					overflow: 'auto',
-					maxHeight: '250px',
+					maxHeight: '150px',
 					marginBottom: '10px'
 				}}>
 					{
@@ -97,7 +98,11 @@ class MultipleOption extends Component {
 													           onChange={(e) => this.updateOption(e.target.value, index)}/>
 													<Dropdown value={null}
 													          onChange={(e) => this.updateTypeOption(e.value, 0)}
-													          style={{width: '300px', marginLeft: '20px'}}
+													          style={{
+														          width: '300px',
+														          marginLeft: '20px',
+														          marginRight: '20px'
+													          }}
 													          placeholder="Seleccione una pregunta"
 													          optionLabel="pregunta"/>
 													<Button icon="pi pi-minus" onClick={() => {

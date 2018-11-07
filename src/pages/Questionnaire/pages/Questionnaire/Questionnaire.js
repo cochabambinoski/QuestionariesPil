@@ -147,13 +147,32 @@ class Questionnaire extends Component {
 				sociedadId: 'BO81',
 				usuarioId: this.props.user.username,
 				operacionId: 1,
-				fechaId: this.state.fechaId,
+				fechaId: this.state.fechaId
 			}
 		];
+
 		if (questionaries[0].lsQuestions.length === 0) {
 			this.showWarning("", "Debe tener al menos una pregunta creada");
 			return;
 		}
+		//let q = 0;
+		let o = 0;
+		let val = 0;
+		questionaries[0].lsQuestions.forEach((questionarie) => {
+			let question = questionarie;//.lsQuestionOptions
+			question.lsQuestionOptions.forEach((options) => {
+				let option = options;
+				o = o + 1;
+				val = val +1;
+				console.log(option, o, val);
+			});
+			//console.log(questionarie, question, q);
+			//q = q + 1;
+			o = 0;
+		});
+
+		console.log('Questionaries save: ', questionaries[0].lsQuestions);
+
 		if (ranges.length === 0) {
 			this.showWarning("", "Debe establecer el rango del cuestionario");
 			return;
@@ -234,14 +253,14 @@ class Questionnaire extends Component {
 					this.setState((prevState, props) => ({
 						limitSystem: result
 					}));
-					if (result !== null && result !== undefined){
+					if (result !== null && result !== undefined) {
 						if (result.codigoSap === Constants.CODSAP_USER_SYSTEM_POS) {
-							this.setState({limitPOS : true});
-							this.setState({system: this.props.systemTypes[1]})
+							this.setState({limitPOS: true});
+							this.setState({system: this.props.systemTypes[1]});
 						}
 						if (result.codigoSap === Constants.CODSAP_USER_SYSTEM_SVM) {
-							this.setState({limitSVM : true});
-							this.setState({system: this.props.systemTypes[0]})
+							this.setState({limitSVM: true});
+							this.setState({system: this.props.systemTypes[0]});
 						}
 					}
 				}
@@ -349,7 +368,6 @@ class Questionnaire extends Component {
 
 	disableSVM() {
 		if (this.state.limitSystem !== null) {
-			console.log('svm', this.state.limitSystem.codigoSap);
 			return this.state.limitSystem.codigoSap === Constants.CODSAP_USER_SYSTEM_POS;
 		}
 		else {
@@ -359,7 +377,6 @@ class Questionnaire extends Component {
 
 	disablePOS() {
 		if (this.state.limitSystem !== null) {
-			console.log('pos', this.state.limitSystem.codigoSap);
 			return this.state.limitSystem.codigoSap === Constants.CODSAP_USER_SYSTEM_SVM;
 		} else {
 			return false;
