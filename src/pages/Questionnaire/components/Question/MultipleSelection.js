@@ -5,6 +5,7 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Checkbox} from 'primereact/checkbox';
 import {InputText} from 'primereact/inputtext';
+import {Dropdown} from "primereact/dropdown";
 
 class MultipleSelection extends Component {
     constructor(props) {
@@ -89,6 +90,11 @@ class MultipleSelection extends Component {
                                             <div>
                                                 <InputText value={option.option}
                                                            onChange={(e) => this.updateOption(e.target.value, index)}/>
+	                                            <Dropdown value={null}
+	                                                      onChange={(e) => this.updateTypeOption(e.value, 0)}
+	                                                      style={{width: '300px', marginLeft: '20px'}}
+	                                                      placeholder="Seleccione una pregunta"
+	                                                      optionLabel="pregunta"/>
                                                 <Button icon="pi pi-minus" onClick={() => {
                                                     this.removeOption(index)
                                                 }}/>
