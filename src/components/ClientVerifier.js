@@ -181,7 +181,8 @@ class ClientVerifier extends Component {
             client: null,
             searchClient: "",
             clientsList: [],
-            showMinCharsMessage: false
+            showMinCharsMessage: false,
+            originalEmail: ''
         });
         if (this.props.questionnaire !== null)
             this.props.setClientAndInterviewed(null, this.state.interviewedName);
@@ -214,9 +215,10 @@ class ClientVerifier extends Component {
                 openClientModal: false,
                 openClientUserModal: false,
                 openMessageModal: false,
+                originalEmail: '',
             });
         } else
-            this.setState({openMessageModal: false, showRegisterError: false, password: null});
+            this.setState({openMessageModal: false, showRegisterError: false, password: null, originalEmail: ''});
     };
 
     renderClientDataModal() {
@@ -579,7 +581,8 @@ class ClientVerifier extends Component {
         if (!this.validateAllFields(clientUser)) return;
         clientUser.birthday = this.dateToString(clientUser.birthday);
         clientUser.password = this.state.password !== null && this.state.password !== '' ? this.state.password : clientUser.password;
-        this.props.saveClientUser(clientUser, this.state.originalEmail)
+        const email = this.state.originalEmail === ''? clientUser.email : this.state.originalEmail;
+        this.props.saveClientUser(clientUser, email)
             .then(response => {
                 switch (response.toString()) {
                     case Constants.CREATED:
