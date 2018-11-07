@@ -9,7 +9,7 @@ import {
     addAssignementUser,
     deleteAssignementUser,
     editAssignementUser,
-    saveMobileSellerListAux
+    saveMobileSellerListAux,
 } from "../../../../actions";
 import {
     getMobileAssignement,
@@ -103,7 +103,8 @@ class MobileSellerList extends Component {
                     isEdit={this.state.isEdit}
                     key={mobileSeller.id}
                     getAssignment={this.props.getAssignment}
-                    handleAddSeller={this.props.handleAddSeller}/>
+                    handleAddSeller={this.props.handleAddSeller}
+                    showRoutes={this.props.showRoutes}/>
             ))}
         </List>
     }

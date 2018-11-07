@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {addAssignementUser, deleteAssignementUser, editAssignementUser} from '../../../../../../actions/index';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Icon from "@material-ui/core/Icon/Icon";
+import {getRoutesByMobileseller} from "./../../../../../../actions/indexthunk";
+import {Messages} from "primereact/messages";
 
 class MobileSellerItem extends Component {
 	constructor(props) {
@@ -14,7 +16,8 @@ class MobileSellerItem extends Component {
 			mobileSeller: props.mobileSeller,
 			isEdit: props.isEdit,
 			initialDate: null,
-			finalDate: null
+			finalDate: null,
+			routes: []
 		};
 	}
 
@@ -30,9 +33,23 @@ class MobileSellerItem extends Component {
 		this.props.editAssignementUser(seller);
 	};
 
-	handleRoutes(id) {
-		console.log('mobiseller', id );
+	showMessage(title, detail) {
+		this.messages.show({severity: 'info', summary: title, detail: detail});
+	}
 
+	handleRoutes(id) {
+		this.props.getRoutesByMobileseller(id)
+			.then((result) => {
+				if (result != null) {
+					var names = "";
+					result.forEach((route) => {
+						if (route.id != null) {
+							names = names.concat(" '", route.nombre, "' ");
+						}
+					});
+					this.showMessage('Rutas:', names.toString());
+				}
+			});
 	}
 
 	getDates = (seller) => {
@@ -52,6 +69,7 @@ class MobileSellerItem extends Component {
 		const {isEdit} = this.state;
 		return (
 			<div>
+				<Messages ref={(el) => this.messages = el}/>
 				<Card className="cardMobileSeller" key={this.state.mobileSeller.id}>
 					<div className="text">
 						<div className="light-text">Nombre del vendedor</div>
@@ -105,7 +123,8 @@ MobileSellerItem.propTypes = {};
 const mapDispatchToProps = dispatch => ({
 	addAssignementUser: value => dispatch(addAssignementUser(value)),
 	deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
-	editAssignementUser: value => dispatch(editAssignementUser(value))
+	editAssignementUser: value => dispatch(editAssignementUser(value)),
+	getRoutesByMobileseller: value => dispatch(getRoutesByMobileseller(value)),
 });
 
 export default connect(null, mapDispatchToProps)(MobileSellerItem);

@@ -68,5 +68,6 @@
   "GET_CLIENTS_BY_NIT_OR_NAME": "getClientByNitOrName?searchTerm=",
   "GET_CLIENT_USER_BY_CLIENT": "getClientUserByClient?clientId=",
   "GET_SYSTEM_BY_USER": "getTypeSystemByUser?user=",
+  "GET_ROUTES_BY_MOBILE_SELLER": "getRoutesByMobileseller?mobileSeller=",
   "SAVE_CLIENT_USER": "saveClientUser"
 }

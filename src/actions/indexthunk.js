@@ -1,8 +1,10 @@
 import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
-import {setReachTypes, setStatusTypes, setSystemTypes} from "./index";
 import {
+	setReachTypes,
+	setStatusTypes,
+	setSystemTypes,
 	addMobileSellers,
 	getAllBranches,
 	getAllDepartaments,
@@ -488,6 +490,21 @@ export const getClientUserByClient = clientId => {
 export const getTypeSystemByUser = userId => {
 	return () => {
 		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_SYSTEM_BY_USER}${encodeURIComponent(userId)}`;
+		return fetch(url)
+			.then(results => {
+				return results.json();
+			}).then(response => {
+					return response;
+				},
+				error => {
+					return error;
+				});
+	};
+};
+
+export const getRoutesByMobileseller = mobileSeller => {
+	return () => {
+		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ROUTES_BY_MOBILE_SELLER}${encodeURIComponent(mobileSeller)}`;
 		return fetch(url)
 			.then(results => {
 				return results.json();
