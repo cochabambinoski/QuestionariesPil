@@ -3,7 +3,7 @@ import {
     GET_ALL_DEPARTAMENTS,
     GET_INITIAL_DATA,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
-    SET_INITIAL_DATA_TYPES_SELLER,
+    SET_INITIAL_DATA_TYPES_SELLER, SET_QUESTIONNAIRE_STATUS,
     SET_REACH_TYPES,
     SET_SYSTEM_TYPES
 } from "../action-types/actionTypes";
@@ -16,6 +16,7 @@ const initialState = (
         cities: null,
         lsBranches: null,
         questionTypes: null,
+        questionnaireStatus: null,
     }
 );
 
@@ -44,6 +45,9 @@ export const initialData = (state = initialState, action) => {
         }
         case SET_REACH_TYPES: {
             return {...state, reachTypes: action.payload};
+        }
+        case SET_QUESTIONNAIRE_STATUS: {
+            return {...state, questionnaireStatus: action.payload};
         }
         default:
             return state;

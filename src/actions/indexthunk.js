@@ -7,7 +7,7 @@ import {
     getAllDepartaments,
     setInitialDataQuestionerQuestionary,
     setInitialDataTypesSeller,
-    setMenu,
+    setMenu, setQuestionnaireStatus,
     setReachTypes,
     setSystemTypes,
     setUser
@@ -542,9 +542,10 @@ export const fetchInitialData = user => {
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_BRANCHES}`),
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_SYSTEM)}`),
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_REACH)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_QUESTIONNAIRE_STATUS)}`),
         ])
-            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
-            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes])=> {
+            .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, questionnaireStatus])=> {
                 dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
                 dispatch(setInitialDataTypesSeller(chargeTypes));
                 dispatch(setUser(userById));
@@ -552,6 +553,7 @@ export const fetchInitialData = user => {
                 dispatch(getAllBranches(branches));
                 dispatch(setSystemTypes(systemTypes));
                 dispatch(setReachTypes(reachTypes));
+                dispatch(setQuestionnaireStatus(questionnaireStatus));
             });
     }
 };

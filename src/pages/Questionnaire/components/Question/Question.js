@@ -51,6 +51,7 @@ class Question extends Component {
         let question = this.state.squestion;
         question.lsQuestionOptions = [];
         question.type = e.value;
+        question.required = 0;
         this.setState((prevState, props) => ({
             squestion: question
         }));

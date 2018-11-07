@@ -54,7 +54,7 @@ import {
     SET_INITIAL_DATA_TYPES_SELLER,
     SET_MARKED_OPTIONS,
     SET_MENU,
-    SET_MENU_CONTAINER,
+    SET_MENU_CONTAINER, SET_QUESTIONNAIRE_STATUS,
     SET_REACH_TYPES,
     SET_SYSTEM_TYPES,
     SET_USER,
@@ -202,6 +202,8 @@ export const deleteSaveMobileSellerAssignedListAux = payload => ({type: DELETE_M
 export const setSystemTypes = payload => ({type: SET_SYSTEM_TYPES, payload});
 
 export const setReachTypes = payload => ({type: SET_REACH_TYPES, payload});
+
+export const setQuestionnaireStatus = payload => ({type: SET_QUESTIONNAIRE_STATUS, payload});
 
 export const updateMarkedOptions = payload => ({type: UPDATE_MARKED_OPTIONS, payload});
 
