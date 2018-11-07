@@ -555,3 +555,26 @@ export const fetchInitialData = user => {
             });
     }
 };
+
+export const saveAnswers = answers => {
+    return () => {
+        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_ANSWERS}`,
+            {
+                method: 'POST',
+                body: JSON.stringify(answers),
+                headers: {
+                    'Accept': '*/*',
+                    'Content-type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(results => {
+                return results.json();
+            }).then(
+                response => {
+                    return "OK";
+                },
+                error => {
+                    return "ERROR";
+                });
+    };
+};

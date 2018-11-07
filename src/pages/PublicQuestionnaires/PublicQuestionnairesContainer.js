@@ -8,6 +8,7 @@ import {getQuestionnairesByReach} from "../../actions/indexthunk";
 import {getQuestionnaries} from "../../reducers";
 import ErrorPage from "../ErrorPage/pages/ErrorPage";
 import ClientVerifier from "../../components/ClientVerifier";
+import {Messages} from "primereact/messages";
 
 class PublicQuestionnairesContainer extends Component {
     constructor(props) {
@@ -28,13 +29,18 @@ class PublicQuestionnairesContainer extends Component {
     }
 
     handleClick = (id) => {
-        //TODO: push a la ruta de respuestas
-        console.log("questionnaire id: " + id);
         this.setState({questionnaireSelected: id});
     };
 
     invalidateQuestionnaire = () => {
         this.setState({questionnaireSelected: null});
+    };
+
+    showMessageAndInvalidate = (title, message, messageType) => {
+        this.invalidateQuestionnaire();
+        this.setState((previousState, currentProps) => {
+            this.messages.show({severity: messageType, summary: title, detail: message});
+        });
     };
 
     render() {
@@ -43,9 +49,13 @@ class PublicQuestionnairesContainer extends Component {
                 {
                     this.props.connection === false ? <ErrorPage/> :
                         this.state.questionnaireSelected !== null ?
-                            <AnswerPageContainer questionnaireId={this.state.questionnaireSelected} invalidateQuestionnaire={this.invalidateQuestionnaire}/> :
+                            <AnswerPageContainer
+                                questionnaireId={this.state.questionnaireSelected}
+                                invalidateQuestionnaire={this.invalidateQuestionnaire}
+                                showMessageAndInvalidate={this.showMessageAndInvalidate}/> :
                             <div>
                                 <Header title={'Cuestionarios'}/>
+                                <Messages ref={(el) => this.messages = el}/>
                                 <ClientVerifier
                                     modalState={this.modalState}
                                     openClientModal={this.state.openClientModal}
@@ -54,9 +64,9 @@ class PublicQuestionnairesContainer extends Component {
                                     invalidateQuestionnaire={null}/>
                                 <PublicQuestionnairesList questionnaires={this.props.questionnaires}
                                                           handleClick={this.handleClick}/>
-                            <div onClick={() => this.setState({openClientModal: true})}>
-                                <Footer />
-                    </div>
+                                <div onClick={() => this.setState({openClientModal: true})}>
+                                    <Footer/>
+                                </div>
                             </div>
                 }
             </div>

@@ -1,4 +1,4 @@
-@font-face{
+@font-face {
   font-family: 'Arnold';
   font-weight: 400;
   font-display: fallback;
@@ -9,21 +9,21 @@
   background: #5A3215;
   color: #fffff0;
   padding: 1.5em;
-  padding-left: 50px;
+  padding-left: 3vh;
   font-family: 'Arnold';
 }
 
-.header-title{
-  font-size: 25px;
+.header-title {
+  font-size: 2.5vh;
   padding-bottom: 10px;
   padding-top: 10px;
 }
 
-.header-subtitle{
-  font-size: 15px;
+.header-subtitle {
+  font-size: 1.7vh;
 }
 
-.footer{
+.footer {
   background: #A75520;
   color: white;
   font-family: 'Montserrat', sans-serif;
@@ -35,50 +35,51 @@
   width: 100%
 }
 
-.container{
+.container {
   padding-top: 15px;
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 40px;
 }
 
-.container-background{
+.container-background {
   background: url(./../images/fondomadera.svg);
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-size: cover;
 }
 
-.questionnaire{
-  height: 180px; 
-  border: 0px; 
-  color:white;
+.questionnaire {
+  height: 180px;
+  border: 0px;
+  color: white;
 }
 
-.item{
+.item {
   font-family: 'Montserrat', sans-serif;
 }
 
-.card-title{
+.card-title {
   font-size: 18px;
 }
 
-.card-body{
+.card-body {
   font-weight: bold;
 }
 
-.card-content{
+.card-content {
   padding: 15px;
-  color:white !important;
-  border:0px !important;
+  color: white !important;
+  border: 0px !important;
   margin: 10px;
   text-align: center;
   background: transparent;
 }
 
-.card-button{
+.card-button {
   border: 2px solid white !important;
-  margin-top: 15px; 
+  margin-top: 15px;
   font-family: 'Montserrat', sans-serif !important;
   background: #2BC6CA;
 }
