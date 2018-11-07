@@ -139,14 +139,14 @@ class ClientVerifier extends Component {
     };
 
     checkIfIncomplete = (clientUser) => {
-        const isIncomplete = clientUser.firstNames === "" ||
-            clientUser.lastNames === "" ||
-            clientUser.email === "" ||
-            (clientUser.password === "" && this.state.password === null) ||
-            clientUser.birthday === "" ||
-            clientUser.gender === "" ||
-            clientUser.favoriteProduct === "" ||
-            clientUser.phone === "";
+        const isIncomplete = clientUser.firstNames === "" || clientUser.firstNames === null ||
+            clientUser.lastNames === "" || clientUser.lastNames === null ||
+            clientUser.email === "" || clientUser.email === null ||
+            ((clientUser.password === "" || clientUser.password === null) && this.state.password === null) ||
+            clientUser.birthday === "" || clientUser.birthday === null ||
+            clientUser.gender === "" || clientUser.gender === null ||
+            clientUser.favoriteProduct === "" || clientUser.favoriteProduct === null ||
+            clientUser.phone === "" || clientUser.phone === null;
         return isIncomplete;
     };
 
@@ -474,7 +474,8 @@ class ClientVerifier extends Component {
                                                     <div style={{color: 'red', fontSize: '14px'}}>El correo debe seguir
                                                         el formato: test@test.com</div> : null}
                                                 {this.state.showEmailInUseMessage ?
-                                                    <div style={{color: 'red', fontSize: '14px'}}>El correo ya se encuentra registrado</div> : null}
+                                                    <div style={{color: 'red', fontSize: '14px'}}>El correo ya se
+                                                        encuentra registrado</div> : null}
 
                                                 {this.state.clientUser.password === '' ? null :
                                                     <div className='client-container-item'>
@@ -488,7 +489,8 @@ class ClientVerifier extends Component {
                                                         </div>
                                                     </div>}
                                                 {this.state.passwordInvalid ?
-                                                    <div style={{color: 'red', fontSize: '14px'}}>La contraseña debe tener al menos 6 caracteres</div> : null}
+                                                    <div style={{color: 'red', fontSize: '14px'}}>La contraseña debe
+                                                        tener al menos 6 caracteres</div> : null}
 
                                                 <div className='client-container-item'>
                                                     <div className="client-user-input-left">
@@ -581,7 +583,7 @@ class ClientVerifier extends Component {
         if (!this.validateAllFields(clientUser)) return;
         clientUser.birthday = this.dateToString(clientUser.birthday);
         clientUser.password = this.state.password !== null && this.state.password !== '' ? this.state.password : clientUser.password;
-        const email = this.state.originalEmail === ''? clientUser.email : this.state.originalEmail;
+        const email = this.state.originalEmail === '' ? clientUser.email : this.state.originalEmail;
         this.props.saveClientUser(clientUser, email)
             .then(response => {
                 switch (response.toString()) {
