@@ -1,7 +1,6 @@
 import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
-import {setReachTypes, setSystemTypes} from "./index";
 import {
     addMobileSellers,
     getAllBranches,
@@ -9,6 +8,8 @@ import {
     setInitialDataQuestionerQuestionary,
     setInitialDataTypesSeller,
     setMenu,
+    setReachTypes,
+    setSystemTypes,
     setUser
 } from "./index";
 
@@ -553,4 +554,27 @@ export const fetchInitialData = user => {
                 dispatch(setReachTypes(reachTypes));
             });
     }
+};
+
+export const saveAnswers = answers => {
+    return () => {
+        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_ANSWERS}`,
+            {
+                method: 'POST',
+                body: JSON.stringify(answers),
+                headers: {
+                    'Accept': '*/*',
+                    'Content-type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(results => {
+                return results.json();
+            }).then(
+                response => {
+                    return "OK";
+                },
+                error => {
+                    return "ERROR";
+                });
+    };
 };
