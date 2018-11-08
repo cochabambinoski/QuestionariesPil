@@ -596,7 +596,6 @@ export const fetchInitialData = user => {
                 dispatch(setSystemTypes(systemTypes));
                 dispatch(setReachTypes(reachTypes));
                 dispatch(setQuestionnaireStatus(questionnaireStatus));
-	            dispatch(setStatusTypes(statusTypes));
             });
     }
 };

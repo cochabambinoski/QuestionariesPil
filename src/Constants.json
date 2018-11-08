@@ -71,7 +71,7 @@
   "SAVE_ANSWERS": "saveAnswer",
   "TEXT_VALIDATION": "Texto",
   "NUMBER_VALIDATION": "Numero",
-  "DECIMAL_VALIDATION": "Decimal"
+  "DECIMAL_VALIDATION": "Decimal",
   "GET_SYSTEM_BY_USER": "getTypeSystemByUser?user=",
-  "GET_ROUTES_BY_MOBILE_SELLER": "getRoutesByMobileseller?mobileSeller=",
+  "GET_ROUTES_BY_MOBILE_SELLER": "getRoutesByMobileseller?mobileSeller="
 }

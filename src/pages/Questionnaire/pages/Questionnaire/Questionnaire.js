@@ -17,14 +17,13 @@ import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import {
-    getCreateQuestionary,
-    getQuestionarySelected,
+	getCreateQuestionary,
+	getQuestionarySelected,
 	getQuestionnaireStatusTypes,
-    getQuestionTypes,
-    getReachTypes,
-    getSystemTypes,
-	getStatusTypes,
-    getUser
+	getQuestionTypes,
+	getReachTypes,
+	getSystemTypes,
+	getUser
 } from "../../../../reducers";
 import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions/index";
 import {withStyles} from '@material-ui/core/styles';
@@ -91,7 +90,7 @@ class Questionnaire extends Component {
 			immutableQuestion: null,
 			system: this.props.systemTypes[0],
 			reach: this.props.reachTypes[0],
-			status: this.props.statusTypes[0],
+			status: this.props.questionnaireStatus[0],
 			limitPOS: false,
 			limitSVM: false,
 			limitSystem: null
@@ -125,69 +124,69 @@ class Questionnaire extends Component {
 		this.messages.show({severity: 'warn', summary: summary, detail: detail});
 	}
 
-    saveQuestionnaire() {
-        if (this.state.name == null || this.state.name === "") {
-            this.showWarning("", "Debe especificar el nombre del cuestionario");
-            return;
-        }
-        let ranges = this.state.ranges;
-        let questionaries = [
-            {
-                id: this.state.questionnaireId,
-                name: this.state.name,
-                description: this.state.description,
-                lsQuestions: this.state.lsQuestions,
-                system: this.state.system,
-                reach: this.state.reach,
-                status: this.props.questionnaireStatus[0],
-                sociedadId: 'BO81',
-                usuarioId: this.props.user.username,
-                operacionId: 1,
-                fechaId: this.state.fechaId,
-            },
-        ];
-        if (questionaries[0].lsQuestions.length === 0) {
-            this.showWarning("", "Debe tener al menos una pregunta creada");
-            return;
-        }
-	    //let q = 0;
-	    let o = 0;
-	    let val = 0;
-	    questionaries[0].lsQuestions.forEach((questionarie) => {
-		    let question = questionarie;//.lsQuestionOptions
-		    question.lsQuestionOptions.forEach((options) => {
-			    let option = options;
-			    o = o + 1;
-			    val = val +1;
-			    console.log(option, o, val);
-		    });
-		    //console.log(questionarie, question, q);
-		    //q = q + 1;
-		    o = 0;
-	    });
+	saveQuestionnaire() {
+		if (this.state.name == null || this.state.name === "") {
+			this.showWarning("", "Debe especificar el nombre del cuestionario");
+			return;
+		}
+		let ranges = this.state.ranges;
+		let questionaries = [
+			{
+				id: this.state.questionnaireId,
+				name: this.state.name,
+				description: this.state.description,
+				lsQuestions: this.state.lsQuestions,
+				system: this.state.system,
+				reach: this.state.reach,
+				status: this.props.questionnaireStatus[0],
+				sociedadId: 'BO81',
+				usuarioId: this.props.user.username,
+				operacionId: 1,
+				fechaId: this.state.fechaId
+			}
+		];
+		if (questionaries[0].lsQuestions.length === 0) {
+			this.showWarning("", "Debe tener al menos una pregunta creada");
+			return;
+		}
+		//let q = 0;
+		let o = 0;
+		let val = 0;
+		questionaries[0].lsQuestions.forEach((questionarie) => {
+			let question = questionarie;//.lsQuestionOptions
+			question.lsQuestionOptions.forEach((options) => {
+				let option = options;
+				o = o + 1;
+				val = val + 1;
+				console.log(option, o, val);
+			});
+			//console.log(questionarie, question, q);
+			//q = q + 1;
+			o = 0;
+		});
 
-	    console.log('Questionaries save: ', questionaries[0].lsQuestions);
-        }
-        if (ranges.length === 0) {
-            this.showWarning("", "Debe establecer el rango del cuestionario");
-            return;
-        }
-        this.props.saveQuestionnaire(questionaries, ranges)
-            .then((result) => {
-                switch (result) {
-                    case "OK":
-                        this.props.showMessage("", "Cuestionario guardado");
-                        this.handleCancel();
-                        this.props.changeIdQuestionarySelected(null);
-                        break;
-                    case "ERROR":
-                        this.showError("", "Error al guardar");
-                        break;
-                    default:
-                        break;
-                }
-            });
-    }
+		console.log('Questionaries save: ', questionaries[0].lsQuestions);
+
+		if (ranges.length === 0) {
+			this.showWarning("", "Debe establecer el rango del cuestionario");
+			return;
+		}
+		this.props.saveQuestionnaire(questionaries, ranges)
+			.then((result) => {
+				switch (result) {
+					case "OK":
+						this.props.showMessage("", "Cuestionario guardado");
+						this.handleCancel();
+						this.props.changeIdQuestionarySelected(null);
+						break;
+					case "ERROR":
+						this.showError("", "Error al guardar");
+						break;
+					default:
+						break;
+				}
+			});
+	}
 
 	removeQuestion(index) {
 		let aux = this.state.lsQuestions;
@@ -590,14 +589,13 @@ Questionnaire.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    questionarySelected: getQuestionarySelected(state),
-    constCreateQuestionary: getCreateQuestionary(state),
-    user: getUser(state),
-    questionTypes: getQuestionTypes(state),
-    systemTypes: getSystemTypes(state),
-    reachTypes: getReachTypes(state),
-    questionnaireStatus: getQuestionnaireStatusTypes(state),
-	statusTypes: getStatusTypes(state)
+	questionarySelected: getQuestionarySelected(state),
+	constCreateQuestionary: getCreateQuestionary(state),
+	user: getUser(state),
+	questionTypes: getQuestionTypes(state),
+	systemTypes: getSystemTypes(state),
+	reachTypes: getReachTypes(state),
+	questionnaireStatus: getQuestionnaireStatusTypes(state),
 });
 
 const mapDispatchToProps = dispatch => ({
