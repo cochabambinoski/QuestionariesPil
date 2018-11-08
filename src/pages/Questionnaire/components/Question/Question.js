@@ -18,43 +18,44 @@ import {Button} from "../../../../../node_modules/primereact/button";
 import './Question.css';
 
 class Question extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			id: null,
-			question: null,
-			lsOptions: [],
-			userId: 'jarispe',
-			sociedadId: "BO81",
-			operacionId: 1,
-			fechaId: null,
-			required: 0,
-			questionOption: null,
-			received: true,
-			squestion: null
-		};
-		this.onTypeChange = this.onTypeChange.bind(this);
-		this.addOption = this.addOption.bind(this);
-		this.updateOption = this.updateOption.bind(this);
-		this.removeOption = this.removeOption.bind(this);
-		this.addQuestion = this.addQuestion.bind(this);
-		this.handleClose = this.handleClose.bind(this);
-		this.showError = this.showError.bind(this);
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: null,
+            question: null,
+            lsOptions: [],
+            userId: 'jarispe',
+            sociedadId: "BO81",
+            operacionId: 1,
+            fechaId: null,
+            required: 1,
+            questionOption: null,
+            received: true,
+            squestion: null,
+        };
+        this.onTypeChange = this.onTypeChange.bind(this);
+        this.addOption = this.addOption.bind(this);
+        this.updateOption = this.updateOption.bind(this);
+        this.removeOption = this.removeOption.bind(this);
+        this.addQuestion = this.addQuestion.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.showError = this.showError.bind(this);
+    }
 
-	componentDidMount() {
-		if (this.state.squestion === null)
-			this.setRequired(false);
-	}
+    componentDidMount() {
+        if (this.state.squestion === null)
+            this.setRequired(false);
+    }
 
-	onTypeChange(e) {
-		let question = this.state.squestion;
-		question.lsQuestionOptions = [];
-		question.type = e.value;
-		this.setState((prevState, props) => ({
-			squestion: question
-		}));
-	}
+    onTypeChange(e) {
+        let question = this.state.squestion;
+        question.lsQuestionOptions = [];
+        question.type = e.value;
+        question.required = 0;
+        this.setState((prevState, props) => ({
+            squestion: question
+        }));
+    }
 
 	addOption(newOption) {
 		let auxQuestion = this.state.squestion;

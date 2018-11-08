@@ -46,19 +46,19 @@ class Questionnaires extends Component {
 		this.action = action;
 	}
 
-	componentDidMount() {
-		this.getQuestionnaires();
-		const title = this.props.title;
-		const detail = this.props.detail;
-		if (title !== null && detail !== null) {
-			this.showSuccess(title, detail);
-			this.props.showMessage(null, null);
-		}
-	}
+    componentDidMount() {
+        this.getQuestionnaires();
+        const title = this.props.title;
+        const detail = this.props.detail;
+        if (title !== null && detail !== null) {
+            this.showSuccess(title, detail);
+            this.props.showMessage(null, null);
+        }
+    }
 
-	getQuestionnaires() {
-		this.props.fetchGetQuestionariesByUser(this.props.user.id);
-	}
+    getQuestionnaires() {
+        this.props.fetchGetQuestionariesByUser(this.props.user.id);
+    }
 
 	deleteQuestionary(item) {
 		this.props.deleteQuestionnaire(item)
@@ -76,21 +76,21 @@ class Questionnaires extends Component {
 			});
 	}
 
-	closeQuestionary(item) {
-		this.exitModal();
-		this.props.closeQuestionary(item)
-			.then((result) => {
-				console.log('result', result);
-				switch (result) {
-					case "CLOSED":
-						this.showSuccess("Cuestionario Cerrado");
-						this.getQuestionnaires();
-						break;
-					default:
-						break;
-				}
-			});
-	}
+    closeQuestionary(item) {
+        this.exitModal();
+        this.props.closeQuestionary(item)
+            .then((result) => {
+                console.log('result', result);
+                switch (result) {
+                    case "CLOSED":
+                        this.showSuccess("Cuestionario Cerrado");
+                        this.getQuestionnaires();
+                        break;
+                    default:
+                        break;
+                }
+            });
+    }
 
 	openModal = (item) => {
 		this.setState({currentItem: item});
@@ -124,47 +124,47 @@ class Questionnaires extends Component {
 		});
 	};
 
-	render() {
-		return (
-			<div>
-				<ModalContainer>
-					<Modal open={this.state.open} title={"Eliminar cuestionario"}
-					       message={"Está seguro de eliminar el cuestionario?"}
-					       handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
-					</Modal>
-					<Modal open={this.state.modal} title={"Cerrar cuestionario"}
-					       message={"Está seguro de cerrar el cuestionario?"}
-					       handleConfirm={this.handleClose} handleCancel={this.exitModal}>
-					</Modal>
-				</ModalContainer>
-				<Title tilte={'Lista de Encuestas'}
-				       subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
-				<Toolbar className="toolbarFullWidth">
-					<div>
-						<Button label="Nuevo"
-						        onClick={() => {
-							        this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"));
-						        }}/>
-					</div>
-				</Toolbar>
-				<Messages ref={(el) => this.messages = el}/>
-				<br/>
-				<ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
-					{
-						this.props.questionnaires.map((item) => {
-							return (
-								<div key={item.id}>
-									<Card title={item.name}>
-										<div className="text">
-											<div>Creado por {item.usuarioId}</div>
-											<div>{item.fechaId}</div>
-											{
-												item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
-													<div className="open">Abierto</div> :
-													<div className="close">Cerrado</div>
-											}
-											<br/>
-											<span>
+    render() {
+        return (
+            <div>
+                <ModalContainer>
+                    <Modal open={this.state.open} title={"Eliminar cuestionario"}
+                           message={"Está seguro de eliminar el cuestionario?"}
+                           handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+                    </Modal>
+                    <Modal open={this.state.modal} title={"Cerrar cuestionario"}
+                           message={"Está seguro de cerrar el cuestionario?"}
+                           handleConfirm={this.handleClose} handleCancel={this.exitModal}>
+                    </Modal>
+                </ModalContainer>
+                <Title tilte={'Lista de Encuestas'}
+                       subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
+                <Toolbar className="toolbarFullWidth">
+                    <div>
+                        <Button label="Nuevo"
+                                onClick={() => {
+                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"));
+                                }}/>
+                    </div>
+                </Toolbar>
+                <Messages ref={(el) => this.messages = el}/>
+                <br/>
+                <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
+                    {
+                        this.props.questionnaires.map((item) => {
+                            return (
+                                <div key={item.id}>
+                                    <Card title={item.name}>
+                                        <div className="text">
+                                            <div>Creado por {item.usuarioId}</div>
+                                            <div>{item.fechaId}</div>
+                                            {
+                                                item.status !== null ? item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
+                                                    <div className="open">Abierto</div> :
+                                                    <div className="close">Cerrado</div> : null
+                                            }
+                                            <br/>
+                                            <span>
 
                                                 <Button label="Ver" onClick={() => {
 	                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"));
@@ -204,10 +204,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
-	closeQuestionary: value => dispatch(closeQuestionnaire(value)),
-	fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
-	deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
+    changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
+    closeQuestionary: value => dispatch(closeQuestionnaire(value)),
+    fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
+    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questionnaires);

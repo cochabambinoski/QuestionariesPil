@@ -2,16 +2,17 @@ import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
-	setReachTypes,
+    addMobileSellers,
+    getAllBranches,
+    getAllDepartaments,
+    setInitialDataQuestionerQuestionary,
+    setInitialDataTypesSeller,
+    setMenu,
+	setQuestionnaireStatus,
+    setReachTypes,
+    setSystemTypes,
 	setStatusTypes,
-	setSystemTypes,
-	addMobileSellers,
-	getAllBranches,
-	getAllDepartaments,
-	setInitialDataQuestionerQuestionary,
-	setInitialDataTypesSeller,
-	setMenu,
-	setUser
+    setUser
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -574,27 +575,51 @@ export const getQuestionnaryStatusTypes = payload => {
  * @returns {Function} dispatches all initial data actions to update the store
  */
 export const fetchInitialData = user => {
-	return dispatch => {
-		Promise.all([
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_ESTQUEST)}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_CARGOPER)}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_USER_BY_ID}${user}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_DEPARTAMENTS}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_BRANCHES}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_SYSTEM)}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_REACH)}`),
-			fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_STATUS)}`)
-		])
-			.then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
-			.then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, statusTypes]) => {
-				dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
-				dispatch(setInitialDataTypesSeller(chargeTypes));
-				dispatch(setUser(userById));
-				dispatch(getAllDepartaments(cities));
-				dispatch(getAllBranches(branches));
-				dispatch(setSystemTypes(systemTypes));
-				dispatch(setReachTypes(reachTypes));
-				dispatch(setStatusTypes(statusTypes));
-			});
-	};
+    return dispatch =>{
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_ESTQUEST)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_CARGOPER)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_USER_BY_ID}${user}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_DEPARTAMENTS}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_BRANCHES}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_SYSTEM)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_REACH)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_QUESTIONNAIRE_STATUS)}`),
+        ])
+            .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, questionnaireStatus])=> {
+                dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
+                dispatch(setInitialDataTypesSeller(chargeTypes));
+                dispatch(setUser(userById));
+                dispatch(getAllDepartaments(cities));
+                dispatch(getAllBranches(branches));
+                dispatch(setSystemTypes(systemTypes));
+                dispatch(setReachTypes(reachTypes));
+                dispatch(setQuestionnaireStatus(questionnaireStatus));
+	            dispatch(setStatusTypes(statusTypes));
+            });
+    }
+};
+
+export const saveAnswers = answers => {
+    return () => {
+        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_ANSWERS}`,
+            {
+                method: 'POST',
+                body: JSON.stringify(answers),
+                headers: {
+                    'Accept': '*/*',
+                    'Content-type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(results => {
+                return results.json();
+            }).then(
+                response => {
+                    return "OK";
+                },
+                error => {
+                    return "ERROR";
+                });
+    };
 };
