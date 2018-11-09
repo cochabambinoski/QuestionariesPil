@@ -548,11 +548,12 @@ class Questionnaire extends Component {
 									           readOnly={this.props.readOnly}
 									           assigned={this.state.assigned}
 									           showError={this.showError}
+									           showSuccess={this.showSuccess}
 									           seeQuestion={this.seeQuestion}
 									           editQuestion={this.editQuestion}
 									           saveQuestionnaire={this.saveQuestionnaire}
 									           disableQuestion={this.disableQuestion}
-									           assignDenpendentQuestion = {this.assignDenpendentQuestion}/>
+									           assignDenpendentQuestion={this.assignDenpendentQuestion}/>
 								</ScrollPanel>
 							</div>
 						</Col>

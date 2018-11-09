@@ -39,7 +39,7 @@ class Questions extends Component {
 		this.setState((prevState, props) => {
 			const question = this.props.questions[prevState.currentIndex];
 			if (this.props.assigned && question.id != null) {
-				this.props.showError("", "No se puede eliminar la pregunta. El cuestionario ya está asignado");
+				this.props.showSuccess("Dependencias: ", "Ahora puede registrar dependencias");
 			} else {
 				if (question.id != null) {
 					question.operacionId = 0;
@@ -61,12 +61,11 @@ class Questions extends Component {
 				return q;
 			}
 		});
-		console.log("id null save", nullQuestions);
 		if (nullQuestions === undefined || nullQuestions === null) {
 			this.setState({dependentOpen: true, currentQuestion: question, currentIndex: index});
-			console.log('openDependent: ', index, question);
 		} else {
 			this.props.saveQuestionnaire();
+			this.props.show
 		}
 	};
 
