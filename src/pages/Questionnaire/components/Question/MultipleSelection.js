@@ -97,7 +97,7 @@ class MultipleSelection extends Component {
 		                                        <div>
 			                                        <InputText value={option.option}
 			                                                   onChange={(e) => this.updateOption(e.target.value, index)}/>
-			                                        <Dropdown value={null}
+			                                        {/*<Dropdown value={null}
 			                                                  onChange={(e) => this.updateTypeOption(e.value, 0)}
 			                                                  style={{
 				                                                  width: '300px',
@@ -105,7 +105,7 @@ class MultipleSelection extends Component {
 				                                                  marginRight: '20px'
 			                                                  }}
 			                                                  placeholder="Seleccione una pregunta"
-			                                                  optionLabel="pregunta"/>
+			                                                  optionLabel="pregunta"/>*/}
 			                                        <Button icon="pi pi-minus" onClick={() => {
 				                                        this.removeOption(index);
 			                                        }}/>

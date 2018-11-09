@@ -7,88 +7,168 @@ import {Card} from 'primereact/card';
 import './Questions.css';
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
 import Modal from "../../../../widgets/Modal/components/modal";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions/DialogActions";
+import QuestionDependent from "../Question/QuestionDependent";
 
 class Questions extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-            currentIndex: -1,
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			open: false,
+			currentIndex: -1,
+			currentQuestion: null,
+			dependentOpen: false,
+			newValue: 0
+		};
+	}
 
-    openModal = (index) => {
-        this.setState({currentIndex: index});
-        this.setState({open: true});
-    };
+	openModal = (index) => {
+		this.setState({currentIndex: index, open: true});
+	};
 
-    closeModal = () => {
-        this.setState({open: false});
-    };
+	closeModal = () => {
+		this.setState({open: false});
+	};
 
-    handleRemove = () => {
-        this.closeModal();
-        this.setState((prevState, props) => {
-            const question = this.props.questions[prevState.currentIndex];
-            if (this.props.assigned && question.id != null) {
-                this.props.showError("", "No se puede eliminar la pregunta. El cuestionario ya está asignado");
-            } else {
-                if (question.id != null) {
-                    question.operacionId = 0;
-                    this.props.disableQuestion(prevState.currentIndex, question);
-                } else {
-                    this.props.removeQuestion(prevState.currentIndex);
-                }
-            }
-        });
-    };
-    handleEdit = (index) => {
-        this.props.editQuestion(index);
-    };
+	handleRemove = () => {
+		this.closeModal();
+		this.setState((prevState, props) => {
+			const question = this.props.questions[prevState.currentIndex];
+			if (this.props.assigned && question.id != null) {
+				this.props.showError("", "No se puede eliminar la pregunta. El cuestionario ya está asignado");
+			} else {
+				if (question.id != null) {
+					question.operacionId = 0;
+					this.props.disableQuestion(prevState.currentIndex, question);
+				} else {
+					this.props.removeQuestion(prevState.currentIndex);
+				}
+			}
+		});
+	};
 
-    render() {
-        return (
-            <div>
-                <ModalContainer>
-                    <Modal open={this.state.open} title={"Eliminar pregunta"}
-                           message={"Está seguro de eliminar la pregunta?"}
-                           handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
-                    </Modal>
-                </ModalContainer>
-                <div style={{lineHeight: '1.5'}}>
-                    {this.props.questions.map((question, index) => {
-                        return (
-                            question.operacionId === 1 ?
-                                <Card title={question.question} subTitle={question.type.nombre}
-                                      className="card ui-card-shadow text" key={question.id}>
-                                    <p className="required">{question.required == 1 ? 'Obligatorio':''}</p>
-                                    <div>
-                                        {
-                                            this.props.readOnly ?
-                                                <Button label="Ver" onClick={() => {
-                                                    this.props.seeQuestion(index)
-                                                }}/>
-                                                :
-                                                <span>
-                                                    <Button label="Editar" onClick={() => {
-                                                        this.handleEdit(index)
-                                                    }} icon="pi pi-pencil" iconPos="right"/>
-                                                    <Button label="Eliminar" onClick={() => {
-                                                        this.openModal(index)
-                                                    }} icon="pi pi-trash" iconPos="right" className="ui-button-danger"/>
+	handleEdit = (index) => {
+		this.props.editQuestion(index);
+	};
+
+	handleOpenDependent = (index, question) => {
+		this.setState({dependentOpen: true, currentQuestion: question, currentIndex: index});
+		console.log('openDependent: ', index, question);
+	};
+
+	handleCloseDependent = (value) => {
+		console.log("handleCloseDependent val", value);
+		this.setState((prevState, props) => {
+			const question = this.props.questions[prevState.currentIndex];
+			if (value !== undefined)
+				question.questionOption = value;
+			this.props.assignDenpendentQuestion(prevState.currentIndex, question);
+			console.log("handleCloseDependent", value, question);
+		});
+		this.setState({dependentOpen: false});
+	};
+
+	clickChild = () => {
+		console.log('child');
+	};
+
+	renderDependent() {
+		const questions = this.props.questions;
+		return (
+			<Dialog
+				/*className="fullDialog"
+				fullScreen*/
+				open={this.state.dependentOpen}
+				onClose={this.handleCloseDependent}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+				className="dialogDependent">
+				<DialogTitle id="alert-dialog-title"
+				             className="titleBody">
+					<h1 className="dialogTitle">{"Asignacion de dependencia en Pregunta"}</h1>
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description" className="dialogBody">
+						<QuestionDependent currentQuestion={this.state.currentQuestion}
+						                   questions={questions}
+						                   refresh={(value) => this.handleCloseDependent(value)}
+						                   setDependentClick={click => this.clickChild = click}>
+						</QuestionDependent>
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
+					        className="buttonBlue"/>
+					<Button label="Cancelar" icon="pi pi-times"
+					        onClick={(value) => this.handleCloseDependent(value)}
+					        className="ui-button-secondary buttonSecundary"/>
+				</DialogActions>
+			</Dialog>
+		);
+	}
+
+	render() {
+		return (
+			<div>
+				<ModalContainer>
+					<Modal open={this.state.open} title={"Eliminar pregunta"}
+					       message={"Está seguro de eliminar la pregunta?"}
+					       handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+					</Modal>
+					<div>
+						{this.renderDependent()}
+					</div>
+				</ModalContainer>
+				<div style={{lineHeight: '1.5'}}>
+					{this.props.questions.map((question, index) => {
+						return (
+							question.operacionId === 1 ?
+								<Card title={question.question} subTitle={question.type.nombre}
+								      className="card ui-card-shadow text" key={question.id}>
+									<p className="required">{question.required == 1 ? 'Obligatorio' : ''}</p>
+									<div>
+										{
+											this.props.readOnly ?
+												<Button label="Ver" onClick={() => {
+													this.props.seeQuestion(index);
+												}}/>
+												:
+												<span>
+                                                    <Button label="Editar"
+                                                            onClick={() => {
+	                                                            this.handleEdit(index);
+                                                            }} icon="pi pi-pencil" iconPos="right"/>
+													<Button label="Eliminar"
+													        onClick={() => {
+														        this.openModal(index);
+													        }}
+													        icon="pi pi-trash"
+													        iconPos="right"
+													        className="ui-button-danger"/>
+                                                    <Button label="Dependiente"
+                                                            onClick={() => {
+	                                                            this.handleOpenDependent(index, question);
+                                                            }}
+                                                            icon="pi pi-angle-double-down"
+                                                            iconPos="right"
+                                                            className="ui-button-success"/>
                                                 </span>
-                                        }
-                                    </div>
-                                </Card>
-                                :
-                                <div/>
-                        )
-                    })
-                    }
-                </div>
-            </div>
-        );
-    }
+										}
+									</div>
+								</Card>
+								:
+								<div/>
+						);
+					})
+					}
+				</div>
+			</div>
+		);
+	}
 }
 
 export default Questions;

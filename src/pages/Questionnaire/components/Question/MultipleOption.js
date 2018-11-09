@@ -6,10 +6,14 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {RadioButton} from 'primereact/radiobutton';
 import {Dropdown} from "primereact/dropdown";
+import Constants from "../../../../Constants";
 
 class MultipleOption extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			sleQuest: {question: null}
+		};
 		this.addQuestion = this.addQuestion.bind(this);
 		this.removeOption = this.removeOption.bind(this);
 		this.addOption = this.addOption.bind(this);
@@ -73,6 +77,8 @@ class MultipleOption extends Component {
 	}
 
 	render() {
+		const questions = this.props.questions;
+		console.log('The questions', questions);
 		return (
 			<div style={{marginBottom: '20px'}}>
 				<div style={{
@@ -96,15 +102,6 @@ class MultipleOption extends Component {
 												<div>
 													<InputText value={option.option}
 													           onChange={(e) => this.updateOption(e.target.value, index)}/>
-													<Dropdown value={null}
-													          onChange={(e) => this.updateTypeOption(e.value, 0)}
-													          style={{
-														          width: '300px',
-														          marginLeft: '20px',
-														          marginRight: '20px'
-													          }}
-													          placeholder="Seleccione una pregunta"
-													          optionLabel="pregunta"/>
 													<Button icon="pi pi-minus" onClick={() => {
 														this.removeOption(index);
 													}}/>
@@ -120,8 +117,6 @@ class MultipleOption extends Component {
 					this.props.readOnly ? <div></div> :
 						<div style={{width: '400px'}}>
 							<Button label="Añadir opcion" onClick={this.addOption} className="ui-button-secondary"/>
-
-
 							<span>
                                 <Button label="Aceptar" onClick={this.addQuestion}/>
                                 <Button label="Cancelar" onClick={this.props.handleClose} className="ui-button-danger"/>

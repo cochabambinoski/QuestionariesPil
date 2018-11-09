@@ -210,12 +210,6 @@ class AssignmentQuestionary extends Component {
 		console.log('enter show Routes', items);
 		this.setState((prevState, props) => ({routeOpen: true, routes: items}));
 		console.log(this.state.routes, this.state.routeOpen);
-		/*forEach((assignment) => {
-			if (assignment.id != null && assignment.operacionId === 1 && assignment.mobileSeller.id === seller.id) {
-				assignment.operacionId = 0;
-			}
-		});
-		this.handleDeleteSeller(seller);*/
 	};
 
 	assignAllSeller = () => {
@@ -283,7 +277,6 @@ class AssignmentQuestionary extends Component {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description" className="dialogBody">
-						{/*<ul>{this.state.routes}</ul>*/}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

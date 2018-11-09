@@ -14,3 +14,12 @@
     background-color: #c5e1a5;
     width: fit-content;
 }
+
+.dropboxQuestion {
+    min-width: 350px;
+    margin-bottom: 20px;
+}
+
+.dialogDependent {
+    min-height: 350px;
+}

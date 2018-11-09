@@ -110,13 +110,6 @@ class Range extends Component {
 											           keyfilter="pint" style={{width: '300px', marginLeft: '20px'}}
 											           onChange={(e) => this.updateOption(e.target.value, 0)}/>
 										</div>
-										<div>
-											<Dropdown value={this.state.selected}
-											          onChange={(e) => this.updateTypeOption(e.value, 0)}
-											          style={{width: '300px', marginLeft: '20px'}}
-											          placeholder="Seleccione una pregunta" optionLabel="pregunta"/>
-
-										</div>
 									</div>
 							}
 							{
@@ -130,13 +123,6 @@ class Range extends Component {
 											<InputText value={this.props.lsOptions[1].option} type="text"
 											           keyfilter="pint" style={{width: '300px', marginLeft: '20px'}}
 											           onChange={(e) => this.updateOption(e.target.value, 1)}/>
-										</div>
-										<div>
-											<Dropdown value={this.state.selected}
-											          onChange={(e) => this.updateTypeOption(e.value, 0)}
-											          style={{width: '300px', marginLeft: '20px'}}
-											          placeholder="Seleccione una pregunta" optionLabel="pregunta"/>
-
 										</div>
 									</div>
 							}

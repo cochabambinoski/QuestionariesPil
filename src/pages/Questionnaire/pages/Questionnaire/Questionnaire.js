@@ -104,6 +104,7 @@ class Questionnaire extends Component {
 		this.getQuestionnaire = this.getQuestionnaire.bind(this);
 		this.seeQuestion = this.seeQuestion.bind(this);
 		this.editQuestion = this.editQuestion.bind(this);
+		this.assignDenpendentQuestion = this.assignDenpendentQuestion.bind(this);
 		this.closeQuestion = this.closeQuestion.bind(this);
 		this.setOptionDependency = this.setOptionDependency.bind(this);
 		this.contains = this.contains.bind(this);
@@ -323,6 +324,16 @@ class Questionnaire extends Component {
 		this.setState({openQuestion: true});
 	}
 
+	assignDenpendentQuestion(index, question) {
+		if (this.props.asigned)
+			this.showError("No se pueden eliminar opciones de un cuestionario asignado");
+		else {
+			let auxQuestions = this.state.lsQuestions;
+			auxQuestions[index] = question;
+			this.setState({lsQuestions: auxQuestions});
+		}
+	}
+
 	closeQuestion() {
 		this.setState({selectedQuestionIndex: -1});
 		this.setState({selectedQuestion: {id: null, question: null}});
@@ -359,23 +370,6 @@ class Questionnaire extends Component {
 			this.setState({expandPanelRange: true});
 		}
 	};
-
-	disableSVM() {
-		if (this.state.limitSystem !== null) {
-			return this.state.limitSystem.codigoSap === Constants.CODSAP_USER_SYSTEM_POS;
-		}
-		else {
-			return false;
-		}
-	}
-
-	disablePOS() {
-		if (this.state.limitSystem !== null) {
-			return this.state.limitSystem.codigoSap === Constants.CODSAP_USER_SYSTEM_SVM;
-		} else {
-			return false;
-		}
-	}
 
 	render() {
 		const {classes} = this.props;
@@ -573,7 +567,8 @@ class Questionnaire extends Component {
 									           showError={this.showError}
 									           seeQuestion={this.seeQuestion}
 									           editQuestion={this.editQuestion}
-									           disableQuestion={this.disableQuestion}/>
+									           disableQuestion={this.disableQuestion}
+									           assignDenpendentQuestion = {this.assignDenpendentQuestion}/>
 								</ScrollPanel>
 							</div>
 						</Col>
@@ -595,7 +590,7 @@ const mapStateToProps = state => ({
 	questionTypes: getQuestionTypes(state),
 	systemTypes: getSystemTypes(state),
 	reachTypes: getReachTypes(state),
-	questionnaireStatus: getQuestionnaireStatusTypes(state),
+	questionnaireStatus: getQuestionnaireStatusTypes(state)
 });
 
 const mapDispatchToProps = dispatch => ({
