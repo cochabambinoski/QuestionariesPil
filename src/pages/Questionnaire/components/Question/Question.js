@@ -169,6 +169,7 @@ class Question extends Component {
 			switch (this.state.squestion.type.codigoSap) {
 				case Constants.CODSAP_MULTIPLE_OPTION:
 					innerComponent = <MultipleOption lsOptions={this.state.squestion.lsQuestionOptions}
+					                                 questions={this.props.questions}
 					                                 addOption={this.addOption}
 					                                 updateOption={this.updateOption}
 					                                 removeOption={this.removeOption}
@@ -182,6 +183,7 @@ class Question extends Component {
 					break;
 				case Constants.CODSAP_MULTIPLE_SELECTION:
 					innerComponent = <MultipleSelection lsOptions={this.state.squestion.lsQuestionOptions}
+					                                    questions={this.props.questions}
 					                                    addOption={this.addOption}
 					                                    updateOption={this.updateOption}
 					                                    removeOption={this.removeOption}

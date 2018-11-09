@@ -5,7 +5,6 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Checkbox} from 'primereact/checkbox';
 import {InputText} from 'primereact/inputtext';
-import {Dropdown} from "primereact/dropdown";
 
 class MultipleSelection extends Component {
 	constructor(props) {
@@ -60,15 +59,36 @@ class MultipleSelection extends Component {
 		}
 	}
 
+	isDependent(index) {
+		return this.props.questions.find((q) => {
+			if (q.questionOption !== null && this.props.lsOptions[index].id !== null) {
+				if (q.questionOption.id === this.props.lsOptions[index].id) {
+					console.log('delete option', q);
+					return q;
+				}
+			}
+		});
+	}
+
 	removeOption(index) {
 		if (this.props.assigned) {
 			if (this.props.lsOptions[index].id != null) {
 				this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
 			} else {
-				this.props.removeOption(index);
+				if (this.isDependent(index) !== undefined) {
+					this.props.removeOption(index);
+				}
+				else {
+					this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+				}
 			}
 		} else {
-			this.props.removeOption(index);
+			if (this.isDependent(index) !== undefined) {
+				this.props.removeOption(index);
+			}
+			else {
+				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+			}
 		}
 	}
 
@@ -97,15 +117,6 @@ class MultipleSelection extends Component {
 		                                        <div>
 			                                        <InputText value={option.option}
 			                                                   onChange={(e) => this.updateOption(e.target.value, index)}/>
-			                                        {/*<Dropdown value={null}
-			                                                  onChange={(e) => this.updateTypeOption(e.value, 0)}
-			                                                  style={{
-				                                                  width: '300px',
-				                                                  marginLeft: '20px',
-				                                                  marginRight: '20px'
-			                                                  }}
-			                                                  placeholder="Seleccione una pregunta"
-			                                                  optionLabel="pregunta"/>*/}
 			                                        <Button icon="pi pi-minus" onClick={() => {
 				                                        this.removeOption(index);
 			                                        }}/>

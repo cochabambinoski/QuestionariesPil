@@ -77,11 +77,6 @@ class FreeAnswer extends Component {
 								          onChange={(e) => this.updateTypeOption(e.value, 0)}
 								          style={{width: '300px', marginBottom: '20px', marginTop: '20px'}}
 								          placeholder="Seleccione una validacion" optionLabel="option"/>
-								{/*<Dropdown value={this.state.selected} options={validationTypes}
-								          onChange={(e) => this.updateTypeOption(e.value, 0)}
-								          style={{width: '300px', marginBottom: '20px', marginTop: '20px', marginLeft: '20px'}}
-								          placeholder="Seleccione una pregunta" optionLabel="pregunta"/>*/}
-
 							</div>
 					}
 				</div>

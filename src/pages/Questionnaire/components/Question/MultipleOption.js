@@ -5,8 +5,6 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {RadioButton} from 'primereact/radiobutton';
-import {Dropdown} from "primereact/dropdown";
-import Constants from "../../../../Constants";
 
 class MultipleOption extends Component {
 	constructor(props) {
@@ -64,21 +62,40 @@ class MultipleOption extends Component {
 		}
 	}
 
+	isDependent(index) {
+		return this.props.questions.find((q) => {
+			if (q.questionOption !== null && this.props.lsOptions[index].id !== null) {
+				if (q.questionOption.id === this.props.lsOptions[index].id) {
+					console.log('delete option', q);
+					return q;
+				}
+			}
+		});
+	}
+
 	removeOption(index) {
 		if (this.props.assigned) {
 			if (this.props.lsOptions[index].id != null) {
 				this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
 			} else {
-				this.props.removeOption(index);
+				if (this.isDependent(index) !== undefined) {
+					this.props.removeOption(index);
+				}
+				else {
+					this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+				}
 			}
 		} else {
-			this.props.removeOption(index);
+			if (this.isDependent(index) !== undefined) {
+				this.props.removeOption(index);
+			}
+			else {
+				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+			}
 		}
 	}
 
 	render() {
-		const questions = this.props.questions;
-		console.log('The questions', questions);
 		return (
 			<div style={{marginBottom: '20px'}}>
 				<div style={{

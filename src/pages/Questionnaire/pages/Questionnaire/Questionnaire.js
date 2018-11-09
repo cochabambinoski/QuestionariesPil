@@ -150,23 +150,6 @@ class Questionnaire extends Component {
 			this.showWarning("", "Debe tener al menos una pregunta creada");
 			return;
 		}
-		//let q = 0;
-		let o = 0;
-		let val = 0;
-		questionaries[0].lsQuestions.forEach((questionarie) => {
-			let question = questionarie;//.lsQuestionOptions
-			question.lsQuestionOptions.forEach((options) => {
-				let option = options;
-				o = o + 1;
-				val = val + 1;
-				console.log(option, o, val);
-			});
-			//console.log(questionarie, question, q);
-			//q = q + 1;
-			o = 0;
-		});
-
-		console.log('Questionaries save: ', questionaries[0].lsQuestions);
 
 		if (ranges.length === 0) {
 			this.showWarning("", "Debe establecer el rango del cuestionario");
@@ -567,6 +550,7 @@ class Questionnaire extends Component {
 									           showError={this.showError}
 									           seeQuestion={this.seeQuestion}
 									           editQuestion={this.editQuestion}
+									           saveQuestionnaire={this.saveQuestionnaire}
 									           disableQuestion={this.disableQuestion}
 									           assignDenpendentQuestion = {this.assignDenpendentQuestion}/>
 								</ScrollPanel>

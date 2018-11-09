@@ -56,8 +56,18 @@ class Questions extends Component {
 	};
 
 	handleOpenDependent = (index, question) => {
-		this.setState({dependentOpen: true, currentQuestion: question, currentIndex: index});
-		console.log('openDependent: ', index, question);
+		const nullQuestions = this.props.questions.find((q) => {
+			if (q.id === null) {
+				return q;
+			}
+		});
+		console.log("id null save", nullQuestions);
+		if (nullQuestions === undefined || nullQuestions === null) {
+			this.setState({dependentOpen: true, currentQuestion: question, currentIndex: index});
+			console.log('openDependent: ', index, question);
+		} else {
+			this.props.saveQuestionnaire();
+		}
 	};
 
 	handleCloseDependent = (value) => {
