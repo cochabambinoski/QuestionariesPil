@@ -18,6 +18,8 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {encryptMD5} from "../utils/EncryptationUtil";
+import {saveClient, saveInterviewedName} from "../actions";
+import Constants from './../Constants.json';
 
 const customStyles = {
     control: (base, state) => ({
@@ -60,13 +62,10 @@ class ClientVerifier extends Component {
             passswordInvalid: false,
             mandatoryInvalid: false,
             password: null,
+            originalEmail: "",
+            showEmailInUseMessage: false,
         };
     }
-
-    setDate(clientUser) {
-        const birthday = clientUser.birthday;
-
-    };
 
     handleClickShowPassword = () => {
         this.setState(state => ({showPassword: !state.showPassword}));
@@ -131,19 +130,19 @@ class ClientVerifier extends Component {
     getClientUserFromResponse = clientUser => {
         const transformedDate = new Date(clientUser.birthday);
         clientUser.birthday = transformedDate;
-        this.setState({clientUser: clientUser});
+        this.setState({clientUser: clientUser, originalEmail: clientUser.email});
         return clientUser;
     };
 
     checkIfIncomplete = (clientUser) => {
-        const isIncomplete = clientUser.firstNames === "" ||
-            clientUser.lastNames === "" ||
-            clientUser.email === "" ||
-            (clientUser.password === "" && this.state.password === null) ||
-            clientUser.birthday === "" ||
-            clientUser.gender === "" ||
-            clientUser.favoriteProduct === "" ||
-            clientUser.phone === "";
+        const isIncomplete = clientUser.firstNames === "" || clientUser.firstNames === null ||
+            clientUser.lastNames === "" || clientUser.lastNames === null ||
+            clientUser.email === "" || clientUser.email === null ||
+            ((clientUser.password === "" || clientUser.password === null) && this.state.password === null) ||
+            clientUser.birthday === "" || clientUser.birthday === null ||
+            clientUser.gender === "" || clientUser.gender === null ||
+            clientUser.favoriteProduct === "" || clientUser.favoriteProduct === null ||
+            clientUser.phone === "" || clientUser.phone === null;
         return isIncomplete;
     };
 
@@ -178,8 +177,10 @@ class ClientVerifier extends Component {
             client: null,
             searchClient: "",
             clientsList: [],
-            showMinCharsMessage: false
+            showMinCharsMessage: false,
+            originalEmail: ''
         });
+        this.props.saveClient(null);
         if (this.props.questionnaire !== null)
             this.props.setClientAndInterviewed(null, this.state.interviewedName);
     };
@@ -211,9 +212,12 @@ class ClientVerifier extends Component {
                 openClientModal: false,
                 openClientUserModal: false,
                 openMessageModal: false,
+                originalEmail: '',
             });
+            this.props.saveClient(null);
+            this.props.saveInterviewedName("");
         } else
-            this.setState({openMessageModal: false, showRegisterError: false, password: null});
+            this.setState({openMessageModal: false, showRegisterError: false, password: null, originalEmail: ''});
     };
 
     renderClientDataModal() {
@@ -247,36 +251,39 @@ class ClientVerifier extends Component {
                 aria-describedby="alert-dialog-description">
                 <div className="dialog-background">
                     <DialogTitle id="alert-dialog-title">
-                        <h1 className="dialog-client-title">Buscar cliente</h1>
+                        <div className="dialog-client-title">Buscar cliente</div>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description" className="dialog-client-body">
-                            <div style={{width: '400px', height: '200px'}}>
+                            <div className='dialog'>
                                 {
                                     this.state.interviewedName.length > 0 ? null :
-                                        <div style={{marginBottom: '15px', color: 'white'}}>
+                                        <div style={{marginBottom: '15px'}}>
                                             Busque su cliente por nit o nombre:
 
-                                            <span style={{marginBottom: '15px'}}>
-                                                <InputText id="float-input" type="text" size="30" maxLength="50"
+                                            <div style={{marginBottom: '15px'}}>
+                                                <InputText id="float-input" type="text" maxLength="50"
                                                            value={this.state.searchClient}
+                                                           className='select-input'
                                                            placeholder="Nit / Nombre"
                                                            onChange={(e) => this.setState({
                                                                searchClient: e.target.value,
                                                                showMinCharsMessage: false
                                                            })}
-                                                           style={{background: '#FFF7A94D'}}/>
+                                                           style={{background: '#FFF7A94D', display: 'inline-block'}}/>
                                                 <Button icon="pi pi-minus" onClick={() => {
                                                     this.cleanClient()
-                                                }} style={{background: '#5a3115'}}/>
-                                            </span>
+                                                }} style={{background: '#5a3115', display: 'inline-block'}}/>
+                                            </div>
                                             <Select ref="select"
                                                     placeholder='Seleccione un cliente'
                                                     options={this.state.clientsList}
                                                     value={this.state.client}
                                                     onChange={client => {
-                                                        this.setState({client})
+                                                        this.setState({client});
+                                                        this.props.saveClient(client);
                                                     }}
+                                                    className='select'
                                                     noOptionsMessage={() => 'No hay opciones'}
                                                     styles={customStyles}
                                             />
@@ -292,9 +299,12 @@ class ClientVerifier extends Component {
                                             <div>
                                                 <div>Si no tiene un cliente registrado, ingrese aquí su nombre:</div>
 
-                                                <InputText type="text" size="30" maxLength="50"
+                                                <InputText type="text" maxLength="50" className='select-input-no-button'
                                                            value={this.state.interviewedName} placeholder="Nombre"
-                                                           onChange={(e) => this.setState({interviewedName: e.target.value})}
+                                                           onChange={(e) => {
+                                                               this.setState({interviewedName: e.target.value});
+                                                               this.props.saveInterviewedName(e.target.value);
+                                                           }}
                                                            style={{background: '#FFF7A94D'}}/>
                                             </div> : null
                                 }
@@ -460,13 +470,17 @@ class ClientVerifier extends Component {
                                                             clientUser: {
                                                                 ...this.state.clientUser,
                                                                 email: e.target.value
-                                                            }
+                                                            },
+                                                            showEmailInUseMessage: false
                                                         })}/>
                                                     </div>
                                                 </div>
                                                 {this.state.emailInvalid ?
                                                     <div style={{color: 'red', fontSize: '14px'}}>El correo debe seguir
                                                         el formato: test@test.com</div> : null}
+                                                {this.state.showEmailInUseMessage ?
+                                                    <div style={{color: 'red', fontSize: '14px'}}>El correo ya se
+                                                        encuentra registrado</div> : null}
 
                                                 {this.state.clientUser.password === '' ? null :
                                                     <div className='client-container-item'>
@@ -479,6 +493,9 @@ class ClientVerifier extends Component {
                                                                 disabled={true}/>
                                                         </div>
                                                     </div>}
+                                                {this.state.passwordInvalid ?
+                                                    <div style={{color: 'red', fontSize: '14px'}}>La contraseña debe
+                                                        tener al menos 6 caracteres</div> : null}
 
                                                 <div className='client-container-item'>
                                                     <div className="client-user-input-left">
@@ -509,11 +526,6 @@ class ClientVerifier extends Component {
                                                             }}/>
                                                     </div>
                                                 </div>
-                                                {this.state.passwordInvalid ?
-                                                    <div style={{color: 'red', fontSize: '14px'}}>
-                                                        La contraseña debe ser de minimamente 6 caracteres y debe
-                                                        contener al menos una MAYUSCULA, una minúscula y
-                                                        numeros</div> : null}
                                             </div>
                                             : null}
                                     </div>
@@ -547,8 +559,7 @@ class ClientVerifier extends Component {
     };
 
     validatePassword = password => {
-        const pattern = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$');
-        const valid = pattern.test(password);
+        const valid = password.length >= 6;
         this.setState({passwordInvalid: !valid});
         return valid;
     };
@@ -573,16 +584,27 @@ class ClientVerifier extends Component {
     };
 
     saveClientUser = () => {
-        const clientUser = this.state.clientUser;
+        const clientUser = {...this.state.clientUser};
         if (!this.validateAllFields(clientUser)) return;
         clientUser.birthday = this.dateToString(clientUser.birthday);
-        clientUser.password = this.state.password !== null && this.state.password !== '' ? this.transformPassword(this.state.password) : clientUser.password;
-        this.props.saveClientUser(clientUser)
+        clientUser.password = this.state.password !== null && this.state.password !== '' ? this.state.password : clientUser.password;
+        const email = this.state.originalEmail === '' ? clientUser.email : this.state.originalEmail;
+        this.props.saveClientUser(clientUser, email)
             .then(response => {
-                if (response.toString() === "OK")
-                    this.setState({openMessageModal: true, openClientUserModal: false});
-                else
-                    this.setState({showRegisterError: true});
+                switch (response.toString()) {
+                    case Constants.CREATED:
+                        this.setState({openMessageModal: true, openClientUserModal: false});
+                        break;
+                    case Constants.UPDATED:
+                        this.setState({openMessageModal: true, openClientUserModal: false});
+                        break;
+                    case Constants.MESSAGE_EXIST_EMAIL:
+                        this.setState({showEmailInUseMessage: true});
+                        break;
+                    default:
+                        this.setState({showRegisterError: true});
+                        break;
+                }
             });
     };
 
@@ -610,7 +632,9 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
     getClientsByNitOrNameInSystem: (searchTerm, system) => dispatch(getClientsByNitOrNameInSystem(searchTerm, system)),
     getClientUserByClient: value => dispatch(getClientUserByClient(value)),
-    saveClientUser: value => dispatch(saveClientUser(value)),
+    saveClientUser: (client, email) => dispatch(saveClientUser(client, email)),
+    saveClient: value => dispatch(saveClient(value)),
+    saveInterviewedName: value => dispatch(saveInterviewedName(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientVerifier);

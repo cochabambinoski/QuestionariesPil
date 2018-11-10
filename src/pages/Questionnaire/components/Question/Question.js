@@ -42,10 +42,16 @@ class Question extends Component {
         this.showError = this.showError.bind(this);
     }
 
+    componentDidMount() {
+        if (this.state.squestion === null)
+            this.setRequired(false);
+    }
+
     onTypeChange(e) {
         let question = this.state.squestion;
         question.lsQuestionOptions = [];
         question.type = e.value;
+        question.required = 0;
         this.setState((prevState, props) => ({
             squestion: question
         }));
