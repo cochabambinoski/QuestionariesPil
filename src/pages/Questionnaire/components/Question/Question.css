@@ -23,3 +23,19 @@
 .dialogDependent {
     min-height: 350px;
 }
+
+.extras {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.required {
+    background-color: #c5e1a5;
+    width: fit-content;
+}
+
+.dependent {
+    background-color: #b3e5fc;
+    margin-right: 5px;
+    width: fit-content;
+}

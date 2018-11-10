@@ -32,6 +32,7 @@ class Questions extends Component {
 
 	closeModal = () => {
 		this.setState({open: false});
+		this.setState({saveOpen: false});
 	};
 
 	handleRemove = () => {
@@ -55,6 +56,10 @@ class Questions extends Component {
 		this.props.editQuestion(index);
 	};
 
+	handleSave = () => {
+		this.props.saveQuestionnaire();
+	};
+
 	handleOpenDependent = (index, question) => {
 		const nullQuestions = this.props.questions.find((q) => {
 			if (q.id === null) {
@@ -64,8 +69,7 @@ class Questions extends Component {
 		if (nullQuestions === undefined || nullQuestions === null) {
 			this.setState({dependentOpen: true, currentQuestion: question, currentIndex: index});
 		} else {
-			this.props.saveQuestionnaire();
-			this.props.show
+			this.setState({saveOpen: true});
 		}
 	};
 
@@ -128,6 +132,10 @@ class Questions extends Component {
 					       message={"Está seguro de eliminar la pregunta?"}
 					       handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
 					</Modal>
+					<Modal open={this.state.saveOpen} title={"Guardar cuestionario"}
+					       message={"Para asignar dependencias debe guardar el cuestionatio /n ¿Está seguro que desea guardar el cuestionario ahora?"}
+					       handleConfirm={this.handleSave} handleCancel={this.closeModal}>
+					</Modal>
 					<div>
 						{this.renderDependent()}
 					</div>
@@ -138,7 +146,10 @@ class Questions extends Component {
 							question.operacionId === 1 ?
 								<Card title={question.question} subTitle={question.type.nombre}
 								      className="card ui-card-shadow text" key={question.id}>
-									<p className="required">{question.required == 1 ? 'Obligatorio' : ''}</p>
+									<div className="extras">
+										<label className="dependent">{question.questionOption != null ? 'Independiente' : 'Dependiente'}</label>
+										<label className="required">{question.required == 1 ? 'Obligatorio' : ''}</label>
+									</div>
 									<div>
 										{
 											this.props.readOnly ?
