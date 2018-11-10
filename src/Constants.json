@@ -65,9 +65,12 @@
   "GET_QUESTIONNAIRES_BY_REACH": "getQuestionnairesByReach?reach=",
   "GET_CLIENTS_BY_NIT_OR_NAME": "getClientByNitOrName?searchTerm=",
   "GET_CLIENT_USER_BY_CLIENT": "getClientUserByClient?clientId=",
-  "SAVE_CLIENT_USER": "saveClientUser",
   "SAVE_ANSWERS": "saveAnswer",
   "TEXT_VALIDATION": "Texto",
   "NUMBER_VALIDATION": "Numero",
   "DECIMAL_VALIDATION": "Decimal"
+  "SAVE_CLIENT_USER": "saveClientUser?originalEmail=",
+  "MESSAGE_EXIST_EMAIL":"El Correo ya se encuentra registrado",
+  "CREATED":"CREATED",
+  "UPDATED":"UPDATED"
 }

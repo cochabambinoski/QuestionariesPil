@@ -39,17 +39,17 @@ export const fetchGetQuestionaries = () => {
 };
 
 export const fetchGetQuestionariesByUser = user => {
-	return dispatch => {
-		dispatch(uploadQuestionnaires(true));
-		let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_QUESTIONNAIRES_BY_USER}?user=${encodeURIComponent(user)}`;
-		return fetch(url)
-			.then(results => {
-				return results.json();
-			}).then(data => {
-				dispatch(setQuestionnairesData(data));
-				dispatch(uploadQuestionnaires(false));
-			})
-	}
+    return dispatch => {
+        dispatch(uploadQuestionnaires(true));
+        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ALL_QUESTIONNAIRES_BY_USER}?user=${encodeURIComponent(user)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(data => {
+                dispatch(setQuestionnairesData(data));
+                dispatch(uploadQuestionnaires(false));
+            })
+    }
 };
 
 export const deleteQuestionnaire = item => {
@@ -70,7 +70,7 @@ export const closeQuestionnaire = item => {
     return (dispatch, getState) => {
         return dispatch(getAssignmentsNumberByQuestionnaire(item))
             .then(() => {
-                    return dispatch(sendCloseRequest(item));
+                return dispatch(sendCloseRequest(item));
             })
     }
 };
@@ -486,9 +486,9 @@ export const getClientUserByClient = clientId => {
     };
 };
 
-export const saveClientUser = clientUser => {
+export const saveClientUser = (clientUser, originalEmail) => {
     return () => {
-        return fetch(`${Constants.ROUTE_WEB_SERVICES_POS}${Constants.SAVE_CLIENT_USER}`,
+        return fetch(`${Constants.ROUTE_WEB_SERVICES_POS}${Constants.SAVE_CLIENT_USER}${originalEmail}`,
             {
                 method: 'POST',
                 body: JSON.stringify(clientUser),
@@ -501,7 +501,7 @@ export const saveClientUser = clientUser => {
                 return results.json();
             }).then(
                 response => {
-                    return "OK";
+                    return response;
                 },
                 error => {
                     return "ERROR";
@@ -533,7 +533,7 @@ export const getReachesTypes = payload => {
  * @returns {Function} dispatches all initial data actions to update the store
  */
 export const fetchInitialData = user => {
-    return dispatch =>{
+    return dispatch => {
         Promise.all([
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_ESTQUEST)}`),
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_CARGOPER)}`),
