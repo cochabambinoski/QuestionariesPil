@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import {
     getCreateQuestionary,
-    getQuestionarySelected,
+    getQuestionarySelected, getQuestionnaireStatusTypes,
     getQuestionTypes,
     getReachTypes,
     getSystemTypes,
@@ -131,6 +131,7 @@ class Questionnaire extends Component {
                 lsQuestions: this.state.lsQuestions,
                 system: this.state.system,
                 reach: this.state.reach,
+                status: this.props.questionnaireStatus[0],
                 sociedadId: 'BO81',
                 usuarioId: this.props.user.username,
                 operacionId: 1,
@@ -526,6 +527,7 @@ const mapStateToProps = state => ({
     questionTypes: getQuestionTypes(state),
     systemTypes: getSystemTypes(state),
     reachTypes: getReachTypes(state),
+    questionnaireStatus: getQuestionnaireStatusTypes(state),
 });
 
 const mapDispatchToProps = dispatch => ({

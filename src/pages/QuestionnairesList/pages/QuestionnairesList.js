@@ -48,16 +48,16 @@ class Questionnaires extends Component {
 
     componentDidMount() {
         this.getQuestionnaires();
-	    const title = this.props.title;
-	    const detail = this.props.detail;
-	    if (title !== null && detail !== null) {
-		    this.showSuccess(title, detail);
-		    this.props.showMessage(null, null);
-	    }
+        const title = this.props.title;
+        const detail = this.props.detail;
+        if (title !== null && detail !== null) {
+            this.showSuccess(title, detail);
+            this.props.showMessage(null, null);
+        }
     }
 
     getQuestionnaires() {
-	    this.props.fetchGetQuestionariesByUser(this.props.user.id);
+        this.props.fetchGetQuestionariesByUser(this.props.user.id);
     }
 
     deleteQuestionary(item) {
@@ -77,14 +77,14 @@ class Questionnaires extends Component {
     }
 
     closeQuestionary(item) {
-	    this.exitModal();
+        this.exitModal();
         this.props.closeQuestionary(item)
             .then((result) => {
-            	console.log('result', result);
+                console.log('result', result);
                 switch (result) {
                     case "CLOSED":
                         this.showSuccess("Cuestionario Cerrado");
-	                    this.getQuestionnaires();
+                        this.getQuestionnaires();
                         break;
                     default:
                         break;
@@ -159,10 +159,11 @@ class Questionnaires extends Component {
                                         <div className="text">
                                             <div>Creado por {item.usuarioId}</div>
                                             <div>{item.fechaId}</div>
-	                                        {
-	                                            item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
-		                                        <div className="open">Abierto</div> : <div className="close">Cerrado</div>
-	                                        }
+                                            {
+                                                item.status !== null ? item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
+                                                    <div className="open">Abierto</div> :
+                                                    <div className="close">Cerrado</div> : null
+                                            }
                                             <br/>
                                             <span>
 
@@ -204,7 +205,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
     closeQuestionary: value => dispatch(closeQuestionnaire(value)),
-	fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
+    fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
     deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
 });
 
