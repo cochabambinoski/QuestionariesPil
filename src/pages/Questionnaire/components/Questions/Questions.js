@@ -147,8 +147,13 @@ class Questions extends Component {
 								<Card title={question.question} subTitle={question.type.nombre}
 								      className="card ui-card-shadow text" key={question.id}>
 									<div className="extras">
-										<label className="dependent">{question.questionOption != null ? 'Independiente' : 'Dependiente'}</label>
-										<label className="required">{question.required == 1 ? 'Obligatorio' : ''}</label>
+										{
+											question.questionOption === null || question.questionOption === undefined  ?
+												<label className="independent">Independiente</label> :
+												<label className="dependent">Dependiente</label>
+										}
+										<label
+											className="required">{question.required == 1 ? 'Obligatorio' : ''}</label>
 									</div>
 									<div>
 										{

@@ -29,13 +29,13 @@
     margin-bottom: 10px;
 }
 
-.required {
-    background-color: #c5e1a5;
+.dependent {
+    background-color: #b3e5fc;
     width: fit-content;
 }
 
-.dependent {
-    background-color: #b3e5fc;
+.independent {
+    background-color: #eceff1;
     margin-right: 5px;
     width: fit-content;
 }

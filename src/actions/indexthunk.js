@@ -2,17 +2,17 @@ import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
-    addMobileSellers,
-    getAllBranches,
-    getAllDepartaments,
-    setInitialDataQuestionerQuestionary,
-    setInitialDataTypesSeller,
-    setMenu,
+	addMobileSellers,
+	getAllBranches,
+	getAllDepartaments,
+	setInitialDataQuestionerQuestionary,
+	setInitialDataTypesSeller,
+	setMenu,
 	setQuestionnaireStatus,
-    setReachTypes,
-    setSystemTypes,
-	setStatusTypes,
-    setUser
+	setReachTypes,
+    setStatusTypes,
+	setSystemTypes,
+	setUser
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -486,6 +486,36 @@ export const getClientUserByClient = clientId => {
                     return error;
                 });
     };
+};
+
+export const getTypeSystemByUser = userId => {
+	return () => {
+		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_SYSTEM_BY_USER}${encodeURIComponent(userId)}`;
+		return fetch(url)
+			.then(results => {
+				return results.json();
+			}).then(response => {
+					return response;
+				},
+				error => {
+					return error;
+				});
+	};
+};
+
+export const getRoutesByMobileseller = mobileSeller => {
+	return () => {
+		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ROUTES_BY_MOBILE_SELLER}${encodeURIComponent(mobileSeller)}`;
+		return fetch(url)
+			.then(results => {
+				return results.json();
+			}).then(response => {
+					return response;
+				},
+				error => {
+					return error;
+				});
+	};
 };
 
 export const saveClientUser = (clientUser, originalEmail) => {
