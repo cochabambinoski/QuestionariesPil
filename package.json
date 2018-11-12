@@ -12,6 +12,7 @@
     "date-format": "^1.2.0",
     "dateformat": "^3.0.3",
     "downshift": "^2.1.5",
+    "firebase": "^5.5.7",
     "font-awesome": "^4.7.0",
     "immutable": "^3.8.2",
     "keycode": "latest",

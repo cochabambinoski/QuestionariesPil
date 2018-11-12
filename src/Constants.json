@@ -52,6 +52,7 @@
   "CLASS_NAME_CARGOPER": "CARGOPER",
   "CLASS_NAME_SYSTEM": "SYSTEM",
   "CLASS_NAME_REACH": "REACH",
+  "CLASS_NAME_STATUS": "ESTQUEST",
   "CLASS_NAME_QUESTIONNAIRE_STATUS": "ESTQUEST",
   "TYPE_SEARCH_MOBILE_SELLER": "TYPE_SEARCH_MOBILE_SELLER",
   "TYPE_SEARCH_MOBILE_SELLER_ASSIGNED": "TYPE_SEARCH_MOBILE_SELLER_ASSIGNED",
@@ -67,11 +68,18 @@
   "GET_QUESTIONNAIRES_BY_REACH": "getQuestionnairesByReach?reach=",
   "GET_CLIENTS_BY_NIT_OR_NAME": "getClientByNitOrName?searchTerm=",
   "GET_CLIENT_USER_BY_CLIENT": "getClientUserByClient?clientId=",
-  "SAVE_CLIENT_USER": "saveClientUser",
+  "GET_SYSTEM_BY_USER": "getTypeSystemByUser?user=",
+  "GET_ROUTES_BY_MOBILE_SELLER": "getRoutesByMobileseller?mobileSeller=",
+  "SAVE_CLIENT_USER": "saveClientUser"
   "SAVE_ANSWERS": "saveAnswer",
   "TEXT_VALIDATION": "Texto",
   "NUMBER_VALIDATION": "Numero",
   "DECIMAL_VALIDATION": "Decimal",
   "GET_SYSTEM_BY_USER": "getTypeSystemByUser?user=",
   "GET_ROUTES_BY_MOBILE_SELLER": "getRoutesByMobileseller?mobileSeller="
+  "DECIMAL_VALIDATION": "Decimal"
+  "SAVE_CLIENT_USER": "saveClientUser?originalEmail=",
+  "MESSAGE_EXIST_EMAIL":"El Correo ya se encuentra registrado",
+  "CREATED":"CREATED",
+  "UPDATED":"UPDATED"
 }

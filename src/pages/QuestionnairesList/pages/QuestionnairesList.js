@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Constants from './../../../Constants';
+import Constants from './../../../Constants'
 import './QuestionnairesList.css';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -18,16 +18,16 @@ import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} fr
 import {getQuestionnaries, getUser} from "../../../reducers";
 
 class Questionnaires extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			questionnaires: [],
-			updateView: true,
-			open: false,
-			modal: false,
-			currentItem: -1
-		};
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            questionnaires: [],
+            updateView: true,
+            open: false,
+            modal: false,
+            currentItem: -1
+        };
+    }
 
 	showError(summary, detail) {
 		this.messages.show({severity: 'error', summary: summary, detail: detail});
@@ -167,7 +167,7 @@ class Questionnaires extends Component {
                                             <span>
 
                                                 <Button label="Ver" onClick={() => {
-	                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"));
+                                                    this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"));
                                                 }}/>
 
                                                 <Button label="Editar" onClick={() => {
@@ -181,26 +181,26 @@ class Questionnaires extends Component {
                                                         disabled={item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}/>
 
                                                 <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-	                                                this.openModal(item);
+                                                    this.openModal(item);
                                                 }}/>
 
                                             </span>
-										</div>
-									</Card>
-									<br/>
-								</div>
-							);
-						})
-					}
-				</ScrollPanel>
-			</div>
-		);
-	}
+                                        </div>
+                                    </Card>
+                                    <br/>
+                                </div>
+                            );
+                        })
+                    }
+                </ScrollPanel>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = state => ({
-	questionnaires: getQuestionnaries(state),
-	user: getUser(state)
+    questionnaires: getQuestionnaries(state),
+    user: getUser(state)
 });
 
 const mapDispatchToProps = dispatch => ({
