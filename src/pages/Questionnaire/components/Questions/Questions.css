@@ -1,0 +1,35 @@
+.question {
+    text-decoration: none;
+    color: #333;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+}
+.card {
+    width: 500px;
+    color: grey;
+    margin-bottom: 20px;
+}
+.buttons {
+    margin-top: 40px;  
+}
+.light-text{
+    color: lightgray;
+}
+.normal-text{
+    color: grey;
+    font-weight: 600;
+}
+.question {
+    float: left;
+    width: 60%;
+}
+.right {
+    float: right;
+    width: 40%;
+}
+.description {
+    width: 60%;
+}
