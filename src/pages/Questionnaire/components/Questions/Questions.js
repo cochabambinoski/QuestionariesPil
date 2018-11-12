@@ -133,7 +133,7 @@ class Questions extends Component {
 					       handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
 					</Modal>
 					<Modal open={this.state.saveOpen} title={"Guardar cuestionario"}
-					       message={"Para asignar dependencias debe guardar el cuestionatio /n ¿Está seguro que desea guardar el cuestionario ahora?"}
+					       message={"Para asignar dependencias debe guardar el cuestionario. \n ¿Está seguro que desea guardar este cuestionario ahora?"}
 					       handleConfirm={this.handleSave} handleCancel={this.closeModal}>
 					</Modal>
 					<div>

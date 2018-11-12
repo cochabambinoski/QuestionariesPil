@@ -40,7 +40,7 @@ class MobileSellerItem extends Component {
 	handleRoutes(id) {
 		this.props.getRoutesByMobileseller(id)
 			.then((result) => {
-				if (result != null) {
+				if (result !== null) {
 					var names = "";
 					result.forEach((route) => {
 						if (route.id != null) {
