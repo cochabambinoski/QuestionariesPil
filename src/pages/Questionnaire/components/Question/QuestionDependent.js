@@ -100,7 +100,7 @@ class QuestionDependent extends Component {
 		if (e.value === undefined || e.value === null) {
 			e.value = null;
 		}
-		const emptyOptions = this.state.LsQuestions.find((q) => {
+		const emptyOptions = this.props.questions.find((q) => {
 			if (q.questionOption !== null)
 				return q.questionOption.id === e.value.id;
 		});
