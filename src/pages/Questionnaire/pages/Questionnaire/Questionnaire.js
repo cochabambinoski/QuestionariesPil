@@ -110,6 +110,7 @@ class Questionnaire extends Component {
 		this.handleNewQuestion = this.handleNewQuestion.bind(this);
 		this.updateRanges = this.updateRanges.bind(this);
 		this.disableQuestion = this.disableQuestion.bind(this);
+		this.independQuestion = this.independQuestion.bind(this);
 	}
 
 	showSuccess(summary, detail) {
@@ -287,7 +288,7 @@ class Questionnaire extends Component {
 				} : null;
 			let auxQuestion = {
 				id: question.id,
-				questionOption : option,
+				questionOption: option,
 				lsQuestionOptions: []
 			};
 			question.lsQuestionOptions.forEach((option) => {
@@ -308,6 +309,19 @@ class Questionnaire extends Component {
 	disableQuestion(index, question) {
 		let auxQuestions = this.state.lsQuestions;
 		auxQuestions[index] = question;
+		this.setState({lsQuestions: auxQuestions});
+	}
+
+	independQuestion(question) {
+		let auxQuestions = this.state.lsQuestions;
+		console.log(question);
+		auxQuestions.find((q) => {
+			if(q.id === question.id){
+				console.log(q);
+				q.questionOption = null;
+				return q;
+			}
+		});
 		this.setState({lsQuestions: auxQuestions});
 	}
 
@@ -562,6 +576,7 @@ class Questionnaire extends Component {
 									           editQuestion={this.editQuestion}
 									           saveQuestionnaire={this.saveQuestionnaire}
 									           disableQuestion={this.disableQuestion}
+									           independQuestion={this.independQuestion}
 									           assignDenpendentQuestion={this.assignDenpendentQuestion}/>
 								</ScrollPanel>
 							</div>

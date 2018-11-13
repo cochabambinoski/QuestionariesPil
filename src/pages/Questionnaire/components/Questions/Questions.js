@@ -44,6 +44,21 @@ class Questions extends Component {
 			} else {
 				if (question.id != null) {
 					question.operacionId = 0;
+					question.lsQuestionOptions.forEach((o) => {
+						let q = this.props.questions.find((q) => {
+							if (q.questionOption !== null) {
+								if (q.questionOption.id === o.id) {
+									return q.id
+								}
+							}
+						});
+						if (q !== undefined) {
+							//q.questionOption = null;
+							console.log(o.id, q);
+							this.props.independQuestion(q);
+						}
+					});
+					//this.props.questions.find
 					this.props.disableQuestion(prevState.currentIndex, question);
 				} else {
 					this.props.removeQuestion(prevState.currentIndex);
