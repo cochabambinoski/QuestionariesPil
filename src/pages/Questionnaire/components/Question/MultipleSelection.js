@@ -23,6 +23,7 @@ class MultipleSelection extends Component {
 		} else {
 			let emptyOptions = this.props.lsOptions.filter((option) => {
 				if (option.option === "") {
+                    this.props.showError("Tiene opciones vacías!", "");
 					return option;
 				}
 			});
@@ -75,6 +76,15 @@ class MultipleSelection extends Component {
 		}
 	}
 
+	handleClose = () => {
+        let i;
+        for (i = 0; i < this.props.lsOptions.length; i++) {
+            if (this.props.lsOptions[i].option === '')
+                this.removeOption(i);
+        }
+        this.props.handleClose();
+	};
+
 	render() {
 		const options = this.props.lsOptions;
 		return (
@@ -100,7 +110,7 @@ class MultipleSelection extends Component {
 		                                    <div>
 			                                    <InputText
 				                                    value={option.option}
-				                                    placeholder="opción"
+				                                    placeholder="Opción"
 				                                    onChange={(e) => this.updateOption(e.target.value, index)}/>
 			                                    <Button icon="pi pi-minus" onClick={() => {
 				                                    this.removeOption(index);
@@ -121,7 +131,7 @@ class MultipleSelection extends Component {
 
 							<span>
                                 <Button label="Aceptar" onClick={this.addQuestion}/>
-                                <Button label="Cancelar" onClick={this.props.handleClose} className="ui-button-danger"/>
+                                <Button label="Cancelar" onClick={this.handleClose} className="ui-button-danger"/>
                             </span>
 						</div>
 				}

@@ -23,6 +23,7 @@ class MultipleOption extends Component {
 		} else {
 			let emptyOptions = this.props.lsOptions.filter((option) => {
 				if (option.option === "") {
+                    this.props.showError("Tiene opciones vacías!", "");
 					return option;
 				}
 			});
@@ -75,6 +76,15 @@ class MultipleOption extends Component {
 		}
 	}
 
+    handleClose = () => {
+        let i;
+        for (i = 0; i < this.props.lsOptions.length; i++) {
+            if (this.props.lsOptions[i].option === '')
+                this.removeOption(i);
+        }
+        this.props.handleClose();
+    };
+
 	render() {
 		return (
 			<div className="ui-g" style={{width: '350px', marginBottom: '10px'}}>
@@ -99,7 +109,7 @@ class MultipleOption extends Component {
 												<div>
 													<InputText
 														value={option.option}
-														placeholder="opción"
+														placeholder="Opción"
 														onChange={(e) => this.updateOption(e.target.value, index)}/>
 													<Button icon="pi pi-minus" onClick={() => {
 														this.removeOption(index);
@@ -120,7 +130,7 @@ class MultipleOption extends Component {
 
 							<span>
                                 <Button label="Aceptar" onClick={this.addQuestion}/>
-                                <Button label="Cancelar" onClick={this.props.handleClose} className="ui-button-danger"/>
+                                <Button label="Cancelar" onClick={this.handleClose} className="ui-button-danger"/>
                             </span>
 						</div>
 				}
