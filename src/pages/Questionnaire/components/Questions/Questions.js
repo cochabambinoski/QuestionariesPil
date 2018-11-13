@@ -88,6 +88,10 @@ class Questions extends Component {
 		this.setState({dependentOpen: false});
 	};
 
+	cancelDependent(){
+		this.setState({dependentOpen: false});
+	}
+
 	clickChild = () => {
 		console.log('child');
 	};
@@ -119,9 +123,9 @@ class Questions extends Component {
 				<DialogActions>
 					<Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
 					        className="buttonBlue"/>
-					{/*<Button label="Guardar" icon="pi pi-times"
-					        onClick={(value) => this.handleCloseDependent(value)}
-					        className="ui-button-secondary buttonSecundary"/>*/}
+					<Button label="Cancelar" icon="pi pi-times"
+					        onClick={() => this.cancelDependent()}
+					        className="ui-button-secondary buttonSecundary"/>
 				</DialogActions>
 			</Dialog>
 		);
