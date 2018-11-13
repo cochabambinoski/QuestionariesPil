@@ -7,7 +7,6 @@ class QuestionDependent extends Component {
 
 	constructor(props) {
 		super(props);
-		console.log('constructor', this.props);
 		this.state = {
 			LsQuestions: this.props.questions,
 			selQuestion: {question: null},
@@ -32,13 +31,10 @@ class QuestionDependent extends Component {
 
 	findSelected(thisProps) {
 		const option = thisProps.currentQuestion.questionOption;
-		console.log('findSelected', option);
 		if (option !== null) {
 			thisProps.questions.forEach(q => {
-				console.log(q.lsQuestionOptions);
 				q.lsQuestionOptions.find(o => {
 					if (o.id === option.id) {
-						console.log(q, o);
 						this.setState((prevState, props) => ({
 							selQuestion: q,
 							lsOptions: q.lsQuestionOptions,

@@ -94,34 +94,34 @@ class Range extends Component {
 
 	render() {
 		return (
-			<div style={{marginTop: '15px'}}>
-				<div>
-					<div>
-						<div>
+			<div className="ui-g" style={{width: '250px', marginTop: '15px'}}>
+				<div className="ui-g">
+					<div className="ui-g-6">
+						<div className="ui-g form-group">
 							{
 								this.props.readOnly ? <div>Minimo: {this.props.lsOptions[0].option}</div> :
-									<div style={{display: 'flex'}}>
-										<div>
+									<div>
+										<div className="ui-g-6">
 											<label htmlFor="input">Minimo</label>
 										</div>
-										<div>
+										<div className="ui-g-6">
 
 											<InputText value={this.props.lsOptions[0].option} type="text"
-											           keyfilter="pint" style={{width: '300px', marginLeft: '20px'}}
+											           keyfilter="pint"
 											           onChange={(e) => this.updateOption(e.target.value, 0)}/>
 										</div>
 									</div>
 							}
 							{
 								this.props.readOnly ? <div>Maximo: {this.props.lsOptions[1].option}</div> :
-									<div style={{display: 'flex'}}>
-										<div>
+									<div>
+										<div className="ui-g-6">
 											<label htmlFor="input">Maximo</label>
 										</div>
-										<div>
+										<div className="ui-g-6">
 
 											<InputText value={this.props.lsOptions[1].option} type="text"
-											           keyfilter="pint" style={{width: '300px', marginLeft: '20px'}}
+											           keyfilter="pint"
 											           onChange={(e) => this.updateOption(e.target.value, 1)}/>
 										</div>
 									</div>

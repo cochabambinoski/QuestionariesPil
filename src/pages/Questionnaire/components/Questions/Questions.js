@@ -40,7 +40,7 @@ class Questions extends Component {
 		this.setState((prevState, props) => {
 			const question = this.props.questions[prevState.currentIndex];
 			if (this.props.assigned && question.id != null) {
-				this.props.showSuccess("Dependencias: ", "Ahora puede registrar dependencias");
+				this.props.showError("", "No se puede eliminar la pregunta. El cuestionario ya está asignado");
 			} else {
 				if (question.id != null) {
 					question.operacionId = 0;
@@ -88,7 +88,7 @@ class Questions extends Component {
 		this.setState({dependentOpen: false});
 	};
 
-	cancelDependent(){
+	cancelDependent() {
 		this.setState({dependentOpen: false});
 	}
 
@@ -100,8 +100,6 @@ class Questions extends Component {
 		const questions = this.props.questions;
 		return (
 			<Dialog
-				/*className="fullDialog"
-				fullScreen*/
 				open={this.state.dependentOpen}
 				onClose={this.handleCloseDependent}
 				aria-labelledby="alert-dialog-title"
@@ -155,7 +153,7 @@ class Questions extends Component {
 								      className="card ui-card-shadow text" key={question.id}>
 									<div className="extras">
 										{
-											question.questionOption !== null && question.questionOption.id > 0 ?
+											question.questionOption !== null && question.questionOption !== undefined ?
 												<label className="dependent">Dependiente</label> :
 												<label className="independent">Independiente</label>
 										}
