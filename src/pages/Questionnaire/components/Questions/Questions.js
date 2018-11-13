@@ -53,8 +53,6 @@ class Questions extends Component {
 							}
 						});
 						if (q !== undefined) {
-							//q.questionOption = null;
-							console.log(o.id, q);
 							this.props.independQuestion(q);
 						}
 					});

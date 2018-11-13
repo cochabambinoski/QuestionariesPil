@@ -314,10 +314,8 @@ class Questionnaire extends Component {
 
 	independQuestion(question) {
 		let auxQuestions = this.state.lsQuestions;
-		console.log(question);
 		auxQuestions.find((q) => {
 			if(q.id === question.id){
-				console.log(q);
 				q.questionOption = null;
 				return q;
 			}
