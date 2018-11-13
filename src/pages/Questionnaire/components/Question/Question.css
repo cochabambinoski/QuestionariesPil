@@ -15,13 +15,16 @@
     width: fit-content;
 }
 
+.contentDropbox{
+    margin-bottom: 40px;
+}
+
 .dropboxQuestion {
     min-width: 350px;
-    margin-bottom: 20px;
 }
 
 .delOption {
-    margin-bottom: 20px;
+    margin-left: 10px;
 }
 
 .dialogDependent {

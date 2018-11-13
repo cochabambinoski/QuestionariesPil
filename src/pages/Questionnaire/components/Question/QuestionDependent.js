@@ -122,33 +122,34 @@ class QuestionDependent extends Component {
 				<Messages ref={(el) => this.messages = el} className="pi-times:before"></Messages>
 				<div>
 					<h3>
-						Debe asignar una opcion de alguna encuesta
+						Debe asignar una opción de alguna pregunta de la encuesta
 					</h3>
+					<p>Si la opción esta vacia la pregunta no tendra dependencia</p>
 				</div>
-				<div>
+				<div className="contentDropbox">
 					<Dropdown
 						value={this.state.selQuestion}
 						options={this.state.LsQuestions}
 						onChange={this.onQuestionChange}
 						itemTemplate={this.questionTemplate}
-						placeholder="Seleccione Cuestionario"
+						placeholder="Seleccione Pregunta"
 						optionLabel="question"
 						filter={true}
-						filterPlaceholder="Nombre Cuestionario"
+						filterPlaceholder="Nombre de pregunta"
 						filterBy="question"
 						className="dropboxQuestion"
 						showClear={true}/>
 				</div>
-				<div>
+				<div className="contentDropbox">
 					<Dropdown
 						value={this.state.selOption}
 						options={this.state.lsOptions}
 						onChange={this.onOptionChange}
 						itemTemplate={this.optionTemplate}
-						placeholder="Seleccione Opción de Cuestionario"
+						placeholder="Seleccione Opción de Pregunta"
 						optionLabel="option"
 						filter={true}
-						filterPlaceholder="Nombre Opción"
+						filterPlaceholder="Nombre de Opción"
 						filterBy="option"
 						className="dropboxQuestion"
 						showClear={true}/>
