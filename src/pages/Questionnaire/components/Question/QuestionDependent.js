@@ -2,13 +2,19 @@ import React, {Component} from 'react';
 import {Dropdown} from "primereact/dropdown";
 import {Messages} from "primereact/messages";
 import {Button} from "primereact/button";
+import Constants from './../../../../Constants';
 
 class QuestionDependent extends Component {
 
 	constructor(props) {
 		super(props);
+		const questionsList = this.props.questions.filter(q => {
+			if (q.type.codigoSap === Constants.CODSAP_MULTIPLE_OPTION || q.type.codigoSap === Constants.CODSAP_MULTIPLE_SELECTION) {
+				return q;
+			}
+		});
 		this.state = {
-			LsQuestions: this.props.questions,
+			LsQuestions: questionsList,
 			selQuestion: {question: null},
 			lsOptions: [],
 			selOption: {option: null},
@@ -149,8 +155,10 @@ class QuestionDependent extends Component {
 						filterBy="option"
 						className="dropboxQuestion"
 						showClear={true}/>
-						<Button icon="pi pi-minus" className="delOption"
-						        onClick={() => {this.setState({selOption: null});}}/>
+					<Button icon="pi pi-minus" className="delOption"
+					        onClick={() => {
+						        this.setState({selOption: null});
+					        }}/>
 				</div>
 
 			</div>
