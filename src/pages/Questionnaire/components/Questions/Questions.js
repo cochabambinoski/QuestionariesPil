@@ -77,10 +77,13 @@ class Questions extends Component {
 		console.log("handleCloseDependent val", value);
 		this.setState((prevState, props) => {
 			const question = this.props.questions[prevState.currentIndex];
-			if (value !== undefined)
-				question.questionOption = value;
+			if (value !== undefined && value !== null) {
+				if (value.id !== null)
+					question.questionOption = value;
+			}
+			else
+				question.questionOption = null;
 			this.props.assignDenpendentQuestion(prevState.currentIndex, question);
-			console.log("handleCloseDependent", value, question);
 		});
 		this.setState({dependentOpen: false});
 	};
@@ -116,9 +119,9 @@ class Questions extends Component {
 				<DialogActions>
 					<Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
 					        className="buttonBlue"/>
-					<Button label="Cancelar" icon="pi pi-times"
+					{/*<Button label="Guardar" icon="pi pi-times"
 					        onClick={(value) => this.handleCloseDependent(value)}
-					        className="ui-button-secondary buttonSecundary"/>
+					        className="ui-button-secondary buttonSecundary"/>*/}
 				</DialogActions>
 			</Dialog>
 		);
@@ -148,9 +151,9 @@ class Questions extends Component {
 								      className="card ui-card-shadow text" key={question.id}>
 									<div className="extras">
 										{
-											(question.questionOption === null || question.questionOption === undefined)  ?
-												<label className="independent">Independiente</label> :
-												<label className="dependent">Dependiente</label>
+											question.questionOption !== null && question.questionOption.id > 0 ?
+												<label className="dependent">Dependiente</label> :
+												<label className="independent">Independiente</label>
 										}
 										<label
 											className="required">{question.required == 1 ? 'Obligatorio' : ''}</label>

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
 import {Dropdown} from "primereact/dropdown";
 import {Messages} from "primereact/messages";
+import {Button} from "primereact/button";
 
 class QuestionDependent extends Component {
 
@@ -12,8 +11,9 @@ class QuestionDependent extends Component {
 		this.state = {
 			LsQuestions: this.props.questions,
 			selQuestion: {question: null},
-			lsOptions: ["1", "2", "3"],
-			selOption: {option: null}
+			lsOptions: [],
+			selOption: {option: null},
+			question: this.props.currentQuestion
 		};
 
 		this.onQuestionChange = this.onQuestionChange.bind(this);
@@ -22,12 +22,33 @@ class QuestionDependent extends Component {
 	}
 
 	componentDidMount() {
+		this.findSelected(this.props);
 		this.props.setDependentClick(this.handleSaveDependent);
 	}
 
 	componentWillReceiveProps = (nextProps) => {
 		this.onQuestionChange.bind(nextProps.questions);
 	};
+
+	findSelected(thisProps) {
+		const option = thisProps.currentQuestion.questionOption;
+		console.log('findSelected', option);
+		if (option !== null) {
+			thisProps.questions.forEach(q => {
+				console.log(q.lsQuestionOptions);
+				q.lsQuestionOptions.find(o => {
+					if (o.id === option.id) {
+						console.log(q, o);
+						this.setState((prevState, props) => ({
+							selQuestion: q,
+							lsOptions: q.lsQuestionOptions,
+							selOption: o
+						}));
+					}
+				});
+			});
+		}
+	}
 
 	showError(summary, detail) {
 		this.messages.show({severity: 'error', summary: summary, detail: detail});
@@ -82,6 +103,7 @@ class QuestionDependent extends Component {
 				return q.questionOption.id === e.value.id;
 		});
 		if (emptyOptions === null || emptyOptions === undefined) {
+			e.value.question = null;
 			this.setState({selOption: e.value});
 		}
 		else {
@@ -90,7 +112,7 @@ class QuestionDependent extends Component {
 		}
 	}
 
-	handleSaveDependent = () => {
+	handleSaveDependent = (value) => {
 		this.props.refresh(this.state.selOption);
 	};
 
@@ -130,6 +152,8 @@ class QuestionDependent extends Component {
 						filterBy="option"
 						className="dropboxQuestion"
 						showClear={true}/>
+						<Button icon="pi pi-minus" className="delOption"
+						        onClick={() => {this.setState({selOption: null});}}/>
 				</div>
 
 			</div>
