@@ -24,22 +24,22 @@ class Graphics extends Component {
             switch (this.props.question.type.codigoSap) {
                 case TIPPREG1:
                     data = new Pie();
-                    data.addData(this.props.listAnswerCurrent);
+                    data.addData(this.props.listAnswerCurrent, false);
                     innerComponent = this.createComponents(data);
                     break;
                 case TIPPREG2:
                     data = new Pie();
-                    data.addData(this.props.listAnswerCurrent);
+                    data.addData(this.props.listAnswerCurrent, false);
                     innerComponent = this.createComponents(data);
                     break;
                 case TIPPREG3:
                     data = new Pie();
-                    data.addData(this.props.listAnswerCurrent);
+                    data.addData(this.props.listAnswerCurrent, true);
                     innerComponent = <FreeAnswerTable data={data}/>;
                     break;
                 case TIPPREG4:
                     data = new Pie();
-                    data.addData(this.props.listAnswerCurrent);
+                    data.addData(this.props.listAnswerCurrent, false);
                     innerComponent = this.createComponents(data);
                     break;
                 case TIPPREG5:
