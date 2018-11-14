@@ -4,8 +4,10 @@ import {
     GET_INITIAL_DATA,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
+	SET_QUESTIONNAIRE_STATUS,
     SET_REACH_TYPES,
-    SET_SYSTEM_TYPES
+    SET_SYSTEM_TYPES,
+	SET_STATUS_TYPES,
 } from "../action-types/actionTypes";
 import {GET_QUESTION_TYPES} from "../actions/indexthunk";
 
@@ -16,6 +18,7 @@ const initialState = (
         cities: null,
         lsBranches: null,
         questionTypes: null,
+        questionnaireStatus: null,
     }
 );
 
@@ -45,6 +48,12 @@ export const initialData = (state = initialState, action) => {
         case SET_REACH_TYPES: {
             return {...state, reachTypes: action.payload};
         }
+        case SET_QUESTIONNAIRE_STATUS: {
+            return {...state, questionnaireStatus: action.payload};
+        }
+	    case SET_STATUS_TYPES: {
+		    return {...state, statusTypes: action.payload};
+	    }
         default:
             return state;
     }

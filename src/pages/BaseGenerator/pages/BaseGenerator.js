@@ -355,7 +355,7 @@ class BaseGenerator extends Component {
                         <div className="col-auto divCol">
                             <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                                       onChange={(e) => this.setState({dates: e.value})}
-                                      selectionMode="range" readonlyInput={true}
+                                      selectionMode="range" readOnlyInput="true"
                                       className="imput" style={{width: '200px'}}/>
                         </div>
                     </div>
@@ -364,14 +364,18 @@ class BaseGenerator extends Component {
                             <label htmlFor="float-input" className="label">Ciudad: </label>
                         </div>
                         <div className="col-auto divCol">
-                            <Dropdown value={this.state.city} options={this.state.cities}
+                            <Dropdown value={this.state.city}
+                                      options={this.state.cities}
                                       onChange={this.onCityChange}
                                       itemTemplate={this.cityTemplate}
                                       placeholder="Todos"
-                                      optionLabel="nameDataType" filter={true}
+                                      optionLabel="nameDataType"
+                                      filter={true}
                                       filterPlaceholder="Seleccione Ciudad"
-                                      filterBy="nameDataType" className="imput"
-                                      showClear={true} style={{width: '200px'}}/>
+                                      filterBy="nameDataType"
+                                      className="imput"
+                                      showClear={true}
+                                      style={{width: '200px'}}/>
                         </div>
                     </div>
                     <div className="row">

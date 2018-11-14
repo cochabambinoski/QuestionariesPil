@@ -62,7 +62,7 @@ class EnhancedTableToolbar extends Component {
                 <div>
                     <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                               onChange={(e) => this.setState({dates: e.value})}
-                              selectionMode="range" readonlyInput={true} className="calendar"/>
+                              selectionMode="range" readOnlyInput="true" className="calendar"/>
                 </div>
                 <div >
                     <Button label="Buscar" onClick={this.handlerFilter} className="buttonBlue"/>

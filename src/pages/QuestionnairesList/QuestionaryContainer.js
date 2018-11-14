@@ -14,10 +14,10 @@ class QuestionaryContainer extends Component {
         };
     }
 
-    showMessage(title, detail) {
-        this.setState({title: title});
-        this.setState({detail: detail});
-    }
+	showMessage(title, detail) {
+		this.setState({title: title});
+		this.setState({detail: detail});
+	}
 
     render() {
         const {questionarySelected} = this.props;
@@ -40,16 +40,16 @@ class QuestionaryContainer extends Component {
                                            readOnly={true}
                                            showMessage={this.showMessage}/>
 
-                }
-            </div>
-        );
-    }
+				}
+			</div>
+		);
+	}
 }
 
 QuestionaryContainer.propTypes = {};
 
 const mapStateToProps = state => ({
-    questionarySelected: getQuestionarySelected(state)
+	questionarySelected: getQuestionarySelected(state)
 });
 
 export default connect(mapStateToProps, null)(QuestionaryContainer);
