@@ -13,11 +13,12 @@ export function Pie() {
 }
 
 
-Pie.prototype.addData = function (answers) {
+Pie.prototype.addData = function (answers, isFreeAnswer) {
+    let index;
     let indexAux;
     answers.forEach((answer) => {
         indexAux = getIndex(answer, this.data.answers);
-        if (indexAux !== -1) {
+        if (indexAux !== -1 && !isFreeAnswer) {
             this.data.datasets[0].data[indexAux] = this.data.datasets[0].data[indexAux] + 1 ;
         } else {
             this.data.labels.push(answer.answerDetail);

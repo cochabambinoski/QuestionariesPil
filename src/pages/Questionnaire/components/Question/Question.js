@@ -73,11 +73,11 @@ class Question extends Component {
 		if (this.props.asigned)
 			this.showError("No se pueden eliminar opciones de un cuestionario asignado");
 		else {
-			let auxQuestion = this.state.squestion;
+			let auxQuestion = {...this.state.squestion};
 			let option = auxQuestion.lsQuestionOptions[index];
-			if (option.operacionId === 1) {
+			if (option.operacionId === 1 && option.id !== null) {
 				auxQuestion.lsQuestionOptions[index].operacionId = 0;
-			} else if (option.operacionId === null) {
+			} else {
 				auxQuestion.lsQuestionOptions.splice(index, 1);
 			}
 			this.setState({squestion: auxQuestion});
