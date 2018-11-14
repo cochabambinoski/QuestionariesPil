@@ -62,6 +62,11 @@ class AnswerPageContainer extends Component {
     saveSuccessful = (title, message) => {
         this.cleanQuestionnaireAnswers();
         this.props.showMessageAndInvalidate(title, message, 'success');
+        this.handleBackClick();
+    };
+
+    handleBackClick = () => {
+        this.props.history.goBack();
     };
 
     saveFailed = (title, message) => {

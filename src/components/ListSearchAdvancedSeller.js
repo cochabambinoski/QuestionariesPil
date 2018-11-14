@@ -164,7 +164,6 @@ class ListSearchAdvancedSeller extends Component {
                 return;
             }
             default: {
-                console.log("error");
                 return;
             }
         }

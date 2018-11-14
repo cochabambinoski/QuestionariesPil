@@ -52,7 +52,8 @@ class AnswerContainer extends Component {
                        subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/>
                 <br/>
                 <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
-                            showAnswersGraphics={this.showAnswersGraphics}/>
+                            showAnswersGraphics={this.showAnswersGraphics}
+                            handleClick={this.handleClick}/>
 
                 <Snackbar
                     anchorOrigin={{

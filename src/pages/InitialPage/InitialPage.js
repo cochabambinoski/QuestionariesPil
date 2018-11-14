@@ -50,7 +50,6 @@ class InitialPage extends Component {
                 component = <PublicQuestionnaires/>;
                 break;
         }
-        console.log(this.state.uploadUser);
         return (
             this.state.uploadUser === null ?
                 <Fragment>

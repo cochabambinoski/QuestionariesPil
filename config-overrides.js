@@ -3,7 +3,6 @@ const path = require('path');
 
 module.exports = function override(config, env) {
     if (env === "production") {
-        console.log("Generating Service Worker")
 
         const workboxConfig = {
             ...defaultInjectConfig,

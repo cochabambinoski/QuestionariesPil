@@ -60,5 +60,5 @@ export const getClient = (state) => state.answer.client;
 export const getinterviewedName = (state) => state.answer.interviewedName;
 export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
 
-export const getAnswers = state => state.answers;
-export const getQuestionnarieAnswers = (state) => state.questionnarie;
+export const getAnswers = state => state.answers.answers;
+export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;

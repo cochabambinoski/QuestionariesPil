@@ -81,7 +81,6 @@ class Questionnaires extends Component {
         this.exitModal();
         this.props.closeQuestionary(item)
             .then((result) => {
-                console.log('result', result);
                 switch (result) {
                     case "CLOSED":
                         this.showSuccess("Cuestionario Cerrado");

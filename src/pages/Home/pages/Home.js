@@ -30,11 +30,8 @@ import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire
 import SplashPage from "../../SplashPage/SplashPage";
 import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
 import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
-import {Messages} from "../../../../node_modules/primereact/messages";
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import SnackBarContentView from "../../../components/SnackBarContent/SnackBarContentView";
+import {Messages} from 'primereact/messages';
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
-import GraphicsDetailContainer from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetailContainer";
 
 class Home extends Component {
     state = {
@@ -68,7 +65,7 @@ class Home extends Component {
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
-      ///  this.showMessage = this.showMessage.bind(this);
+        ///  this.showMessage = this.showMessage.bind(this);
     }
 
     closeSessionHome() {
@@ -147,17 +144,17 @@ class Home extends Component {
         this.props.fetchInitialData(this.props.userIdSvm);
     }
 
-    showMessage(title, detail) {
+    showMessage = (title, detail) => {
         this.setState({title: title});
         this.setState({detail: detail});
-    }
+    };
 
-    showSuccess(title, detail) {
+    showSuccess = (title, detail) => {
         this.messages.show({severity: 'success', summary: title, detail: detail});
-    }
+    };
 
     handleClick = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     render() {
@@ -172,7 +169,6 @@ class Home extends Component {
         return (
             <BrowserRouter>
                 <Fragment>
-                    <Messages ref={(el) => this.messages = el}/>
                     {
                         this.props.user === null ?
                             <SplashPage/>
@@ -211,47 +207,53 @@ class Home extends Component {
                                     </ScrollPanel>
                                 </div>
 
-                                <div className="layout-main">
+                                <div>
+
+                                    <div className="layout-main">
+                                        <Messages ref={(el) => this.messages = el}/>
                                         <Route path="/" exact component={Start}/>
-                                    {/*Questionaries Create Show Edit Delete*/}
+                                        {/*Questionaries Create Show Edit Delete*/}
                                         <Route path="/Questionaries" exact
-                                               render={() => <Questionnaires title={this.state.title}
-                                                                                detail={this.state.detail}
-                                                                                showMessage={this.showMessage}/>}
-                                               />
+                                               render={(props) => <Questionnaires title={this.state.title}
+                                                                                  detail={this.state.detail}
+                                                                                  showMessage={this.showSuccess}
+                                                                                  {...props}/>}
+                                        />
                                         <Route path="/Questionaries/New" exact strict
-                                                render={() => <Questionnaire questionary={null}
-                                                                                showMessage={this.showMessage}/>}
+                                               render={(props) => <Questionnaire questionary={null}
+                                                                                 showMessage={this.showSuccess}
+                                                                                 {...props}/>}
                                         />
                                         <Route path="/Questionaries/Show/:id" exact strict
                                                render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                                  readOnly={true}
-                                                                  showMessage={this.showMessage}/>}
+                                                                               readOnly={true}
+                                                                               showMessage={this.showSuccess} {...props}/>}
                                         />
                                         <Route path="/Questionaries/Edit/:id" exact strict
                                                render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                                  showMessage={this.showMessage}/>}
+                                                                               showMessage={this.showSuccess} {...props}/>}
                                         />
-                                    {/*Assigment Questionnaries*/}
+                                        {/*Assigment Questionnaries*/}
 
                                         <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
                                         <Route path="/Assigment/:id" exact strict
                                                render={props => <AssignmentQuestionary
                                                    idQuestionary={props.match.params.id}
                                                    onSelectedQuestionary={null}
-                                                   showSuccess={this.showSuccess}/>}
+                                                   showSuccess={this.showSuccess} {...props}/>}
                                         />
 
-                                    {/*Answers Questionnaries*/}
+                                        {/*Answers Questionnaries*/}
                                         <Route path="/Answers" exact component={AnswerContainer}/>
                                         <Route path="/Answers/:id" exact
                                                render={props => <GraphicsDetail
                                                    idQuestionary={props.match.params.id}
-                                               />}
+                                                   />}
                                         />
 
-                                    {/*Segment */}
+                                        {/*Segment */}
                                         <Route path="/Segment" exact component={ListSegment}/>
+                                    </div>
                                 </div>
                             </div>
                     }

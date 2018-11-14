@@ -8,7 +8,7 @@ import {getQuestionnairesByReach} from "../../actions/indexthunk";
 import {getQuestionnaries} from "../../reducers";
 import ErrorPage from "../ErrorPage/pages/ErrorPage";
 import ClientVerifier from "../../components/ClientVerifier";
-import {Messages} from "primereact/messages";
+import {Messages} from 'primereact/messages';
 import {BrowserRouter} from "react-router-dom";
 import Route from "react-router/es/Route";
 import PublicQuestionnairesListContainer from "./components/PublicQuestionnairesListContainer";
@@ -33,7 +33,6 @@ class PublicQuestionnairesContainer extends Component {
 
     handleClick = (id) => {
         //TODO: push a la ruta de respuestas
-        console.log("questionnaire id: " + id);
         this.setState({questionnaireSelected: id});
     };
 
@@ -42,7 +41,7 @@ class PublicQuestionnairesContainer extends Component {
     };
 
     showMessageAndInvalidate = (title, message, messageType) => {
-        this.invalidateQuestionnaire();
+       // this.invalidateQuestionnaire();
         this.setState((previousState, currentProps) => {
             this.messages.show({severity: messageType, summary: title, detail: message});
         });
@@ -51,8 +50,8 @@ class PublicQuestionnairesContainer extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Messages ref={(el) => this.messages = el}/>
                 <div className="container-background">
+                    <Messages ref={(el) => this.messages = el}/>
                     {
                         this.props.connection === false ? <ErrorPage/> :
                                 <Fragment>
@@ -60,7 +59,9 @@ class PublicQuestionnairesContainer extends Component {
                                            render={props =>
                                                <AnswerPageContainer
                                                    questionnaireId={props.match.params.id}
-                                                   invalidateQuestionnaire={this.invalidateQuestionnaire}/> }/>
+                                                   invalidateQuestionnaire={this.invalidateQuestionnaire}
+                                                   showMessageAndInvalidate = {this.showMessageAndInvalidate}
+                                                   {...props}/> }/>
                                     <Route path="/" exact
                                            component={PublicQuestionnairesListContainer}/>
                                 </Fragment>

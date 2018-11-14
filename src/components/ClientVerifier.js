@@ -321,7 +321,7 @@ class ClientVerifier extends Component {
                             this.accept()
                         }} disabled={this.state.client === null && this.state.interviewedName === ""}
                                 className="green-button"/>
-                        <Link  to={`/questionnariesPil`}>
+                        <Link  to={`/`}>
                             <Button label="Cancelar" onClick={() => {
                                 this.cancel()
                             }} className="red-button"/>

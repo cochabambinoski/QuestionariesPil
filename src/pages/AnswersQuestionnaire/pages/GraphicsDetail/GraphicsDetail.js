@@ -15,6 +15,8 @@ import {connect} from 'react-redux';
 import {getAnswers, getQuestionnarieAnswers} from "../../../../reducers";
 import {getAnswersAnsQuestionnaireByQuestionnaire,} from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
+import Title from "../../../Title/Title";
+import SwipeableViews from 'react-swipeable-views';
 
 const styles = theme => ({
     root: {
@@ -33,7 +35,6 @@ function generateListAnswers(idQuestion, listAnswers) {
         answers.lsAnswerDetails.forEach((answerDetail) => {
             if (answerDetail.question.id === idQuestion && !listAnswersQuestion.includes(answerDetail)) {
                 listAnswersQuestion.push(answerDetail);
-                console.log("includes");
                 return false;
             }
         })
@@ -47,7 +48,7 @@ class GraphicsDetail extends Component {
         super(props);
         this.state = {
             value: 0,
-            listAnswerCurrent: [],
+            listAnswerCurrent: null,
             expandFirstSellerSearch: false,
         };
     }
@@ -73,12 +74,7 @@ class GraphicsDetail extends Component {
     };
 
     getAnswers = () => {
-        console.log(this.props.idQuestionary)
         this.props.getAnswersAndQuestionnaireByIdQuestionnaire(this.props.idQuestionary)
-            .then((data) => {
-                this.setState({listAnswerCurrent : data});
-            });
-
     };
 
     componentDidMount(){
@@ -87,11 +83,15 @@ class GraphicsDetail extends Component {
 
     render() {
         const {value} = this.state;
+        const { classes, theme } = this.props;
         return (
             <div>
                 {
                     this.props.answerQuestionnaire ?
                         <div>
+                            <Title tilte={'Detalles de la encuesta'}
+                                   subtitle={'Presione una pregunta para ver los detalles de la pregunta.'}/>
+                            <br/>
                             <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon onClick={() => {
@@ -118,16 +118,25 @@ class GraphicsDetail extends Component {
                                                                 this.generateGraphics(question)
                                                             }}/>
                                             })
+
                                         }
                                     </Tabs>
                                 </ExpansionPanelSummary>
                                 <Divider/>
                                 <GoogleMapsComponent answers={this.props.answers}/>
                             </ExpansionPanel>
-                            {
-                                <Graphics question={this.state.currentQuestion} listAnswerCurrent={this.state.listAnswerCurrent}/>
-                            }
-                        </div> : null
+                            <SwipeableViews
+                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                index={this.state.value}
+                                onChangeIndex={this.handleChangeIndex}>
+                                {
+                                    this.props.answerQuestionnaire.lsQuestions.map((question) => {
+                                        return <Graphics question={question} listAnswerCurrent={generateListAnswers(question.id, this.props.answers)}/>
+                                    })
+                                }
+                            </SwipeableViews>
+
+                        </div> : <h1> Cargando... </h1>
                 }
             </div>
         );
@@ -143,4 +152,4 @@ const mapDispatchToProps = dispatch => ({
     getAnswersAndQuestionnaireByIdQuestionnaire: value => dispatch(getAnswersAnsQuestionnaireByQuestionnaire(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(GraphicsDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(GraphicsDetail));
