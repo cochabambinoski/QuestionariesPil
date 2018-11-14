@@ -8,6 +8,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+import {
+    answersRoute,
+    assigmentRoute,
+    indexRoute,
+    questionariesRoute,
+    segmentRoute
+} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
@@ -55,15 +62,15 @@ class SubMenu extends Component {
             case 'Start':
                 return "/";
             case 'QuestionaryContainer':
-                return "/Questionaries";
+                return questionariesRoute;
             case 'AssignmentQuestionary':
-                return "/Assigment";
+                return assigmentRoute;
             case 'AnwserQuestionaryContainer':
-                return "/Answers";
+                return answersRoute;
             case 'ListSegment':
-                return "/Segment";
+                return segmentRoute;
             default:
-                return "/";
+                return indexRoute;
         }
     };
 

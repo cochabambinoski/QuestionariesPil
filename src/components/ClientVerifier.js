@@ -21,6 +21,7 @@ import {encryptMD5} from "../utils/EncryptationUtil";
 import {saveClient, saveInterviewedName} from "../actions";
 import Constants from './../Constants.json';
 import Link from "react-router-dom/es/Link";
+import {indexRoute} from "../routes/PathRoutes";
 
 const customStyles = {
     control: (base, state) => ({
@@ -321,7 +322,7 @@ class ClientVerifier extends Component {
                             this.accept()
                         }} disabled={this.state.client === null && this.state.interviewedName === ""}
                                 className="green-button"/>
-                        <Link  to={`/`}>
+                        <Link  to={indexRoute}>
                             <Button label="Cancelar" onClick={() => {
                                 this.cancel()
                             }} className="red-button"/>

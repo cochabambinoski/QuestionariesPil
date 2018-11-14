@@ -50,6 +50,7 @@ import {
     saveQuestionnaire
 } from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
+import {questionariesRoute} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
@@ -405,7 +406,7 @@ class Questionnaire extends Component {
                         {this.props.readOnly ?
                             <Row>
                                 <Col>
-                                    <Link to={`/Questionaries`}>
+                                    <Link to={questionariesRoute}>
                                         <Button label="Cancelar" className="ui-button-danger" onClick={() => {
                                         }}/>
                                     </Link>
@@ -421,7 +422,7 @@ class Questionnaire extends Component {
                                 </Col>
 
                                 <Col>
-                                    <Link to={`/Questionaries`}>
+                                    <Link to={questionariesRoute}>
                                         <Button label="Cancelar" className="ui-button-danger"
                                         />
                                     </Link>

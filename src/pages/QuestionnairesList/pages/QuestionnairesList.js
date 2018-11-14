@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import Constants from './../../../Constants'
 import './QuestionnairesList.css';
 import 'primereact/resources/themes/omega/theme.css';
@@ -17,6 +17,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';
 import {getQuestionnaries, getUser} from "../../../reducers";
 import Link from "react-router-dom/es/Link";
+import {
+    questionariesEditIdRouteParam,
+    questionariesNewRoute,
+    questionariesShowIdRouteParam
+} from "../../../routes/PathRoutes";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -127,31 +132,33 @@ class Questionnaires extends Component {
     render() {
         return (
             <div>
-                <ModalContainer>
-                    <Modal open={this.state.open} title={"Eliminar cuestionario"}
-                           message={"Está seguro de eliminar el cuestionario?"}
-                           handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
-                    </Modal>
-                    <Modal open={this.state.modal} title={"Cerrar cuestionario"}
-                           message={"Está seguro de cerrar el cuestionario?"}
-                           handleConfirm={this.handleClose} handleCancel={this.exitModal}>
-                    </Modal>
-                </ModalContainer>
-                <Title tilte={'Lista de Encuestas'}
-                       subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
-                <Toolbar className="toolbarFullWidth">
-                    <div>
-                        <Link to={`/Questionaries/New`}>
-                            <Button label="Nuevo"
-                                    onClick={() => {
-                                        this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
-                                    }}/>
-                        </Link>
-                    </div>
-                </Toolbar>
+                <Fragment>
+                    <ModalContainer>
+                        <Modal open={this.state.open} title={"Eliminar cuestionario"}
+                               message={"Está seguro de eliminar el cuestionario?"}
+                               handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+                        </Modal>
+                        <Modal open={this.state.modal} title={"Cerrar cuestionario"}
+                               message={"Está seguro de cerrar el cuestionario?"}
+                               handleConfirm={this.handleClose} handleCancel={this.exitModal}>
+                        </Modal>
+                    </ModalContainer>
+                    <Title tilte={'Lista de Encuestas'}
+                           subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
+                    <Toolbar className="toolbarFullWidth">
+                        <div>
+                            <Link to={questionariesNewRoute}>
+                                <Button label="Nuevo"
+                                        onClick={() => {
+                                            this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                        }}/>
+                            </Link>
+                        </div>
+                    </Toolbar>
+                </Fragment>
                 <Messages ref={(el) => this.messages = el}/>
                 <br/>
-                <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
+                <ScrollPanel style={{width: '100vw - 100dp', height: '100vh', margin: '5px'}} className="custom">
                     {
                         this.props.questionnaires.map((item) => {
                             return (
@@ -167,13 +174,13 @@ class Questionnaires extends Component {
                                             }
                                             <br/>
                                             <span>
-                                                <Link to={`/Questionaries/show/${item.id}`}>
+                                                <Link to={`${questionariesShowIdRouteParam}${item.id}`}>
                                                     <Button label="Ver"
                                                             // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))}}
                                                     />
                                                 </Link>
 
-                                                <Link to={`/Questionaries/Edit/${item.id}`}>
+                                                <Link to={`${questionariesEditIdRouteParam}${item.id}`}>
                                                 <Button label="Editar"
                                                         // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}}
                                                 />

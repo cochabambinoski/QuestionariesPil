@@ -32,6 +32,14 @@ import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList"
 import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
+import {
+    answersRoute, answersIdRoute,
+    assigmentRoute, assigmentIdRoute,
+    questionariesRoute,
+    questionariesEditIdRoute,
+    questionariesNewRoute,
+    questionariesShowIdRoute, segmentRoute
+} from "../../../routes/PathRoutes";
 
 class Home extends Component {
     state = {
@@ -213,30 +221,30 @@ class Home extends Component {
                                         <Growl ref={(el) => this.growl = el}/>
                                         <Route path="/" exact component={Start}/>
                                         {/*Questionaries Create Show Edit Delete*/}
-                                        <Route path="/Questionaries" exact
+                                        <Route path={questionariesRoute} exact
                                                render={(props) => <Questionnaires title={this.state.title}
                                                                                   detail={this.state.detail}
                                                                                   showMessage={this.showSuccess}
                                                                                   {...props}/>}
                                         />
-                                        <Route path="/Questionaries/New" exact strict
+                                        <Route path={questionariesNewRoute} exact strict
                                                render={(props) => <Questionnaire questionary={null}
                                                                                  showMessage={this.showSuccess}
                                                                                  {...props}/>}
                                         />
-                                        <Route path="/Questionaries/Show/:id" exact strict
+                                        <Route path={questionariesShowIdRoute} exact strict
                                                render={props => <Questionnaire questionnaireId={props.match.params.id}
                                                                                readOnly={true}
                                                                                showMessage={this.showSuccess} {...props}/>}
                                         />
-                                        <Route path="/Questionaries/Edit/:id" exact strict
+                                        <Route path={questionariesEditIdRoute} exact strict
                                                render={props => <Questionnaire questionnaireId={props.match.params.id}
                                                                                showMessage={this.showSuccess} {...props}/>}
                                         />
                                         {/*Assigment Questionnaries*/}
 
-                                        <Route path="/Assigment" exact component={AsigmentQuestionaryContainer}/>
-                                        <Route path="/Assigment/:id" exact strict
+                                        <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
+                                        <Route path={assigmentIdRoute} exact strict
                                                render={props => <AssignmentQuestionary
                                                    idQuestionary={props.match.params.id}
                                                    onSelectedQuestionary={null}
@@ -244,15 +252,15 @@ class Home extends Component {
                                         />
 
                                         {/*Answers Questionnaries*/}
-                                        <Route path="/Answers" exact component={AnswerContainer}/>
-                                        <Route path="/Answers/:id" exact
+                                        <Route path={answersRoute} exact component={AnswerContainer}/>
+                                        <Route path={answersIdRoute} exact
                                                render={props => <GraphicsDetail
                                                    idQuestionary={props.match.params.id}
                                                    />}
                                         />
 
                                         {/*Segment */}
-                                        <Route path="/Segment" exact component={ListSegment}/>
+                                        <Route path={segmentRoute} exact component={ListSegment}/>
                                     </div>
                                 </div>
                             </div>

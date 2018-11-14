@@ -46,6 +46,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Link from "react-router-dom/es/Link";
+import {assigmentRoute} from "../../../routes/PathRoutes";
 
 const styles = theme => ({
 	root: {
@@ -329,7 +330,7 @@ class AssignmentQuestionary extends Component {
 				</ModalContainer>
 				<Toolbar className="toolbarFullWidth">
 					<div>
-                        <Link to={`/Assigment`}>
+                        <Link to={assigmentRoute}>
 						    <Button label="Cancelar" className="ui-button-danger"
 						            onClick={() => {
 						    	        this.cancelAssignamentSeller();

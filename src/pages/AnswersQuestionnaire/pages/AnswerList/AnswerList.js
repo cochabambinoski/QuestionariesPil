@@ -13,6 +13,7 @@ import {getQuestionnaries} from "../../../../reducers";
 import {fetchGetQuestionaries, getAnswersByQuestionnaire} from "../../../../actions/indexthunk";
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import {answersIdRouteParam} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
@@ -51,7 +52,7 @@ class AnswerList extends Component {
     };
 
     handlePushClick = (questionnaire) => {
-        this.props.history.push(`/Answers/${questionnaire.id}`);
+        this.props.history.push(`${answersIdRouteParam}${questionnaire.id}`);
     };
 
     handleListItemClick = (event, questionnaire) => {

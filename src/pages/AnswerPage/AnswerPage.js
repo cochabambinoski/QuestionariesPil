@@ -11,6 +11,7 @@ import {getClient, getinterviewedName, getIsSavingAnswer, getMarkedOptions} from
 import {setSavingAnswer, triedToSave} from "../../actions";
 import {Messages} from 'primereact/messages';
 import Link from "react-router-dom/es/Link";
+import {indexRoute} from "../../routes/PathRoutes";
 
 class AnswerPage extends Component {
     constructor(props) {
@@ -165,7 +166,7 @@ class AnswerPage extends Component {
                             }}/>
 
 
-                    <Link to={`/`}>
+                    <Link to={indexRoute}>
                         <Button label="Salir" onClick={
                             this.handleCancel
                         }

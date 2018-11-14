@@ -16,6 +16,7 @@ import {getAnswers, getQuestionnarieAnswers} from "../../../../reducers";
 import {getAnswersAnsQuestionnaireByQuestionnaire,} from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
 import Title from "../../../Title/Title";
+import {answersRoute} from "../../../../routes/PathRoutes";
 import SwipeableViews from 'react-swipeable-views';
 
 const styles = theme => ({
@@ -97,7 +98,7 @@ class GraphicsDetail extends Component {
                                     expandIcon={<ExpandMoreIcon onClick={() => {
                                         this.handleSetStateFirstSellerSearch()
                                     }}/>}>
-                                    <Link to={`/Answers`}>
+                                    <Link to={answersRoute}>
                                         <IconButton aria-label="Comments">
                                             <ArrowBack/>
                                         </IconButton>
