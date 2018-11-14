@@ -90,7 +90,7 @@ class MultipleOption extends Component {
 				}
 			}
 		} else {
-			if (this.isDependent(index) === undefined || this.isDependent(index) !== null) {
+			if (this.isDependent(index) === undefined) {
 				this.props.removeOption(index);
 			}
 			else {
@@ -101,9 +101,7 @@ class MultipleOption extends Component {
 
 	handleClose = () => {
 		for (let i = 0; i < this.props.lsOptions.length; i++) {
-			console.log('handleClose',this.props.lsOptions[i].option);
 			if (this.props.lsOptions[i].option === "") {
-				console.log(this.props.lsOptions[i].option);
 				this.removeOption(i);
 			}
 		}

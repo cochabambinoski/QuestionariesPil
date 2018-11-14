@@ -68,7 +68,6 @@ class MultipleSelection extends Component {
 		return this.props.questions.find((q) => {
 			if (q.questionOption !== null && this.props.lsOptions[index].id !== null) {
 				if (q.questionOption.id === this.props.lsOptions[index].id) {
-					console.log('delete option', q);
 					return q;
 				}
 			}
