@@ -3,7 +3,6 @@ import Questionnaire from "../Questionnaire/pages/Questionnaire/Questionnaire";
 import Questionnaires from "./pages/QuestionnairesList";
 import {connect} from 'react-redux';
 import {getQuestionarySelected} from "../../reducers";
-import Constants from '../../Constants';
 
 class QuestionaryContainer extends Component {
 

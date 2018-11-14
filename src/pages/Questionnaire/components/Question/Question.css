@@ -14,3 +14,36 @@
     background-color: #c5e1a5;
     width: fit-content;
 }
+
+.contentDropbox{
+    margin-bottom: 40px;
+}
+
+.dropboxQuestion {
+    min-width: 350px;
+}
+
+.delOption {
+    margin-left: 10px;
+}
+
+.dialogDependent {
+    min-height: 350px;
+}
+
+.extras {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.dependent {
+    background-color: #b3e5fc;
+    margin-right: 5px;
+    width: fit-content;
+}
+
+.independent {
+    background-color: #eceff1;
+    margin-right: 5px;
+    width: fit-content;
+}

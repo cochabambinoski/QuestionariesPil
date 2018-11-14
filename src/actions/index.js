@@ -59,7 +59,9 @@ import {
     SET_SYSTEM_TYPES,
     SET_USER,
     TRIED_TO_SAVE,
-    UPDATE_MARKED_OPTIONS
+    UPDATE_MARKED_OPTIONS,
+	SET_STATUS_TYPES,
+	SHOW_ROUTES
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -216,3 +218,5 @@ export const saveClient = payload => ({type: SAVE_CLIENT, payload});
 export const saveInterviewedName = payload => ({type: SAVE_INTERVIEWED_NAME, payload});
 
 export const setSavingAnswer = payload => ({type: IS_SAVING_ANSWER, payload});
+
+export const setStatusTypes = payload => ({type: SET_STATUS_TYPES, payload});
