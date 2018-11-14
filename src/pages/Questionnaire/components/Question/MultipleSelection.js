@@ -80,7 +80,7 @@ class MultipleSelection extends Component {
 			if (this.props.lsOptions[index].id != null) {
 				this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
 			} else {
-				if (this.isDependent(index) !== undefined) {
+				if (this.isDependent(index) === undefined) {
 					this.props.removeOption(index);
 				}
 				else {
@@ -88,7 +88,12 @@ class MultipleSelection extends Component {
 				}
 			}
 		} else {
-			this.props.removeOption(index);
+			if (this.isDependent(index) === undefined) {
+				this.props.removeOption(index);
+			}
+			else {
+				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+			}
 		}
 	}
 

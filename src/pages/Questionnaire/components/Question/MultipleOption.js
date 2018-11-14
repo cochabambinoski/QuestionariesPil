@@ -71,7 +71,6 @@ class MultipleOption extends Component {
 		return this.props.questions.find((q) => {
 			if (q.questionOption !== null && this.props.lsOptions[index].id !== null) {
 				if (q.questionOption.id === this.props.lsOptions[index].id) {
-					console.log('delete option', q);
 					return q;
 				}
 			}
@@ -83,7 +82,7 @@ class MultipleOption extends Component {
 			if (this.props.lsOptions[index].id != null) {
 				this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
 			} else {
-				if (this.isDependent(index) !== undefined) {
+				if (this.isDependent(index) === undefined) {
 					this.props.removeOption(index);
 				}
 				else {
@@ -91,7 +90,12 @@ class MultipleOption extends Component {
 				}
 			}
 		} else {
-			this.props.removeOption(index);
+			if (this.isDependent(index) === undefined || this.isDependent(index) !== null) {
+				this.props.removeOption(index);
+			}
+			else {
+				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+			}
 		}
 	}
 
