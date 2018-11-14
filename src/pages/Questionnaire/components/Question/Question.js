@@ -162,7 +162,6 @@ class Question extends Component {
 				this.setState({selectedValidation: question.lsQuestionOptions[0]});
 			}
 		}
-		console.log(this.props.nextProps);
 	}
 
 	render() {

@@ -26,7 +26,7 @@ class MultipleOption extends Component {
 		} else {
 			let emptyOptions = this.props.lsOptions.filter((option) => {
 				if (option.option === "") {
-                    this.props.showError("Tiene opciones vacías!", "");
+					this.props.showError("Tiene opciones vacías!", "");
 					return option;
 				}
 			});
@@ -91,20 +91,17 @@ class MultipleOption extends Component {
 				}
 			}
 		} else {
-			if (this.isDependent(index) !== undefined) {
-				this.props.removeOption(index);
-			}
-			else {
-				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
-			}
+			this.props.removeOption(index);
 		}
 	}
 
 	handleClose = () => {
-		let i;
-		for (i = 0; i < this.props.lsOptions.length; i++) {
-			if (this.props.lsOptions[i].option === '')
+		for (let i = 0; i < this.props.lsOptions.length; i++) {
+			console.log('handleClose',this.props.lsOptions[i].option);
+			if (this.props.lsOptions[i].option === "") {
+				console.log(this.props.lsOptions[i].option);
 				this.removeOption(i);
+			}
 		}
 		this.props.handleClose();
 	};

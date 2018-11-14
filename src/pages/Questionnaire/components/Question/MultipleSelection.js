@@ -23,7 +23,7 @@ class MultipleSelection extends Component {
 		} else {
 			let emptyOptions = this.props.lsOptions.filter((option) => {
 				if (option.option === "") {
-                    this.props.showError("Tiene opciones vacías!", "");
+					this.props.showError("Tiene opciones vacías!", "");
 					return option;
 				}
 			});
@@ -88,12 +88,7 @@ class MultipleSelection extends Component {
 				}
 			}
 		} else {
-			if (this.isDependent(index) !== undefined) {
-				this.props.removeOption(index);
-			}
-			else {
-				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
-			}
+			this.props.removeOption(index);
 		}
 	}
 
