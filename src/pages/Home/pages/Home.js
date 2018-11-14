@@ -30,8 +30,8 @@ import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire
 import SplashPage from "../../SplashPage/SplashPage";
 import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
 import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
-import {Messages} from 'primereact/messages';
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
+import {Growl} from 'primereact/growl';
 
 class Home extends Component {
     state = {
@@ -150,7 +150,7 @@ class Home extends Component {
     };
 
     showSuccess = (title, detail) => {
-        this.messages.show({severity: 'success', summary: title, detail: detail});
+        this.growl.show({severity: 'success', summary: title, detail: detail});
     };
 
     handleClick = () => {
@@ -210,7 +210,7 @@ class Home extends Component {
                                 <div>
 
                                     <div className="layout-main">
-                                        <Messages ref={(el) => this.messages = el}/>
+                                        <Growl ref={(el) => this.growl = el}/>
                                         <Route path="/" exact component={Start}/>
                                         {/*Questionaries Create Show Edit Delete*/}
                                         <Route path="/Questionaries" exact
