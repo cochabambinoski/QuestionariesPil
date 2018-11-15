@@ -48,7 +48,7 @@ class Questions extends Component {
 						let q = this.props.questions.find((q) => {
 							if (q.questionOption !== null) {
 								if (q.questionOption.id === o.id) {
-									return q.id
+									return q.id;
 								}
 							}
 						});
@@ -166,7 +166,7 @@ class Questions extends Component {
 								      className="card ui-card-shadow text" key={question.id}>
 									<div className="extras">
 										{
-											question.questionOption !== null && question.questionOption !== undefined ?
+											question.questionOption !== null && question.questionOption.id > 0 ?
 												<label className="dependent">Dependiente</label> :
 												<label className="independent">Independiente</label>
 										}
