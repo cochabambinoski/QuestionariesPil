@@ -17,7 +17,7 @@ class QuestionDependent extends Component {
 			LsQuestions: questionsList,
 			selQuestion: {question: null},
 			lsOptions: [],
-			selOption: {option: null},
+			selOption: null,
 			question: this.props.currentQuestion
 		};
 
