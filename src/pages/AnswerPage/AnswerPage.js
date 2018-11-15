@@ -10,6 +10,8 @@ import {Button} from 'primereact/button';
 import {getClient, getinterviewedName, getIsSavingAnswer, getMarkedOptions} from "../../reducers";
 import {setSavingAnswer, triedToSave} from "../../actions";
 import {Messages} from 'primereact/messages';
+import Link from "react-router-dom/es/Link";
+import {indexRoute} from "../../routes/PathRoutes";
 
 class AnswerPage extends Component {
     constructor(props) {
@@ -162,15 +164,19 @@ class AnswerPage extends Component {
                                 display: 'inline-block',
                                 marginRight: '15px'
                             }}/>
-                    <Button label="Salir" onClick={
-                        this.handleCancel
-                    }
-                            className='red-button'
-                            style={{
-                                fontSize: '20px',
-                                display: 'inline-block',
-                                marginLeft: '15px'
-                            }}/>
+
+
+                    <Link to={indexRoute}>
+                        <Button label="Salir" onClick={
+                            this.handleCancel
+                        }
+                                className='red-button'
+                                style={{
+                                    fontSize: '20px',
+                                    display: 'inline-block',
+                                    marginLeft: '15px'
+                                }}/>
+                    </Link>
                 </div>
             </div>
 

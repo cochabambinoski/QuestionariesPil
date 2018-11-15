@@ -10,12 +10,12 @@ const initialState = {
     idMenu: {transaccion: {ruta: 'Start'}},
 };
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // development
-//const composeEnhancers = compose; // build
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // development
+const composeEnhancers = compose; // build
 
 export const store = createStore(
     reducer, initialState,
-    composeEnhancers(applyMiddleware(reduxTimeout(), logger, thunk) // development
-    //composeEnhancers(applyMiddleware(reduxTimeout()) // build
+    // composeEnhancers(applyMiddleware(reduxTimeout(), logger, thunk) // development
+    composeEnhancers(applyMiddleware(reduxTimeout(), thunk) // build
     ),
 );

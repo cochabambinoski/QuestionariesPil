@@ -39,12 +39,14 @@ import {
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Modal from "../../../widgets/Modal/components/modal";
 import Title from "../../Title/Title";
-import {saveAssignment} from "../../../actions/indexthunk";
+import {getQuetionnaireById, saveAssignment} from "../../../actions/indexthunk";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Link from "react-router-dom/es/Link";
+import {assigmentRoute} from "../../../routes/PathRoutes";
 
 const styles = theme => ({
 	root: {
@@ -97,6 +99,7 @@ class AssignmentQuestionary extends Component {
 			questionaryRanges: [],
 			routeOpen: false,
 			routes: [],
+			questionary: null
 		};
 	}
 
@@ -137,13 +140,19 @@ class AssignmentQuestionary extends Component {
 		}
 	};
 
+    componentDidMount() {
+        this.props.getQuetionnaireById(this.props.idQuestionary)
+            .then((data) => {
+                this.setState({questionary: data});
+            });
+    }
+
 	saveAssignments = () => {
 		this.closeModal();
 		const {questionerQuestionaryList} = this.state;
-
 		for (let seller of this.props.mobileSellersAssigmentAux) {
 			if (!this.alredyHasAssignment(seller)) {
-				const questionQuestionary = new this.QuestionQuestionaries(seller, this.props.idQuestionary,
+				const questionQuestionary = new this.QuestionQuestionaries(seller, this.state.questionary,
 					this.state.dates2[1], this.state.dates2[0], this.props.typeQuestionerQuestionary[0],
 					this.props.user.username);
 				questionerQuestionaryList.push(questionQuestionary);
@@ -151,10 +160,24 @@ class AssignmentQuestionary extends Component {
 		}
 		this.props.saveAssignment(questionerQuestionaryList)
 			.then((response) => {
-				this.cancelAssignamentSeller();
-				this.props.showSuccess("", "La asignación se realizó exitosamente.");
+                switch (response) {
+                    case "OK":
+                        this.cancelAssignamentSeller();
+                        this.props.showSuccess("", "La asignación se realizó exitosamente.");
+                        this.handleBackClick();
+                        break;
+                    case "ERROR":
+                        this.showError("", "Error al guardar");
+                        break;
+                    default:
+                        break;
+				}
 			});
 	};
+
+    handleBackClick = () => {
+        this.props.history.goBack();
+    };
 
 	cancelAssignamentSeller = () => {
 		this.setState({openConfirmMessage: false});
@@ -162,7 +185,6 @@ class AssignmentQuestionary extends Component {
 		this.props.deleteMobileSeller(null);
 		this.props.deleteSaveMobileSellerListAux(null);
 		this.props.deleteSaveMobileSellerAssignedListAux(null);
-		this.props.onSelectedQuestionary(null);
 	};
 
 	loadAssignments = (assignments) => {
@@ -207,9 +229,7 @@ class AssignmentQuestionary extends Component {
 	};
 
 	showRoutes = (items) => {
-		console.log('enter show Routes', items);
 		this.setState((prevState, props) => ({routeOpen: true, routes: items}));
-		console.log(this.state.routes, this.state.routeOpen);
 	};
 
 	assignAllSeller = () => {
@@ -310,68 +330,70 @@ class AssignmentQuestionary extends Component {
 				</ModalContainer>
 				<Toolbar className="toolbarFullWidth">
 					<div>
-						<Button label="Cancelar" className="ui-button-danger"
-						        onClick={() => {
-							        this.cancelAssignamentSeller();
-						        }}
-						        style={{margin: '5px', verticalAlign: 'left'}}/>
-
+                        <Link to={assigmentRoute}>
+						    <Button label="Cancelar" className="ui-button-danger"
+						            onClick={() => {
+						    	        this.cancelAssignamentSeller();
+						            }}
+						            style={{margin: '5px', verticalAlign: 'left'}}/>
+                        </Link>
 						<Calendar value={this.state.dates2}
 						          onChange={(e) => this.setState({dates2: e.value})}
 						          selectionMode="range" readOnlyInput="true" locale={es}
 						          placeholder='Rango de fechas'/>
 
-						<Button label="Completar Asignacion"
-						        onClick={() => {
-							        this.handleSaveAssignment();
-						        }}
-						        style={{margin: '5px', verticalAlign: 'middle'}}/>
+                            <Button label="Completar Asignacion"
+                                    onClick={() => {
+                                        this.handleSaveAssignment();
+                                    }}
+                                    style={{margin: '5px', verticalAlign: 'middle'}}/>
 
-						<Button label="Asignar todos"
-						        onClick={() => {
-							        this.assignAllSeller();
-						        }}
-						        style={{margin: '5px', verticalAlign: 'middle'}}/>
-						<Button label="Quitar Todas las Asignaciones"
-						        className="ui-button-danger"
-						        onClick={() => {
-							        this.unassignAllSeller();
-						        }}
-						        style={{margin: '5px', verticalAlign: 'left'}}/>
-					</div>
-				</Toolbar>
-				<Messages ref={(el) => this.messages = el}/>
-				<div>
-					{this.renderRoutes}
-				</div>
-				<br/>
-				{
-					this.props.idQuestionary ?
-						<div>
-							<Row>
+                        <Button label="Asignar todos"
+                                onClick={() => {
+                                    this.assignAllSeller();
+                                }}
+                                style={{margin: '5px', verticalAlign: 'middle'}}/>
+
+                        <Button label="Quitar Todas las Asignaciones"
+                                className="ui-button-danger"
+                                onClick={() => {
+                                    this.unassignAllSeller();
+                                }}
+                                style={{margin: '5px', verticalAlign: 'left'}}/>
+                    </div>
+                </Toolbar>
+                <Messages ref={(el) => this.messages = el}/>
+                <div>
+                    {this.renderRoutes}
+                </div>
+                <br/>
+                {
+                    this.props.idQuestionary ?
+                        <div>
+                            <Row>
+                                <Col xs>
+
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}
+                                                          idQuestionary={idQuestionary}/>
+                                    <MobileSellerList idQuestionary={idQuestionary}
+                                                      isEdit={false}
+                                                      getAssignment={this.getAssignment}
+                                                      handleAddSeller={this.handleAddSeller}
+                                                      showRoutes={this.showRoutes}/>
+                                </Col>
+
 								<Col xs>
 
-									<SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER}
-									                      idQuestionary={this.props.idQuestionary.id}/>
-									<MobileSellerList idQuestionary={idQuestionary.id}
-									                  isEdit={false}
-									                  getAssignment={this.getAssignment}
-									                  handleAddSeller={this.handleAddSeller}
-									                  showRoutes={this.showRoutes}/>
-								</Col>
-
-								<Col xs>
-
-									<SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}
-									                      idQuestionary={this.props.idQuestionary.id}/>
-									<MobileSellerListAssigment idQuestionary={idQuestionary.id}
-									                           isEdit={true}
-									                           loadAssignments={this.loadAssignments}
-									                           deleteAssignement={this.deleteAssignement}
-									                           getAssignment={this.getAssignment}
-									                           showRoutes={this.showRoutes}/>
-								</Col>
-							</Row>
+                                    <SearchAdvancedSeller typeSearch={Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED}
+                                                          idQuestionary={idQuestionary}/>
+                                    <MobileSellerListAssigment idQuestionary={idQuestionary}
+                                                               isEdit={true}
+                                                               loadAssignments={this.loadAssignments}
+                                                               deleteAssignement={this.deleteAssignement}
+                                                               getAssignment={this.getAssignment}
+                                                               showRoutes={this.showRoutes}/>
+                                </Col>
+                            </Row>
 
 
 						</div>
@@ -406,7 +428,8 @@ const mapDispatchToProps = dispatch => ({
 	deleteSaveMobileSellerAssignedListAux: value => dispatch(deleteSaveMobileSellerAssignedListAux(value)),
 	removeAllAssignmentUser: value => dispatch(removeAllAssignmentUser(value)),
 	editQueryTextAssignedQuestionary: value => dispatch(editQueryTextAssignedQuestionary(value)),
-	saveAssignment: value => dispatch(saveAssignment(value))
+	saveAssignment: value => dispatch(saveAssignment(value)),
+    getQuetionnaireById: value => dispatch(getQuetionnaireById(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AssignmentQuestionary));

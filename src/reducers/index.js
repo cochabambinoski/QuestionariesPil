@@ -13,10 +13,12 @@ import {createQuestionary} from './createQuestionary';
 import {questionnaires} from "./questionnaires";
 import {connection} from "./connection";
 import {answer} from "./answer";
+import answers from "./answers";
+
 
 export default combineReducers({
     data,
-    user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answer
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers, answer
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -57,3 +59,6 @@ export const getTriedToSave = (state) => state.answer.triedToSave;
 export const getClient = (state) => state.answer.client;
 export const getinterviewedName = (state) => state.answer.interviewedName;
 export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
+
+export const getAnswers = state => state.answers.answers;
+export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;

@@ -36,7 +36,6 @@ const styles = theme => ({
 class FreeAnswerTable extends Component {
 
     render() {
-        console.log(this.props.data.data.answers)
         const arrayColums =["Cliente", "Repuesta"];
         const { classes } = this.props;
         return (

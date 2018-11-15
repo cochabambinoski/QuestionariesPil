@@ -87,7 +87,6 @@ class Questions extends Component {
 	};
 
 	handleCloseDependent = (value) => {
-		console.log("handleCloseDependent val", value);
 		this.setState((prevState, props) => {
 			const question = this.props.questions[prevState.currentIndex];
 			if (value !== undefined && value !== null) {
@@ -106,7 +105,6 @@ class Questions extends Component {
 	}
 
 	clickChild = () => {
-		console.log('child');
 	};
 
 	renderDependent() {

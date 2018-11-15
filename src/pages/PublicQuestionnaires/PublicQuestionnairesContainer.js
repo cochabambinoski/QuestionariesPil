@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import connect from "react-redux/es/connect/connect";
-import PublicQuestionnairesList from "./components/PublicQuestionnairesList";
 import AnswerPageContainer from "../AnswerPage/AnswerPageContainer";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import {getQuestionnairesByReach} from "../../actions/indexthunk";
 import {getQuestionnaries} from "../../reducers";
 import ErrorPage from "../ErrorPage/pages/ErrorPage";
-import ClientVerifier from "../../components/ClientVerifier";
-import {Messages} from "primereact/messages";
+import {BrowserRouter} from "react-router-dom";
+import Route from "react-router/es/Route";
+import PublicQuestionnairesListContainer from "./components/PublicQuestionnairesListContainer";
+import {Growl} from 'primereact/growl';
 
 class PublicQuestionnairesContainer extends Component {
     constructor(props) {
@@ -29,6 +28,7 @@ class PublicQuestionnairesContainer extends Component {
     }
 
     handleClick = (id) => {
+        //TODO: push a la ruta de respuestas
         this.setState({questionnaireSelected: id});
     };
 
@@ -37,42 +37,37 @@ class PublicQuestionnairesContainer extends Component {
     };
 
     showMessageAndInvalidate = (title, message, messageType) => {
-        this.invalidateQuestionnaire();
+       // this.invalidateQuestionnaire();
         this.setState((previousState, currentProps) => {
-            this.messages.show({severity: messageType, summary: title, detail: message});
+            this.growl.show({severity: messageType, summary: title, detail: message});
         });
     };
 
     render() {
         return (
-            <div className="container-background">
-                {
-                    this.props.connection === false ? <ErrorPage/> :
-                        this.state.questionnaireSelected !== null ?
-                            <AnswerPageContainer
-                                questionnaireId={this.state.questionnaireSelected}
-                                invalidateQuestionnaire={this.invalidateQuestionnaire}
-                                showMessageAndInvalidate={this.showMessageAndInvalidate}/> :
-                            <div>
-                                <Header title={'Cuestionarios'}/>
-                                <Messages ref={(el) => this.messages = el}/>
-                                <ClientVerifier
-                                    modalState={this.modalState}
-                                    openClientModal={this.state.openClientModal}
-                                    setClientAndInterviewed={null}
-                                    questionnaire={null}
-                                    invalidateQuestionnaire={null}/>
-                                <PublicQuestionnairesList questionnaires={this.props.questionnaires}
-                                                          handleClick={this.handleClick}/>
-                                <div onClick={() => this.setState({openClientModal: true})}>
-                                    <Footer/>
-                                </div>
-                            </div>
-                }
-            </div>
+            <BrowserRouter>
+                <div className="container-background">
+                    <Growl ref={(el) => this.growl = el}/>
+                    {
+                        this.props.connection === false ? <ErrorPage/> :
+                                <Fragment>
+                                    <Route path="/questionary/:id"
+                                           render={props =>
+                                               <AnswerPageContainer
+                                                   questionnaireId={props.match.params.id}
+                                                   invalidateQuestionnaire={this.invalidateQuestionnaire}
+                                                   showMessageAndInvalidate = {this.showMessageAndInvalidate}
+                                                   {...props}/> }/>
+                                    <Route path="/" exact
+                                           component={PublicQuestionnairesListContainer}/>
+                                </Fragment>
+                    }
+                </div>
+            </BrowserRouter>
         );
     }
 }
+
 
 const mapStateToProps = state => ({
     questionnaires: getQuestionnaries(state),

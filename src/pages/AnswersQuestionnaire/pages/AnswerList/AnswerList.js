@@ -12,6 +12,8 @@ import PieChart from '@material-ui/icons/PieChart';
 import {getQuestionnaries} from "../../../../reducers";
 import {fetchGetQuestionaries, getAnswersByQuestionnaire} from "../../../../actions/indexthunk";
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
+import {answersIdRouteParam} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
@@ -49,15 +51,18 @@ class AnswerList extends Component {
         this.setState({questionnaireSelected: idQuestionary})
     };
 
-    showGraphic() {
-        console.log("showGraphic")
-    }
-
+    handlePushClick = (questionnaire) => {
+        this.props.history.push(`${answersIdRouteParam}${questionnaire.id}`);
+    };
 
     handleListItemClick = (event, questionnaire) => {
         this.props.getAnswersByQuestionnaire(questionnaire.id)
             .then((data) => {
-                this.props.showAnswersGraphics(data, questionnaire)
+                if (data.length > 0) {
+                    this.handlePushClick(questionnaire)
+                } else {
+                    this.props.handleClick()
+                }
             });
     };
 
@@ -76,22 +81,23 @@ class AnswerList extends Component {
                             <List className={classes.root} subheader={<li/>}>
                                 {
                                     this.props.questionnaires.map(questionnaire => (
-                                        <ListItem button
-                                                  key={questionnaire.id}
-                                                  selected={this.state.selectedIndex === questionnaire.id}
-                                                  onClick={event => this.handleListItemClick(event, questionnaire)}>
-                                            <Avatar>
-                                                <Assignment/>
-                                            </Avatar>
-                                            <ListItemText primary="Nombre" secondary={questionnaire.name}/>
-                                            <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
-                                            <ListItemSecondaryAction>
-                                                <IconButton aria-label="Comments"
-                                                            onClick={() => this.showAnswerGraphics(questionnaire)}>
-                                                    <PieChart/>
-                                                </IconButton>
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
+
+                                            <ListItem button
+                                                      key={questionnaire.id}
+                                                     onClick={event => this.handleListItemClick(event, questionnaire)}
+                                            >
+                                                <Avatar>
+                                                    <Assignment/>
+                                                </Avatar>
+                                                <ListItemText primary="Nombre" secondary={questionnaire.name}/>
+                                                <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
+                                                <ListItemSecondaryAction>
+                                                    <IconButton aria-label="Comments">
+                                                        <PieChart/>
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+
                                     ))
                                 }
                             </List>
@@ -117,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
     getAnswersByQuestionnaire: value => dispatch(getAnswersByQuestionnaire(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AnswerList));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AnswerList)));

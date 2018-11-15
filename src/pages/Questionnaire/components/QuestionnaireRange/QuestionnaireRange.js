@@ -89,7 +89,7 @@ class QuestionnaireRange extends Component {
     removeCity(city, removeBranches) {
         this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
-            if (this.indexOf(selectedAux, city) != -1) {
+            if (this.indexOf(selectedAux, city) !== -1) {
                 selectedAux.splice(this.indexOf(selectedAux, city), 1);
                 if (removeBranches) this.addRemoveAllBranchesForCity(city, false);
                 return {lsSelectedDepartments: selectedAux};

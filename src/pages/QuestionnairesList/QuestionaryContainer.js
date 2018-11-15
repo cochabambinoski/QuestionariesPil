@@ -6,37 +6,39 @@ import {getQuestionarySelected} from "../../reducers";
 
 class QuestionaryContainer extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			title: null,
-			detail: null
-		};
-		this.showMessage = this.showMessage.bind(this);
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: null,
+            detail: null,
+        };
+    }
 
 	showMessage(title, detail) {
 		this.setState({title: title});
 		this.setState({detail: detail});
 	}
 
-	render() {
-		const {questionarySelected} = this.props;
-		return (
-			<div>
-				{
-					questionarySelected === null ?
-						<Questionnaires title={this.state.title} detail={this.state.detail}
-						                showMessage={this.showMessage}/>
-						: questionarySelected.action === "NEW" ?
-						<Questionnaire questionary={null} showMessage={this.showMessage}/> :
-						questionarySelected.action === "EDIT" ?
-							<Questionnaire questionary={questionarySelected}
-							               questionnaireId1={questionarySelected.idQuestionary.id}
-							               showMessage={this.showMessage}/> :
-							<Questionnaire questionary={questionarySelected}
-							               questionnaireId1={questionarySelected.idQuestionary.id}
-							               readOnly={true} showMessage={this.showMessage}/>
+    render() {
+        const {questionarySelected} = this.props;
+        return (
+            <div>
+                {
+                    questionarySelected === null ?
+                        <Questionnaires title={this.state.title}
+                                        detail={this.state.detail}
+                                        showMessage={this.showMessage}/>
+                        : questionarySelected.action === "NEW" ?
+                        <Questionnaire questionary={null}
+                                       showMessage={this.showMessage}/> :
+                        questionarySelected.action === "EDIT" ?
+                            <Questionnaire questionary={questionarySelected}
+                                           questionnaireId1={questionarySelected.idQuestionary.id}
+                                           showMessage={this.showMessage}/> :
+                            <Questionnaire questionary={questionarySelected}
+                                           questionnaireId1={questionarySelected.idQuestionary.id}
+                                           readOnly={true}
+                                           showMessage={this.showMessage}/>
 
 				}
 			</div>

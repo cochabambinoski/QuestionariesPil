@@ -347,7 +347,6 @@ class EnhancedTable extends Component {
      * @returns {XML}
      */
     renderBase() {
-        const {classes} = this.props;
         return (
             <Dialog
                 className="fullDialog"
@@ -381,7 +380,6 @@ class EnhancedTable extends Component {
      * @returns {XML}
      */
     renderSegment() {
-        const {classes} = this.props;
         return (
             <Dialog
                 open={this.state.segmentOpen}
@@ -457,10 +455,13 @@ class EnhancedTable extends Component {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="dialogBody">
                         <img src={require('./../../../../../images/file-pdf.svg')} className="icons"
+                             alt="PDF"
                              onClick={this.handlePDFReport}/>
                         <img src={require('./../../../../../images/file-excel.svg')} className="icons"
+                             alt="Excel"
                              onClick={this.handleXLSReport}/>
                         <img src={require('./../../../../../images/file-document.svg')} className="icons"
+                             alt="Documento"
                              onClick={this.handleTXTReport}/>
                     </DialogContentText>
                 </DialogContent>

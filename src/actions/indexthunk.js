@@ -2,6 +2,8 @@ import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
+    getAnswers,
+    getAnswersQuestionnarie,
 	addMobileSellers,
 	getAllBranches,
 	getAllDepartaments,
@@ -104,7 +106,6 @@ export const sendDeleteRequest = item => {
 export const sendCloseRequest = item => {
     return (dispatch, getState) => {
         let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.CLOSE_QUESTIONARY}${encodeURIComponent(item.id)}`;
-        console.log(url);
         return fetch(url, {
             method: 'POST',
             headers: {
@@ -117,7 +118,6 @@ export const sendCloseRequest = item => {
             let index = getIndexQuestionary(getState().questionnaires, item);
             let questionnaires = getState().questionnaires.questionnaires;
             if (response === 'ok' && index !== undefined) {
-                console.log('response and index: ', response, questionnaires);
                 dispatch(setQuestionnairesData(questionnaires));
                 return "CLOSED"
             }
@@ -241,7 +241,9 @@ export const saveAssignment = assignments => {
                 return response;
             })
         ).catch(error => console.error('Error:', error)
-        ).then(response => console.log('Success:', response));
+        ).then(response => {
+            return "OK";
+        });
     };
 };
 
@@ -563,7 +565,6 @@ export const getQuestionnaryStatusTypes = payload => {
 	return dispatch => {
 		return dispatch(getTypesByClass(payload))
 			.then((response) => {
-				console.log('DISPATCH getQuestionnaryStatusTypes:', response);
 				dispatch(setStatusTypes(response));
 			});
 	};
@@ -621,4 +622,33 @@ export const saveAnswers = answers => {
                     return "ERROR";
                 });
     };
+};
+
+export const getAnswersAnsQuestionnaireByQuestionnaire = id => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ANSwERS}${encodeURIComponent(id)}`),
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`),
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+            .then(([answers, questionnarie])=> {
+                dispatch(getAnswers(answers));
+                dispatch(getAnswersQuestionnarie(questionnarie));
+            });
+    };
+};
+
+export const getAnswersByidQuestionnaire = id => {
+    return () => {
+        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ANSwERS}${encodeURIComponent(id)}`)
+            .then(result => {
+
+            }).then(
+                response => {
+                    return response;
+                }, error => {
+                    return "ERROR";
+                }
+            );
+    }
 };

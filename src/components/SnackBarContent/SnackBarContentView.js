@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
-import Icon from "@material-ui/core/Icon/Icon";
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';

@@ -54,14 +54,18 @@ import {
     SET_INITIAL_DATA_TYPES_SELLER,
     SET_MARKED_OPTIONS,
     SET_MENU,
-    SET_MENU_CONTAINER, SET_QUESTIONNAIRE_STATUS,
+    SET_MENU_CONTAINER,
+    SET_QUESTIONNAIRE_STATUS,
     SET_REACH_TYPES,
     SET_SYSTEM_TYPES,
     SET_USER,
     TRIED_TO_SAVE,
     UPDATE_MARKED_OPTIONS,
 	SET_STATUS_TYPES,
-	SHOW_ROUTES
+    GET_ANSWERS,
+    SET_ANSWERS,
+    GET_QUESTIONNARIE_ANSWER,
+    SET_QUESTIONNARIE_ANSWER,
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -220,3 +224,11 @@ export const saveInterviewedName = payload => ({type: SAVE_INTERVIEWED_NAME, pay
 export const setSavingAnswer = payload => ({type: IS_SAVING_ANSWER, payload});
 
 export const setStatusTypes = payload => ({type: SET_STATUS_TYPES, payload});
+
+export const getAnswers = payload => ({type: GET_ANSWERS, payload});
+
+export const setAnswers = payload => ({type: SET_ANSWERS, payload});
+
+export const getAnswersQuestionnarie = payload => ({type: GET_QUESTIONNARIE_ANSWER, payload});
+
+export const setAnswersQuestionnarie = payload => ({type: SET_QUESTIONNARIE_ANSWER, payload});

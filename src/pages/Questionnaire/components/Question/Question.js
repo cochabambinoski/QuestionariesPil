@@ -132,7 +132,6 @@ class Question extends Component {
 	}
 
 	setRequired(value) {
-		console.log(value);
 		let question = this.state.squestion;
 		if (value === true)
 			question.required = 1;
@@ -149,7 +148,6 @@ class Question extends Component {
 				this.setState({selectedValidation: question.lsQuestionOptions[0]});
 			}
 		}
-		console.log(this.props.question);
 	}
 
 	componentWillReceiveProps(nextProps) {
