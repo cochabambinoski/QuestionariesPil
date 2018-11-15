@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
 import classNames from 'classnames';
-import Container from "../components/Container/Container";
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
@@ -19,9 +18,28 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import ErrorPage from '../../ErrorPage/pages/ErrorPage.js'
-import {getIdUser, getUser} from "../../../reducers";
+import {getIdUser, getMenu, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
+import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
+import {BrowserRouter, Route} from "react-router-dom";
+import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
+import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
+import {Start} from "../../Start/Start";
+import ListSegment from "../../ListSegments/pages/ListSegments";
+import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
+import SplashPage from "../../SplashPage/SplashPage";
+import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
+import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
+import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
+import {Growl} from 'primereact/growl';
+import {
+    answersRoute, answersIdRoute,
+    assigmentRoute, assigmentIdRoute,
+    questionariesRoute,
+    questionariesEditIdRoute,
+    questionariesNewRoute,
+    questionariesShowIdRoute, segmentRoute
+} from "../../../routes/PathRoutes";
 
 class Home extends Component {
     state = {
@@ -46,29 +64,20 @@ class Home extends Component {
             staticMenuInactive: false,
             overlayMenuActive: false,
             mobileMenuActive: false,
-            menus: []
+            menus: [],
+            title: null,
+            detail: null,
+            message: null,
         };
         this.closeSessionHome = this.closeSessionHome.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
-        this.getParameterByName = this.getParameterByName.bind(this);
+        ///  this.showMessage = this.showMessage.bind(this);
     }
 
     closeSessionHome() {
         this.setState({open: true});
-    }
-
-    getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[[\]]/g, '\\$&');
-        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        const id = decodeURIComponent(results[2].replace(/\+/g, ' '));
-        this.props.setIdUser(id);
-        return id;
     }
 
     onWrapperClick(event) {
@@ -135,46 +144,26 @@ class Home extends Component {
     }
 
     componentDidMount() {
-
         this.props.addTimeout(1800000, WATCH_ALL, this.closeSessionHome.bind(this));
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MENU_BY_USER + this.getParameterByName('user'))
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({menus: data});
-            this.props.setMenu(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_ESTQUEST)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setTypesQuestionerQuestionary(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_TYPES_BY_CLASS + Constants.CLASS_NAME_CARGOPER)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setTypeSeller(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + this.getParameterByName('user'))
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setUser(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_DEPARTAMENTS)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setInitDepataments(data);
-        });
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.setInitialBranches(data);
-        });
+        this.props.getMenuByUser(this.props.userIdSvm)
+            .then((response) => {
+                this.setState({menus: response});
+            });
+        this.props.fetchInitialData(this.props.userIdSvm);
     }
+
+    showMessage = (title, detail) => {
+        this.setState({title: title});
+        this.setState({detail: detail});
+    };
+
+    showSuccess = (title, detail) => {
+        this.growl.show({severity: 'success', summary: title, detail: detail});
+    };
+
+    handleClick = () => {
+        this.setState({open: true});
+    };
 
     render() {
         let wrapperClass = classNames('layout-wrapper', {
@@ -186,51 +175,98 @@ class Home extends Component {
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
         return (
-            <div>
-                {
-                    this.props.user === null ?
-                        <ErrorPage/>
-                        :
-                        <div className={wrapperClass}>
-                            <Dialog
-                                open={this.state.open}
-                                onClose={this.handleClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description">
-                                <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su sesion
-                                        en el SVM.
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={this.handleClose} color="primary" autoFocus>
-                                        Aceptar
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
+            <BrowserRouter>
+                <Fragment>
+                    {
+                        this.props.user === null ?
+                            <SplashPage/>
+                            :
+                            <div className={wrapperClass}>
+                                <Dialog
+                                    open={this.state.open}
+                                    onClose={this.handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description">
+                                    <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
+                                            Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su
+                                            sesion
+                                            en el SVM.
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                                            Aceptar
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
 
-                            <AppTopbar onToggleMenu={this.onToggleMenu}/>
+                                <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
-                            <div className={sidebarClassName}>
-                                <ScrollPanel style={{height: '100%', with: '100%'}}>
-                                    <div className="logo"/>
-                                    <AppInlineProfile/>
-                                    <AppMenuT
-                                        menus={this.state.menus}
-                                        sessionActive={this.props.sessionActive}
-                                        onSelectedMenu={this.handleChangeContainer}/>
-                                </ScrollPanel>
+                                <div className={sidebarClassName}>
+                                    <ScrollPanel style={{height: '100%', with: '100%'}}>
+                                        <div className="logo"/>
+                                        <AppInlineProfile/>
+                                        <AppMenuT
+                                            menus={this.state.menus}
+                                            sessionActive={this.props.sessionActive}
+                                            onSelectedMenu={this.handleChangeContainer}/>
+                                    </ScrollPanel>
+                                </div>
+
+                                <div>
+
+                                    <div className="layout-main">
+                                        <Growl ref={(el) => this.growl = el}/>
+                                        <Route path="/" exact component={Start}/>
+                                        {/*Questionaries Create Show Edit Delete*/}
+                                        <Route path={questionariesRoute} exact
+                                               render={(props) => <Questionnaires title={this.state.title}
+                                                                                  detail={this.state.detail}
+                                                                                  showMessage={this.showSuccess}
+                                                                                  {...props}/>}
+                                        />
+                                        <Route path={questionariesNewRoute} exact strict
+                                               render={(props) => <Questionnaire questionary={null}
+                                                                                 showMessage={this.showSuccess}
+                                                                                 {...props}/>}
+                                        />
+                                        <Route path={questionariesShowIdRoute} exact strict
+                                               render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                                               readOnly={true}
+                                                                               showMessage={this.showSuccess} {...props}/>}
+                                        />
+                                        <Route path={questionariesEditIdRoute} exact strict
+                                               render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                                               showMessage={this.showSuccess} {...props}/>}
+                                        />
+                                        {/*Assigment Questionnaries*/}
+
+                                        <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
+                                        <Route path={assigmentIdRoute} exact strict
+                                               render={props => <AssignmentQuestionary
+                                                   idQuestionary={props.match.params.id}
+                                                   onSelectedQuestionary={null}
+                                                   showSuccess={this.showSuccess} {...props}/>}
+                                        />
+
+                                        {/*Answers Questionnaries*/}
+                                        <Route path={answersRoute} exact component={AnswerContainer}/>
+                                        <Route path={answersIdRoute} exact
+                                               render={props => <GraphicsDetail
+                                                   idQuestionary={props.match.params.id}
+                                                   />}
+                                        />
+
+                                        {/*Segment */}
+                                        <Route path={segmentRoute} exact component={ListSegment}/>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="layout-main">
-                                <Container>
-
-                                </Container>
-                            </div>
-                        </div>
-                }
-            </div>
+                    }
+                </Fragment>
+            </BrowserRouter>
         );
     }
 }
@@ -241,18 +277,15 @@ const mapDispatchToProps = dispatch => ({
     },
     actions: bindActionCreators(actions, dispatch),
     setIdUser: value => dispatch(actions.setIdUser(value)),
-    setTypesQuestionerQuestionary: value => dispatch(actions.setInitialDataQuestionerQuestionary(value)),
-    setTypeSeller: value => dispatch(actions.setInitialDataTypesSeller(value)),
-    setMenu: value => dispatch(actions.setMenu(value)),
-    setUser: value => dispatch(actions.setUser(value)),
-    setInitDepataments: value => dispatch(actions.getAllDepartaments(value)),
-    setInitialBranches: value => dispatch(actions.getAllBranches(value))
+    getMenuByUser: value => dispatch(getMenuByUser(value)),
+    fetchInitialData: value => dispatch(fetchInitialData(value)),
 });
 
 const mapStateToProps = state => (
     {
         idUser: getIdUser(state),
         user: getUser(state),
+        idMenu: getMenu(state)
     }
 );
 

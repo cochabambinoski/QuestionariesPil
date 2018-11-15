@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Constants from "../../../../Constants";
 import {Grid} from "react-flexbox-grid";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,6 +9,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Assignment from '@material-ui/icons/Assignment';
 import IconButton from '@material-ui/core/IconButton';
 import PieChart from '@material-ui/icons/PieChart';
+import {getQuestionnaries} from "../../../../reducers";
+import {fetchGetQuestionaries, getAnswersByQuestionnaire} from "../../../../actions/indexthunk";
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
+import {answersIdRouteParam} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
@@ -40,34 +44,29 @@ class AnswerList extends Component {
     }
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionnaireList: data});
-        })
+        this.props.fetchGetQuestionaries();
     }
 
     handleSelectedQuestionary = idQuestionary => {
         this.setState({questionnaireSelected: idQuestionary})
     };
 
-    showGraphic(){
-        console.log("showGraphic")
-    }
-
-
-    handleListItemClick = (event, questionnaire) => {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + questionnaire.id)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            //this.setState({AnswerList: data, questionnaireSelected: questionnaire, selectedIndex: questionnaire.id});
-            this.props.showAnswersGraphics(data, questionnaire)
-        })
+    handlePushClick = (questionnaire) => {
+        this.props.history.push(`${answersIdRouteParam}${questionnaire.id}`);
     };
 
-    showAnswerGraphics(questionary){
+    handleListItemClick = (event, questionnaire) => {
+        this.props.getAnswersByQuestionnaire(questionnaire.id)
+            .then((data) => {
+                if (data.length > 0) {
+                    this.handlePushClick(questionnaire)
+                } else {
+                    this.props.handleClick()
+                }
+            });
+    };
+
+    showAnswerGraphics(questionary) {
         this.props.showAnswersGraphics(this.state.AnswerList, questionary)
     }
 
@@ -76,34 +75,36 @@ class AnswerList extends Component {
         return (
             <Grid fluid className='nomargin'>
 
-                        <div  className="itemList">
-                            {
-                                this.state.questionnaireList.length > 0 ?
-                                    <List className={classes.root} subheader={<li />}>
-                                        {
-                                            this.state.questionnaireList.map(questionnaire => (
-                                                <ListItem button
-                                                          key={questionnaire.id}
-                                                          selected={this.state.selectedIndex === questionnaire.id}
-                                                          onClick={event => this.handleListItemClick(event, questionnaire)}>
-                                                    <Avatar>
-                                                        <Assignment />
-                                                    </Avatar>
-                                                    <ListItemText primary="Nombre" secondary={questionnaire.name} />
-                                                    <ListItemText primary="Creado" secondary={questionnaire.fechaId} />
-                                                    <ListItemSecondaryAction>
-                                                        <IconButton aria-label="Comments" onClick={() => this.showAnswerGraphics(questionnaire)} >
-                                                            <PieChart />
-                                                        </IconButton>
-                                                    </ListItemSecondaryAction>
-                                                </ListItem>
-                                            ))
-                                        }
-                                    </List>
-                                    :
-                                    null
-                            }
-                        </div>
+                <div className="itemList">
+                    {
+                        this.props.questionnaires.length > 0 ?
+                            <List className={classes.root} subheader={<li/>}>
+                                {
+                                    this.props.questionnaires.map(questionnaire => (
+
+                                            <ListItem button
+                                                      key={questionnaire.id}
+                                                     onClick={event => this.handleListItemClick(event, questionnaire)}
+                                            >
+                                                <Avatar>
+                                                    <Assignment/>
+                                                </Avatar>
+                                                <ListItemText primary="Nombre" secondary={questionnaire.name}/>
+                                                <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
+                                                <ListItemSecondaryAction>
+                                                    <IconButton aria-label="Comments">
+                                                        <PieChart/>
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+
+                                    ))
+                                }
+                            </List>
+                            :
+                            null
+                    }
+                </div>
 
 
             </Grid>
@@ -113,4 +114,13 @@ class AnswerList extends Component {
 
 AnswerList.propTypes = {};
 
-export default withStyles(styles)(AnswerList);
+const mapStateToProps = state => ({
+    questionnaires: getQuestionnaries(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+    fetchGetQuestionaries: () => dispatch(fetchGetQuestionaries()),
+    getAnswersByQuestionnaire: value => dispatch(getAnswersByQuestionnaire(value)),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AnswerList)));

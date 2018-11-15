@@ -3,20 +3,29 @@ import './Questionnaire.css';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import Constants from '../../../../Constants';
 import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
 import {InputText} from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
+import {RadioButton} from 'primereact/radiobutton';
 import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
 import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
-import Constants from '../../../../Constants.json';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
-import {getCreateQuestionary, getQuestionarySelected, getUser} from "../../../../reducers";
-import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions";
+import {
+    getCreateQuestionary,
+    getQuestionarySelected,
+    getQuestionnaireStatusTypes,
+    getQuestionTypes,
+    getReachTypes,
+    getSystemTypes,
+    getUser
+} from "../../../../reducers";
+import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions/index";
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
 import {Col, Row} from 'react-flexbox-grid';
@@ -29,19 +38,26 @@ import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
-import Modal from "../../../../widgets/Modal/components/modal";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import Dialog from "@material-ui/core/Dialog/Dialog";
+import {
+    getAssignmentsByQuestionnaire,
+    getQuestionsTypes,
+    getQuetionnaireById, getTypeSystemByUser,
+    saveQuestionnaire
+} from "../../../../actions/indexthunk";
+import Link from "react-router-dom/es/Link";
+import {questionariesRoute} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-    },
+        paddingBottom: theme.spacing.unit * 2
+    }
 });
 
 class Questionnaire extends Component {
@@ -73,6 +89,12 @@ class Questionnaire extends Component {
             expandPanelRange: true,
             lsQuestionsImmutableAux: [],
             immutableQuestion: null,
+            system: this.props.systemTypes[0],
+            reach: this.props.reachTypes[0],
+            status: this.props.questionnaireStatus[0],
+            limitPOS: false,
+            limitSVM: false,
+            limitSystem: null
         };
         this.showSuccess = this.showSuccess.bind(this);
         this.showError = this.showError.bind(this);
@@ -83,12 +105,14 @@ class Questionnaire extends Component {
         this.getQuestionnaire = this.getQuestionnaire.bind(this);
         this.seeQuestion = this.seeQuestion.bind(this);
         this.editQuestion = this.editQuestion.bind(this);
+        this.assignDenpendentQuestion = this.assignDenpendentQuestion.bind(this);
         this.closeQuestion = this.closeQuestion.bind(this);
         this.setOptionDependency = this.setOptionDependency.bind(this);
         this.contains = this.contains.bind(this);
         this.handleNewQuestion = this.handleNewQuestion.bind(this);
         this.updateRanges = this.updateRanges.bind(this);
         this.disableQuestion = this.disableQuestion.bind(this);
+        this.independQuestion = this.independQuestion.bind(this);
     }
 
     showSuccess(summary, detail) {
@@ -106,51 +130,54 @@ class Questionnaire extends Component {
     saveQuestionnaire() {
         if (this.state.name == null || this.state.name === "") {
             this.showWarning("", "Debe especificar el nombre del cuestionario");
-            return
+            return;
         }
         let ranges = this.state.ranges;
+
         let questionaries = [
             {
                 id: this.state.questionnaireId,
                 name: this.state.name,
                 description: this.state.description,
                 lsQuestions: this.state.lsQuestions,
+                system: this.state.system,
+                reach: this.state.reach,
+                status: this.props.questionnaireStatus[0],
                 sociedadId: 'BO81',
                 usuarioId: this.props.user.username,
                 operacionId: 1,
-                fechaId: this.state.fechaId,
-            },
+                fechaId: this.state.fechaId
+            }
         ];
         if (questionaries[0].lsQuestions.length === 0) {
             this.showWarning("", "Debe tener al menos una pregunta creada");
-            return
+            return;
         }
         if (ranges.length === 0) {
             this.showWarning("", "Debe establecer el rango del cuestionario");
-            return
+            return;
         }
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.SAVE_QUESTIONNAIRE_AND_RANGE}`;
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({questionaries: questionaries, questionaryRange: ranges}),
-            headers: {
-                'Accept': '*/*',
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        }).then(results => {
-            return results.json();
-        }).then(data => {
-            if (data === "Ok") {
-                this.props.showMessage("", "Cuestionario guardado");
-                this.handleCancel();
-                this.props.changeIdQuestionarySelected(null);
-            }
-            else {
-                this.showError("", "Error al guardar");
-            }
-        });
-
+        this.props.saveQuestionnaire(questionaries, ranges)
+            .then((result) => {
+                switch (result) {
+                    case "OK":
+                        this.props.showMessage("", "Cuestionario guardado");
+                        this.handleCancel();
+                        this.props.changeIdQuestionarySelected(null);
+                        this.handleBackClick();
+                        break;
+                    case "ERROR":
+                        this.showError("", "Error al guardar");
+                        break;
+                    default:
+                        break;
+                }
+            });
     }
+
+    handleBackClick = () => {
+        this.props.history.goBack();
+    };
 
     removeQuestion(index) {
         let aux = this.state.lsQuestions;
@@ -191,61 +218,87 @@ class Questionnaire extends Component {
 
     handleCloseModal = (event) => {
         this.setState({
-            modalVisible: false,
-        })
+            modalVisible: false
+        });
     };
 
     componentDidMount() {
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent('TIPPREG')}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionTypes: data});
-        });
+        this.props.getQuestionsTypes('TIPPREG');
+        this.getTypeSystemByUser();
         const {questionnaireId1} = this.props;
         if (questionnaireId1 != null) {
-            this.getQuestionnaire(questionnaireId1)
+            this.getQuestionnaire(questionnaireId1);
         }
+    }
+
+    getTypeSystemByUser() {
+        this.props.fetchGetTypeSystemByUser(this.props.user.id)
+            .then((result) => {
+                if (result != null) {
+                    this.setState((prevState, props) => ({
+                        limitSystem: result
+                    }));
+                    if (result !== null && result !== undefined) {
+                        if (result.codigoSap === Constants.CODSAP_USER_SYSTEM_POS) {
+                            this.setState({limitPOS: true});
+                            this.setState({system: this.props.systemTypes[1]});
+                        }
+                        if (result.codigoSap === Constants.CODSAP_USER_SYSTEM_SVM) {
+                            this.setState({limitSVM: true});
+                            this.setState({system: this.props.systemTypes[0]});
+                        }
+                    }
+                }
+            });
     }
 
     getQuestionnaire(id) {
         if (id !== undefined) {
-            let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`;
-            fetch(url)
-                .then(results => {
-                    return results.json();
-                }).then(data => {
-                this.setState({questionnaireId: data.id});
-                this.setState({name: data.name});
-                this.setState({description: data.description});
-                this.setState({lsQuestions: data.lsQuestions});
-                this.setImmutableCopy(data.lsQuestions);
-                this.setState({sociedadId: data.sociedadId});
-                this.setState({usuarioId: data.usuarioId});
-                this.setState({operacionId: data.operacionId});
-                this.setState({fechaId: data.fechaId});
-                this.setState({received: false});
-            });
-            let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(id)}`;
-            fetch(rangeUrl)
-                .then(results => {
-                    return results.json();
-                }).then(data => {
-                const questionerQuestionnaires = data;
-                if (questionerQuestionnaires.length > 0)
-                    this.setState({assigned: true});
-            });
+            this.props.getQuetionnaireById(id)
+                .then((data) => {
+                    this.setState({questionnaireId: data.id});
+                    this.setState({name: data.name});
+                    this.setState({description: data.description});
+                    this.setState({lsQuestions: data.lsQuestions});
+                    this.setImmutableCopy(data.lsQuestions);
+                    this.setState({system: data.system});
+                    this.setState({reach: data.reach});
+                    this.setState({status: data.status});
+                    this.setState({sociedadId: data.sociedadId});
+                    this.setState({usuarioId: data.usuarioId});
+                    this.setState({operacionId: data.operacionId});
+                    this.setState({fechaId: data.fechaId});
+                    this.setState({received: false});
+                });
+            this.props.getAssignmentsByQuestionnaire(id)
+                .then((data) => {
+                    if (data.length > 0)
+                        this.setState({assigned: true});
+                });
         }
     }
 
-    setImmutableCopy(lsQuestions){
+    setImmutableCopy(lsQuestions) {
         let auxQuestions = [];
-        lsQuestions.forEach((question)=>{
-            let auxQuestion = {id: question.id,
+        lsQuestions.forEach((question) => {
+            let option =
+                question.questionOption !== null ? {
+                    id: question.questionOption.id,
+                    question: {
+                        id: question.questionOption.question.id
+                    },
+                    option: question.questionOption.option,
+                    sociedadId: question.questionOption.sociedadId,
+                    usuarioId: question.questionOption.usuarioId,
+                    operacionId: question.questionOption.operacionId,
+                    fechaId: question.questionOption.fechaId
+                } : null;
+            let auxQuestion = {
+                id: question.id,
+                questionOption: option,
                 lsQuestionOptions: []
             };
-            question.lsQuestionOptions.forEach((option)=>{
+            question.lsQuestionOptions.forEach((option) => {
                 auxQuestion.lsQuestionOptions.push({option: option.option});
             });
             auxQuestions.push(auxQuestion);
@@ -266,12 +319,33 @@ class Questionnaire extends Component {
         this.setState({lsQuestions: auxQuestions});
     }
 
+    independQuestion(question) {
+        let auxQuestions = this.state.lsQuestions;
+        auxQuestions.find((q) => {
+            if (q.id === question.id) {
+                q.questionOption = null;
+                return q;
+            }
+        });
+        this.setState({lsQuestions: auxQuestions});
+    }
+
     editQuestion(index) {
         let question = this.state.lsQuestions[index];
         this.setState({selectedQuestionIndex: index});
         this.setState({selectedQuestion: question});
         this.setState({immutableQuestion: this.state.lsQuestionsImmutableAux[index]});
         this.setState({openQuestion: true});
+    }
+
+    assignDenpendentQuestion(index, question) {
+        if (this.props.asigned)
+            this.showError("No se pueden eliminar opciones de un cuestionario asignado");
+        else {
+            let auxQuestions = this.state.lsQuestions;
+            auxQuestions[index] = question;
+            this.setState({lsQuestions: auxQuestions});
+        }
     }
 
     closeQuestion() {
@@ -292,8 +366,8 @@ class Questionnaire extends Component {
     }
 
     componentWillMount() {
-        if (this.props !== undefined && this.props.match !== undefined) {
-            const questionnaireId = this.props.match.params.id;
+        if (this.props.questionnaireId !== undefined && this.props.questionnaireId !== null) {
+            const questionnaireId = this.props.questionnaireId;
             this.getQuestionnaire(questionnaireId)
         }
     }
@@ -332,22 +406,26 @@ class Questionnaire extends Component {
                         {this.props.readOnly ?
                             <Row>
                                 <Col>
-                                    <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                        this.handleCancel()
-                                    }}/>
+                                    <Link to={questionariesRoute}>
+                                        <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                        }}/>
+                                    </Link>
                                 </Col>
                             </Row>
                             :
                             <Row>
+
                                 <Col>
                                     <Button label="Guardar" onClick={() => {
                                         this.saveQuestionnaire()
                                     }}/>
                                 </Col>
+
                                 <Col>
-                                    <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                        this.handleCancel()
-                                    }}/>
+                                    <Link to={questionariesRoute}>
+                                        <Button label="Cancelar" className="ui-button-danger"
+                                        />
+                                    </Link>
                                 </Col>
                                 <Col>
                                     <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
@@ -356,7 +434,7 @@ class Questionnaire extends Component {
                         }
                     </div>
                 </Toolbar>
-                <Messages ref={(el) => this.messages = el}></Messages>
+                <Messages ref={(el) => this.messages = el}/>
                 <br/>
                 <div className="ui-g">
 
@@ -390,6 +468,57 @@ class Questionnaire extends Component {
                                                                rows={4} autoResize={false}/>
                                             }
                                         </div>
+
+                                        <div>
+                                            Seleccione a qué sistema corresponde la encuesta:
+                                            <div className="radio-container">
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb1" name="system"
+                                                                 value={this.props.systemTypes[0]}
+                                                                 onChange={(e) => this.setState({system: e.value})}
+                                                                 checked={this.state.system && this.state.system.nombre === this.props.systemTypes[0].nombre}
+                                                                 disabled={this.props.readOnly || this.state.limitPOS}/>
+                                                    <label htmlFor="rb1"
+                                                           className="p-radiobutton-label">{this.props.systemTypes[0].nombre}</label>
+                                                </div>
+
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb2" name="system"
+                                                                 value={this.props.systemTypes[1]}
+                                                                 onChange={(e) => this.setState({system: e.value})}
+                                                                 checked={this.state.system && this.state.system.nombre === this.props.systemTypes[1].nombre}
+                                                                 disabled={this.props.readOnly || this.state.limitSVM}/>
+                                                    <label htmlFor="rb2"
+                                                           className="p-radiobutton-label">{this.props.systemTypes[1].nombre}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            Seleccione el alcance de la encuesta:
+                                            <div className="radio-container">
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb3" name="reach"
+                                                                 value={this.props.reachTypes[0]}
+                                                                 onChange={(e) => this.setState({reach: e.value})}
+                                                                 checked={this.state.reach && this.state.reach.nombre === this.props.reachTypes[0].nombre}
+                                                                 disabled={this.props.readOnly}/>
+                                                    <label htmlFor="rb3"
+                                                           className="p-radiobutton-label">{this.props.reachTypes[0].nombre}</label>
+                                                </div>
+
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb4" name="reach"
+                                                                 value={this.props.reachTypes[1]}
+                                                                 onChange={(e) => this.setState({reach: e.value})}
+                                                                 checked={this.state.reach && this.state.reach.nombre === this.props.reachTypes[1].nombre}
+                                                                 disabled={this.props.readOnly}/>
+                                                    <label htmlFor="rb4"
+                                                           className="p-radiobutton-label">{this.props.reachTypes[1].nombre}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -407,7 +536,8 @@ class Questionnaire extends Component {
                                         <ScrollPanel style={{width: '100%', height: '600px'}}>
                                             <QuestionnaireRange updateRanges={this.updateRanges}
                                                                 readOnly={this.props.readOnly}
-                                                                questionnaireId={this.props.questionarySelected.idQuestionary !== null ? this.props.questionarySelected.idQuestionary.id : undefined}/>
+                                                                system={this.state.system}
+                                                                questionnaireId={this.props.questionnaireId !== null ? this.props.questionnaireId : undefined}/>
                                         </ScrollPanel>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
@@ -426,7 +556,7 @@ class Questionnaire extends Component {
                                     </DialogTitle>
                                     <DialogContent>
                                         <DialogContentText id="alert-dialog-description" className="dialogBody">
-                                            <Question questionTypes={this.state.questionTypes}
+                                            <Question questionTypes={this.props.questionTypes}
                                                       readOnly={this.props.readOnly}
                                                       questions={this.state.lsQuestions}
                                                       immutableQuestion={this.state.immutableQuestion}
@@ -450,9 +580,13 @@ class Questionnaire extends Component {
                                                readOnly={this.props.readOnly}
                                                assigned={this.state.assigned}
                                                showError={this.showError}
+                                               showSuccess={this.showSuccess}
                                                seeQuestion={this.seeQuestion}
                                                editQuestion={this.editQuestion}
-                                               disableQuestion={this.disableQuestion}/>
+                                               saveQuestionnaire={this.saveQuestionnaire}
+                                               disableQuestion={this.disableQuestion}
+                                               independQuestion={this.independQuestion}
+                                               assignDenpendentQuestion={this.assignDenpendentQuestion}/>
                                 </ScrollPanel>
                             </div>
                         </Col>
@@ -464,13 +598,17 @@ class Questionnaire extends Component {
 }
 
 Questionnaire.propTypes = {
-    questionnaireId1: PropTypes.number,
+    questionnaireId1: PropTypes.number
 };
 
 const mapStateToProps = state => ({
     questionarySelected: getQuestionarySelected(state),
     constCreateQuestionary: getCreateQuestionary(state),
     user: getUser(state),
+    questionTypes: getQuestionTypes(state),
+    systemTypes: getSystemTypes(state),
+    reachTypes: getReachTypes(state),
+    questionnaireStatus: getQuestionnaireStatusTypes(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -478,6 +616,11 @@ const mapDispatchToProps = dispatch => ({
     changeIdExistingQuestionary: value => dispatch(changeIdExistingQuestionary(value)),
     setIdMenu: value => dispatch(setMenuContainer(value)),
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
+    saveQuestionnaire: (first, second) => dispatch(saveQuestionnaire(first, second)),
+    getQuestionsTypes: value => dispatch(getQuestionsTypes(value)),
+    getQuetionnaireById: value => dispatch(getQuetionnaireById(value)),
+    getAssignmentsByQuestionnaire: value => dispatch(getAssignmentsByQuestionnaire(value)),
+    fetchGetTypeSystemByUser: value => dispatch(getTypeSystemByUser(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Questionnaire));

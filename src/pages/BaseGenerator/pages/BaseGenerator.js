@@ -11,10 +11,10 @@ import {Dropdown} from "primereact/dropdown";
 import Constants from "./../../../Constants.json";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as utilDate from "../../../utils/dateUtils";
+import {connect} from 'react-redux';
+import {getDataTypesByFatherGroup, getLines, getMaterials, sendBase} from "../../../actions/indexthunk";
 
-const styles = theme => ({
-
-});
+const styles = theme => ({});
 
 class BaseGenerator extends Component {
 
@@ -112,53 +112,38 @@ class BaseGenerator extends Component {
     }
 
     getCities = (father, group) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({cities: data});
-        });
+        this.props.getDataTypesByFatherGroup(father, group)
+            .then((data) => {
+                this.setState({cities: data});
+            });
     };
 
     getMarkets = (father, group) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({markets: data});
-        });
+        this.props.getDataTypesByFatherGroup(father, group)
+            .then((data) => {
+                this.setState({markets: data});
+            });
     };
 
     getBussiness = (father, group) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.DATATYPES}/${father}/${group}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({bussiness: data});
-        });
+        this.props.getDataTypesByFatherGroup(father, group)
+            .then((data) => {
+                this.setState({bussiness: data});
+            });
     };
 
     getLines = () => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.LINES}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({lines: data});
-        });
+        this.props.getLines()
+            .then((data) => {
+                this.setState({lines: data});
+            });
     };
 
     getMaterials = (nameLine) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.MATERIALS}/${nameLine}`;
-        fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({materials: data});
-        });
+        this.props.getMaterials(nameLine)
+            .then((data) => {
+                this.setState({materials: data});
+            });
     };
 
     onCityChange(e) {
@@ -307,17 +292,8 @@ class BaseGenerator extends Component {
     }
 
     setBase = (data) => {
-        let url = `${Constants.ROUTE_WEB_BI}${Constants.POST_CLIENT_KILOLITERS_BASE}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
+        this.props.sendBase(data)
+            .then((response) => {
                 if (response === undefined) {
                     this.props.refresh(0);
                     this.setState({process: 1});
@@ -379,7 +355,7 @@ class BaseGenerator extends Component {
                         <div className="col-auto divCol">
                             <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                                       onChange={(e) => this.setState({dates: e.value})}
-                                      selectionMode="range" readonlyInput={true}
+                                      selectionMode="range" readOnlyInput="true"
                                       className="imput" style={{width: '200px'}}/>
                         </div>
                     </div>
@@ -388,14 +364,18 @@ class BaseGenerator extends Component {
                             <label htmlFor="float-input" className="label">Ciudad: </label>
                         </div>
                         <div className="col-auto divCol">
-                            <Dropdown value={this.state.city} options={this.state.cities}
+                            <Dropdown value={this.state.city}
+                                      options={this.state.cities}
                                       onChange={this.onCityChange}
                                       itemTemplate={this.cityTemplate}
                                       placeholder="Todos"
-                                      optionLabel="nameDataType" filter={true}
+                                      optionLabel="nameDataType"
+                                      filter={true}
                                       filterPlaceholder="Seleccione Ciudad"
-                                      filterBy="nameDataType" className="imput"
-                                      showClear={true} style={{width: '200px'}}/>
+                                      filterBy="nameDataType"
+                                      className="imput"
+                                      showClear={true}
+                                      style={{width: '200px'}}/>
                         </div>
                     </div>
                     <div className="row">
@@ -465,5 +445,12 @@ BaseGenerator.propTypes = {
     refresh: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(BaseGenerator);
+const mapDispatchToProps = dispatch => ({
+    getDataTypesByFatherGroup: (father, group) => dispatch(getDataTypesByFatherGroup(father, group)),
+    getLines: () => dispatch(getLines()),
+    getMaterials: value => dispatch(getMaterials(value)),
+    sendBase: value => dispatch(sendBase(value)),
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(BaseGenerator));
 

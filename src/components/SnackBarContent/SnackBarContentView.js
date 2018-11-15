@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
-import Icon from "@material-ui/core/Icon/Icon";
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import WarningIcon from '@material-ui/icons/Warning';
 import IconButton from "@material-ui/core/IconButton/IconButton";
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import green from "@material-ui/core/es/colors/green";
 import amber from "@material-ui/core/es/colors/amber";
 import classNames from 'classnames';

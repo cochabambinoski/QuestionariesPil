@@ -2,14 +2,23 @@ import data from './data';
 import {user} from './user';
 import {idMenu} from './menu';
 import {searchFilter} from './searchFilter';
-import {initialData, getTypeByCodSap as _getTypeCodeSap, getBrancgesByIdCity as _getBrancgesByIdCity} from "./initialData";
+import {
+    getBrancgesByIdCity as _getBrancgesByIdCity,
+    getTypeByCodSap as _getTypeCodeSap,
+    initialData
+} from "./initialData";
 import {assignmentUser} from './assignmentUser'
 import {combineReducers} from 'redux';
 import {createQuestionary} from './createQuestionary';
+import {questionnaires} from "./questionnaires";
+import {connection} from "./connection";
+import {answer} from "./answer";
+import answers from "./answers";
+
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers, answer
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -30,9 +39,26 @@ export const getTypesSeller = state => state.initialData.typeSeller;
 export const getAllCity = state => state.initialData.cities;
 export const getAllBranch = state => state.initialData.lsBranches;
 export const getBranchByIdCity = (lsBranch, idCity) => (_getBrancgesByIdCity(lsBranch, idCity));
+export const getSystemTypes = state => state.initialData.systemTypes;
+export const getReachTypes = state => state.initialData.reachTypes;
+export const getQuestionnaireStatusTypes = state => state.initialData.questionnaireStatus;
 
 
 export const getQueryMobileSellerType = (state) => state.searchFilter.queryAdvancedMobileSellerType;
 export const getQueryMobileSellerBranch = (state) => state.searchFilter.queryAdvancedMobileSellerBranch;
 export const getQueryMobileSellerAssignedType = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedType;
 export const getQueryMobileSellerAssignedBranch = (state) => state.searchFilter.queryAdvancedMobileSellerAssignedBranch;
+
+export const getQuestionnaries = (state) => state.questionnaires.questionnaires;
+export const getQuestionTypes = (state) => state.initialData.questionTypes;
+export const getCities = (state) => state.initialData.cities;
+export const getBranches = (state) => state.initialData.lsBranches;
+
+export const getMarkedOptions = (state) => state.answer.markedOptions;
+export const getTriedToSave = (state) => state.answer.triedToSave;
+export const getClient = (state) => state.answer.client;
+export const getinterviewedName = (state) => state.answer.interviewedName;
+export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
+
+export const getAnswers = state => state.answers.answers;
+export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;

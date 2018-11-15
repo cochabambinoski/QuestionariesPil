@@ -5,7 +5,7 @@ import GridList from "@material-ui/core/GridList/GridList";
 import GridListTileBar from "@material-ui/core/GridListTileBar/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import InfoIcon from '@material-ui/icons/Info';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Image from 'pimg';
 import Constants from "../../../../../Constants";
 import ModalContainer from "../../../../../widgets/Modal/pages/modal";
@@ -13,9 +13,7 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
-import Question from "../../../../Questionnaire/components/Question/Question";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import {Col} from "react-flexbox-grid";
 import Button from "@material-ui/core/Button/Button";
 
 
