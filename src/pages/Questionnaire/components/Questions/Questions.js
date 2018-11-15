@@ -166,7 +166,7 @@ class Questions extends Component {
 								      className="card ui-card-shadow text" key={question.id}>
 									<div className="extras">
 										{
-											question.questionOption !== null && question.questionOption.id > 0 ?
+											question.questionOption !== undefined && question.questionOption !== null ?
 												<label className="dependent">Dependiente</label> :
 												<label className="independent">Independiente</label>
 										}
