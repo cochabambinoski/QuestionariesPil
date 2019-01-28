@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -36,7 +36,6 @@ const styles = theme => ({
 class FreeAnswerTable extends Component {
 
     render() {
-        console.log(this.props.data.data.answers)
         const arrayColums =["Cliente", "Repuesta"];
         const { classes } = this.props;
         return (

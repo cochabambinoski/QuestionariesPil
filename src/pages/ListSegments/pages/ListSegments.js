@@ -2,13 +2,11 @@
  * Created by smirandaz on 08/28/2018.
  */
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import EnhancedTable from "./components/SegmentTable/EnhancedTable";
 import SegmentList from "./components/SegmentList/SegmentList";
 import Title from "../../Title/Title";
 import {SizeMe} from 'react-sizeme';
-import QuestionaryContainer from "../../QuestionnairesList/QuestionaryContainer";
 
 const styles = theme => ({});
 

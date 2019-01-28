@@ -23,7 +23,7 @@ class MultipleSelection extends Component {
 		} else {
 			let emptyOptions = this.props.lsOptions.filter((option) => {
 				if (option.option === "") {
-                    this.props.showError("Tiene opciones vacías!", "");
+					this.props.showError("Tiene opciones vacías!", "");
 					return option;
 				}
 			});
@@ -64,35 +64,55 @@ class MultipleSelection extends Component {
 		}
 	}
 
+	isDependent(index) {
+		return this.props.questions.find((q) => {
+			if (q.questionOption !== null && this.props.lsOptions[index].id !== null) {
+				if (q.questionOption.id === this.props.lsOptions[index].id) {
+					return q;
+				}
+			}
+		});
+	}
+
 	removeOption(index) {
 		if (this.props.assigned) {
 			if (this.props.lsOptions[index].id != null) {
 				this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
 			} else {
-				this.props.removeOption(index);
+				if (this.isDependent(index) === undefined) {
+					this.props.removeOption(index);
+				}
+				else {
+					this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+				}
 			}
 		} else {
-			this.props.removeOption(index);
+			if (this.isDependent(index) === undefined) {
+				this.props.removeOption(index);
+			}
+			else {
+				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+			}
 		}
 	}
 
 	handleClose = () => {
-        let i;
-        for (i = 0; i < this.props.lsOptions.length; i++) {
-            if (this.props.lsOptions[i].option === '')
-                this.removeOption(i);
-        }
-        this.props.handleClose();
+		let i;
+		for (i = 0; i < this.props.lsOptions.length; i++) {
+			if (this.props.lsOptions[i].option === '')
+				this.removeOption(i);
+		}
+		this.props.handleClose();
 	};
 
 	render() {
 		const options = this.props.lsOptions;
 		return (
-			<div style={{width: '370px', marginBottom: '10px'}}>
+			<div style={{marginBottom: '20px'}}>
 				<div style={{
 					paddingBottom: '15px',
 					paddingTop: '10px',
-					width: '100%',
+					width: '640px',
 					overflow: 'auto',
 					maxHeight: '150px',
 					marginBottom: '10px'
@@ -104,20 +124,19 @@ class MultipleSelection extends Component {
 									<div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
 										<Checkbox checked={false}/>
 										<span>
-                                    {
-	                                    this.props.readOnly ?
-		                                    <div>{option.option}</div> :
-		                                    <div>
-			                                    <InputText
-				                                    value={option.option}
-				                                    placeholder="Opción"
-				                                    onChange={(e) => this.updateOption(e.target.value, index)}/>
-			                                    <Button icon="pi pi-minus" onClick={() => {
-				                                    this.removeOption(index);
-			                                    }}/>
-		                                    </div>
-                                    }
-                                </span>
+                                        {
+	                                        this.props.readOnly ?
+		                                        <div>{option.option}</div> :
+		                                        <div>
+			                                        <InputText value={option.option}
+			                                                   placeholder="Opción"
+			                                                   onChange={(e) => this.updateOption(e.target.value, index)}/>
+			                                        <Button icon="pi pi-minus" onClick={() => {
+				                                        this.removeOption(index);
+			                                        }}/>
+		                                        </div>
+                                        }
+                                        </span>
 									</div> : null
 							);
 						})
@@ -127,8 +146,6 @@ class MultipleSelection extends Component {
 					this.props.readOnly ? <div/> :
 						<div style={{width: '400px'}}>
 							<Button label="Añadir opcion" onClick={this.addOption} className="ui-button-secondary"/>
-
-
 							<span>
                                 <Button label="Aceptar" onClick={this.addQuestion}/>
                                 <Button label="Cancelar" onClick={this.handleClose} className="ui-button-danger"/>

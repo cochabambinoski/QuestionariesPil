@@ -1,17 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
-import Constants from "../../../../Constants";
 import MobileSellerItem from "./components/MobileSellerItem/MobileSellerItem";
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
 import {
     addAssignementUser,
-    addMobileSellers,
     deleteAssignementUser,
     editAssignementUser,
-    saveMobileSellerListAux
+    saveMobileSellerListAux,
 } from "../../../../actions";
 import {
     getMobileAssignement,
@@ -21,6 +19,7 @@ import {
     getQueryMobileSellerBranch,
     getQueryMobileSellerType,
 } from "../../../../reducers";
+import {getMobileSellersByQuestionnaire} from "../../../../actions/indexthunk";
 
 const styles = theme => ({
     root: {
@@ -52,12 +51,7 @@ class MobileSellerList extends Component {
     }
 
     getMobileSellers = (idQuestionary) => {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_MOBILE_SELLER_BY_ID_QUESTIONARY + idQuestionary)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.props.addMobileSellers(data);
-        });
+        this.props.getMobileSellersByQuestionnaire(idQuestionary);
     };
 
     filterItems = (mobileSellers, query) => {
@@ -109,12 +103,13 @@ class MobileSellerList extends Component {
                     isEdit={this.state.isEdit}
                     key={mobileSeller.id}
                     getAssignment={this.props.getAssignment}
-                    handleAddSeller={this.props.handleAddSeller}/>
+                    handleAddSeller={this.props.handleAddSeller}
+                    showRoutes={this.props.showRoutes}/>
             ))}
         </List>
     }
 
-    saveListAux(filterList){
+    saveListAux(filterList) {
         if (filterList.length !== this.props.mobileSellersAux.length) {
             this.props.saveMobileSellerListAux(filterList);
         }
@@ -138,7 +133,7 @@ class MobileSellerList extends Component {
         return (
             <div>
                 {
-                 this.renderMobileSellersItem()
+                    this.renderMobileSellersItem()
                 }
             </div>
         );
@@ -162,8 +157,8 @@ const mapDispatchToProps = dispatch => ({
     addAssignementUser: value => dispatch(addAssignementUser(value)),
     deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
     editAssignementUser: value => dispatch(editAssignementUser(value)),
-    addMobileSellers: value => dispatch(addMobileSellers(value)),
     saveMobileSellerListAux: value => dispatch(saveMobileSellerListAux(value)),
+    getMobileSellersByQuestionnaire: value => dispatch(getMobileSellersByQuestionnaire(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MobileSellerList));

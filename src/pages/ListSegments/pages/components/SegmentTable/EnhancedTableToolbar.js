@@ -46,8 +46,7 @@ class EnhancedTableToolbar extends Component {
      */
     handlerFilter = event => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
-            this.state.startDate = this.state.dates[0];
-            this.state.enDate = this.state.dates[1];
+            this.setState({ startDate : this.state.dates[0], enDate : this.state.dates[1]});
             this.props.updateDates(this.state.startDate, this.state.enDate);
         }
     };
@@ -63,7 +62,7 @@ class EnhancedTableToolbar extends Component {
                 <div>
                     <Calendar dateFormat="dd/mm/yy" value={this.state.dates}
                               onChange={(e) => this.setState({dates: e.value})}
-                              selectionMode="range" readonlyInput={true} className="calendar"/>
+                              selectionMode="range" readOnlyInput="true" className="calendar"/>
                 </div>
                 <div >
                     <Button label="Buscar" onClick={this.handlerFilter} className="buttonBlue"/>

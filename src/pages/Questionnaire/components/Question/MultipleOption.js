@@ -9,6 +9,9 @@ import {RadioButton} from 'primereact/radiobutton';
 class MultipleOption extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			sleQuest: {question: null}
+		};
 		this.addQuestion = this.addQuestion.bind(this);
 		this.removeOption = this.removeOption.bind(this);
 		this.addOption = this.addOption.bind(this);
@@ -23,7 +26,7 @@ class MultipleOption extends Component {
 		} else {
 			let emptyOptions = this.props.lsOptions.filter((option) => {
 				if (option.option === "") {
-                    this.props.showError("Tiene opciones vacías!", "");
+					this.props.showError("Tiene opciones vacías!", "");
 					return option;
 				}
 			});
@@ -64,36 +67,56 @@ class MultipleOption extends Component {
 		}
 	}
 
+	isDependent(index) {
+		return this.props.questions.find((q) => {
+			if (q.questionOption !== null && this.props.lsOptions[index].id !== null) {
+				if (q.questionOption.id === this.props.lsOptions[index].id) {
+					return q;
+				}
+			}
+		});
+	}
+
 	removeOption(index) {
 		if (this.props.assigned) {
 			if (this.props.lsOptions[index].id != null) {
 				this.props.showError("", "No se puede eliminar la opción de un cuestionario ya asignado");
 			} else {
-				this.props.removeOption(index);
+				if (this.isDependent(index) === undefined) {
+					this.props.removeOption(index);
+				}
+				else {
+					this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+				}
 			}
 		} else {
-			this.props.removeOption(index);
+			if (this.isDependent(index) === undefined) {
+				this.props.removeOption(index);
+			}
+			else {
+				this.props.showError("", "No se puede eliminar la opción de un cuestionario que tiene dependencia");
+			}
 		}
 	}
 
-    handleClose = () => {
-        let i;
-        for (i = 0; i < this.props.lsOptions.length; i++) {
-            if (this.props.lsOptions[i].option === '')
-                this.removeOption(i);
-        }
-        this.props.handleClose();
-    };
+	handleClose = () => {
+		for (let i = 0; i < this.props.lsOptions.length; i++) {
+			if (this.props.lsOptions[i].option === "") {
+				this.removeOption(i);
+			}
+		}
+		this.props.handleClose();
+	};
 
 	render() {
 		return (
-			<div className="ui-g" style={{width: '350px', marginBottom: '10px'}}>
+			<div style={{marginBottom: '20px'}}>
 				<div style={{
 					paddingBottom: '15px',
 					paddingTop: '10px',
+					width: '640px',
 					overflow: 'auto',
 					maxHeight: '150px',
-					width: '100%',
 					marginBottom: '10px'
 				}}>
 					{
@@ -107,10 +130,9 @@ class MultipleOption extends Component {
 											this.props.readOnly ?
 												<div>{option.option}</div> :
 												<div>
-													<InputText
-														value={option.option}
-														placeholder="Opción"
-														onChange={(e) => this.updateOption(e.target.value, index)}/>
+													<InputText value={option.option}
+													           placeholder="Opción"
+													           onChange={(e) => this.updateOption(e.target.value, index)}/>
 													<Button icon="pi pi-minus" onClick={() => {
 														this.removeOption(index);
 													}}/>
@@ -126,8 +148,6 @@ class MultipleOption extends Component {
 					this.props.readOnly ? <div></div> :
 						<div style={{width: '400px'}}>
 							<Button label="Añadir opcion" onClick={this.addOption} className="ui-button-secondary"/>
-
-
 							<span>
                                 <Button label="Aceptar" onClick={this.addQuestion}/>
                                 <Button label="Cancelar" onClick={this.handleClose} className="ui-button-danger"/>

@@ -1,21 +1,27 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+import Constants from './../../../Constants'
 import './QuestionnairesList.css';
 import 'primereact/resources/themes/omega/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
 import {Button} from 'primereact/button';
-import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
-import Constants from '../../../Constants.json';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
-import {getIndexQuestionary} from '../../../Util/ArrayFilterUtil'
 import Modal from "../../../widgets/Modal/components/modal";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
+import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';
+import {getQuestionnaries, getUser} from "../../../reducers";
+import Link from "react-router-dom/es/Link";
+import {
+    questionariesEditIdRouteParam,
+    questionariesNewRoute,
+    questionariesShowIdRouteParam
+} from "../../../routes/PathRoutes";
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -24,148 +30,177 @@ class Questionnaires extends Component {
             questionnaires: [],
             updateView: true,
             open: false,
-            currentItem: -1,
+            modal: false,
+            currentItem: -1
         };
     }
 
-    showError(summary, detail) {
-        this.messages.show({severity: 'error', summary: summary, detail: detail});
-    }
+	showError(summary, detail) {
+		this.messages.show({severity: 'error', summary: summary, detail: detail});
+	}
 
-    showSuccess(summary, detail) {
-        this.messages.show({severity: 'success', summary: summary, detail: detail});
-    }
+	showSuccess(summary, detail) {
+		this.messages.show({severity: 'success', summary: summary, detail: detail});
+	}
 
-    changeIdQuestionaryClick(value) {
-        this.props.changeIdQuestionarySelected(value);
-    }
+	changeIdQuestionaryClick(value) {
+		this.props.changeIdQuestionarySelected(value);
+	}
 
-    QuestionSelected(idQuestionary, action) {
-        this.idQuestionary = idQuestionary;
-        this.action = action
-    }
+	QuestionSelected(idQuestionary, action) {
+		this.idQuestionary = idQuestionary;
+		this.action = action;
+	}
 
     componentDidMount() {
-        fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_QUESTIONNAIRES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            this.setState({questionnaires: data});
-        });
+        this.getQuestionnaires();
         const title = this.props.title;
         const detail = this.props.detail;
-        if (title !== null && detail !== null){
+        if (title !== null && detail !== null) {
             this.showSuccess(title, detail);
             this.props.showMessage(null, null);
         }
     }
 
-    deleteQuestionary(item) {
-        let rangeUrl = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONER_QUESTIONNAIRES_BY_QUESTIONNAIRE}?questionaryId=${encodeURIComponent(item.id)}`;
-        fetch(rangeUrl)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-            const questionerQuestionnaires = data;
-            if (questionerQuestionnaires.length > 0) {
-                this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado")
-            } else {
-                this.sendDeleteRequest(item);
-            }
-        });
+    getQuestionnaires() {
+        this.props.fetchGetQuestionariesByUser(this.props.user.id);
     }
 
-    sendDeleteRequest(item) {
-        let url = `${Constants.ROUTE_WEB_SERVICES}${Constants.DELETE_QUESTIONARY}?idQuestionary=${encodeURIComponent(item.id)}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': '*/*',
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        })
-            .then(results => {
-                return results.json();
-            }).catch(error => console.error('Error:', error)).then(data => {
-            let index = getIndexQuestionary(this.state.questionnaires, item);
-            let questionaries = this.state.questionnaires;
-            if (data === "Ok" && index !== undefined) {
-                questionaries.splice(index, 1);
-                this.showSuccess("", "Cuestionario eliminado");
-            }
-            this.setState({questionaries: questionaries});
-            this.setState({updateView: true});
-        });
+	deleteQuestionary(item) {
+		this.props.deleteQuestionnaire(item)
+			.then((result) => {
+				switch (result) {
+					case "DELETED":
+						this.showSuccess("Cuestionario eliminado");
+						break;
+					case "ASSIGNED":
+						this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado");
+						break;
+					default:
+						break;
+				}
+			});
+	}
+
+    closeQuestionary(item) {
+        this.exitModal();
+        this.props.closeQuestionary(item)
+            .then((result) => {
+                switch (result) {
+                    case "CLOSED":
+                        this.showSuccess("Cuestionario Cerrado");
+                        this.getQuestionnaires();
+                        break;
+                    default:
+                        break;
+                }
+            });
     }
 
-    openModal = (item) => {
-        this.setState({currentItem: item});
-        this.setState({open: true});
-    };
+	openModal = (item) => {
+		this.setState({currentItem: item});
+		this.setState({open: true});
+	};
 
-    closeModal = () => {
-        this.setState({open: false});
-    };
+	enterModal = (item) => {
+		this.setState({currentItem: item});
+		this.setState({modal: true});
+	};
 
-    handleRemove = () => {
-        this.closeModal();
-        this.setState((prevState, props) => {
-            this.deleteQuestionary(prevState.currentItem);
-        });
-    };
+	closeModal = () => {
+		this.setState({open: false});
+	};
+
+	exitModal = () => {
+		this.setState({modal: false});
+	};
+
+	handleRemove = () => {
+		this.closeModal();
+		this.setState((prevState, props) => {
+			this.deleteQuestionary(prevState.currentItem);
+		});
+	};
+
+	handleClose = () => {
+		this.closeModal();
+		this.setState((prevState, props) => {
+			this.closeQuestionary(prevState.currentItem);
+		});
+	};
 
     render() {
         return (
             <div>
-                <ModalContainer>
-                    <Modal open={this.state.open} title={"Eliminar cuestionario"}
-                           message={"Está seguro de eliminar el cuestionario?"}
-                           handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
-                    </Modal>
-                </ModalContainer>
-                <Title tilte={'Lista de Encuestas'}
-                       subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
-                <Toolbar className="toolbarFullWidth">
-                    <div>
-                        <Button label="Nuevo"
-                                onClick={() => {
-                                    this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
-                                }}/>
-                    </div>
-                </Toolbar>
+                <Fragment>
+                    <ModalContainer>
+                        <Modal open={this.state.open} title={"Eliminar cuestionario"}
+                               message={"Está seguro de eliminar el cuestionario?"}
+                               handleConfirm={this.handleRemove} handleCancel={this.closeModal}>
+                        </Modal>
+                        <Modal open={this.state.modal} title={"Cerrar cuestionario"}
+                               message={"Está seguro de cerrar el cuestionario?"}
+                               handleConfirm={this.handleClose} handleCancel={this.exitModal}>
+                        </Modal>
+                    </ModalContainer>
+                    <Title tilte={'Lista de Encuestas'}
+                           subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
+                    <Toolbar className="toolbarFullWidth">
+                        <div>
+                            <Link to={questionariesNewRoute}>
+                                <Button label="Nuevo"
+                                        onClick={() => {
+                                            this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                        }}/>
+                            </Link>
+                        </div>
+                    </Toolbar>
+                </Fragment>
                 <Messages ref={(el) => this.messages = el}/>
                 <br/>
-                <ScrollPanel style={{width: '100%', height: '750px', margin: '5px'}} className="custom">
+                <ScrollPanel style={{width: '100vw - 100dp', height: '100vh', margin: '5px'}} className="custom">
                     {
-                        this.state.questionnaires.map((item) => {
+                        this.props.questionnaires.map((item) => {
                             return (
                                 <div key={item.id}>
-                                    <Card title={item.name} >
+                                    <Card title={item.name}>
                                         <div className="text">
-                                            <div>Creado</div>
-                                            <div>{item.fechaId} {item.usuarioId}</div>
+                                            <div>Creado por {item.usuarioId}</div>
+                                            <div>{item.fechaId}</div>
+                                            {
+                                                item.status !== null ? item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
+                                                    <div className="open">Abierto</div> :
+                                                    <div className="close">Cerrado</div> : null
+                                            }
                                             <br/>
                                             <span>
+                                                <Link to={`${questionariesShowIdRouteParam}${item.id}`}>
+                                                    <Button label="Ver"
+                                                            // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))}}
+                                                    />
+                                                </Link>
 
-                                            <Button label="Ver" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))
-                                            }}/>
+                                                <Link to={`${questionariesEditIdRouteParam}${item.id}`}>
+                                                <Button label="Editar"
+                                                        // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}}
+                                                />
+                                                </Link>
 
+                                                <Button label="Cerrar" onClick={() => {
+                                                    this.enterModal(item);
+                                                }}
+                                                        disabled={item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}/>
 
-                                            <Button label="Editar" onClick={() => {
-                                                this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))
-                                            }}/>
+                                                <Button label="Eliminar" className="ui-button-danger" onClick={() => {
+                                                    this.openModal(item);
+                                                }}/>
 
-                                            <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-                                                this.openModal(item)
-                                            }}/>
-
-                                    </span>
+                                            </span>
                                         </div>
                                     </Card>
                                     <br/>
                                 </div>
-                            )
+                            );
                         })
                     }
                 </ScrollPanel>
@@ -174,10 +209,16 @@ class Questionnaires extends Component {
     }
 }
 
-const mapStateToProps = dispatch => ({});
+const mapStateToProps = state => ({
+    questionnaires: getQuestionnaries(state),
+    user: getUser(state)
+});
 
 const mapDispatchToProps = dispatch => ({
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),
+    closeQuestionary: value => dispatch(closeQuestionnaire(value)),
+    fetchGetQuestionariesByUser: user => dispatch(fetchGetQuestionariesByUser(user)),
+    deleteQuestionnaire: value => dispatch(deleteQuestionnaire(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questionnaires);

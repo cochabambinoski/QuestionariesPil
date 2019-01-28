@@ -20,3 +20,11 @@
     float: right;
     margin-bottom: 20px;
 }
+.open {
+    background-color: #c5e1a5;
+    width: fit-content;
+}
+.close {
+    background-color: #ffab91;
+    width: fit-content;
+}
