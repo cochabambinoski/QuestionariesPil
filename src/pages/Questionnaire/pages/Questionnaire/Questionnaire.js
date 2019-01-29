@@ -132,6 +132,10 @@ class Questionnaire extends Component {
             this.showWarning("", "Debe especificar el nombre del cuestionario");
             return;
         }
+        if(this.state.reach == null || this.state.system == null){
+            this.showWarning("", "Seleccione el sistema y el alcance de la encuesta")
+            return;
+        }
         let ranges = this.state.ranges;
 
         let questionaries = [
