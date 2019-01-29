@@ -189,7 +189,7 @@ class Questionnaires extends Component {
                                                 <Button label="Cerrar" onClick={() => {
                                                     this.enterModal(item);
                                                 }}
-                                                        disabled={item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}/>
+                                                        disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}/>
 
                                                 <Button label="Eliminar" className="ui-button-danger" onClick={() => {
                                                     this.openModal(item);
