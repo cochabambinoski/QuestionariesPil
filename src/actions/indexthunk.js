@@ -652,3 +652,16 @@ export const getAnswersByidQuestionnaire = id => {
             );
     }
 };
+
+export const getGenerationExpenses  = () => {
+    return () => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                return response
+            })
+    }
+}

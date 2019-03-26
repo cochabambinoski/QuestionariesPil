@@ -26,6 +26,7 @@ import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/An
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
 import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
+import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
 import SplashPage from "../../SplashPage/SplashPage";
 import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
@@ -38,7 +39,7 @@ import {
     questionariesRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesShowIdRoute, segmentRoute
+    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute
 } from "../../../routes/PathRoutes";
 
 class Home extends Component {
@@ -261,6 +262,10 @@ class Home extends Component {
 
                                         {/*Segment */}
                                         <Route path={segmentRoute} exact component={ListSegment}/>
+
+                                        {/*Finanzas */}
+                                        <Route path={expensesGenerationRoute} exact component={GenerationExpenses}/>
+
                                     </div>
                                 </div>
                             </div>

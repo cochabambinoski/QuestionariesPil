@@ -14,11 +14,13 @@ import {questionnaires} from "./questionnaires";
 import {connection} from "./connection";
 import {answer} from "./answer";
 import answers from "./answers";
+import {processConfirmation} from "./processConfirmation";
 
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers, answer
+     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers, answer,
+    processConfirmation
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -62,3 +64,4 @@ export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
 
 export const getAnswers = state => state.answers.answers;
 export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
+export const getResponseGenerationExpenses = (state) => state.processConfirmation.generationExpenses;

@@ -66,6 +66,7 @@ import {
     SET_ANSWERS,
     GET_QUESTIONNARIE_ANSWER,
     SET_QUESTIONNARIE_ANSWER,
+    GENERATION_EXPENSES
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -232,3 +233,5 @@ export const setAnswers = payload => ({type: SET_ANSWERS, payload});
 export const getAnswersQuestionnarie = payload => ({type: GET_QUESTIONNARIE_ANSWER, payload});
 
 export const setAnswersQuestionnarie = payload => ({type: SET_QUESTIONNARIE_ANSWER, payload});
+
+export const generationExpenses = payload => ({type: GENERATION_EXPENSES, payload});
