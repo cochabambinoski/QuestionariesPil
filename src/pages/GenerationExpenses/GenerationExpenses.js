@@ -29,9 +29,11 @@ class GenerationExpenses extends Component {
                 } else {
                     this.setState({process: 1});
                     if(result.codeResult === 1) {
-                        this.showSuccess("", "Se genero satisfactoriamente")
+                        this.showSuccess("", "La distribución de gastos se generó satisfactoriamente, " +
+                            "la información ya está disponible.")
                     } else {
-                        this.showWarning("", "No se genero ")
+                        this.showWarning("", "No se generó la información de distribución de gastos," +
+                            "verifique si existen las fuentes necesarias.")
                     }
                 }
           })
