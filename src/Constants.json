@@ -82,5 +82,6 @@
   "MESSAGE_EXIST_EMAIL":"El Correo ya se encuentra registrado",
   "CREATED":"CREATED",
   "UPDATED":"UPDATED",
-  "RUN_TRANSFORMATION": "runtransformation"
+  "RUN_INPUT_TRANSFORMATION": "runBaseInput",
+  "RUN_COST_TRANSFORMATION": "runBaseCost"
 }

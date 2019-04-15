@@ -13,7 +13,8 @@ import {
     assigmentRoute,
     indexRoute,
     questionariesRoute,
-    segmentRoute, expensesGenerationRoute
+    segmentRoute, expensesGenerationRoute,
+    loadBaseInputRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
@@ -48,7 +49,6 @@ class SubMenu extends Component {
     };
 
     handleMenuItemClick = (event, index, option) => {
-        console.log(this.props.submenus)
         let idSubMenu = this.props.submenus[index].id;
         this.props.setIdMenu(option);
         this.setState({selectedIndex: idSubMenu, anchorEl: null});
@@ -59,7 +59,6 @@ class SubMenu extends Component {
     };
 
     getUrl=(option) => {
-        console.log(option.transaccion.ruta);
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";
@@ -73,6 +72,8 @@ class SubMenu extends Component {
                 return segmentRoute;
             case 'expensesGeneration':
                 return expensesGenerationRoute;
+            case 'loadInputAndExpensesBase':
+                return loadBaseInputRoute;
             default:
                 return indexRoute;
         }

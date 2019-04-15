@@ -11,9 +11,7 @@ class AppMenuT extends Component{
             <div className="Menus">
                 {
                     this.props.menus.map((item) => {
-                        console.log(this.props.menus)
                         return item.items.map((itemMenu) => {
-                            console.log(item.items)
                             switch (itemMenu.label) {
                                 case "Supervision":
                                     return <SubMenu
@@ -22,7 +20,6 @@ class AppMenuT extends Component{
                                     return <SubMenu
                                         submenus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
                                 case "Finanzas":
-                                    console.log(itemMenu.items)
                                     return <SubMenu
                                         submenus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
                                 default:

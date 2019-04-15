@@ -14,7 +14,9 @@ import {
 	setReachTypes,
     setStatusTypes,
 	setSystemTypes,
-	setUser
+	setUser,
+    loadCostBaseInformation,
+    loadInputBaseInformation
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -664,4 +666,30 @@ export const getGenerationExpenses  = () => {
                 return response
             })
     }
-}
+};
+
+export const getInputBaseInformation = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_INPUT_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                dispatch(loadInputBaseInformation(response));
+            })
+    }
+};
+
+export const getCostBaseInformation = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_COST_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                dispatch(loadCostBaseInformation(response))
+            })
+    }
+};

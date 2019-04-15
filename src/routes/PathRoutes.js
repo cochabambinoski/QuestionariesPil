@@ -4,6 +4,7 @@ const answers = "answers";
 const segment = "segment";
 const questionary = "questionary";
 const expensesGeneration = "expensesGeneration";
+const loadBaseInput = "loadBaseInput";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -21,3 +22,4 @@ export const answersIdRouteParam = `/${answers}/`;
 export const segmentRoute = `/${segment}`;
 export const questionaryPublicRoute = `/${questionary}/`;
 export const expensesGenerationRoute = `/${expensesGeneration}/`;
+export const loadBaseInputRoute = `/${loadBaseInput}/`;

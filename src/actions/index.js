@@ -66,6 +66,8 @@ import {
     SET_ANSWERS,
     GET_QUESTIONNARIE_ANSWER,
     SET_QUESTIONNARIE_ANSWER,
+    LOAD_INPUT_BASE_INFORMATION,
+    LOAD_COST_BASE_INFORMATION,
     GENERATION_EXPENSES
 } from "../action-types/actionTypes";
 
@@ -233,5 +235,9 @@ export const setAnswers = payload => ({type: SET_ANSWERS, payload});
 export const getAnswersQuestionnarie = payload => ({type: GET_QUESTIONNARIE_ANSWER, payload});
 
 export const setAnswersQuestionnarie = payload => ({type: SET_QUESTIONNARIE_ANSWER, payload});
+
+export const loadInputBaseInformation = payload => ({type: LOAD_INPUT_BASE_INFORMATION, payload});
+
+export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMATION, payload});
 
 export const generationExpenses = payload => ({type: GENERATION_EXPENSES, payload});

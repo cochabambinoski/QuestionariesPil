@@ -65,3 +65,5 @@ export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
 export const getAnswers = state => state.answers.answers;
 export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
 export const getResponseGenerationExpenses = (state) => state.processConfirmation.generationExpenses;
+export const getResponseLoadBaseInput = (state) => state.processConfirmation.loadBaseInput;
+export const getResponseLoadBaseCost = (state) => state.processConfirmation.loadBaseCost;

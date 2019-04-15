@@ -39,8 +39,10 @@ import {
     questionariesRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute
+    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
+    loadBaseInputRoute
 } from "../../../routes/PathRoutes";
+import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 
 class Home extends Component {
     state = {
@@ -265,6 +267,7 @@ class Home extends Component {
 
                                         {/*Finanzas */}
                                         <Route path={expensesGenerationRoute} exact component={GenerationExpenses}/>
+                                        <Route path={loadBaseInputRoute} exact component={LoadBaseInput}/>
 
                                     </div>
                                 </div>
