@@ -12,15 +12,8 @@ import Typography from "@material-ui/core/es/Typography/Typography";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 
 class LoadBaseInput extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            openDialog: false
-        }
-    }
 
-    showMessage(severity ,summary, detail) {
-        console.log("show Message Message Prime React");
+    showMessage(severity, summary, detail) {
         this.messages.show({severity: severity, summary: summary, detail: detail});
     }
 
@@ -85,7 +78,7 @@ class LoadBaseInput extends Component {
     }
 
     renderResponse() {
-        if (this.props.reduxVariable.showDialog ) {
+        if (this.props.reduxVariable.showDialog) {
             if (this.props.reduxVariable.errorRequest !== null && this.props.reduxVariable.responseRequest === null) {
                 return this.renderResponseDialog("La peticion Fallo")
             } else if (this.props.reduxVariable.errorRequest === null) {
@@ -106,12 +99,10 @@ class LoadBaseInput extends Component {
     renderButtons() {
         return (
             <div>
-                <div>
-                    <Button color={"primary"} variant="contained" style={{margin: 2, background: "#03A8E4"}}
-                            onClick={this.loadBaseInput}>CARGAR INGRESOS</Button>
-                    <Button color={"primary"} variant="contained" style={{margin: 2, background: "#03A8E4"}}
-                            onClick={this.loadBaseCost}>CARGAR GASTOS</Button>
-                </div>
+                <Button color={"primary"} variant="contained" style={{margin: 2, background: "#03A8E4"}}
+                        onClick={this.loadBaseInput}>CARGAR INGRESOS</Button>
+                <Button color={"primary"} variant="contained" style={{margin: 2, background: "#03A8E4"}}
+                        onClick={this.loadBaseCost}>CARGAR GASTOS</Button>
             </div>
         )
     }

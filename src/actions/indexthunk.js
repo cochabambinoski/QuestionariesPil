@@ -561,6 +561,26 @@ export const getAnswersAnsQuestionnaireByQuestionnaire = id => {
     };
 };
 
+export const getGenerationExpenses = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadInputBaseInformation(response))
+                } else {
+                    dispatch(changeErrorRequest(response))
+                }
+                return response
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
+    }
+};
+
 export const getInputBaseInformation = () => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_INPUT_TRANSFORMATION}`;
