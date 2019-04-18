@@ -19,6 +19,11 @@ class LoadBaseInput extends Component {
         }
     }
 
+    showMessage(severity ,summary, detail) {
+        console.log("show Message Message Prime React");
+        this.messages.show({severity: severity, summary: summary, detail: detail});
+    }
+
     render() {
         if (this.props.reduxVariable.errorRequest) {
             return this.renderError()
@@ -87,8 +92,10 @@ class LoadBaseInput extends Component {
                 const {codeResult} = this.props.reduxVariable.responseRequest;
                 if (codeResult !== null) {
                     if (codeResult === 1) {
+                        this.showMessage("success", "Informacion", "La peticion fue realizada correctamente");
                         return this.renderResponseDialog("La peticion fue realizada correctamente")
                     } else {
+                        this.showMessage("error", "Informacion", "La Carga no se ralizo correctamente.");
                         return this.renderResponseDialog("La Carga no se ralizo correctamente.")
                     }
                 }
