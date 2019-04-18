@@ -84,5 +84,5 @@
   "UPDATED":"UPDATED",
   "RUN_INPUT_TRANSFORMATION": "runBaseInput",
   "RUN_COST_TRANSFORMATION": "runBaseCost",
-  "RUN_TRANSFORMATION": "runTransformation"
+  "RUN_TRANSFORMATION": "runDistribution"
 }
