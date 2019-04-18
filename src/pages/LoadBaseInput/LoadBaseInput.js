@@ -1,117 +1,124 @@
-import {Component, Fragment} from "react"
+import React, {Component} from 'react';
 import Title from "../Title/Title";
 import {Messages} from "primereact/messages";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
-import React from "react";
-import {Button} from "primereact/button";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import connect from "react-redux/es/connect/connect";
 import {getCostBaseInformation, getInputBaseInformation} from "../../actions/indexthunk";
-import {getResponseLoadBaseCost, getResponseLoadBaseInput} from "../../reducers";
-import Constants from "../../Constants";
+import {getProcessConfirmation} from "../../reducers";
+import Button from "@material-ui/core/es/Button/Button";
+import {cleanRequestResponse} from "../../actions";
+import Typography from "@material-ui/core/es/Typography/Typography";
+import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 
 class LoadBaseInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            process: false,
-            error: null,
-            data: null
+            openDialog: false
         }
-    }
-
-    fetchLoadBaseInput = async() => {
-        const response = await fetch(`${Constants.ROUTE_WEB_BI}${Constants.RUN_INPUT_TRANSFORMATION}`);
-        const data = await response.json();
-        this.setState({
-            data: data,
-            process: false
-        })
-    }
-
-    fetchLoadBaseExpenses = async() => {
-        const response = await fetch(`${Constants.ROUTE_WEB_BI}${Constants.RUN_COST_TRANSFORMATION}`);
-        const data = await response.json();
-        this.setState({
-            data: data,
-            process: false
-        })
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        debugger;
-        if(nextProps.responseLoadBaseInput != null || nextProps.responseLoadBaseCost != null) {
-            this.setState({process: false})
-        }
-    }
-
-    verifyResponse = () => {
-
     }
 
     render() {
-        return(<div>
-            <Fragment>
+        if (this.props.reduxVariable.errorRequest) {
+            return this.renderError()
+        }
+
+        return (
+            <div>
+                {
+                    this.props.reduxVariable !== null ? this.renderResponse() : null
+                }
                 <Title tilte={'Carga de información Base'}
-                       subtitle={'En esta sección, podrá cargar la información base de los ingresos y gastos, ' +
-                       'para la generación de distribución de gastos.'}/>
+                       subtitle={'En esta sección, podrá cargar la información base de los ingresos y gastos, ' + 'para la generación de distribución de gastos.'}/>
                 <Messages ref={(el) => this.messages = el}/>
                 <Toolbar className="toolbarFullWidth">
                     <div>
                         {
-                            this.renderForm()
+                            this.props.reduxVariable.load ? <CircularProgress size={500} style={{color: '#03A8E4'[200]}}
+                                                                              thickness={5}/> : this.renderButtons()
                         }
                     </div>
                 </Toolbar>
-            </Fragment>
-        </div>);
+            </div>);
     }
 
     loadBaseCost = () => {
-        this.setState({process: true});
-        this.props.loadBaseCost();
+        this.props.loadBaseInput()
     };
 
     loadBaseInput = () => {
-        this.setState({process: true});
-        this.props.loadBaseInput();
+        this.props.loadBaseCost()
     };
 
-    renderResponseOk() {
-
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return nextProps.reduxVariable !== this.props.reduxVariable;
     }
 
-    renderResponseFiled() {
-
+    renderError() {
+        return (
+            <React.Fragment>
+                <h1> Error {this.props.reduxVariable.errorRequest.status}</h1>
+                <Button color={"primary"} variant="contained" style={{background: "red"}}
+                        onClick={this.props.cleanResponse}> Aceptar</Button>
+            </React.Fragment>
+        )
     }
 
-    renderForm() {
-        const {process} = this.state;
+    renderResponseDialog(message) {
         return (
             <div>
-                {
-                    this.state.data === 1 ? this.renderResponseOk() : this.state.data === 0 ? render.renderResponseFiled() : null
-                }
-                     <div><Button label="CARGAR INGRESOS" onClick={this.loadBaseInput}></Button>
-                        <Button label="CARGAR GASTOS" onClick={this.loadBaseCost}></Button></div>
-                {
-                    process ? <CircularProgress size={500} style={{color: '#5DADE2'[200]}} thickness={5}/> :
-                        null
-                }
+                <ModalGeneric open={this.props.reduxVariable.showDialog} onClose={this.handleClose}>
+                    <Typography>
+                        {message}
+                    </Typography>
+                    <Button color={"primary"} variant="contained" style={{position: 'center', background: "#03A8E4"}}
+                            onClick={this.props.cleanResponse}>Aceptar</Button>
+                </ModalGeneric>
             </div>
-        );
+        )
     }
+
+    renderResponse() {
+        if (this.props.reduxVariable.showDialog ) {
+            if (this.props.reduxVariable.errorRequest !== null && this.props.reduxVariable.responseRequest === null) {
+                return this.renderResponseDialog("La peticion Fallo")
+            } else if (this.props.reduxVariable.errorRequest === null) {
+                const {codeResult} = this.props.reduxVariable.responseRequest;
+                if (codeResult !== null) {
+                    if (codeResult === 1) {
+                        return this.renderResponseDialog("La peticion fue realizada correctamente")
+                    } else {
+                        return this.renderResponseDialog("La Carga no se ralizo correctamente.")
+                    }
+                }
+            }
+        }
+    };
+
+    renderButtons() {
+        return (
+            <div>
+                <div>
+                    <Button color={"primary"} variant="contained" style={{margin: 2, background: "#03A8E4"}}
+                            onClick={this.loadBaseInput}>CARGAR INGRESOS</Button>
+                    <Button color={"primary"} variant="contained" style={{margin: 2, background: "#03A8E4"}}
+                            onClick={this.loadBaseCost}>CARGAR GASTOS</Button>
+                </div>
+            </div>
+        )
+    }
+
 }
 
 const mapStateToProps = state => ({
-    responseLoadBaseInput : getResponseLoadBaseInput(state),
-    responseLoadBaseCost : getResponseLoadBaseCost(state)
-
+    reduxVariable: getProcessConfirmation(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     loadBaseInput: () => dispatch(getInputBaseInformation()),
-    loadBaseCost: () => dispatch(getCostBaseInformation())
+    loadBaseCost: () => dispatch(getCostBaseInformation()),
+    cleanResponse: () => dispatch(cleanRequestResponse())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps) (LoadBaseInput);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadBaseInput);

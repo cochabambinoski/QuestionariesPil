@@ -1,7 +1,6 @@
 import {
     ADD_ALL_ASSIGNEMENT_USER,
     ADD_ASSIGNEMENT_USER,
-    ADD_MOBILE_SELLER,
     ADD_MOBILE_SELLERS,
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
@@ -11,12 +10,7 @@ import {
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
     CLEAN_FILTER,
-    CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    CONCAT_FILTER_MOBILE_SELLER_BRANCH,
-    CREATE_QUESTION,
-    CREATE_QUESTION_OPTION,
-    CREATE_QUESTIONARY,
-    CREATE_QUESTIONARY_RANGE,
+    CLEAN_REQUEST,
     DATA,
     DELETE_ALL_ASSIGNEMENT_USER,
     DELETE_ASSIGNEMENT_USER,
@@ -27,28 +21,23 @@ import {
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE,
-    DELETE_QUESTION,
-    DELETE_QUESTION_OPTION,
-    DELETE_QUESTIONARY,
-    DELETE_QUESTIONARY_RANGE,
     EDIT_ASSIGNEMENT_USER,
     EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST,
     EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
     EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST,
-    FILL_OUT_QUESTION_OPTION_ALL,
     FILL_OUT_QUESTIONARY_RANGE_ALL,
-    FILL_OUT_QUESTIONNAIRE,
-    FILL_OUT_QUESTIONS_ALL,
     GET_ALL_BRANCHES,
     GET_ALL_DEPARTAMENTS,
-    GET_INITIAL_DATA,
+    GET_ANSWERS,
+    GET_QUESTIONNARIE_ANSWER,
     IS_SAVING_ANSWER,
+    LOAD_COST_BASE_INFORMATION,
+    LOAD_INPUT_BASE_INFORMATION,
     REMOVE_ALL_ASSIGNEMENT_USER,
     SAVE_CLIENT,
     SAVE_INTERVIEWED_NAME,
     SAVE_MOBILE_ASSIGNED_LIST_AUX,
     SAVE_MOBILE_LIST_AUX,
-    SEARCH_ASYNC_ENTITIES,
     SET_ID_USER,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
@@ -61,14 +50,7 @@ import {
     SET_USER,
     TRIED_TO_SAVE,
     UPDATE_MARKED_OPTIONS,
-	SET_STATUS_TYPES,
-    GET_ANSWERS,
-    SET_ANSWERS,
-    GET_QUESTIONNARIE_ANSWER,
-    SET_QUESTIONNARIE_ANSWER,
-    LOAD_INPUT_BASE_INFORMATION,
-    LOAD_COST_BASE_INFORMATION,
-    GENERATION_EXPENSES
+    CHANGE_ERROR_REQUEST
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -99,10 +81,6 @@ export const deleteMobileSellers = payload => ({type: DELETE_MOBILE_SELLERS, pay
 
 export const editAssignementUser = payload => ({type: EDIT_ASSIGNEMENT_USER, payload});
 
-export const searchEntitiesAsync = payload => ({type: SEARCH_ASYNC_ENTITIES, payload});
-
-export const setInitialData = payload => ({type: GET_INITIAL_DATA, payload});
-
 export const editQueryTextMobileSellerList = payload => ({type: EDIT_QUERY_TEXT_MOBILE_SELLER_LIST, payload});
 
 export const editQueryTextMobileSellerAssignedList = payload => ({
@@ -113,30 +91,6 @@ export const editQueryTextMobileSellerAssignedList = payload => ({
 export const editQueryTextAssignedQuestionary = payload => ({type: EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST, payload});
 
 export const addMobileSellers = payload => ({type: ADD_MOBILE_SELLERS, payload});
-
-export const addMobileSeller = payload => ({type: ADD_MOBILE_SELLER, payload});
-
-export const createQuestionary = payload => ({type: CREATE_QUESTIONARY, payload});
-
-export const deleteQuestionary = payload => ({type: DELETE_QUESTIONARY});
-
-export const fillOutQuestionnaire = payload => ({type: FILL_OUT_QUESTIONNAIRE, payload});
-
-export const createQuestion = payload => ({type: CREATE_QUESTION, payload});
-
-export const deleteQuestion = payload => ({type: DELETE_QUESTION, payload});
-
-export const fillOutQuestionAll = payload => ({type: FILL_OUT_QUESTIONS_ALL, payload});
-
-export const createQuestionOption = payload => ({type: CREATE_QUESTION_OPTION, payload});
-
-export const deleteQuestionOption = payload => ({type: DELETE_QUESTION_OPTION, payload});
-
-export const fillOutQuestionOptionAll = payload => ({type: FILL_OUT_QUESTION_OPTION_ALL, payload});
-
-export const createQuestionaryRange = payload => ({type: CREATE_QUESTIONARY_RANGE, payload});
-
-export const deleteQuestionaryRange = payload => ({type: DELETE_QUESTIONARY_RANGE, payload});
 
 export const fillOutQuestionaryRangeAll = payload => ({type: FILL_OUT_QUESTIONARY_RANGE_ALL, payload});
 
@@ -157,8 +111,6 @@ export const addParamFilterMobileSellerType = payload => ({type: ADD_PARAM_FILTE
 
 export const addParamFilterMobileSellerBranch = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_BRANCH, payload});
 
-export const concatFilterMobileSellerBranch = payload => ({type: CONCAT_FILTER_MOBILE_SELLER_BRANCH, payload});
-
 export const addParamFilterMobileSellerAssignedType = payload => ({
     type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     payload
@@ -166,11 +118,6 @@ export const addParamFilterMobileSellerAssignedType = payload => ({
 
 export const addParamFilterMobileSellerAssignedBranch = payload => ({
     type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    payload
-});
-
-export const concatFilterMobileSellerAssignedBranch = payload => ({
-    type: CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     payload
 });
 
@@ -226,18 +173,14 @@ export const saveInterviewedName = payload => ({type: SAVE_INTERVIEWED_NAME, pay
 
 export const setSavingAnswer = payload => ({type: IS_SAVING_ANSWER, payload});
 
-export const setStatusTypes = payload => ({type: SET_STATUS_TYPES, payload});
-
 export const getAnswers = payload => ({type: GET_ANSWERS, payload});
 
-export const setAnswers = payload => ({type: SET_ANSWERS, payload});
-
 export const getAnswersQuestionnarie = payload => ({type: GET_QUESTIONNARIE_ANSWER, payload});
-
-export const setAnswersQuestionnarie = payload => ({type: SET_QUESTIONNARIE_ANSWER, payload});
 
 export const loadInputBaseInformation = payload => ({type: LOAD_INPUT_BASE_INFORMATION, payload});
 
 export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMATION, payload});
 
-export const generationExpenses = payload => ({type: GENERATION_EXPENSES, payload});
+export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
+
+export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});

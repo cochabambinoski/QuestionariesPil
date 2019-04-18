@@ -15,13 +15,13 @@ class AppMenuT extends Component{
                             switch (itemMenu.label) {
                                 case "Supervision":
                                     return <SubMenu
-                                        submenus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
+                                        menus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
                                 case "Segmentación de clientes":
                                     return <SubMenu
-                                        submenus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
+                                        menus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
                                 case "Finanzas":
                                     return <SubMenu
-                                        submenus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
+                                        menus={itemMenu.items} title={itemMenu.label} key={itemMenu.id}/>;
                                 default:
                                     return null;
                             }

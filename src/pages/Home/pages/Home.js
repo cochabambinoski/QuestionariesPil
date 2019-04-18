@@ -76,7 +76,6 @@ class Home extends Component {
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
-        ///  this.showMessage = this.showMessage.bind(this);
     }
 
     closeSessionHome() {

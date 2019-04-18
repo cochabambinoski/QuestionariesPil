@@ -19,15 +19,22 @@ import {processConfirmation} from "./processConfirmation";
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers, answer,
+    user,
+    idMenu,
+    assignmentUser,
+    initialData,
+    searchFilter,
+    createQuestionary,
+    questionnaires,
+    connection,
+    answers,
+    answer,
     processConfirmation
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
 export const getMobileAssignement = state => state.assignmentUser;
-export const getTypeQuestionerQuestionary = state => state.typeQuestionerQuestionary;
 export const getTypeByCodSapQuestionerQuestionary = (state, codSap) => (_getTypeCodeSap(state.initialData.typeQuestionerQuestionary, codSap));
-export const getTypeByCodSap = (state, codSap) => (_getTypeCodeSap(state.initialData, codSap));
 export const getQueryMobileSeller = state => state.searchFilter.queryMobileSeller;
 export const getQueryMobileSellerAssigment = state => state.searchFilter.queryMobileSellerAssigned;
 export const getQueryQuestionerAssigment = state => state.searchFilter.queryQuestionaryAssigned;
@@ -64,6 +71,4 @@ export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
 
 export const getAnswers = state => state.answers.answers;
 export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
-export const getResponseGenerationExpenses = (state) => state.processConfirmation.generationExpenses;
-export const getResponseLoadBaseInput = (state) => state.processConfirmation.loadBaseInput;
-export const getResponseLoadBaseCost = (state) => state.processConfirmation.loadBaseCost;
+export const getProcessConfirmation = (state) => state.processConfirmation;

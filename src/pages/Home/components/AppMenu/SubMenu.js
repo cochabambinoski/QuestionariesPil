@@ -17,7 +17,7 @@ import {
     loadBaseInputRoute
 } from "../../../../routes/PathRoutes";
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         width: '100%',
         maxWidth: 360,
@@ -49,7 +49,7 @@ class SubMenu extends Component {
     };
 
     handleMenuItemClick = (event, index, option) => {
-        let idSubMenu = this.props.submenus[index].id;
+        let idSubMenu = this.props.menus[index].id;
         this.props.setIdMenu(option);
         this.setState({selectedIndex: idSubMenu, anchorEl: null});
     };
@@ -80,7 +80,7 @@ class SubMenu extends Component {
     };
 
     render() {
-        const {classes, title, submenus} = this.props;
+        const {classes, title, menus} = this.props;
         const {anchorEl} = this.state;
         return (
             <div className={classes.root}>
@@ -104,8 +104,8 @@ class SubMenu extends Component {
                       anchorEl={anchorEl}
                       open={Boolean(anchorEl)}
                       onClose={this.handleClose}>
-                    {submenus.map((option, index) => (
-                        <Link to={{pathname: this.getUrl(option)}}>
+                    {menus.map((option, index) => (
+                        <Link to={{pathname: this.getUrl(option)}} key={option.id}>
                             <MenuItem style={{padding: 20}}
                                       key={option.id}
                                       onClick={event => this.handleMenuItemClick(event, index, option)}

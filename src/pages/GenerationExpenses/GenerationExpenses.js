@@ -1,8 +1,6 @@
 import {Component, Fragment} from "react";
 import React from "react";
 import connect from "react-redux/es/connect/connect";
-import {getResponseGenerationExpenses} from "../../reducers"
-import {getGenerationExpenses} from "../../actions/indexthunk"
 import {Button} from 'primereact/button';
 import Title from "../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
@@ -20,32 +18,12 @@ class GenerationExpenses extends Component {
 
     generationExpenses = () => {
         this.setState({process: 0});
-      this.props.getResponseGenerationExpenses()
-          .then((result) => {
-                if(result.codeResult === null || result.codeResult === undefined) {
-                    if (result.status > 200) {
-                        this.setState({process: 1});
-                    }
-                } else {
-                    this.setState({process: 1});
-                    if(result.codeResult === 1) {
-                        this.showSuccess("", "La distribución de gastos se generó satisfactoriamente, " +
-                            "la información ya está disponible.")
-                    } else {
-                        this.showWarning("", "No se generó la información de distribución de gastos," +
-                            "verifique si existen las fuentes necesarias.")
-                    }
-                }
-          })
     };
 
     showSuccess(summary, detail) {
         this.messages.show({severity: 'success', summary: summary, detail: detail});
     }
 
-    showWarning(title, detail) {
-        this.messages.show({severity: 'warn', summary: title, detail: detail});
-    }
 
     render() {
         return(<div>
@@ -79,12 +57,10 @@ class GenerationExpenses extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    generationExpenses: getResponseGenerationExpenses(state)
+const mapStateToProps = () => ({
 });
 
-const mapDispatchToProps = dispatch => ({
-    getResponseGenerationExpenses: () => dispatch(getGenerationExpenses())
+const mapDispatchToProps = () => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (GenerationExpenses);
