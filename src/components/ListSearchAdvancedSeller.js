@@ -97,11 +97,7 @@ class ListSearchAdvancedSeller extends Component {
     }
 
     typeSearchAdvances = () => {
-        if (this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER) {
-            return true
-        } else {
-            return false
-        }
+        return this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER;
     };
 
     handleCheck(item, typeList) {
@@ -110,19 +106,19 @@ class ListSearchAdvancedSeller extends Component {
                 switch (this.props.typeSearch) {
                     case Constants.TYPE_SEARCH_MOBILE_SELLER: {
                         if (!existElementInList(item, this.props.querySearchSellerByType)) {
-                            this.props.addParamFilterMobileSellerType(item)
+                            this.props.addParamFilterMobileSellerType(item);
                             return;
                         } else {
-                            this.props.deleteParamFilterMobileSellerType(item)
+                            this.props.deleteParamFilterMobileSellerType(item);
                             return;
                         }
                     }
                     case Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED: {
                         if (!existElementInList(item, this.props.querySearchSellerAssignedByType)) {
-                            this.props.addParamFilterMobileSellerAssignedType(item)
+                            this.props.addParamFilterMobileSellerAssignedType(item);
                             return;
                         } else {
-                            this.props.deleteParamFilterMObileSelledeleterAssignedType(item)
+                            this.props.deleteParamFilterMObileSelledeleterAssignedType(item);
                             return;
                         }
                     }
@@ -169,6 +165,7 @@ class ListSearchAdvancedSeller extends Component {
         }
     }
 
+    // noinspection JSMethodCanBeStatic
     branchAvailable(list, item) {
         let available = false;
         for (var i = 0; i < list.length; i++) {
@@ -194,11 +191,7 @@ class ListSearchAdvancedSeller extends Component {
             })
         }
 
-        if (branches.length > 0) {
-            return true
-        } else {
-            return false
-        }
+        return branches.length > 0;
 
     }
 

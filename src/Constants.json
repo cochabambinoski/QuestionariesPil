@@ -1,6 +1,6 @@
 {
-  "ROUTE_WEB_SERVICES": "https://bocbap8.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_WEB_BI": "https://192.168.246.108:8086/bi/",
+  "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_WEB_BI": "http://192.168.241.79:8086/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_ALL_QUESTIONNAIRES_BY_USER": "getAllQuestionaryByUserSystem",
@@ -12,7 +12,7 @@
   "GET_ALL_CITIES": "allDepartments/",
   "GET_ALL_BRANCHES": "getListBranchs/",
   "GET_ANSwERS": "filledAnswers?questionaryId=",
-  "ROUTE_SVM": "https://bocbap8.pilandina.com.bo/vmovil/business/login.jsf",
+  "ROUTE_SVM": "http://192.168.241.79:8085/vmovil/business/login.jsf",
   "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary=",
   "GET_ASSIGNMENTS_BY_ID_QUESTIONARY": "getAssignmentsByIdQuestionary?idQuestionary=",
   "GET_TYPES_BY_CLASS": "getTypesByClass?classId=",
@@ -81,5 +81,8 @@
   "SAVE_CLIENT_USER": "saveClientUser?originalEmail=",
   "MESSAGE_EXIST_EMAIL":"El Correo ya se encuentra registrado",
   "CREATED":"CREATED",
-  "UPDATED":"UPDATED"
+  "UPDATED":"UPDATED",
+  "RUN_INPUT_TRANSFORMATION": "runBaseInput",
+  "RUN_COST_TRANSFORMATION": "runBaseCost",
+  "RUN_TRANSFORMATION": "runDistribution"
 }

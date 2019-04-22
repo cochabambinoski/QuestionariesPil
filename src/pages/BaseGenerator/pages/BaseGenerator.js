@@ -14,7 +14,7 @@ import * as utilDate from "../../../utils/dateUtils";
 import {connect} from 'react-redux';
 import {getDataTypesByFatherGroup, getLines, getMaterials, sendBase} from "../../../actions/indexthunk";
 
-const styles = theme => ({});
+const styles = () => ({});
 
 class BaseGenerator extends Component {
 

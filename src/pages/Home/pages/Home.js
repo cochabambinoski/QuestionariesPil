@@ -26,6 +26,7 @@ import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/An
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
 import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
+import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
 import SplashPage from "../../SplashPage/SplashPage";
 import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
@@ -38,8 +39,10 @@ import {
     questionariesRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesShowIdRoute, segmentRoute
+    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
+    loadBaseInputRoute
 } from "../../../routes/PathRoutes";
+import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 
 class Home extends Component {
     state = {
@@ -73,7 +76,6 @@ class Home extends Component {
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.openMenuComponent = this.openMenuComponent.bind(this);
-        ///  this.showMessage = this.showMessage.bind(this);
     }
 
     closeSessionHome() {
@@ -261,6 +263,11 @@ class Home extends Component {
 
                                         {/*Segment */}
                                         <Route path={segmentRoute} exact component={ListSegment}/>
+
+                                        {/*Finanzas */}
+                                        <Route path={expensesGenerationRoute} exact component={GenerationExpenses}/>
+                                        <Route path={loadBaseInputRoute} exact component={LoadBaseInput}/>
+
                                     </div>
                                 </div>
                             </div>

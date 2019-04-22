@@ -4,17 +4,18 @@ import * as utilDate from "../utils/dateUtils";
 import {
     getAnswers,
     getAnswersQuestionnarie,
-	addMobileSellers,
-	getAllBranches,
-	getAllDepartaments,
-	setInitialDataQuestionerQuestionary,
-	setInitialDataTypesSeller,
-	setMenu,
-	setQuestionnaireStatus,
-	setReachTypes,
-    setStatusTypes,
-	setSystemTypes,
-	setUser
+    addMobileSellers,
+    getAllBranches,
+    getAllDepartaments,
+    setInitialDataQuestionerQuestionary,
+    setInitialDataTypesSeller,
+    setMenu,
+    setQuestionnaireStatus,
+    setReachTypes,
+    setSystemTypes,
+    setUser,
+    loadCostBaseInformation,
+    loadInputBaseInformation, changeErrorRequest
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -71,7 +72,7 @@ export const deleteQuestionnaire = item => {
 };
 
 export const closeQuestionnaire = item => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         return dispatch(getAssignmentsNumberByQuestionnaire(item))
             .then(() => {
                 return dispatch(sendCloseRequest(item));
@@ -177,29 +178,11 @@ export const getTypesByClass = payload => {
     };
 };
 
-export const getQuestionnaireStateTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setInitialDataQuestionerQuestionary(response));
-            })
-    };
-};
-
 export const getQuestionsTypes = payload => {
     return dispatch => {
         return dispatch(getTypesByClass(payload))
             .then((response) => {
                 dispatch(setQuestionTypes(response));
-            })
-    };
-};
-
-export const getChargeTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setInitialDataTypesSeller(response));
             })
     };
 };
@@ -241,7 +224,7 @@ export const saveAssignment = assignments => {
                 return response;
             })
         ).catch(error => console.error('Error:', error)
-        ).then(response => {
+        ).then(() => {
             return "OK";
         });
     };
@@ -259,7 +242,7 @@ export const getMobileSellersByQuestionnaire = id => {
 };
 
 export const getAssignedMobileSellersByQuestionnaire = id => {
-    return dispatch => {
+    return () => {
         return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ASSIGNMENTS_BY_ID_QUESTIONARY + id)
             .then(results => {
                 return results.json();
@@ -270,7 +253,7 @@ export const getAssignedMobileSellersByQuestionnaire = id => {
 };
 
 export const getAnswersByQuestionnaire = id => {
-    return dispatch => {
+    return () => {
         return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id)
             .then(results => {
                 return results.json();
@@ -288,39 +271,6 @@ export const getMenuByUser = payload => {
             }).then(response => {
                 dispatch(setMenu(response));
                 return response;
-            });
-    };
-};
-
-export const getUserById = payload => {
-    return dispatch => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + payload)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                dispatch(setUser(data));
-            });
-    };
-};
-
-export const getCities = () => {
-    return dispatch => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_DEPARTAMENTS)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                dispatch(getAllDepartaments(data));
-            });
-    };
-};
-
-export const getBranches = () => {
-    return dispatch => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                dispatch(getAllBranches(data));
             });
     };
 };
@@ -362,7 +312,7 @@ export const deleteSegment = toDelete => {
             .then(response => {
                 return response;
             })
-            .catch(error => {
+            .catch(() => {
                 return "ERROR";
             });
     };
@@ -471,7 +421,7 @@ export const getClientsByNitOrNameInSystem = (searchTerm, systemName) => {
                 return results.json();
             }).then(
                 response => response,
-                error => "ERROR"
+                () => "ERROR"
             );
     };
 };
@@ -491,33 +441,33 @@ export const getClientUserByClient = clientId => {
 };
 
 export const getTypeSystemByUser = userId => {
-	return () => {
-		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_SYSTEM_BY_USER}${encodeURIComponent(userId)}`;
-		return fetch(url)
-			.then(results => {
-				return results.json();
-			}).then(response => {
-					return response;
-				},
-				error => {
-					return error;
-				});
-	};
+    return () => {
+        const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_SYSTEM_BY_USER}${encodeURIComponent(userId)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                    return response;
+                },
+                error => {
+                    return error;
+                });
+    };
 };
 
 export const getRoutesByMobileseller = mobileSeller => {
-	return () => {
-		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ROUTES_BY_MOBILE_SELLER}${encodeURIComponent(mobileSeller)}`;
-		return fetch(url)
-			.then(results => {
-				return results.json();
-			}).then(response => {
-					return response;
-				},
-				error => {
-					return error;
-				});
-	};
+    return () => {
+        const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ROUTES_BY_MOBILE_SELLER}${encodeURIComponent(mobileSeller)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                    return response;
+                },
+                error => {
+                    return error;
+                });
+    };
 };
 
 export const saveClientUser = (clientUser, originalEmail) => {
@@ -537,37 +487,10 @@ export const saveClientUser = (clientUser, originalEmail) => {
                 response => {
                     return response;
                 },
-                error => {
+                () => {
                     return "ERROR";
                 });
     };
-};
-
-export const getSystemsTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setSystemTypes(response));
-            })
-    };
-};
-
-export const getReachesTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setReachTypes(response));
-            })
-    };
-};
-
-export const getQuestionnaryStatusTypes = payload => {
-	return dispatch => {
-		return dispatch(getTypesByClass(payload))
-			.then((response) => {
-				dispatch(setStatusTypes(response));
-			});
-	};
 };
 
 /**
@@ -588,7 +511,7 @@ export const fetchInitialData = user => {
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_QUESTIONNAIRE_STATUS)}`),
         ])
             .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
-            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, questionnaireStatus])=> {
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, questionnaireStatus]) => {
                 dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
                 dispatch(setInitialDataTypesSeller(chargeTypes));
                 dispatch(setUser(userById));
@@ -615,10 +538,10 @@ export const saveAnswers = answers => {
             .then(results => {
                 return results.json();
             }).then(
-                response => {
+                () => {
                     return "OK";
                 },
-                error => {
+                () => {
                     return "ERROR";
                 });
     };
@@ -631,24 +554,67 @@ export const getAnswersAnsQuestionnaireByQuestionnaire = id => {
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`),
         ])
             .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
-            .then(([answers, questionnarie])=> {
+            .then(([answers, questionnarie]) => {
                 dispatch(getAnswers(answers));
                 dispatch(getAnswersQuestionnarie(questionnarie));
             });
     };
 };
 
-export const getAnswersByidQuestionnaire = id => {
-    return () => {
-        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ANSwERS}${encodeURIComponent(id)}`)
-            .then(result => {
-
-            }).then(
-                response => {
-                    return response;
-                }, error => {
-                    return "ERROR";
+export const getGenerationExpenses = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadInputBaseInformation(response))
+                } else {
+                    dispatch(changeErrorRequest(response))
                 }
-            );
+                return response
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
+    }
+};
+
+export const getInputBaseInformation = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_INPUT_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadInputBaseInformation(response));
+                } else {
+                    dispatch(changeErrorRequest(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
+    }
+};
+
+export const getCostBaseInformation = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_COST_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadCostBaseInformation(response))
+                } else {
+                    dispatch(changeErrorRequest(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
     }
 };
