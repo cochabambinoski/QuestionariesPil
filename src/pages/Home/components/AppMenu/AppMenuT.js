@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import SubMenu from "./SubMenu";
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import '../../../../layout/layout.css'
 
 class AppMenuT extends Component{
     render(){
+        const menus = this.props.menus;
         return(
             <div className="Menus">
                 {
-                    this.props.menus.map((item) => {
+                    menus.map((item) => {
                         return item.items.map((itemMenu) => {
                             switch (itemMenu.label) {
                                 case "Supervision":

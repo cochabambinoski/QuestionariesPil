@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {InputText} from 'primereact/inputtext';
@@ -52,7 +52,7 @@ class Question extends Component {
 		question.lsQuestionOptions = [];
 		question.type = e.value;
 		question.required = 0;
-		this.setState((prevState, props) => ({
+		this.setState(() => ({
 			squestion: question
 		}));
 	}
@@ -153,7 +153,7 @@ class Question extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps !== undefined && nextProps.question != null) {
 			let question = nextProps.question;
-			this.setState((prevState, props) => ({
+			this.setState(() => ({
 				squestion: question
 			}));
 			if (question.type != null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {
@@ -227,16 +227,17 @@ class Question extends Component {
 					innerComponent = null;
 			}
 		}
-
+		const { squestion } = this.state;
+		const { readOnly, questionTypes } = this.props;
 		return (
 			<div>
-				<Messages ref={(el) => this.messages = el} className="pi-times:before"></Messages>
+				<Messages ref={(el) => this.messages = el} className="pi-times:before"/>
 				<div style={{padding: '20px', minHeight: '215px'}}>
 					{
-						this.props.readOnly ?
+						readOnly ?
 							<div>
-								<p>{this.state.squestion.question}</p>
-								<p>{this.state.squestion.type != null ? 'Tipo: ' + this.state.squestion.type.nombre : ''}</p>
+								<p>{squestion.question}</p>
+								<p>{squestion.type != null ? 'Tipo: ' + squestion.type.nombre : ''}</p>
 								{innerComponent}
 								<Button label="Cerrar" onClick={this.handleClose}/>
 							</div>
@@ -246,22 +247,22 @@ class Question extends Component {
 									<div>
 										<InputText id="float-input" placeholder="Pregunta" type="text" required
 										           maxLength="255" size="40"
-										           value={this.state.squestion.question}
+										           value={squestion.question}
 										           onChange={(e) => this.setQuestion(e.target.value)}/>
 									</div>
-									<p></p>
+									<p/>
 									<div style={{marginLeft: '5px'}}>
 										<label>Obligatorio: </label>
-										<InputSwitch checked={this.state.squestion.required}
+										<InputSwitch checked={squestion.required}
 										             onChange={(e) => this.setRequired(e.value)} style={{}}/>
 									</div>
 
-									<p></p>
+									<p/>
 									{
-										this.state.squestion.type != null && this.state.squestion.id != null ?
-											<p>{'Tipo: ' + this.state.squestion.type.nombre}</p> :
-											<Dropdown value={this.state.squestion.type}
-											          options={this.props.questionTypes}
+										squestion.type != null && squestion.id != null ?
+											<p>{'Tipo: ' + squestion.type.nombre}</p> :
+											<Dropdown value={squestion.type}
+											          options={questionTypes}
 											          onChange={this.onTypeChange} style={{width: '300px'}}
 											          placeholder="Seleccione un tipo"
 											          optionLabel="nombre"/>
@@ -269,7 +270,7 @@ class Question extends Component {
 									{innerComponent}
 								</div>
 								{
-									this.state.squestion.type == null ?
+									squestion.type == null ?
 										<Button label="Cerrar" onClick={this.handleClose}/> : null
 								}
 							</div>

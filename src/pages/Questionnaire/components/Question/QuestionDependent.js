@@ -41,7 +41,7 @@ class QuestionDependent extends Component {
 			thisProps.questions.forEach(q => {
 				q.lsQuestionOptions.find(o => {
 					if (o.id === option.id) {
-						this.setState((prevState, props) => ({
+						this.setState(() => ({
 							selQuestion: q,
 							lsOptions: q.lsQuestionOptions,
 							selOption: o
@@ -114,14 +114,14 @@ class QuestionDependent extends Component {
 		}
 	}
 
-	handleSaveDependent = (value) => {
+	handleSaveDependent = () => {
 		this.props.refresh(this.state.selOption);
 	};
 
 	render() {
 		return (
 			<div>
-				<Messages ref={(el) => this.messages = el} className="pi-times:before"></Messages>
+				<Messages ref={(el) => this.messages = el} className="pi-times:before"/>
 				<div>
 					<h3>
 						Debe asignar una opción de alguna pregunta de la encuesta

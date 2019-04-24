@@ -20,7 +20,7 @@ class BaseGenerator extends Component {
 
     constructor(props) {
         super(props);
-        let segment = props.segment;
+        let {segment} = props;
         this.state = {
             city: null,
             bussines: null,

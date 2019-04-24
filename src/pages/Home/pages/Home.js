@@ -3,7 +3,7 @@ import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import {AppTopbar} from '../components/AppTopBar/AppTopbar';
 import Constants from "../../../Constants";
 import classNames from 'classnames';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import '../../../layout/layout.css';
@@ -40,9 +40,10 @@ import {
     questionariesEditIdRoute,
     questionariesNewRoute,
     questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute
+    loadBaseInputRoute, costConditionsRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
+import CostConditions from "../../costConditions/CostConditions";
 
 class Home extends Component {
     state = {
@@ -82,7 +83,7 @@ class Home extends Component {
         this.setState({open: true});
     }
 
-    onWrapperClick(event) {
+    onWrapperClick() {
         if (!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
@@ -265,9 +266,9 @@ class Home extends Component {
                                         <Route path={segmentRoute} exact component={ListSegment}/>
 
                                         {/*Finanzas */}
-                                        <Route path={expensesGenerationRoute} exact component={GenerationExpenses}/>
-                                        <Route path={loadBaseInputRoute} exact component={LoadBaseInput}/>
-
+                                        <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
+                                        <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
+                                        <Route exact path={costConditionsRoute} component={CostConditions}/>
                                     </div>
                                 </div>
                             </div>

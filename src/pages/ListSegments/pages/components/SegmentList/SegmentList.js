@@ -8,23 +8,20 @@ import * as utilDate from "../../../../../utils/dateUtils";
 import {Button} from 'primereact/button';
 import FButton from '@material-ui/core/Button';
 import Constants from '../../../../../Constants.json';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Messages} from 'primereact/messages';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import CardActions from "@material-ui/core/CardActions/CardActions";
-import SegmentationGenerator from "../../../../SegementationGenerator/pages/SegmentationGenerator";
-import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import {Calendar} from "primereact/calendar";
 import {deleteSegment, getSegment, getSegmentationData} from "../../../../../actions/indexthunk";
 import {connect} from 'react-redux';
+import DeleteDialog from "./DeleteDialog";
+import ReportDialog from "./ReportDialog";
+import Segment from "./Segment";
+import BaseSegment from "./BaseSegment";
 
 const styles = theme => ({
     root: {
@@ -94,8 +91,8 @@ class SegmentList extends Component {
      */
     handlerFilter = event => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
-            this.setState({startDate : this.state.dates[0], enDate : this.state.dates[1]});
-            this.updateDates(this.state.startDate, this.state.enDate);
+            this.setState({startDate: this.state.dates[0], endDate: this.state.dates[1]});
+            this.updateDates(this.state.startDate, this.state.endDate);
         }
     };
 
@@ -152,8 +149,7 @@ class SegmentList extends Component {
     showResponse = (response) => {
         if (response > 0) {
             this.showSuccess('Procesado', 'La transacción se realizó correctamente');
-        }
-        else {
+        } else {
             this.showError('Error', 'Ocurrió un error al procesar la transacción');
         }
     };
@@ -196,210 +192,89 @@ class SegmentList extends Component {
             this.showResponse(response);
     };
 
-    /**
-     * open dialog report
-     * @param event
-     * @param id
-     */
     handleReportClick = (event, id) => {
         this.setState({reportOpen: true});
         this.setState({toReport: id});
     };
 
-    /**
-     * close dialog report
-     */
     handleCloseReport = () => {
         this.setState({reportOpen: false});
         this.setState({toDelete: null});
     };
 
-    /**
-     * get report
-     * @param url
-     */
     getReport = (url) => {
         let win = window.open(url, '_blank');
         win.focus();
         this.showSuccess('Reporte', 'Se descargo su reporte correctamente');
     };
 
-    /**
-     * click PDF
-     */
     handlePDFReport = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_PDF}/${this.state.toReport}`;
         this.getReport(url);
     };
 
-    /**
-     * click XLS
-     */
     handleXLSReport = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_XLS}/${this.state.toReport}`;
         this.getReport(url);
     };
 
-    /**
-     * click TXT
-     */
     handleTXTReport = () => {
         let url = `${Constants.ROUTE_WEB_BI}${Constants.REPORT_TXT}/${this.state.toReport}`;
         this.getReport(url);
     };
 
-    /**
-     * init order delete
-     * @param event
-     * @param id
-     */
     handleDeleteClick = (event, id) => {
         this.showWarn('Alerta', 'esta iniciando una funcion de eliminación');
         this.setState({deleteOpen: true});
         this.setState({toDelete: id});
     };
 
-    handleClose = (response) => {
+    handleClose = () => {
         this.setState({deleteOpen: false});
         this.setState({toDelete: null});
         this.chargeList(this.state.startDate, this.state.endDate);
     };
 
-    /**
-     * Dialog Generated Base Segmentation Form
-     * @returns {XML}
-     */
     renderBase() {
         return (
-            <Dialog
-                className="fullDialog"
-                fullScreen
-                open={this.state.baseOpen}
-                onClose={this.handleCloseBase}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title"
-                             className="titleBody">
-                    <h1 className="dialogTitle">{"Generación de Segmentación Base"}</h1>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <BaseGenerator segment={this.state.segment} refresh={this.handleCloseBase}
-                                       setBaseClick={click => this.clickChild = click}/>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
-                            className="buttonBlue"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseBase}
-                            className="ui-button-secondary buttonSecundary"/>
-                </DialogActions>
-            </Dialog>
+            <BaseSegment segment={this.state.segment}
+                         baseOpen={this.state.baseOpen}
+                         setBaseClick={click => this.clickChild = click}
+                         handleCloseBase={this.handleCloseBase}/>
         );
     }
 
-    /**
-     * Dialog Generated Segmentation Form
-     * @returns {XML}
-     */
     renderSegment() {
         return (
-            <Dialog
-                open={this.state.segmentOpen}
-                onClose={this.handleCloseSegment}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title" className="titleBody">
-                    <h1 className="dialogTitle">{"Generación de parametros para la segmentación"}</h1>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <SegmentationGenerator segment={this.state.segment} refresh={this.handleCloseSegment}
-                                               setSegmentClick={click => this.clickChild = click}/>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button label="Guardar" icon="pi pi-check" onClick={() => this.clickChild()}
-                            className="buttonBlue"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseSegment}
-                            className="ui-button-secondary buttonSecundary"/>
-                </DialogActions>
-            </Dialog>
+            <Segment
+                segmentOpen={this.state.segmentOpen}
+                segment={this.state.segment}
+                handleCloseSegment={this.handleCloseSegment}/>
         );
     }
 
-    /**
-     * render for Dialog
-     * @returns {XML}
-     */
     renderDeleteDialog() {
         return (
-            <Dialog
-                open={this.state.deleteOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title"
-                             className="titleBody">
-                    <h1 className="dialogTitle">{"Alerta"}</h1>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        ¿Esta seguro de eliminar esta Segmentacion Base?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button label="Eliminar" icon="pi pi-check" onClick={this.handleDelete}
-                            className="ui-button-danger"/>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleClose}
-                            className="ui-button-secondary"/>
-                </DialogActions>
-            </Dialog>
+            <DeleteDialog deleteOpen={this.state.deleteOpen} handleClose={this.handleClose}
+                          handleDelete={this.handleDelete}/>
         );
     }
 
-    /**
-     * show dialog Report
-     * @returns {XML}
-     */
     renderReportDialog() {
         return (
-            <Dialog
-                open={this.state.reportOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title" className="titleBody">
-                    <h1 className="dialogTitle">{"Generación de Reportes"}</h1>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className="dialogBody">
-                        <img src={require('./../../../../../images/file-pdf.svg')} className="icons"
-                             alt="PDF"
-                             onClick={this.handlePDFReport}/>
-                        <img src={require('./../../../../../images/file-excel.svg')} className="icons"
-                             alt="Excel"
-                             onClick={this.handleXLSReport}/>
-                        <img src={require('./../../../../../images/file-document.svg')} className="icons"
-                             alt="Documento"
-                             onClick={this.handleTXTReport}/>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button label="Cancelar" icon="pi pi-times" onClick={this.handleCloseReport}
-                            className="ui-button-secondary"/>
-                </DialogActions>
-            </Dialog>
+            <ReportDialog reportOpen={this.state.reportOpen}
+                          handleClose={this.handleClose}
+                          handleCloseReport={this.handleCloseReport}
+                          handlePDFReport={this.handlePDFReport}
+                          handleXLSReport={this.handleXLSReport}
+                          handleTXTReport={this.handleTXTReport}/>
         );
     }
 
     chargeList = (start, end) => {
         this.props.getSegmentationData(start, end)
             .then((data) => {
-                this.setState(prevState => ({
+                this.setState(() => ({
                     segments: data
                 }));
             });
@@ -461,19 +336,22 @@ class SegmentList extends Component {
                                         <div className="col-auto">
                                             <div className="box">
                                                 <Button
-                                                    label="Segmentación" onClick={event => this.handleSegment(event, item)}/>
+                                                    label="Segmentación"
+                                                    onClick={event => this.handleSegment(event, item)}/>
                                             </div>
                                         </div>
                                         <div className="col-auto">
                                             <div className="box">
                                                 <Button
-                                                    label="Reporte" onClick={event => this.handleReportClick(event, item.idClientKiloliter)}/>
+                                                    label="Reporte"
+                                                    onClick={event => this.handleReportClick(event, item.idClientKiloliter)}/>
                                             </div>
                                         </div>
                                         <div className="col-auto">
                                             <div className="box">
                                                 <Button label="Eliminar"
-                                                        className="ui-button-danger" onClick={event => this.handleDeleteClick(event, item.idClientKiloliter)}/>
+                                                        className="ui-button-danger"
+                                                        onClick={event => this.handleDeleteClick(event, item.idClientKiloliter)}/>
                                             </div>
                                         </div>
                                     </div>
@@ -508,7 +386,8 @@ class SegmentList extends Component {
                 </div>
                 {this.renderToolbar()}
                 {this.renderList()}
-                <FButton variant="fab" className={fab.className} color={fab.color} onClick={event => this.handleBase(event, 0)}>
+                <FButton variant="fab" className={fab.className} color={fab.color}
+                         onClick={event => this.handleBase(event, 0)}>
                     {fab.icon}
                 </FButton>
             </div>

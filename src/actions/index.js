@@ -50,7 +50,18 @@ import {
     SET_USER,
     TRIED_TO_SAVE,
     UPDATE_MARKED_OPTIONS,
-    CHANGE_ERROR_REQUEST
+    CHANGE_ERROR_REQUEST,
+    GET_CENTER_COST_CONDITION_BI,
+    GET_COST_CENTER_BI,
+    GET_BUSINESS_BI,
+    GET_LINE_COST_BI,
+    GET_ORGANIZATION_BI,
+    GET_CHANNEL_BI,
+    GET_REGION_BI,
+    GET_SUB_REGION_BI,
+    CHANGE_ERROR_REQUEST_BI,
+    CLEAN_REQUEST_BI,
+    DELETE_CONDITION_CENTER_MASTER, UPDATE_CONDITION_CENTER_MASTER, CREATE_CONDITION_CENTER_MASTER
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -184,3 +195,30 @@ export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMA
 export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
+
+export const getCenterCostConditionBi = payload => ({type: GET_CENTER_COST_CONDITION_BI, payload});
+
+export const getCostCenterBi = payload => ({type: GET_COST_CENTER_BI, payload});
+
+export const getBusinessBi = payload => ({type: GET_BUSINESS_BI, payload});
+
+export const getLineCostBi = payload => ({type: GET_LINE_COST_BI, payload});
+
+export const getOrganizationBi = payload => ({type: GET_ORGANIZATION_BI, payload});
+
+export const getChannelBi = payload => ({type: GET_CHANNEL_BI, payload});
+
+export const getRegionBi = payload => ({type: GET_REGION_BI, payload});
+
+export const getSubRegionBi = payload => ({type: GET_SUB_REGION_BI, payload});
+
+export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
+
+export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
+
+export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
+
+export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload})
+
+export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
+

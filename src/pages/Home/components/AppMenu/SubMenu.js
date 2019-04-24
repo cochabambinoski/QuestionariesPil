@@ -14,7 +14,7 @@ import {
     indexRoute,
     questionariesRoute,
     segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute
+    loadBaseInputRoute, costConditionsRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = () => ({
@@ -74,6 +74,8 @@ class SubMenu extends Component {
                 return expensesGenerationRoute;
             case 'loadInputAndExpensesBase':
                 return loadBaseInputRoute;
+            case 'costCondition':
+                return costConditionsRoute;
             default:
                 return indexRoute;
         }

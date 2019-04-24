@@ -5,7 +5,7 @@ import {getQuetionnaireById} from "../../actions/indexthunk";
 import AnswerPage from "./AnswerPage";
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import {QuestionsMenu} from "./QuestionsMenu";
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import classNames from 'classnames';
@@ -144,7 +144,7 @@ class AnswerPageContainer extends Component {
         event.preventDefault();
     }
 
-    onWrapperClick(event) {
+    onWrapperClick() {
         if (!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
@@ -155,7 +155,7 @@ class AnswerPageContainer extends Component {
         this.menuClick = false;
     }
 
-    onSidebarClick(event) {
+    onSidebarClick() {
         this.menuClick = true;
         setTimeout(() => {
             this.layoutMenuScroller.moveBar();
@@ -227,6 +227,7 @@ class AnswerPageContainer extends Component {
             'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
             'layout-mobile-sidebar-active': this.state.mobileMenuActive
         });
+        // noinspection JSUnusedGlobalSymbols
         return (
             <div className="container-background">
                 <ModalContainer>
@@ -267,7 +268,7 @@ class AnswerPageContainer extends Component {
     }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
     getQuetionnaireById: value => dispatch(getQuetionnaireById(value)),

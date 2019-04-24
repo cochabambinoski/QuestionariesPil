@@ -15,7 +15,18 @@ import {
     setSystemTypes,
     setUser,
     loadCostBaseInformation,
-    loadInputBaseInformation, changeErrorRequest
+    loadInputBaseInformation,
+    changeErrorRequest,
+    getCenterCostConditionBi,
+    changeErrorBi,
+    getCostCenterBi,
+    getBusinessBi,
+    getLineCostBi,
+    getOrganizationBi,
+    getChannelBi,
+    getRegionBi,
+    getSubRegionBi,
+    updateCenterConstConditionBi, deleteCenterCostConditionBi, createCenterCostConditionBi
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -618,3 +629,241 @@ export const getCostBaseInformation = () => {
             })
     }
 };
+
+export const getCenterCostConditionServerBi = () => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.CENTER_COST_CONDITION_BI}`;
+      return fetch(url)
+          .then(results => {
+            return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(getCenterCostConditionBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const getCostCenterServerBi = () => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.COST_CENTER_BI}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(getCostCenterBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const getBusinessServerBi = () => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(getBusinessBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const getLineCostServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.LINE_COST_BI}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(getLineCostBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getOrganizationServerBi = () => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.ORGANIZATION_BI}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(getOrganizationBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const getChannelServerBi = () => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.CHANNEL_BI}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(getChannelBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const getRegionServerBi = () => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(getRegionBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const getSubRegionServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.SUB_REGION_BI}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(getSubRegionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getInitialDataCenterCostConditionServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CENTER_COST_CONDITION_BI}`),
+            fetch(``),
+            fetch(``),
+            fetch(``),
+            fetch(``),
+            fetch(``),
+            fetch(``),
+        ])
+            .then(([res1, res2, res3, res4, res5, res6 ,res7 ,res8]) => Promise.all([res1.json(),
+            res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
+            .then(([centerCostCondition, costCenter, business, lineCost, organization, channel, region, subRegion]) => {
+                if (centerCostCondition.status === undefined) {
+                    dispatch(getCenterCostConditionBi(centerCostCondition))
+                    dispatch
+                } else {
+                    dispatch(changeErrorBi(centerCostCondition))
+                }
+            })
+            .catch()
+    }
+};
+
+export const deleteCenterCostConditionServerBi = id => {
+  return dispatch => {
+      const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(deleteCenterCostConditionBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
+  return dispatch => {
+      const urlPrE = String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion);
+      const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(updateCenterConstConditionBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+
+
+export const createCenterCostConditionServerBi = (id, center, business, line, organization, channel, region, subRegion) => {
+  return dispatch => {
+      const urlPrE = String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion);
+      const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                  dispatch(createCenterCostConditionBi(response))
+              } else {
+                  dispatch(changeErrorBi(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorBi(error))
+          })
+  }
+};
+

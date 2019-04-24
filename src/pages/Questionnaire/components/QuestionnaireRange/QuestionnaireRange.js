@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import './QuestionnaireRange.css';
@@ -59,15 +59,16 @@ class QuestionnaireRange extends Component {
     }
 
     addAllCities() {
-        this.setState(function (prevState, props) {
-            this.props.lsDepartments.forEach((city) => {
+        const {lsDepartments} = this.props;
+        this.setState(function () {
+            lsDepartments.forEach((city) => {
                 this.addCity(city, true);
             });
         });
     }
 
     addCity(city, addAllBranches) {
-        this.setState(function (prevState, props) {
+        this.setState(function (prevState) {
             let selectedAux = [...prevState.lsSelectedDepartments];
             let selected = selectedAux.filter((auxCity) => (auxCity.id === city.id));
             if (selected.length === 0) {
@@ -79,7 +80,7 @@ class QuestionnaireRange extends Component {
     }
 
     removeAllCities() {
-        this.setState(function (prevState, props) {
+        this.setState(function (prevState) {
             prevState.lsSelectedDepartments.forEach((city) => {
                 this.removeCity(city, true)
             });
@@ -87,7 +88,7 @@ class QuestionnaireRange extends Component {
     }
 
     removeCity(city, removeBranches) {
-        this.setState(function (prevState, props) {
+        this.setState(function (prevState) {
             let selectedAux = [...prevState.lsSelectedDepartments];
             if (this.indexOf(selectedAux, city) !== -1) {
                 selectedAux.splice(this.indexOf(selectedAux, city), 1);
@@ -118,7 +119,7 @@ class QuestionnaireRange extends Component {
     }
 
     addBranch(branch) {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
             if (index === -1) {
@@ -147,7 +148,7 @@ class QuestionnaireRange extends Component {
     }
 
     removeBranch(branch) {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
             if (index !== -1) {
@@ -164,7 +165,7 @@ class QuestionnaireRange extends Component {
     }
 
     verifyCity(branch, added) {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             const allCityBranches = this.props.lsBranches.filter((cityBranch) => (cityBranch.departamento.id === branch.departamento.id));
             const remainingBranches = prevState.ranges.filter((range) => (range.city.id === branch.departamento.id && range.operacionId === 1));
             if (!added) {
@@ -181,7 +182,7 @@ class QuestionnaireRange extends Component {
     }
 
     verifyCountry() {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             const allSelected = prevState.ranges.length === this.props.lsBranches.length;
             return {countrySelected: allSelected};
         });
@@ -245,10 +246,10 @@ class QuestionnaireRange extends Component {
             this.setState({lsSelectedDepartments: cities});
             this.setState({lsSelectedBranches: branches});
         }
+        const {lsDepartments, system, lsBranches} = this.props;
         return (
             <div>
                 <div className="ui-g-12 text">
-
                     <div className="ui-g-6">
                         <div>
                             <h3>Pais</h3>
@@ -259,9 +260,9 @@ class QuestionnaireRange extends Component {
 
                         <h3>Regional</h3>
                         <div>
-                            {this.props.lsDepartments.map((dep) => {
+                            {lsDepartments.map((dep) => {
                                 return (
-                                    <div className="ui-g-12">
+                                    <div style={{margin: 4}}>
                                         <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange}
                                                   checked={this.contains(this.state.lsSelectedDepartments, dep)}
                                                   disabled={this.props.readOnly}/>
@@ -274,13 +275,14 @@ class QuestionnaireRange extends Component {
                     </div>
 
                     {
-                        this.props.system !== null && this.props.system.nombre === 'SVM' ?
+                        system !== null && system.nombre === 'SVM' ?
                             <div className="ui-g-6">
                                 <h3>Sucursal</h3>
-                                {this.props.lsBranches.map((branch, index) => {
+                                {lsBranches.map((branch, index) => {
                                     return (
-                                        <div className="ui-g-12">
-                                            <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange}
+                                        <div style={{margin: 4}} key={index}>
+                                            <Checkbox inputId={branch.id} value={branch}
+                                                      onChange={this.onBranchChange}
                                                       checked={this.containsBranch(branch)}
                                                       disabled={this.props.readOnly}/>
                                             <label htmlFor={branch.id}>{branch.nombre}</label>

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
 import {getClientsByNitOrNameInSystem, getClientUserByClient, saveAnswers} from "../../actions/indexthunk";
 import ClientVerifier from '../../components/ClientVerifier';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import QuestionContainer from "./QuestionContainer";

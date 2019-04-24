@@ -52,9 +52,10 @@ class GenerationExpenses extends Component {
     }
 
     renderError() {
+        const status = this.props.reduxVariable.errorRequest.status;
         return (
             <React.Fragment>
-                <h1> Error {this.props.reduxVariable.errorRequest.status}</h1>
+                <h1> Error {status}</h1>
                 <Button color={"primary"} variant="contained" style={{background: "red"}}
                         onClick={this.props.cleanResponse}> Aceptar</Button>
             </React.Fragment>
