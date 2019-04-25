@@ -14,20 +14,15 @@ import {getCreateCenterMasterAndCost} from "../../reducers";
 import {
     createCenterCostConditionServerBi,
     deleteCenterCostConditionServerBi,
-    getBusinessServerBi,
-    getCenterCostConditionServerBi, getChannelServerBi,
-    getCostCenterServerBi,
-    getLineCostServerBi,
-    getOrganizationServerBi, getRegionServerBi, getSubRegionServerBi, updateCenterCostConditionSeverBi
+    getInitialDataCenterCostConditionServerBi,
+    updateCenterCostConditionSeverBi
 } from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
-
-let counter = 0;
-
-function createData(name, calories, fat) {
-    counter += 1;
-    return {id: counter, name, calories, fat};
-}
+import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
+import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
+import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import DialogEditCostCondition from "./components/DialogEditCostCondition";
+import CostCondition from "../../models/CostCondition";
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -41,25 +36,16 @@ const CustomTableCell = withStyles(theme => ({
 
 class CostConditions extends Component {
 
-    state = {
-        rows: [
-            createData('Cupcake', 305, 3.7),
-            createData('Donut', 452, 25.0),
-            createData('Eclair', 262, 16.0),
-            createData('Frozen yoghurt', 159, 6.0),
-            createData('Gingerbread', 356, 16.0),
-            createData('Honeycomb', 408, 3.2),
-            createData('Ice cream sandwich', 237, 9.0),
-            createData('Jelly Bean', 375, 0.0),
-            createData('KitKat', 518, 26.0),
-            createData('Lollipop', 392, 0.2),
-            createData('Marshmallow', 318, 0),
-            createData('Nougat', 360, 19.0),
-            createData('Oreo', 437, 18.0),
-        ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
-        page: 0,
-        rowsPerPage: 5,
-    };
+    constructor(props){
+        super(props);
+        const itemDefault = new CostCondition();
+        this.state = {
+            page: 0,
+            open: false,
+            itemSelected: itemDefault,
+            rowsPerPage: 5,
+        };
+    }
 
     handleChangePage = (event, page) => {
         this.setState({page})
@@ -80,64 +66,95 @@ class CostConditions extends Component {
         )
     }
 
+    handleCloseDialogEditItem = () => {
+        this.setState({open: false, itemSelected: null})
+    };
+
+    handleOpenClickItem = (item) => {
+        this.setState({open: true, itemSelected: item})
+    };
+
     render() {
         const {classes} = this.props;
-        const {rows, rowsPerPage, page} = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+        const {centerCostConditions, load, business, centerCost,
+            channel, lineCost, organization, region, subRegion} = this.props.reducerVariable;
+        const {rowsPerPage, page} = this.state;
         if (this.props.reducerVariable.errorRequest) {
             return this.renderError()
         }
-
+        console.log(this.props.reducerVariable);
         return (
             <div>
-                <Paper className={classes.root}>
-                    <div className={classes.tableWrapper}>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <CustomTableCell >UNO</CustomTableCell>
-                                    <CustomTableCell align="right">UNO </CustomTableCell>
-                                    <CustomTableCell align="right">UNO </CustomTableCell>
-                                    <CustomTableCell align="right">UNO </CustomTableCell>
-                                    <CustomTableCell align="right"> UNO</CustomTableCell>
-                                    <CustomTableCell align="right">UNO </CustomTableCell>
-                                    <CustomTableCell align="right">UNO </CustomTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-                                    <TableRow>
-                                        <TableCell component={"th"} scope={"row"}>{row.name}</TableCell>
-                                        <TableCell>2</TableCell>
-                                        <TableCell>3</TableCell>
-                                        <TableCell>4</TableCell>
-                                        <TableCell>5</TableCell>
-                                        <TableCell>6</TableCell>
-                                        <TableCell>7</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+                {
+                    load ?
+                        <CircularProgress size={500} style={{color: '#03A8E4'[200]}} thickness={5}/> :
+                        <div>
+                            <ModalGeneric open={this.state.open} onClose={this.handleCloseDialogEditItem}>
+                                <DialogEditCostCondition
+                                    item={this.state.itemSelected}
+                                    business={business}
+                                    centerCost={centerCost}
+                                    channel={channel}
+                                    lineCost={lineCost}
+                                    organization={organization}
+                                    region={region}
+                                    subRegion={subRegion}/>
+                            </ModalGeneric>
+                            <Toolbar>
+                                <Button variant="contained" color={"primary"}> Nuevo </Button>
+                            </Toolbar>
+                            <Paper className={classes.root}>
+                                <div className={classes.tableWrapper}>
+                                    <Table className={classes.table}>
+                                        <TableHead>
+                                            <TableRow>
+                                                <CustomTableCell>ID</CustomTableCell>
+                                                <CustomTableCell align="left">CenterCost </CustomTableCell>
+                                                <CustomTableCell align="left">Business</CustomTableCell>
+                                                <CustomTableCell align="left">Channel </CustomTableCell>
+                                                <CustomTableCell align="left">LineCost</CustomTableCell>
+                                                <CustomTableCell align="left">Organization</CustomTableCell>
+                                                <CustomTableCell align="left">Region </CustomTableCell>
+                                                <CustomTableCell align="left">SubRegion </CustomTableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {console.log(centerCostConditions)}
+                                            {centerCostConditions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
+                                                <TableRow hover onClick={() => this.handleOpenClickItem(item)} key={item.id}>
+                                                <TableCell component={"th"} scope={"row"}>{item.id}</TableCell>
+                                                <TableCell>{item.centerCost}</TableCell>
+                                                <TableCell>{item.business}</TableCell>
+                                                <TableCell>{item.channel}</TableCell>
+                                                <TableCell>{item.line}</TableCell>
+                                                <TableCell>{item.organization}</TableCell>
+                                                <TableCell>{item.region}</TableCell>
+                                                <TableCell>{item.subRegion}</TableCell>
+                                                </TableRow>
+                                                ))}
+                                        </TableBody>
 
-                            <TableFooter>
-                                <TableRow>
-                                    <TablePagination
-                                        count={rows.length}
-                                        onChangePage={this.handleChangePage}
-                                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                                        page={page}
-                                        rowsPerPage={rowsPerPage}/>
-                                </TableRow>
-                            </TableFooter>
-                        </Table>
-                    </div>
-                </Paper>
+                                        <TableFooter>
+                                            <TableRow>
+                                                <TablePagination
+                                                    count={centerCostConditions.length}
+                                                    onChangePage={this.handleChangePage}
+                                                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                                    page={page}
+                                                    rowsPerPage={rowsPerPage}/>
+                                            </TableRow>
+                                        </TableFooter>
+                                    </Table>
+                                </div>
+                            </Paper>
+                        </div>
+                }
             </div>
         );
     }
 
     componentDidMount() {
-
+        this.props.initialDataCenterCostConditionServerBi()
     }
 }
 
@@ -146,17 +163,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    getCenterCostConditionBi: () => dispatch(getCenterCostConditionServerBi()),
-    getCostCenterBi: () => dispatch(getCostCenterServerBi()),
-    getBusinessBi:() => dispatch(getBusinessServerBi()),
-    getLineCostBi:() => dispatch(getLineCostServerBi()),
-    getOrganizationBi: () => dispatch(getOrganizationServerBi()),
-    getChannelBi:() => dispatch(getChannelServerBi()),
-    getRegionBi:() => dispatch(getRegionServerBi()),
-    getSubRegionBi:() => dispatch(getSubRegionServerBi()),
-    deleteCenterCostCondition:(id) => dispatch(deleteCenterCostConditionServerBi(id)),
-    updateCenterCostCondition:(id, center, business, line, organization, channel, region, subRegion) => dispatch(updateCenterCostConditionSeverBi(id, center, business, line, organization, channel, region, subRegion)),
-    createCenterCostConditionServerBi:(id, center, business, line, organization, channel, region, subRegion) => dispatch(createCenterCostConditionServerBi(id, center, business, line, organization, channel, region, subRegion))
+    deleteCenterCostCondition: (id) => dispatch(deleteCenterCostConditionServerBi(id)),
+    updateCenterCostCondition: (id, center, business, line, organization, channel, region, subRegion) => dispatch(updateCenterCostConditionSeverBi(id, center, business, line, organization, channel, region, subRegion)),
+    createCenterCostConditionServerBi: (id, center, business, line, organization, channel, region, subRegion) => dispatch(createCenterCostConditionServerBi(id, center, business, line, organization, channel, region, subRegion)),
+    initialDataCenterCostConditionServerBi: () => dispatch(getInitialDataCenterCostConditionServerBi())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(JsxStyles)(CostConditions));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(JsxStyles)(CostConditions));

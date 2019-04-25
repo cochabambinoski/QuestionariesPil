@@ -1,6 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import {Chart} from 'primereact/chart';
-import {ScrollPanel} from "primereact/scrollpanel";
 
 export class Start extends Component {
 

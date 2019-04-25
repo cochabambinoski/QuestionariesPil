@@ -169,7 +169,7 @@ class Questions extends Component {
 												<label className="independent">Independiente</label>
 										}
 										<label
-											className="required">{question.required == 1 ? 'Obligatorio' : ''}</label>
+											className="required">{question.required === 1 ? 'Obligatorio' : ''}</label>
 									</div>
 									<div>
 										{

@@ -28,7 +28,7 @@ class LoadBaseInput extends Component {
                     this.props.reduxVariable !== null ? this.renderResponse() : null
                 }
                 <Title tilte={'Carga de información Base'}
-                       subtitle={'En esta sección, podrá cargar la información base de los ingresos y gastos, ' + 'para la generación de distribución de gastos.'}/>
+                       subtitle={'En esta sección, podrá cargar la información base de los ingresos y gastos, para la generación de distribución de gastos.'}/>
                 <Messages ref={(el) => this.messages = el}/>
                 <Toolbar className="toolbarFullWidth">
                     <div>

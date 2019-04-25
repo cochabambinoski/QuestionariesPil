@@ -46,11 +46,6 @@ import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
 
 class Home extends Component {
-    state = {
-        open: false,
-        close_windows: false,
-        idMenuContainer: "1"
-    };
 
     handleChangeContainer = idMenu => {
         this.setState({idMenuContainer: idMenu})
@@ -72,6 +67,9 @@ class Home extends Component {
             title: null,
             detail: null,
             message: null,
+            open: false,
+            close_windows: false,
+            idMenuContainer: "1"
         };
         this.closeSessionHome = this.closeSessionHome.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
@@ -102,14 +100,12 @@ class Home extends Component {
                 this.setState({
                     overlayMenuActive: !this.state.overlayMenuActive
                 });
-            }
-            else if (this.state.layoutMode === 'static') {
+            } else if (this.state.layoutMode === 'static') {
                 this.setState({
                     staticMenuInactive: !this.state.staticMenuInactive
                 });
             }
-        }
-        else {
+        } else {
             const mobileMenuActive = this.state.mobileMenuActive;
             this.setState({
                 mobileMenuActive: !mobileMenuActive
@@ -168,6 +164,85 @@ class Home extends Component {
         this.setState({open: true});
     };
 
+    renderDialog() {
+        return (
+            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su
+                        sesion
+                        en el SVM.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={this.handleClose} color="primary" autoFocus>
+                        Aceptar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
+
+    renderContentByRoute() {
+        return (
+            <div>
+
+                <div className="layout-main">
+                    <Growl ref={(el) => this.growl = el}/>
+                    <Route path="/" exact component={CostConditions}/>
+                    {/*Questionaries Create Show Edit Delete*/}
+                    <Route path={questionariesRoute} exact
+                           render={(props) => <Questionnaires title={this.state.title}
+                                                              detail={this.state.detail}
+                                                              showMessage={this.showSuccess}
+                                                              {...props}/>}
+                    />
+                    <Route path={questionariesNewRoute} exact strict
+                           render={(props) => <Questionnaire questionary={null}
+                                                             showMessage={this.showSuccess}
+                                                             {...props}/>}
+                    />
+                    <Route path={questionariesShowIdRoute} exact strict
+                           render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                           readOnly={true}
+                                                           showMessage={this.showSuccess} {...props}/>}
+                    />
+                    <Route path={questionariesEditIdRoute} exact strict
+                           render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                           showMessage={this.showSuccess} {...props}/>}
+                    />
+                    {/*Assigment Questionnaries*/}
+
+                    <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
+                    <Route path={assigmentIdRoute} exact strict
+                           render={props => <AssignmentQuestionary
+                               idQuestionary={props.match.params.id}
+                               onSelectedQuestionary={null}
+                               showSuccess={this.showSuccess} {...props}/>}
+                    />
+
+                    {/*Answers Questionnaries*/}
+                    <Route path={answersRoute} exact component={AnswerContainer}/>
+                    <Route path={answersIdRoute} exact
+                           render={props => <GraphicsDetail
+                               idQuestionary={props.match.params.id}
+                           />}
+                    />
+
+                    {/*Segment */}
+                    <Route path={segmentRoute} exact component={ListSegment}/>
+
+                    {/*Finanzas */}
+                    <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
+                    <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
+                    <Route exact path={costConditionsRoute} component={CostConditions}/>
+                </div>
+            </div>
+        )
+    }
+
     render() {
         let wrapperClass = classNames('layout-wrapper', {
             'layout-overlay': this.state.layoutMode === 'overlay',
@@ -185,25 +260,9 @@ class Home extends Component {
                             <SplashPage/>
                             :
                             <div className={wrapperClass}>
-                                <Dialog
-                                    open={this.state.open}
-                                    onClose={this.handleClose}
-                                    aria-labelledby="alert-dialog-title"
-                                    aria-describedby="alert-dialog-description">
-                                    <DialogTitle id="alert-dialog-title">{"Sesion Caducada"}</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText id="alert-dialog-description">
-                                            Su sesion ha caducado. Por favor cierre esta ventana y vuelva a iniciar su
-                                            sesion
-                                            en el SVM.
-                                        </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={this.handleClose} color="primary" autoFocus>
-                                            Aceptar
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
+                                {
+                                    this.renderDialog()
+                                }
 
                                 <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
@@ -218,59 +277,7 @@ class Home extends Component {
                                     </ScrollPanel>
                                 </div>
 
-                                <div>
-
-                                    <div className="layout-main">
-                                        <Growl ref={(el) => this.growl = el}/>
-                                        <Route path="/" exact component={Start}/>
-                                        {/*Questionaries Create Show Edit Delete*/}
-                                        <Route path={questionariesRoute} exact
-                                               render={(props) => <Questionnaires title={this.state.title}
-                                                                                  detail={this.state.detail}
-                                                                                  showMessage={this.showSuccess}
-                                                                                  {...props}/>}
-                                        />
-                                        <Route path={questionariesNewRoute} exact strict
-                                               render={(props) => <Questionnaire questionary={null}
-                                                                                 showMessage={this.showSuccess}
-                                                                                 {...props}/>}
-                                        />
-                                        <Route path={questionariesShowIdRoute} exact strict
-                                               render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                                               readOnly={true}
-                                                                               showMessage={this.showSuccess} {...props}/>}
-                                        />
-                                        <Route path={questionariesEditIdRoute} exact strict
-                                               render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                                               showMessage={this.showSuccess} {...props}/>}
-                                        />
-                                        {/*Assigment Questionnaries*/}
-
-                                        <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
-                                        <Route path={assigmentIdRoute} exact strict
-                                               render={props => <AssignmentQuestionary
-                                                   idQuestionary={props.match.params.id}
-                                                   onSelectedQuestionary={null}
-                                                   showSuccess={this.showSuccess} {...props}/>}
-                                        />
-
-                                        {/*Answers Questionnaries*/}
-                                        <Route path={answersRoute} exact component={AnswerContainer}/>
-                                        <Route path={answersIdRoute} exact
-                                               render={props => <GraphicsDetail
-                                                   idQuestionary={props.match.params.id}
-                                                   />}
-                                        />
-
-                                        {/*Segment */}
-                                        <Route path={segmentRoute} exact component={ListSegment}/>
-
-                                        {/*Finanzas */}
-                                        <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
-                                        <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
-                                        <Route exact path={costConditionsRoute} component={CostConditions}/>
-                                    </div>
-                                </div>
+                                {this.renderContentByRoute()}
                             </div>
                     }
                 </Fragment>
