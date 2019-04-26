@@ -279,4 +279,4 @@ const mapDispatchToProps = dispatch => ({
     deleteConcept: (id) => dispatch(deleteConceptServerBi(id)),
 });
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, JsxStyles)(ConceptCenter));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(ConceptCenter));
