@@ -15,6 +15,7 @@ import {
     CLEAN_REQUEST,
     CLEAN_REQUEST_BI,
     CREATE_CONDITION_CENTER_MASTER,
+    CREATE_TYPES_BI,
     DATA,
     DELETE_ALL_ASSIGNEMENT_USER,
     DELETE_ASSIGNEMENT_USER,
@@ -27,6 +28,7 @@ import {
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE,
+    DELETE_TYPES_BI,
     EDIT_ASSIGNEMENT_USER,
     EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST,
     EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
@@ -35,6 +37,7 @@ import {
     GET_ALL_BRANCHES,
     GET_ALL_CONCEPTS,
     GET_ALL_DEPARTAMENTS,
+    GET_ALL_TYPES,
     GET_ANSWERS,
     GET_BUSINESS_BI,
     GET_CENTER_COST_CONDITION_BI,
@@ -65,7 +68,8 @@ import {
     SET_USER,
     TRIED_TO_SAVE,
     UPDATE_CONDITION_CENTER_MASTER,
-    UPDATE_MARKED_OPTIONS
+    UPDATE_MARKED_OPTIONS,
+    UPDATE_TYPES_BI
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -220,13 +224,20 @@ export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
 
-export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
+export const deleteCenterCostConditionBi = payload => ({type: DELETE_CONDITION_CENTER_MASTER, payload});
 
 export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload});
 
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
-export const getAllConcepts = payload=> ({type: GET_ALL_CONCEPTS, payload});
+export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 
-export const deleteConceptBi = payload =>({type: DELETE_CONCEPT_BI, payload});
+export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 
+export const getAllTypes = payload => ({type: GET_ALL_TYPES, payload});
+
+export const createType = payload => ({type: CREATE_TYPES_BI, payload});
+
+export const updateType = payload => ({type: UPDATE_TYPES_BI, payload});
+
+export const deleteType = payload => ({type: DELETE_TYPES_BI, payload});

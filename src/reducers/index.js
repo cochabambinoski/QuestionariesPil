@@ -17,7 +17,7 @@ import answers from "./answers";
 import {processConfirmation} from "./processConfirmation";
 import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
 import {createConcepts} from "./concept";
-
+import {createTypes} from "./types";
 
 export default combineReducers({
     data,
@@ -34,7 +34,9 @@ export default combineReducers({
     processConfirmation,
     createCenterMasterAndCost,
     createConcepts,
+    createTypes,
 });
+
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
 export const getMobileAssignement = state => state.assignmentUser;
@@ -78,3 +80,4 @@ export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
 export const getProcessConfirmation = (state) => state.processConfirmation;
 export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterAndCost;
 export const getCreateConcepts = (state) => state.createConcepts;
+export const getCreateTypes = (state) => state.createTypes;

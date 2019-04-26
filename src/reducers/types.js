@@ -1,7 +1,7 @@
-import {CREATE_CONCEPT_BI, DELETE_CONCEPT_BI, GET_ALL_CONCEPTS, UPDATE_CONCEPT_BI} from "../action-types/actionTypes";
+import {CREATE_TYPES_BI, DELETE_CONCEPT_BI, GET_ALL_TYPES, UPDATE_TYPES_BI} from "../action-types/actionTypes";
 
 const getResponse = response => ({
-    concepts: [],
+    types: [],
     responseRequest: response,
     errorRequest: null,
     showDialog: true,
@@ -9,29 +9,29 @@ const getResponse = response => ({
 });
 
 const errorState = error => ({
-    concepts: [],
+    types: [],
     errorRequest: error,
     showDialog: false,
     load: false
 });
 
 const initialState = ({
-    concepts: [],
+    types: [],
     responseRequest: null,
     errorRequest: null,
     showDialog: false,
     load: true
 });
 
-export const createConcepts = (state = initialState, action) => {
+export const createTypes = (state = initialState, action) => {
     switch (action.type) {
-        case GET_ALL_CONCEPTS: {
+        case GET_ALL_TYPES: {
             return {...state, concepts: action.payload, errorRequest:null, load:false}
         }
-        case CREATE_CONCEPT_BI: {
+        case CREATE_TYPES_BI: {
             return {state:getResponse(action.payload)}
         }
-        case UPDATE_CONCEPT_BI: {
+        case UPDATE_TYPES_BI: {
             return {state:getResponse(action.payload)}
         }
         case DELETE_CONCEPT_BI: {
