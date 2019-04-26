@@ -17,7 +17,8 @@ import {
     indexRoute,
     loadBaseInputRoute,
     questionariesRoute,
-    segmentRoute
+    segmentRoute,
+    typeCenterRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = () => ({
@@ -81,6 +82,8 @@ class SubMenu extends Component {
                 return costConditionsRoute;
             case 'conceptCenter':
                 return conceptCenterRoute;
+            case 'typeCenter':
+                return typeCenterRoute;
             default:
                 return indexRoute;
         }

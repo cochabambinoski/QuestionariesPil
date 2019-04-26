@@ -45,11 +45,14 @@ import {
     questionariesNewRoute,
     questionariesRoute,
     questionariesShowIdRoute,
-    segmentRoute
+    segmentRoute,
+    typeCenterRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
+import TypeCenter from "../../typeCenter/TypeCenter";
+import {Start} from "../../Start/Start";
 
 class Home extends Component {
     state = {
@@ -276,6 +279,7 @@ class Home extends Component {
                                         <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
                                         <Route exact path={costConditionsRoute} component={CostConditions}/>
                                         <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
+                                        <Route exact path={typeCenterRoute} component={TypeCenter}/>
                                     </div>
                                 </div>
                             </div>
