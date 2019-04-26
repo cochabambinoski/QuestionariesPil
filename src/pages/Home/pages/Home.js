@@ -24,7 +24,6 @@ import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
 import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
-import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
 import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
@@ -34,16 +33,23 @@ import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuesti
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
 import {
-    answersRoute, answersIdRoute,
-    assigmentRoute, assigmentIdRoute,
-    questionariesRoute,
+    answersIdRoute,
+    answersRoute,
+    assigmentIdRoute,
+    assigmentRoute,
+    conceptCenterRoute,
+    costConditionsRoute,
+    expensesGenerationRoute,
+    loadBaseInputRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    questionariesRoute,
+    questionariesShowIdRoute,
+    segmentRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
+import ConceptCenter from "../../conceptCenter/ConceptCenter";
 
 class Home extends Component {
     state = {
@@ -222,7 +228,7 @@ class Home extends Component {
 
                                     <div className="layout-main">
                                         <Growl ref={(el) => this.growl = el}/>
-                                        <Route path="/" exact component={Start}/>
+                                        <Route path="/" exact component={ConceptCenter}/>
                                         {/*Questionaries Create Show Edit Delete*/}
                                         <Route path={questionariesRoute} exact
                                                render={(props) => <Questionnaires title={this.state.title}
@@ -269,6 +275,7 @@ class Home extends Component {
                                         <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
                                         <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
                                         <Route exact path={costConditionsRoute} component={CostConditions}/>
+                                        <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
                                     </div>
                                 </div>
                             </div>

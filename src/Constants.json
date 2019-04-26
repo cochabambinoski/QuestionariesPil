@@ -91,6 +91,9 @@
   "REGION_BI": "region",
   "SUB_REGION_BI": "subRegion",
   "DELETE_CENTER_COST_CONDITION": "centerCostCondition/",
-  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={1}&center={2}&business={3}&line={4}&organization={5}&channel={6}&region={7}&subRegion={8}"
-
+  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={1}&center={2}&business={3}&line={4}&organization={5}&channel={6}&region={7}&subRegion={8}",
+  "CONCEPTS": "concept",
+  "DELETE_CONCEPT": "concept/",
+  "CREATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",
+  "UPDATE_CONCEPT": "concept"
 }
