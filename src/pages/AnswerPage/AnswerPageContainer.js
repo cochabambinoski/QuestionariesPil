@@ -144,7 +144,7 @@ class AnswerPageContainer extends Component {
         event.preventDefault();
     }
 
-    onWrapperClick() {
+    onWrapperClick(event) {
         if (!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
@@ -155,7 +155,7 @@ class AnswerPageContainer extends Component {
         this.menuClick = false;
     }
 
-    onSidebarClick() {
+    onSidebarClick(event) {
         this.menuClick = true;
         setTimeout(() => {
             this.layoutMenuScroller.moveBar();
@@ -268,7 +268,7 @@ class AnswerPageContainer extends Component {
     }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
     getQuetionnaireById: value => dispatch(getQuetionnaireById(value)),

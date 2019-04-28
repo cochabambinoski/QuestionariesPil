@@ -41,7 +41,7 @@ class QuestionDependent extends Component {
 			thisProps.questions.forEach(q => {
 				q.lsQuestionOptions.find(o => {
 					if (o.id === option.id) {
-						this.setState(() => ({
+						this.setState((prevState, props) => ({
 							selQuestion: q,
 							lsOptions: q.lsQuestionOptions,
 							selOption: o
@@ -94,25 +94,27 @@ class QuestionDependent extends Component {
         }
     }
 
-    onOptionChange(e) {
-        if (e.value === undefined || e.value === null) {
-            e.value = null;
-        }
-        const emptyOptions = this.props.questions.find(q => function () {
-            return q.questionOption !== null && q.questionOption.id === e.value.id;
-        });
-        if (emptyOptions === null || emptyOptions === undefined) {
-            e.value.question = null;
-            this.setState({selOption: e.value});
-        } else {
-            this.setState({selOption: null});
-            this.showError('Alerta!', 'La opcion ya esta asiganada a otra pregunta');
-        }
-    }
+	onOptionChange(e) {
+		if (e.value === undefined || e.value === null) {
+			e.value = null;
+		}
+		const emptyOptions = this.props.questions.find((q) => {
+			if (q.questionOption !== null)
+				return q.questionOption.id === e.value.id;
+		});
+		if (emptyOptions === null || emptyOptions === undefined) {
+			e.value.question = null;
+			this.setState({selOption: e.value});
+		}
+		else {
+			this.setState({selOption: null});
+			this.showError('Alerta!', 'La opcion ya esta asiganada a otra pregunta');
+		}
+	}
 
-    handleSaveDependent = () => {
-        this.props.refresh(this.state.selOption);
-    };
+	handleSaveDependent = (value) => {
+		this.props.refresh(this.state.selOption);
+	};
 
     render() {
         return (

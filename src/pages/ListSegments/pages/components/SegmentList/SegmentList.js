@@ -229,7 +229,7 @@ class SegmentList extends Component {
         this.setState({toDelete: id});
     };
 
-    handleClose = () => {
+    handleClose = (response) => {
         this.setState({deleteOpen: false});
         this.setState({toDelete: null});
         this.chargeList(this.state.startDate, this.state.endDate);
