@@ -10,12 +10,8 @@ import Title from "../../Title/Title";
 import Button from "@material-ui/core/Button/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel"
-import NoSsr from '@material-ui/core/NoSsr';
-import Paper from "@material-ui/core/Paper/Paper";
-import Typography from "@material-ui/core/Typography/Typography";
-import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Select from 'react-select';
-import {emphasize} from '@material-ui/core/styles/colorManipulator';
+import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 
 const styles = theme => ({
     container: {
@@ -47,150 +43,12 @@ const styles = theme => ({
     },
     rightIcon: {
         marginLeft: theme.spacing.unit,
-    },
-    textSelect: {
-        position: 'absolute',
-        width: 500,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
-    input: {
-        display: 'flex',
-        padding: 0,
-    },
-    valueContainer: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        flex: 1,
-        alignItems: 'center',
-        overflow: 'hidden',
-    },
-    chip: {
-        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
-    },
-    chipFocused: {
-        backgroundColor: emphasize(
-            theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
-            0.08,
-        ),
-    },
-    noOptionsMessage: {
-        padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-    },
-    singleValue: {},
-    placeholder: {
-        position: 'absolute',
-        left: 2,
-        fontSize: 16,
-    },
-    paper: {
-        position: 'absolute',
-        zIndex: 1,
-        marginTop: theme.spacing.unit,
-        left: 0,
-        right: 0,
-    },
-    divider: {
-        height: theme.spacing.unit * 2,
-    },
+    }
 });
-
-function NoOptionsMessage(props) {
-    return (
-        <Typography
-            color="textSecondary"
-            className={props.selectProps.classes.noOptionsMessage}
-            {...props.innerProps}
-        >
-            {props.children}
-        </Typography>
-    );
-}
-
-function inputComponent({inputRef, ...props}) {
-    return <div ref={inputRef} {...props} />;
-}
-
-function Control(props) {
-    return (
-        <TextField
-            fullWidth
-            InputProps={{
-                inputComponent,
-                inputProps: {
-                    className: props.selectProps.classes.input,
-                    inputRef: props.innerRef,
-                    children: props.children,
-                    ...props.innerProps,
-                },
-            }}
-            {...props.selectProps.textFieldProps}
-        />
-    );
-}
-
-function Option(props) {
-    return (
-        <MenuItem
-            buttonRef={props.innerRef}
-            selected={props.isFocused}
-            component="div"
-            style={{
-                fontWeight: props.isSelected ? 500 : 400,
-            }}
-            {...props.innerProps}
-        >
-            {props.children}
-        </MenuItem>
-    );
-}
-
-function Placeholder(props) {
-    return (
-        <Typography
-            color="textSecondary"
-            className={props.selectProps.classes.placeholder}
-            {...props.innerProps}
-        >
-            {props.children}
-        </Typography>
-    );
-}
-
-function SingleValue(props) {
-    return (
-        <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
-            {props.children}
-        </Typography>
-    );
-}
-
-function ValueContainer(props) {
-    return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>;
-}
-
-function Menu(props) {
-    return (
-        <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
-            {props.children}
-        </Paper>
-    );
-}
-
-const components = {
-    Control,
-    Menu,
-    NoOptionsMessage,
-    Option,
-    Placeholder,
-    SingleValue,
-    ValueContainer,
-};
 
 class ConceptForm extends Component {
 
     constructor(props) {
-        console.log(props);
         super(props);
         let type = props.type;
         this.state = {
@@ -202,13 +60,11 @@ class ConceptForm extends Component {
             disabled: true,
             process: 1,
             concepts: [],
-            suggestion: [],
-            single: null,
+            concept: null
         }
     };
 
     componentDidMount() {
-        console.log(this.props);
         this.chargeList();
         if (this.props.concept === 0) {
             this.setState({disabled: false});
@@ -233,7 +89,6 @@ class ConceptForm extends Component {
         this.props.createType(data)
             .then((response) => {
                 let state = response;
-                console.log(response, state);
                 if (state === null || state === undefined) {
                     if (state === 2) {
                         this.setState({process: 1});
@@ -250,7 +105,6 @@ class ConceptForm extends Component {
         this.props.updateType(data)
             .then((response) => {
                 let state = response;
-                console.log(response, state);
                 if (state === null || state === undefined) {
                     if (state === 2) {
                         this.setState({process: 1});
@@ -283,29 +137,13 @@ class ConceptForm extends Component {
         }
     };
 
-    handleChange = name => value => {
-        this.setState({
-            [name]: value,
-        });
+    handleChange = event => {
+        console.log(event);
+        this.setState({ concept: event });
     };
 
     renderForm() {
-        console.log(this.props);
         const {classes} = this.props;
-        console.log(this.state.concepts);
-        const selectStyles = {
-            input: base => ({
-                ...base,
-                '& input': {
-                    font: 'inherit',
-                },
-            }),
-        };
-
-        const suggestions = this.state.concepts.map(concepts => ({
-            value: concepts.id,
-            label: concepts.name,
-        }));
         return (
             <div>
                 <form className={classes.container} noValidate autoComplete="off">
@@ -328,7 +166,7 @@ class ConceptForm extends Component {
                         margin="normal"
                         rows="4"
                         value={this.state.codeType}
-                        onChange={(e) => this.setState({name: e.target.value})}/>
+                        onChange={(e) => this.setState({codeType: e.target.value})}/>
                     <TextField
                         required
                         id="name"
@@ -347,23 +185,17 @@ class ConceptForm extends Component {
                         margin="normal"
                         value={this.state.abbreviation}
                         onChange={(e) => this.setState({abbreviation: e.target.value})}/>
-                    <NoSsr>
-                        <Select
-                            classes={classes.textSelect}
-                            styles={selectStyles}
-                            options={suggestions}
-                            components={components}
-                            value={this.state.single}
-                            onChange={this.handleChange('single')}
-                            isClearable
-                            textFieldProps={{
-                                label: 'Concepto',
-                                InputLabelProps: {
-                                    shrink: true,
-                                },
-                            }}
-                        />
-                    </NoSsr>
+                    <InputLabel htmlFor="age-simple">Age</InputLabel>
+                    <Select
+                        options={this.state.concepts}
+                        value={this.state.concept}
+                        onChange={this.handleChange}
+                        inputProps={{
+                            name: 'name',
+                            id: 'id',
+                        }}
+                    >
+                    </Select>
                 </form>
                 <div
                     className="row between-xs"
