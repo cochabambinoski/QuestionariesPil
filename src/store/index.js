@@ -1,7 +1,7 @@
 import {applyMiddleware, createStore, compose} from 'redux';
 import reducer from "../reducers";
 import {reduxTimeout} from "redux-timeout";
-import {logger} from 'redux-logger'
+//import {logger} from 'redux-logger'
 import thunk from 'redux-thunk';
 
 //Estado inicial de nuestra aplicacion

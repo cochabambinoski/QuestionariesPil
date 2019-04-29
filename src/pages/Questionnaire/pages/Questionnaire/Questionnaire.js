@@ -52,12 +52,6 @@ import {
 } from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
 import {questionariesRoute} from "../../../../routes/PathRoutes";
-import ToolbarQuestionnaire from "../../components/toolbarQuestionnaire/ToolbarQuestionnaire";
-import EditTextQuestionnaire from "../../components/editTextQuestionnaire/EditTextQuestionnaire";
-import RadioButtonSystem from "../../components/radioButton/RadioButtonSystem";
-import RadioButtonReach from "../../components/radioButton/RadioButtonReach";
-import QuestionnaireRangeContainer from "../../components/QuestionnaireRange/QuestionnaireRangeContainer";
-import {Grid} from "@material-ui/core";
 
 const styles = theme => ({
     root: {
