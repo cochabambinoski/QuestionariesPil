@@ -155,16 +155,6 @@ class ConceptCenter extends Component {
             this.showResponse(response);
     };
 
-    /*getConcept(id) {
-        this.props.getConcept(id)
-            .then((data) => {
-                this.setState(() => ({
-                    concept: data
-                }));
-                this.setState({conceptOpen: true});
-            });
-    }*/
-
     renderConceptDialog() {
         return (
             <ModalGeneric open={this.state.conceptOpen} onClose={this.handleCloseConcept}>

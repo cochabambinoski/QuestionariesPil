@@ -1,7 +1,52 @@
 import React, {Component} from 'react';
 import {getCreateTypes} from "../../reducers";
-import connect from "react-redux/es/connect/connect";
-import {createType, deleteType, getAllTypes, updateType} from "../../actions";
+import {connect} from 'react-redux';
+import {deleteTypeServerBi, getAllTypesBi} from "../../actions/indexthunk";
+import Card from "@material-ui/core/Card/Card";
+import CardContent from "@material-ui/core/CardContent/CardContent";
+import CardActions from "@material-ui/core/CardActions/CardActions";
+import Button from "@material-ui/core/Button/Button";
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {Messages} from 'primereact/messages';
+import {withStyles} from "@material-ui/core";
+import JsxStyles from "../../styles/JsxStyles";
+import green from "@material-ui/core/colors/green";
+import PropTypes from "prop-types";
+import Title from "../Title/Title";
+import DeleteDialog from "../conceptCenter/dialogs/DeleteDialog";
+import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import TypeForm from "./dialogs/TypeForm";
+
+const styles = theme => ({
+    root: {
+        backgroundColor: theme.palette.background.paper,
+        width: 500,
+        position: 'relative',
+        minHeight: 200
+    },
+    button: {
+        margin: theme.spacing.unit,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    fab: {
+        top: 'auto',
+        right: '20px',
+        bottom: '20px',
+        left: 'auto',
+        position: 'fixed !important'
+    },
+    fabGreen: {
+        color: theme.palette.common.white,
+        backgroundColor: green[500]
+    }
+});
 
 class TypeCenter extends Component {
 
@@ -22,7 +67,7 @@ class TypeCenter extends Component {
     }
 
     componentDidMount() {
-        //this.chargeList();
+        this.chargeList();
     }
 
     showSuccess = (title, message) => {
@@ -56,31 +101,191 @@ class TypeCenter extends Component {
             .then((data) => {
                 console.log(data);
                 this.setState(() => ({
-                    concepts: data
+                    types: data
                 }));
             });
     };
 
+    handleDeleteClick = (event, id) => {
+        this.showWarn('Alerta', 'esta iniciando una funcion de eliminación');
+        this.setState({deleteOpen: true});
+        this.setState({toDelete: id});
+    };
+
+    handleDelete = () => {
+        this.deleteType();
+    };
+
+    deleteType = () => {
+        this.props.deleteType(this.state.toDelete)
+            .then((result) => {
+                if (result === "ERROR") {
+                    this.showError('Error', 'No se pudo eliminar la segmentación');
+                } else {
+                    this.chargeList();
+                    this.handleClose();
+                    if (result !== undefined || result !== null)
+                        this.showSuccess('Eliminado', 'Se elimino una segmentación');
+                }
+            });
+    };
+
+    handleClose = () => {
+        this.setState({deleteOpen: false});
+        this.setState({toDelete: null});
+        this.chargeList();
+    };
+
+    handleType = (event, id) => {
+        this.setState({type: id});
+        this.setState({typeOpen: true});
+    };
+
+    handleCloseType = (response) => {
+        this.setState({typeOpen: false});
+        this.chargeList();
+        if (response >= 0)
+            this.showResponse(response);
+    };
+
+    renderDeleteDialog() {
+        return (
+            <DeleteDialog deleteOpen={this.state.deleteOpen} handleClose={this.handleClose}
+                          handleDelete={this.handleDelete}/>
+        );
+    }
+
+    renderTypeDialog() {
+        return (
+            <ModalGeneric open={this.state.typeOpen} onClose={this.handleCloseType}>
+                <TypeForm
+                    type={this.state.type}
+                    onClose={this.handleCloseType}
+                />
+            </ModalGeneric>
+        );
+    }
+
+    renderList() {
+        const {classes} = this.props;
+        return (
+            <div>{
+                this.state.types.map((item) => {
+                    return (
+                        <div style={{marginTop: '1em'}}>
+                            <Card key={item.id}>
+                                <CardContent>
+                                    <div className="row between-xs" style={{marginRight: '1em'}}>
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <h1 className='titleA'> {item.id}</h1>
+                                            </div>
+                                        </div>
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <h2 className='titleB'>{item.abbreviation}</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <b>Nombre: </b>
+                                                <label
+                                                    className='label'>{item.name}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <b>Codigo Tipo: </b>
+                                                <label
+                                                    className='label'>{item.codeType}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <b>Id Concepto: </b>
+                                                <label
+                                                    className='label'>{item.idConcept}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                                <CardActions>
+                                    <div className="row between-xs" style={{padding: '0.5em'}}>
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <Button variant="contained" color="primary" className={classes.button}
+                                                        onClick={event => this.handleType(event, item)}>
+                                                    <EditIcon className={classes.leftIcon}/>
+                                                    Editar
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div className="col-auto">
+                                            <div className="box">
+                                                <Button variant="contained" color="secondary" className={classes.button}
+                                                        onClick={event => this.handleDeleteClick(event, item.id)}>
+                                                    <DeleteIcon className={classes.leftIcon}/>
+                                                    Eliminar
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardActions>
+                            </Card>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+
     render() {
+        const {classes} = this.props;
+        const fab = {
+            color: "primary",
+            className: classes.fab,
+            icon: <AddIcon/>
+        };
         return (
             <div>
-                no mames
+                <div>
+                    {this.renderDeleteDialog()}
+                    {this.renderTypeDialog()}
+                </div>
+                <div>
+                    <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    <Messages ref={(el) => this.messages = el}/>
+                </div>
+                <div>
+                    {this.renderList()}
+                    <Button variant="fab" className={fab.className} color={fab.color}
+                            onClick={event => this.handleType(event, 0)}>
+                        {fab.icon}
+                    </Button>
+                </div>
             </div>
         );
     }
 }
 
-TypeCenter.propTypes = {};
+TypeCenter.propTypes = {
+    theme: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
     reducerVariable: getCreateTypes(state) //no tocar
 });
 
 const mapDispatchToProps = dispatch => ({
-    getAllTypes: () => dispatch(getAllTypes()),
-    createType: (type) => dispatch(createType(type)),
-    updateType: (type) => dispatch(updateType(type)),
-    deleteType: (id) => dispatch(deleteType(id)),
+    getAllTypes: () => dispatch(getAllTypesBi()),
+    deleteType: (id) => dispatch(deleteTypeServerBi(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TypeCenter);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(TypeCenter));

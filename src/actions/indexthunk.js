@@ -8,6 +8,7 @@ import {
     createCenterCostConditionBi,
     deleteCenterCostConditionBi,
     deleteConceptBi,
+    deleteTypeBi,
     getAllBranches,
     getAllDepartaments,
     getAnswers,
@@ -950,6 +951,92 @@ export const updateConceptBi = (concept) => {
                     dispatch(changeErrorBi(response))
                 }
                 return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getAllTypesBi = () => {
+    return () => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.TYPES}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                return response
+            });
+    };
+};
+
+export const createTypeBi = (type) => {
+    return dispatch => {
+        console.log(type);
+        let create = StringFilterUtil.format(Constants.CREATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.codeResult === undefined) {
+                    dispatch(createTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateTypeBi = (type) => {
+    return dispatch => {
+        let update = StringFilterUtil.format(Constants.UPDATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.codeResult === undefined) {
+                    dispatch(updateTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const deleteTypeServerBi = id => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_TYPE}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
