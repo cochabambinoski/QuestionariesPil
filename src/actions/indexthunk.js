@@ -972,7 +972,7 @@ export const getAllTypesBi = () => {
 export const createTypeBi = (type) => {
     return dispatch => {
         console.log(type);
-        let create = StringFilterUtil.format(Constants.CREATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
+        let create = StringFilterUtil.format(Constants.CREATE_TYPE, type.idConcept, type.codeType, type.name, type.abbreviation);
         const url = `${Constants.ROUTE_WEB_BI}${create}`;
         return fetch(url, {
             method: 'POST',

@@ -10,8 +10,10 @@ import Title from "../../Title/Title";
 import Button from "@material-ui/core/Button/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel"
-import Select from 'react-select';
+import Select from '@material-ui/core/Select';
 import InputLabel from "@material-ui/core/InputLabel/InputLabel";
+import FormControl from "@material-ui/core/FormControl/FormControl";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 
 const styles = theme => ({
     container: {
@@ -21,12 +23,6 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
-    },
-    dense: {
-        marginTop: 19,
-    },
-    menu: {
         width: 200,
     },
     root: {
@@ -43,7 +39,10 @@ const styles = theme => ({
     },
     rightIcon: {
         marginLeft: theme.spacing.unit,
-    }
+    },
+    selectEmpty: {
+        marginTop: theme.spacing.unit * 2,
+    },
 });
 
 class ConceptForm extends Component {
@@ -60,14 +59,20 @@ class ConceptForm extends Component {
             disabled: true,
             process: 1,
             concepts: [],
-            concept: null
-        }
+            concept: null,
+            labelWidth: 0,
+        };
     };
 
     componentDidMount() {
         this.chargeList();
         if (this.props.concept === 0) {
             this.setState({disabled: false});
+        }
+        let type = this.props.type;
+        if (type !== 0){
+            console.log(type);
+            this.setState({concept: type.idConcept});
         }
     }
 
@@ -129,7 +134,7 @@ class ConceptForm extends Component {
             this.setState({process: 0});
             this.setType({
                 "id": this.state.id,
-                "idConcept": this.state.single.value,
+                "idConcept": this.state.idConcept,
                 "codeType": this.state.codeType,
                 "name": this.state.name,
                 "abbreviation": this.state.abbreviation
@@ -138,9 +143,20 @@ class ConceptForm extends Component {
     };
 
     handleChange = event => {
-        console.log(event);
-        this.setState({ concept: event });
+        this.setState({ idConcept: event.target.value});
     };
+
+    renderOptions() {
+        return this.state.concepts.map((concepts, i) => {
+            return (
+                <MenuItem
+                    label="Select a country"
+                    value={concepts.id}
+                    key={i} name={concepts.name}>{concepts.name}</MenuItem>
+
+            );
+        });
+    }
 
     renderForm() {
         const {classes} = this.props;
@@ -185,17 +201,20 @@ class ConceptForm extends Component {
                         margin="normal"
                         value={this.state.abbreviation}
                         onChange={(e) => this.setState({abbreviation: e.target.value})}/>
-                    <InputLabel htmlFor="age-simple">Age</InputLabel>
-                    <Select
-                        options={this.state.concepts}
-                        value={this.state.concept}
-                        onChange={this.handleChange}
-                        inputProps={{
-                            name: 'name',
-                            id: 'id',
-                        }}
-                    >
-                    </Select>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel htmlFor="age-simple">Conceptos</InputLabel>
+                        <Select
+                            className={classes.textField}
+                            value={this.state.idConcept}
+                            onChange={this.handleChange}
+                            inputProps={{
+                                name: 'name',
+                                id: 'id',
+                            }}
+                        >
+                            {this.renderOptions()}
+                        </Select>
+                    </FormControl>
                 </form>
                 <div
                     className="row between-xs"
