@@ -5,8 +5,8 @@ import List from "@material-ui/core/es/List/List";
 import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import Paper from "@material-ui/core/es/Paper/Paper";
-import {formatText} from "../../utils/StringFormatUtil";
 import {Grid} from "@material-ui/core";
+import './PeriodAndAccountRegistration.css';
 
 class PeriodAndAccountRegistration extends Component {
     render() {
@@ -29,16 +29,16 @@ class PeriodAndAccountRegistration extends Component {
                                     <ListItem  alignItems={"flex-start"}>
                                         <Grid container direction={"column"}>
                                             <ListItemText primary={item.name}/>
-                                                <Grid item xs={12}>
+                                                <Grid item xs={12} >
                                                     <Grid container direction={"row"} justify={"center"}>
                                                         <Grid item>
-                                                            <Button variant={"contained"} color={"primary"}>Ver</Button>
+                                                            <Button className={"button-item"} variant={"contained"} color={"primary"}>Ver</Button>
                                                         </Grid>
                                                         <Grid item>
-                                                            <Button variant={"contained"} color={"primary"}>Editar</Button>
+                                                            <Button className={'button-item'} variant={"contained"} color={"primary"}>Editar</Button>
                                                         </Grid>
                                                         <Grid item>
-                                                            <Button variant={"contained"} color={"secondary"}>Eliminar</Button>
+                                                            <Button className={'button-item'} variant={"contained"} color={"secondary"}>Eliminar</Button>
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
