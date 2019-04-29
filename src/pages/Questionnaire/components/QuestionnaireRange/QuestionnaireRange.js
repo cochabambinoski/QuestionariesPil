@@ -59,16 +59,15 @@ class QuestionnaireRange extends Component {
     }
 
     addAllCities() {
-        const {lsDepartments} = this.props;
-        this.setState(function () {
-            lsDepartments.forEach((city) => {
+        this.setState(function (prevState, props) {
+            this.props.lsDepartments.forEach((city) => {
                 this.addCity(city, true);
             });
         });
     }
 
     addCity(city, addAllBranches) {
-        this.setState(function (prevState) {
+        this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
             let selected = selectedAux.filter((auxCity) => (auxCity.id === city.id));
             if (selected.length === 0) {
@@ -80,7 +79,7 @@ class QuestionnaireRange extends Component {
     }
 
     removeAllCities() {
-        this.setState(function (prevState) {
+        this.setState(function (prevState, props) {
             prevState.lsSelectedDepartments.forEach((city) => {
                 this.removeCity(city, true)
             });
@@ -88,7 +87,7 @@ class QuestionnaireRange extends Component {
     }
 
     removeCity(city, removeBranches) {
-        this.setState(function (prevState) {
+        this.setState(function (prevState, props) {
             let selectedAux = [...prevState.lsSelectedDepartments];
             if (this.indexOf(selectedAux, city) !== -1) {
                 selectedAux.splice(this.indexOf(selectedAux, city), 1);
@@ -119,7 +118,7 @@ class QuestionnaireRange extends Component {
     }
 
     addBranch(branch) {
-        this.setState((prevState) => {
+        this.setState((prevState, props) => {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
             if (index === -1) {
@@ -148,7 +147,7 @@ class QuestionnaireRange extends Component {
     }
 
     removeBranch(branch) {
-        this.setState((prevState) => {
+        this.setState((prevState, props) => {
             let rangesAux = [...prevState.ranges];
             const index = this.containsBranchRange(rangesAux, branch);
             if (index !== -1) {
@@ -165,7 +164,7 @@ class QuestionnaireRange extends Component {
     }
 
     verifyCity(branch, added) {
-        this.setState((prevState) => {
+        this.setState((prevState, props) => {
             const allCityBranches = this.props.lsBranches.filter((cityBranch) => (cityBranch.departamento.id === branch.departamento.id));
             const remainingBranches = prevState.ranges.filter((range) => (range.city.id === branch.departamento.id && range.operacionId === 1));
             if (!added) {
@@ -182,7 +181,7 @@ class QuestionnaireRange extends Component {
     }
 
     verifyCountry() {
-        this.setState((prevState) => {
+        this.setState((prevState, props) => {
             const allSelected = prevState.ranges.length === this.props.lsBranches.length;
             return {countrySelected: allSelected};
         });
@@ -250,6 +249,7 @@ class QuestionnaireRange extends Component {
         return (
             <div>
                 <div className="ui-g-12 text">
+
                     <div className="ui-g-6">
                         <div>
                             <h3>Pais</h3>

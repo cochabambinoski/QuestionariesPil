@@ -17,7 +17,7 @@ import {
     loadBaseInputRoute, costConditionsRoute
 } from "../../../../routes/PathRoutes";
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,

@@ -187,11 +187,9 @@ class Home extends Component {
 
     renderContentByRoute() {
         return (
-            <div>
-
                 <div className="layout-main">
                     <Growl ref={(el) => this.growl = el}/>
-                    <Route path="/" exact component={CostConditions}/>
+                    <Route path="/" exact component={Start}/>
                     {/*Questionaries Create Show Edit Delete*/}
                     <Route path={questionariesRoute} exact
                            render={(props) => <Questionnaires title={this.state.title}
@@ -215,30 +213,29 @@ class Home extends Component {
                     />
                     {/*Assigment Questionnaries*/}
 
-                    <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
-                    <Route path={assigmentIdRoute} exact strict
-                           render={props => <AssignmentQuestionary
-                               idQuestionary={props.match.params.id}
-                               onSelectedQuestionary={null}
-                               showSuccess={this.showSuccess} {...props}/>}
-                    />
+                <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
+                <Route path={assigmentIdRoute} exact strict
+                       render={props => <AssignmentQuestionary
+                           idQuestionary={props.match.params.id}
+                           onSelectedQuestionary={null}
+                           showSuccess={this.showSuccess} {...props}/>}
+                />
 
-                    {/*Answers Questionnaries*/}
-                    <Route path={answersRoute} exact component={AnswerContainer}/>
-                    <Route path={answersIdRoute} exact
-                           render={props => <GraphicsDetail
-                               idQuestionary={props.match.params.id}
-                           />}
-                    />
+                {/*Answers Questionnaries*/}
+                <Route path={answersRoute} exact component={AnswerContainer}/>
+                <Route path={answersIdRoute} exact
+                       render={props => <GraphicsDetail
+                           idQuestionary={props.match.params.id}
+                       />}
+                />
 
-                    {/*Segment */}
-                    <Route path={segmentRoute} exact component={ListSegment}/>
+                {/*Segment */}
+                <Route path={segmentRoute} exact component={ListSegment}/>
 
-                    {/*Finanzas */}
-                    <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
-                    <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
-                    <Route exact path={costConditionsRoute} component={CostConditions}/>
-                </div>
+                {/*Finanzas */}
+                <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
+                <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
+                <Route exact path={costConditionsRoute} component={CostConditions}/>
             </div>
         )
     }
