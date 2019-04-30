@@ -263,7 +263,7 @@ class TypeCenter extends Component {
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>
-                    {this.renderList()}
+                    {this.renderList}
                     <Button variant="fab" className={fab.className} color={fab.color}
                             onClick={event => this.handleType(event, 0)}>
                         {fab.icon}

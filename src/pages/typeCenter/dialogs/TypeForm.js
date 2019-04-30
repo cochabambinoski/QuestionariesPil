@@ -212,7 +212,7 @@ class ConceptForm extends Component {
                                 id: 'id',
                             }}
                         >
-                            {this.renderOptions()}
+                            {this.renderOptions}
                         </Select>
                     </FormControl>
                 </form>
