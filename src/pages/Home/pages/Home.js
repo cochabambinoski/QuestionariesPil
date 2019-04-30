@@ -40,10 +40,11 @@ import {
     questionariesEditIdRoute,
     questionariesNewRoute,
     questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    loadBaseInputRoute, costConditionsRoute, exchangeRateRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
+import ExchangeRate from "../../exchangeRate/ExchangeRate";
 
 class Home extends Component {
 
@@ -236,6 +237,7 @@ class Home extends Component {
                 <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
                 <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
                 <Route exact path={costConditionsRoute} component={CostConditions}/>
+                <Route exact path={exchangeRateRoute} component={ExchangeRate}/>
             </div>
         )
     }

@@ -3,14 +3,14 @@ import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
-    changeErrorBi,
+    changeErrorBi, changeErrorExchangeRate,
     changeErrorRequest,
-    createCenterCostConditionBi,
-    deleteCenterCostConditionBi,
+    createCenterCostConditionBi, createExchangeRate,
+    deleteCenterCostConditionBi, deleteExchangeRate,
     getAllBranches,
     getAllDepartaments,
     getAnswers,
-    getAnswersQuestionnarie,
+    getAnswersQuestionnarie, getDataInitialExchangeRate,
     getInitialDataCenterCostConditonBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
@@ -21,7 +21,7 @@ import {
     setReachTypes,
     setSystemTypes,
     setUser,
-    updateCenterConstConditionBi
+    updateCenterConstConditionBi, updateExchangeRate
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -742,3 +742,78 @@ export const createCenterCostConditionServerBi = (id, center, business, line, or
     }
 };
 
+export const getDataInitialExchangeRateServerBi = () => {
+  return dispatch => {
+      const url = ``;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.status === undefined) {
+                 dispatch(getDataInitialExchangeRate(response))
+              } else {
+                  dispatch(changeErrorExchangeRate(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorExchangeRate(error))
+          })
+  }
+};
+
+export const createExchangeRateServerBi = (exchangeRate) => {
+    return dispatch => {
+        const url = ``;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.state === undefined) {
+                    dispatch(createExchangeRate(response))
+                } else {
+                    dispatch(changeErrorExchangeRate(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorExchangeRate(error))
+            })
+    }
+};
+
+export const updateExchangeRateServerBi = (exchangeRate) => {
+    return dispatch => {
+        const url = ``;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.state === undefined) {
+                    dispatch(updateExchangeRate(response))
+                } else {
+                    dispatch(changeErrorExchangeRate(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorExchangeRate(error))
+            })
+    }
+};
+
+export const deleteExchangeRateServerBi = (exchangeRateId) => {
+  return dispatch => {
+      const url = ``;
+      return fetch(url)
+          .then(results => {
+              return results.json()
+          })
+          .then(response => {
+              if (response.state === undefined) {
+                  dispatch(deleteExchangeRate(response))
+              } else {
+                  dispatch(changeErrorExchangeRate(response))
+              }
+          }).catch(error => {
+              dispatch(changeErrorExchangeRate(error))
+          })
+  }
+};

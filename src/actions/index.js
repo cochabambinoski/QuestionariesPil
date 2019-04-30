@@ -56,7 +56,11 @@ import {
     DELETE_CONDITION_CENTER_MASTER,
     UPDATE_CONDITION_CENTER_MASTER,
     CREATE_CONDITION_CENTER_MASTER,
-    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST
+    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
+    GET_EXCHANGE_RATE,
+    CREATE_EXCHANGE_RATE,
+    DELETE_EXCHANGE_RATE,
+    UPDATE_EXCHANGE_RATE, CLEAN_EXCHANGE_RATE_REDUCER, CHANGE_ERROR_EXCHANGE_RATE
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -202,3 +206,15 @@ export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
 export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const getDataInitialExchangeRate = payload => ({type: GET_EXCHANGE_RATE, payload});
+
+export const createExchangeRate = payload => ({type: CREATE_EXCHANGE_RATE, payload});
+
+export const deleteExchangeRate = payload => ({type: DELETE_EXCHANGE_RATE, payload});
+
+export const updateExchangeRate = payload => ({type: UPDATE_EXCHANGE_RATE, payload});
+
+export const changeErrorExchangeRate = payload => ({type: CHANGE_ERROR_EXCHANGE_RATE, payload});
+
+export const cleanExchangeRateReducer = () => ({type: CLEAN_EXCHANGE_RATE_REDUCER});
