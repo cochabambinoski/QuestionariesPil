@@ -10,10 +10,12 @@ import TableCell from "@material-ui/core/es/TableCell/TableCell";
 import TablePagination from "@material-ui/core/es/TablePagination/TablePagination";
 import TableHead from "@material-ui/core/es/TableHead/TableHead";
 import connect from "react-redux/es/connect/connect";
-import {getCreateCenterMasterAndCost} from "../../reducers";
+import {centerCostConditions, getCreateCenterMasterAndCost} from "../../reducers";
 import {
     createCenterCostConditionServerBi,
     deleteCenterCostConditionServerBi,
+    filterDataCenterCostConditionServerBi,
+    getCenterCostConditionServerBi,
     getInitialDataCenterCostConditionServerBi,
     updateCenterCostConditionSeverBi
 } from "../../actions/indexthunk";
@@ -21,8 +23,16 @@ import Button from "@material-ui/core/es/Button";
 import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
-import DialogEditCostCondition from "./components/DialogEditCostCondition";
+import DialogCostConditionForm from "./components/DialogCostConditionForm";
 import CostCondition from "../../models/CostCondition";
+import Title from "../Title/Title";
+import FormControl from "@material-ui/core/es/FormControl/FormControl";
+import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
+import Select from "@material-ui/core/es/Select/Select";
+import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
+import IconFilterList from "@material-ui/icons/FilterList";
+import IconSave from "@material-ui/icons/Save";
+import classNames from 'classnames';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -34,17 +44,58 @@ const CustomTableCell = withStyles(theme => ({
     },
 }))(TableCell);
 
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    iconSmall: {
+        fontSize: 20,
+    },
+});
+
+
 class CostConditions extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         const itemDefault = new CostCondition();
         this.state = {
+            title: "Centro Condiciones de costo",
+            subtitle: "Generación de condiciones de costo",
             page: 0,
             open: false,
             itemSelected: itemDefault,
             rowsPerPage: 5,
+            id: null,
+            business: null,
+            centerCost: null,
+            channel: null,
+            lineCost: null,
+            organization: null,
+            region: null,
+            subRegion: null
         };
+    }
+
+    componentWillMount() {
+        this.props.initialDataCenterCostConditionServerBi()
+    };
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        let conditions = nextProps.reducerVariable;
+        console.log(nextProps);
+        if (conditions.centerCost !== undefined && conditions.centerCost.length > 0&& this.state.centerCost === null) {
+            console.log(conditions.centerCost);
+            this.setState({centerCost: conditions.centerCost[0].id});
+            this.props.filterCenterCostConditionServerBi(conditions.centerCost[0].id, 0, 0, 0, 0, 0, 0)
+        }
+
     }
 
     handleChangePage = (event, page) => {
@@ -53,6 +104,11 @@ class CostConditions extends Component {
 
     handleChangeRowsPerPage = event => {
         this.setState({page: 0, rowsPerPage: event.target.value})
+    };
+
+    handleFilter = (event) => {
+        console.log(this.state.centerCost);
+        this.props.filterCenterCostConditionServerBi(this.state.centerCost, 0, 0, 0, 0, 0, 0)
     };
 
     renderError() {
@@ -71,102 +127,252 @@ class CostConditions extends Component {
     };
 
     handleOpenClickItem = (item) => {
-        this.setState({open: true, itemSelected: item})
+        let itemSelected = {
+            id: item[0],
+            centerCost: item[1],
+            business: item[3],
+            channel: item[5],
+            lineCost: item[7],
+            organization: item[9],
+            region: item[11],
+            subRegion: item[13]
+        };
+        this.setState({open: true, itemSelected: itemSelected})
     };
+
+    renderForm() {
+        const {
+            business, centerCost,
+            channel, lineCost, organization, region, subRegion
+        } = this.props.reducerVariable;
+        return (
+            <div>
+                <ModalGeneric open={this.state.open} onClose={this.handleCloseDialogEditItem}>
+                    <DialogCostConditionForm
+                        item={this.state.itemSelected}
+                        business={business}
+                        centerCost={centerCost}
+                        channel={channel}
+                        lineCost={lineCost}
+                        organization={organization}
+                        region={region}
+                        subRegion={subRegion}
+                        onClose={this.handleCloseDialogEditItem}/>
+                </ModalGeneric>
+            </div>
+        )
+    }
+
+    handleChange = event => {
+        console.log(event);
+        this.setState({[event.target.name]: event.target.value})
+    };
+
+    renderFilter() {
+        const {
+            business, centerCost,
+            channel, lineCost, organization, region, subRegion
+        } = this.props.reducerVariable;
+        return (
+            <div>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Centro de Costo</InputLabel>
+                    <Select
+                        value={this.state.centerCost}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'centerCost'}}>
+                        {centerCost.map(item => {
+                            return <MenuItem value={item.id}>{item.code + " " + item.center}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Negocio</InputLabel>
+                    <Select
+                        value={this.state.business}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'business'}}>
+                        {business.map(item => {
+                            return <MenuItem value={item.id}>{item.business}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Canal</InputLabel>
+                    <Select
+                        value={this.state.channel}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'channel'}}>
+                        {channel.map(item => {
+                            return <MenuItem value={item.id}>{item.organization}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Linea</InputLabel>
+                    <Select
+                        value={this.state.lineCost}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'lineCost'}}>
+                        {lineCost.map(item => {
+                            return <MenuItem value={item.id}>{item.line}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Organización</InputLabel>
+                    <Select
+                        value={this.state.organization}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'organization'}}>
+                        {organization.map(item => {
+                            return <MenuItem value={item.id}>{item.organization}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Región</InputLabel>
+                    <Select
+                        value={this.state.region}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'region'}}>
+                        {region.map(item => {
+                            return <MenuItem value={item.id}>{item.region}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Subregión</InputLabel>
+                    <Select
+                        value={this.state.subRegion}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'subRegion'}}>
+                        {subRegion.map(item => {
+                            return <MenuItem value={item.id}>{item.subRegion}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+            </div>
+        )
+    }
+
+    renderTable() {
+        const {classes} = this.props;
+        const {
+            centerCostConditions
+        } = this.props.reducerCostCondition;
+        const {rowsPerPage, page} = this.state;
+        if (this.props.reducerCostCondition.errorRequest) {
+            return this.renderError()
+        }
+        console.log(this.props);
+        return (
+            <div>
+                <Paper className={classes.root}>
+                    <div className={classes.tableWrapper}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <CustomTableCell>ID</CustomTableCell>
+                                    <CustomTableCell align="left">CenterCost </CustomTableCell>
+                                    <CustomTableCell align="left">Business</CustomTableCell>
+                                    <CustomTableCell align="left">Channel </CustomTableCell>
+                                    <CustomTableCell align="left">LineCost</CustomTableCell>
+                                    <CustomTableCell align="left">Organization</CustomTableCell>
+                                    <CustomTableCell align="left">Region </CustomTableCell>
+                                    <CustomTableCell align="left">SubRegion </CustomTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {console.log(centerCostConditions)}
+                                {centerCostConditions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
+                                    <TableRow hover onClick={() => this.handleOpenClickItem(item)}
+                                              key={item[0]}>
+                                        <TableCell component={"th"} scope={"row"}>{item[0]}</TableCell>
+                                        <TableCell>{item[2]}</TableCell>
+                                        <TableCell>{item[4]}</TableCell>
+                                        <TableCell>{item[6]}</TableCell>
+                                        <TableCell>{item[8]}</TableCell>
+                                        <TableCell>{item[10]}</TableCell>
+                                        <TableCell>{item[12]}</TableCell>
+                                        <TableCell>{item[14]}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TablePagination
+                                        count={centerCostConditions.length}
+                                        onChangePage={this.handleChangePage}
+                                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                        page={page}
+                                        rowsPerPage={rowsPerPage}/>
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+                    </div>
+                </Paper>
+            </div>
+        )
+    }
 
     render() {
         const {classes} = this.props;
-        const {centerCostConditions, load, business, centerCost,
-            channel, lineCost, organization, region, subRegion} = this.props.reducerVariable;
-        const {rowsPerPage, page} = this.state;
+        const {load} = this.props.reducerVariable;
         if (this.props.reducerVariable.errorRequest) {
             return this.renderError()
         }
         console.log(this.props.reducerVariable);
         return (
             <div>
+                <div>
+                    {this.renderForm()}
+                    <div>
+                        <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    </div>
+                </div>
                 {
                     load ?
-                        <CircularProgress size={500} style={{color: '#03A8E4'[200]}} thickness={5}/> :
+                        <CircularProgress size={500} style={{
+                            color: '#03A8E4'[200],
+                            marginTop: '1em',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }} thickness={5}/> :
                         <div>
-                            <ModalGeneric open={this.state.open} onClose={this.handleCloseDialogEditItem}>
-                                <DialogEditCostCondition
-                                    item={this.state.itemSelected}
-                                    business={business}
-                                    centerCost={centerCost}
-                                    channel={channel}
-                                    lineCost={lineCost}
-                                    organization={organization}
-                                    region={region}
-                                    subRegion={subRegion}/>
-                            </ModalGeneric>
-                            <Toolbar>
-                                <Button variant="contained" color={"primary"}> Nuevo </Button>
+                            <Toolbar style={{background: '#FFFFFF', marginTop: '1em'}}>
+                                {this.renderFilter()}
+                                <Button variant="contained" color={"default"} className={classes.button}
+                                        onClick={this.handleFilter}>
+                                    <IconFilterList className={classNames(classes.leftIcon, classes.iconSmall)}/>
+                                    Filtrar
+                                </Button>
+                                <Button variant="contained" color={"primary"} className={classes.button}
+                                        onClick={this.props.onClose}>
+                                    <IconSave className={classNames(classes.leftIcon, classes.iconSmall)}/>
+                                    Crear
+                                </Button>
                             </Toolbar>
-                            <Paper className={classes.root}>
-                                <div className={classes.tableWrapper}>
-                                    <Table className={classes.table}>
-                                        <TableHead>
-                                            <TableRow>
-                                                <CustomTableCell>ID</CustomTableCell>
-                                                <CustomTableCell align="left">CenterCost </CustomTableCell>
-                                                <CustomTableCell align="left">Business</CustomTableCell>
-                                                <CustomTableCell align="left">Channel </CustomTableCell>
-                                                <CustomTableCell align="left">LineCost</CustomTableCell>
-                                                <CustomTableCell align="left">Organization</CustomTableCell>
-                                                <CustomTableCell align="left">Region </CustomTableCell>
-                                                <CustomTableCell align="left">SubRegion </CustomTableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {console.log(centerCostConditions)}
-                                            {centerCostConditions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                                                <TableRow hover onClick={() => this.handleOpenClickItem(item)} key={item.id}>
-                                                <TableCell component={"th"} scope={"row"}>{item.id}</TableCell>
-                                                <TableCell>{item.centerCost}</TableCell>
-                                                <TableCell>{item.business}</TableCell>
-                                                <TableCell>{item.channel}</TableCell>
-                                                <TableCell>{item.line}</TableCell>
-                                                <TableCell>{item.organization}</TableCell>
-                                                <TableCell>{item.region}</TableCell>
-                                                <TableCell>{item.subRegion}</TableCell>
-                                                </TableRow>
-                                                ))}
-                                        </TableBody>
-
-                                        <TableFooter>
-                                            <TableRow>
-                                                <TablePagination
-                                                    count={centerCostConditions.length}
-                                                    onChangePage={this.handleChangePage}
-                                                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                                                    page={page}
-                                                    rowsPerPage={rowsPerPage}/>
-                                            </TableRow>
-                                        </TableFooter>
-                                    </Table>
-                                </div>
-                            </Paper>
+                            {this.renderTable()}
                         </div>
                 }
             </div>
         );
     }
-
-    componentDidMount() {
-        this.props.initialDataCenterCostConditionServerBi()
-    }
 }
 
 const mapStateToProps = state => ({
     reducerVariable: getCreateCenterMasterAndCost(state),
+    reducerCostCondition: centerCostConditions(state)
 });
 
 const mapDispatchToProps = dispatch => ({
     deleteCenterCostCondition: (id) => dispatch(deleteCenterCostConditionServerBi(id)),
     updateCenterCostCondition: (id, center, business, line, organization, channel, region, subRegion) => dispatch(updateCenterCostConditionSeverBi(id, center, business, line, organization, channel, region, subRegion)),
     createCenterCostConditionServerBi: (id, center, business, line, organization, channel, region, subRegion) => dispatch(createCenterCostConditionServerBi(id, center, business, line, organization, channel, region, subRegion)),
-    initialDataCenterCostConditionServerBi: () => dispatch(getInitialDataCenterCostConditionServerBi())
+    initialDataCenterCostConditionServerBi: () => dispatch(getInitialDataCenterCostConditionServerBi()),
+    filterCenterCostConditionServerBi: (center, business, line, organization, channel, region, subRegion) => dispatch(filterDataCenterCostConditionServerBi(center, business, line, organization, channel, region, subRegion))
+
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(JsxStyles)(CostConditions));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(CostConditions));

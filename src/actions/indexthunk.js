@@ -7,6 +7,7 @@ import {
     changeErrorRequest,
     createCenterCostConditionBi,
     deleteCenterCostConditionBi,
+    filterCenterCostConditionBi,
     getAllBranches,
     getAllDepartaments,
     getAnswers,
@@ -23,6 +24,7 @@ import {
     setUser,
     updateCenterConstConditionBi
 } from "./index";
+import * as StringFilterUtil from "../Util/StringFormatUtil";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
 export const SET_QUESTIONNAIRES_DATA = 'SET_QUESTIONNAIRES_DATA';
@@ -628,7 +630,6 @@ export const getCostBaseInformation = () => {
 export const getInitialDataCenterCostConditionServerBi = () => {
     return dispatch => {
         Promise.all([
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CENTER_COST_CONDITION_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.COST_CENTER_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.LINE_COST_BI}`),
@@ -637,11 +638,10 @@ export const getInitialDataCenterCostConditionServerBi = () => {
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.SUB_REGION_BI}`)
         ])
-            .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(),
-                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
-            .then(([centerCostCondition, costCenter, business, lineCost, organization, channel, region, subRegion]) => {
-                if (centerCostCondition.status === undefined &&
-                    costCenter.status === undefined &&
+            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(),
+                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
+            .then(([costCenter, business, lineCost, organization, channel, region, subRegion]) => {
+                if (costCenter.status === undefined &&
                     business.status === undefined &&
                     lineCost.status === undefined &&
                     organization.status === undefined &&
@@ -649,7 +649,6 @@ export const getInitialDataCenterCostConditionServerBi = () => {
                     region.status === undefined &&
                     subRegion.status === undefined) {
                     dispatch(getInitialDataCenterCostConditonBi({
-                        centerCostConditions: centerCostCondition,
                         centerCost: costCenter,
                         business: business,
                         lineCost: lineCost,
@@ -659,9 +658,7 @@ export const getInitialDataCenterCostConditionServerBi = () => {
                         subRegion: subRegion,
                     }));
                 } else {
-                    if (centerCostCondition.status !== undefined) {
-                        dispatch(changeErrorBi(centerCostCondition))
-                    } else if (costCenter.status !== undefined) {
+                    if (costCenter.status !== undefined) {
                         dispatch(changeErrorBi(costCenter))
                     } else if (business.status !== undefined) {
                         dispatch(changeErrorBi(business))
@@ -683,6 +680,26 @@ export const getInitialDataCenterCostConditionServerBi = () => {
             })
     }
 };
+
+export const filterDataCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFilterUtil.format(Constants.CENTER_COST_CONDITION_BI, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                console.log(response);
+                if (response.status === undefined) {
+                    dispatch(filterCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+}
 
 export const deleteCenterCostConditionServerBi = id => {
     return dispatch => {

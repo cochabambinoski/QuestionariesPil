@@ -82,7 +82,7 @@
   "RUN_INPUT_TRANSFORMATION": "runBaseInput",
   "RUN_COST_TRANSFORMATION": "runBaseCost",
   "RUN_TRANSFORMATION": "runDistribution",
-  "CENTER_COST_CONDITION_BI": "centerCostCondition",
+  "CENTER_COST_CONDITION_BI": "centerCostCondition?center={0}&business={1}&line={2}&organization={3}&channel={4}&region={5}&subRegion={6}",
   "COST_CENTER_BI": "costCenter",
   "BUSINESS_BI": "business",
   "LINE_COST_BI": "lineCost",
