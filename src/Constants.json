@@ -1,6 +1,6 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_WEB_BI": "http://192.168.241.110:8086/bi/",
+  "ROUTE_WEB_BI": "http://192.168.2.2:8086/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_ALL_QUESTIONNAIRES_BY_USER": "getAllQuestionaryByUserSystem",
@@ -91,6 +91,11 @@
   "REGION_BI": "region",
   "SUB_REGION_BI": "subRegion",
   "DELETE_CENTER_COST_CONDITION": "centerCostCondition/",
-  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={1}&center={2}&business={3}&line={4}&organization={5}&channel={6}&region={7}&subRegion={8}"
-
+  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={1}&center={2}&business={3}&line={4}&organization={5}&channel={6}&region={7}&subRegion={8}",
+  "GET_ACCOUNTS_PERIOD": "accountPeriod/getAccountsPeriod",
+  "GET_ACCOUNT_DIMENSION": "accountDimension/getAccountDimension",
+  "GET_TIME_DIMENSION": "dimensionTime/getDimensionsTime",
+  "CRATE_ACCOUNT_PERIOD": "accountPeriod/postAccountPeriod?dateId=",
+  "UPDATE_ACCOUNT_PERIOD": "accountPeriod/updateAccountPeriod?id=",
+  "DELETE_ACCOUNT_PERIOD": "accountPeriod/deleteAccountPeriod?id="
 }
