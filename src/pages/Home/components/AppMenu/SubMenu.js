@@ -14,7 +14,7 @@ import {
     indexRoute,
     questionariesRoute,
     segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    loadBaseInputRoute, costConditionsRoute, periodAndAccountRegistrationRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
@@ -59,6 +59,7 @@ class SubMenu extends Component {
     };
 
     getUrl=(option) => {
+        console.log(option);
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";
@@ -76,6 +77,8 @@ class SubMenu extends Component {
                 return loadBaseInputRoute;
             case 'costCondition':
                 return costConditionsRoute;
+            case 'accountPeriod':
+                return periodAndAccountRegistrationRoute;
             default:
                 return indexRoute;
         }
