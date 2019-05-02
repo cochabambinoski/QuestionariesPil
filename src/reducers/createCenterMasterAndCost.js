@@ -1,6 +1,6 @@
 import {
-    CHANGE_ERROR_REQUEST_BI,
-    CLEAN_REQUEST_BI,
+    CHANGE_ERROR_REQUEST_CCMAC,
+    CLEAN_REQUEST_CCMAC,
     LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST
 } from '../action-types/actionTypes';
 
@@ -54,16 +54,16 @@ export const createCenterMasterAndCost = (state = initialState, action) => {
                 business: action.payload.business,
                 lineCost: action.payload.lineCost,
                 organization: action.payload.organization,
-                channel: action.payload.organization,
+                channel: action.payload.channel,
                 region: action.payload.region,
                 subRegion: action.payload.subRegion,
                 load: false
             }
         }
-        case CHANGE_ERROR_REQUEST_BI: {
+        case CHANGE_ERROR_REQUEST_CCMAC: {
             return {state: errorState(action.payload)}
         }
-        case CLEAN_REQUEST_BI: {
+        case CLEAN_REQUEST_CCMAC: {
             return {state: initialState}
         }
         default:

@@ -8,12 +8,14 @@ import {
     ADD_PARAM_FILTER_MOBILE_SELLER_TYPE,
     CHANGE_ERROR_REQUEST,
     CHANGE_ERROR_REQUEST_BI,
+    CHANGE_ERROR_REQUEST_CCMAC,
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
     CLEAN_FILTER,
     CLEAN_REQUEST,
     CLEAN_REQUEST_BI,
+    CLEAN_REQUEST_CCMAC,
     CREATE_CONDITION_CENTER_MASTER,
     DATA,
     DELETE_ALL_ASSIGNEMENT_USER,
@@ -192,7 +194,11 @@ export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 
+export const changeErrorBiCCMAC = payload => ({type: CHANGE_ERROR_REQUEST_CCMAC, payload});
+
 export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
+
+export const cleanRequestCCMAC = () => ({type: CLEAN_REQUEST_CCMAC});
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
 

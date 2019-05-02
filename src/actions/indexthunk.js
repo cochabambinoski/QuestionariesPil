@@ -4,6 +4,7 @@ import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
     changeErrorBi,
+    changeErrorBiCCMAC,
     changeErrorRequest,
     createCenterCostConditionBi,
     deleteCenterCostConditionBi,
@@ -24,7 +25,7 @@ import {
     setUser,
     updateCenterConstConditionBi
 } from "./index";
-import * as StringFilterUtil from "../Util/StringFormatUtil";
+import * as StringFormatUtil from "../Util/StringFormatUtil";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
 export const SET_QUESTIONNAIRES_DATA = 'SET_QUESTIONNAIRES_DATA';
@@ -659,37 +660,36 @@ export const getInitialDataCenterCostConditionServerBi = () => {
                     }));
                 } else {
                     if (costCenter.status !== undefined) {
-                        dispatch(changeErrorBi(costCenter))
+                        dispatch(changeErrorBiCCMAC(costCenter))
                     } else if (business.status !== undefined) {
-                        dispatch(changeErrorBi(business))
+                        dispatch(changeErrorBiCCMAC(business))
                     } else if (lineCost.status !== undefined) {
-                        dispatch(changeErrorBi(lineCost))
+                        dispatch(changeErrorBiCCMAC(lineCost))
                     } else if (organization.status !== undefined) {
-                        dispatch(changeErrorBi(organization))
+                        dispatch(changeErrorBiCCMAC(organization))
                     } else if (channel.status !== undefined) {
-                        dispatch(changeErrorBi(channel))
+                        dispatch(changeErrorBiCCMAC(channel))
                     } else if (region.status !== undefined) {
-                        dispatch(changeErrorBi(region))
+                        dispatch(changeErrorBiCCMAC(region))
                     } else if (subRegion.status !== undefined) {
-                        dispatch(changeErrorBi(subRegion))
+                        dispatch(changeErrorBiCCMAC(subRegion))
                     }
                 }
             })
             .catch(error => {
-                dispatch(changeErrorBi(error))
+                dispatch(changeErrorBiCCMAC(error))
             })
     }
 };
 
 export const filterDataCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${StringFilterUtil.format(Constants.CENTER_COST_CONDITION_BI, center, business, line, organization, channel, region, subRegion)}`;
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CENTER_COST_CONDITION_BI, center, business, line, organization, channel, region, subRegion)}`;
         return fetch(url)
             .then(results => {
                 return results.json()
             })
             .then(response => {
-                console.log(response);
                 if (response.status === undefined) {
                     dispatch(filterCenterCostConditionBi(response))
                 } else {
@@ -704,26 +704,40 @@ export const filterDataCenterCostConditionServerBi = (center, business, line, or
 export const deleteCenterCostConditionServerBi = id => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
-        return fetch(url)
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
             .then(results => {
                 return results.json()
             })
             .then(response => {
+                console.log(response);
                 if (response.status === undefined) {
                     dispatch(deleteCenterCostConditionBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
     }
 };
 
-export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
+export const updateCenterCostConditionSeverBi = (costCondition) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-        return fetch(url)
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.UPDATE_CENTER_COST_CONDITION, costCondition.id, costCondition.centerCost, costCondition.business, costCondition.lineCost, costCondition.organization, costCondition.channel, costCondition.region, costCondition.subRegion)}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
             .then(results => {
                 return results.json()
             })
@@ -733,6 +747,7 @@ export const updateCenterCostConditionSeverBi = (id, center, business, line, org
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
@@ -740,10 +755,16 @@ export const updateCenterCostConditionSeverBi = (id, center, business, line, org
 };
 
 
-export const createCenterCostConditionServerBi = (id, center, business, line, organization, channel, region, subRegion) => {
+export const createCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-        return fetch(url)
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CREATE_CENTER_COST_CONDITION, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
             .then(results => {
                 return results.json()
             })
@@ -753,6 +774,7 @@ export const createCenterCostConditionServerBi = (id, center, business, line, or
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })

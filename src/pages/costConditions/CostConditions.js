@@ -13,11 +13,9 @@ import connect from "react-redux/es/connect/connect";
 import {centerCostConditions, getCreateCenterMasterAndCost} from "../../reducers";
 import {
     createCenterCostConditionServerBi,
-    deleteCenterCostConditionServerBi,
     filterDataCenterCostConditionServerBi,
     getCenterCostConditionServerBi,
-    getInitialDataCenterCostConditionServerBi,
-    updateCenterCostConditionSeverBi
+    getInitialDataCenterCostConditionServerBi
 } from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
 import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
@@ -73,13 +71,13 @@ class CostConditions extends Component {
             itemSelected: itemDefault,
             rowsPerPage: 5,
             id: null,
-            business: null,
-            centerCost: null,
-            channel: null,
-            lineCost: null,
-            organization: null,
-            region: null,
-            subRegion: null
+            business: 0,
+            centerCost: 0,
+            channel: 0,
+            lineCost: 0,
+            organization: 0,
+            region: 0,
+            subRegion: 0
         };
     }
 
@@ -89,14 +87,37 @@ class CostConditions extends Component {
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         let conditions = nextProps.reducerVariable;
-        console.log(nextProps);
-        if (conditions.centerCost !== undefined && conditions.centerCost.length > 0&& this.state.centerCost === null) {
-            console.log(conditions.centerCost);
+        if (conditions.centerCost !== undefined && conditions.centerCost.length > 0 && this.state.centerCost === 0) {
             this.setState({centerCost: conditions.centerCost[0].id});
             this.props.filterCenterCostConditionServerBi(conditions.centerCost[0].id, 0, 0, 0, 0, 0, 0)
         }
-
     }
+
+    showSuccess = (title, message) => {
+        this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
+    };
+
+    showInfo = (title, message) => {
+        this.messages.show({life: 5000, severity: 'info', summary: title, detail: message});
+    };
+
+    showWarn = (title, message) => {
+        this.messages.show({life: 5000, severity: 'warn', summary: title, detail: message});
+    };
+
+    showError = (title, message) => {
+        this.messages.show({life: 5000, severity: 'error', summary: title, detail: message});
+    };
+
+    showResponse = (response) => {
+        if (response === 1)
+            this.showSuccess('Procesado', 'La transacción se realizó correctamente');
+        else if (response === 3)
+            this.showWarn('No Procesado', 'El concepto no se guardo porque ya existe uno registrado con similares datos');
+        else
+            this.showError('Error', 'Ocurrió un error al procesar la transacción');
+
+    };
 
     handleChangePage = (event, page) => {
         this.setState({page})
@@ -107,8 +128,30 @@ class CostConditions extends Component {
     };
 
     handleFilter = (event) => {
-        console.log(this.state.centerCost);
-        this.props.filterCenterCostConditionServerBi(this.state.centerCost, 0, 0, 0, 0, 0, 0)
+        this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+    };
+
+    handleCreate = (event) => {
+        if (this.state.centerCost > 0 && this.state.business > 0 && this.state.lineCost > 0 && this.state.channel > 0 && this.state.organization > 0 && this.state.region > 0 && this.state.subRegion > 0) {
+            this.props.createCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion)
+                .then((response) => {
+                    let state = response;
+                    if (state !== null || state !== undefined) {
+                        this.showResponse(state);
+                        if (state === 1) {
+                            this.setState({
+                                centerCost: 0,
+                                business: 0,
+                                channel: 0,
+                                lineCost: 0,
+                                organization: 0,
+                                region: 0,
+                                subRegion: 0
+                            });
+                        }
+                    }
+                });
+        }
     };
 
     renderError() {
@@ -140,6 +183,10 @@ class CostConditions extends Component {
         this.setState({open: true, itemSelected: itemSelected})
     };
 
+    handleChange = event => {
+        this.setState({[event.target.name]: event.target.value})
+    };
+
     renderForm() {
         const {
             business, centerCost,
@@ -162,11 +209,6 @@ class CostConditions extends Component {
             </div>
         )
     }
-
-    handleChange = event => {
-        console.log(event);
-        this.setState({[event.target.name]: event.target.value})
-    };
 
     renderFilter() {
         const {
@@ -204,7 +246,7 @@ class CostConditions extends Component {
                         onChange={this.handleChange}
                         inputProps={{name: 'channel'}}>
                         {channel.map(item => {
-                            return <MenuItem value={item.id}>{item.organization}</MenuItem>
+                            return <MenuItem value={item.id}>{item.channel}</MenuItem>
                         })}
                     </Select>
                 </FormControl>
@@ -265,7 +307,6 @@ class CostConditions extends Component {
         if (this.props.reducerCostCondition.errorRequest) {
             return this.renderError()
         }
-        console.log(this.props);
         return (
             <div>
                 <Paper className={classes.root}>
@@ -284,7 +325,6 @@ class CostConditions extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {console.log(centerCostConditions)}
                                 {centerCostConditions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                                     <TableRow hover onClick={() => this.handleOpenClickItem(item)}
                                               key={item[0]}>
@@ -322,7 +362,6 @@ class CostConditions extends Component {
         if (this.props.reducerVariable.errorRequest) {
             return this.renderError()
         }
-        console.log(this.props.reducerVariable);
         return (
             <div>
                 <div>
@@ -348,7 +387,7 @@ class CostConditions extends Component {
                                     Filtrar
                                 </Button>
                                 <Button variant="contained" color={"primary"} className={classes.button}
-                                        onClick={this.props.onClose}>
+                                        onClick={this.handleCreate}>
                                     <IconSave className={classNames(classes.leftIcon, classes.iconSmall)}/>
                                     Crear
                                 </Button>
@@ -367,9 +406,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    deleteCenterCostCondition: (id) => dispatch(deleteCenterCostConditionServerBi(id)),
-    updateCenterCostCondition: (id, center, business, line, organization, channel, region, subRegion) => dispatch(updateCenterCostConditionSeverBi(id, center, business, line, organization, channel, region, subRegion)),
-    createCenterCostConditionServerBi: (id, center, business, line, organization, channel, region, subRegion) => dispatch(createCenterCostConditionServerBi(id, center, business, line, organization, channel, region, subRegion)),
+    createCenterCostConditionServerBi: (center, business, line, organization, channel, region, subRegion) => dispatch(createCenterCostConditionServerBi(center, business, line, organization, channel, region, subRegion)),
     initialDataCenterCostConditionServerBi: () => dispatch(getInitialDataCenterCostConditionServerBi()),
     filterCenterCostConditionServerBi: (center, business, line, organization, channel, region, subRegion) => dispatch(filterDataCenterCostConditionServerBi(center, business, line, organization, channel, region, subRegion))
 

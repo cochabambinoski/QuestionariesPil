@@ -10,6 +10,44 @@ import IconSave from "@material-ui/icons/Save";
 import IconDelete from "@material-ui/icons/Delete";
 import IconCancel from "@material-ui/icons/Cancel";
 import Title from "../../Title/Title";
+import {deleteCenterCostConditionServerBi, updateCenterCostConditionSeverBi} from "../../../actions/indexthunk";
+import JsxStyles from "../../../styles/JsxStyles";
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import connect from "react-redux/es/connect/connect";
+import * as PropTypes from "prop-types";
+
+const styles = theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    },
+    dense: {
+        marginTop: 19,
+    },
+    menu: {
+        width: 200,
+    },
+    root: {
+        backgroundColor: theme.palette.background.paper,
+        width: 500,
+        position: 'relative',
+        minHeight: 200
+    },
+    button: {
+        margin: theme.spacing.unit,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+});
 
 class DialogCostConditionForm extends Component {
 
@@ -20,6 +58,7 @@ class DialogCostConditionForm extends Component {
             this.state = {
                 title: "",
                 subtitle: "",
+                costCondition: item,
                 id: item.id,
                 business: item.business,
                 centerCost: item.centerCost,
@@ -27,46 +66,66 @@ class DialogCostConditionForm extends Component {
                 lineCost: item.lineCost,
                 organization: item.organization,
                 region: item.region,
-                subRegion: item.subRegion
-            }
-        } else {
-            this.state = {
-                id: null,
-                business: null,
-                centerCost: null,
-                channel: null,
-                lineCost: null,
-                organization: null,
-                region: null,
-                subRegion: null
+                subRegion: item.subRegion,
+                toDelete: null,
             }
         }
     }
 
     handleCancel = event => {
-      this.props.onClose();
+        this.props.onClose();
     };
 
-    handleChange = event => {
-        this.setState({[event.target.name]: event.target.value})
+    handleSave = event => {
+        this.props.updateCenterCostCondition(this.state.costCondition).then((response) => {
+            let state = response;
+            console.log(response, state);
+            if (state === null || state === undefined) {
+                if (state === 2) {
+                    this.setState({process: 1});
+                    this.props.onClose(false);
+                }
+            } else {
+                this.setState({process: state});
+                this.props.onClose(false);
+            }
+        });
+    };
+
+    handleDeleteClick = (event) => {
+        console.log(this.state.id);
+        this.props.deleteCenterCostCondition(this.state.id)
+            .then((response) => {
+                let state = response;
+                console.log(response, state);
+                if (state === null || state === undefined) {
+                    if (state === 2) {
+                        this.setState({process: 1});
+                        this.props.onClose(false);
+                    }
+                } else {
+                    this.setState({process: state});
+                    this.props.onClose(false);
+                }
+            });
     };
 
     render() {
-        const {item, business, centerCost, channel, lineCost, organization, region, subRegion} = this.props;
+        console.log(this.props);
+        const {item, business, centerCost, channel, lineCost, organization, region, subRegion, classes} = this.props;
         return (
             <div>
                 <div>
                     <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
                 </div>
                 <div>
-                    <form>
+                    <form className={classes.container} noValidate autoComplete="off">
                         <TextField
                             disabled
                             id={'standard-disabled'}
                             label={'Id'}
                             defaultValue={this.state.id}
                             margin={"normal"}/>
-
                         <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
                             <InputLabel>Negocio</InputLabel>
                             <Select
@@ -152,13 +211,36 @@ class DialogCostConditionForm extends Component {
                     </form>
                 </div>
                 <Toolbar>
-                    <Button color={"primary"}><IconSave/>Aceptar</Button>
-                    <Button color={"secondary"}><IconDelete/>Eliminar</Button>
-                    <Button color={"default"} oClick={this.handleCancel}><IconCancel/>Cancelar</Button>
+                    <Button variant="contained" color="primary" className={classes.button}
+                            onClick={this.handleSave}>
+                        <IconSave/>
+                        Guardar
+                    </Button>
+                    <Button variant="contained" color="secondary" className={classes.button}
+                            onClick={this.handleDeleteClick}>
+                        <IconDelete/>
+                        Eliminar
+                    </Button>
+                    <Button variant="contained" color="default" className={classes.button}
+                            onClick={this.props.onClose}>
+                        <IconCancel className={classes.leftIcon}/>
+                        Cancelar
+                    </Button>
                 </Toolbar>
             </div>
         );
     }
 }
 
-export default DialogCostConditionForm;
+const mapDispatchToProps = dispatch => ({
+    deleteCenterCostCondition: (id) => dispatch(deleteCenterCostConditionServerBi(id)),
+    updateCenterCostCondition: (costCondition) => dispatch(updateCenterCostConditionSeverBi(costCondition)),
+});
+
+DialogCostConditionForm.propTypes = {
+    classes: PropTypes.object.isRequired,
+    concept: PropTypes.object.isRequired,
+    onClose: PropTypes.func.isRequired
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles, JsxStyles)(DialogCostConditionForm));
