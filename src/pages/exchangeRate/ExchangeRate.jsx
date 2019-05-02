@@ -4,7 +4,8 @@ import {getExchangeRate} from "../../reducers";
 import {
     createExchangeRateServerBi,
     deleteExchangeRateServerBi,
-    getDataInitialExchangeRateServerBi, updateExchangeRateServerBi
+    getDataInitialExchangeRateServerBi,
+    updateExchangeRateServerBi
 } from "../../actions/indexthunk";
 import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
 import List from "@material-ui/core/es/List/List";

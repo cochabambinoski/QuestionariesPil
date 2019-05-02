@@ -7,6 +7,7 @@ const expensesGeneration = "expensesGeneration";
 const loadBaseInput = "loadBaseInput";
 const costConditions = "costConditions";
 const periodAndAccountRegistration = "periodAndAccountRegistration";
+const exchangeRate = "exchangeRate";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -27,3 +28,4 @@ export const expensesGenerationRoute = `/${expensesGeneration}/`;
 export const loadBaseInputRoute = `/${loadBaseInput}/`;
 export const costConditionsRoute = `/${costConditions}`;
 export const periodAndAccountRegistrationRoute = `/${periodAndAccountRegistration}`;
+export const exchangeRateRoute = `/${exchangeRate}`;

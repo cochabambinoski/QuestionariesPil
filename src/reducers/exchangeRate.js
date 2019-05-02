@@ -9,6 +9,8 @@ import {
 
 const getResponse = response => ({
     exchangesRate: [],
+    accountsDimension: [],
+    timeDimension: [],
     responseRequest: response,
     errorRequest: null,
     showDialog: true,
@@ -17,6 +19,8 @@ const getResponse = response => ({
 
 const errorRequest = error => ({
     exchangesRate: [],
+    accountsDimension: [],
+    timeDimension: [],
     responseRequest: null,
     errorRequest: error,
     showDialog: false,
@@ -25,6 +29,8 @@ const errorRequest = error => ({
 
 const initialState = ({
     exchangesRate: [],
+    accountsDimension: [],
+    timeDimension: [],
     responseRequest: null,
     errorRequest: null,
     showDialog: false,
