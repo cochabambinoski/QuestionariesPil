@@ -40,10 +40,11 @@ import {
     questionariesEditIdRoute,
     questionariesNewRoute,
     questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    loadBaseInputRoute, costConditionsRoute, periodAndAccountRegistrationRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
+import PeriodAndAccountRegistration from "../../periodAndAccountRegistration/PeriodAndAccountRegistration";
 
 class Home extends Component {
 
@@ -236,6 +237,7 @@ class Home extends Component {
                 <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
                 <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
                 <Route exact path={costConditionsRoute} component={CostConditions}/>
+                <Route exact path={periodAndAccountRegistrationRoute} component={PeriodAndAccountRegistration}/>
             </div>
         )
     }
