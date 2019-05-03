@@ -114,10 +114,12 @@ class PeriodAndAccountRegistration extends Component {
                 return (
                     <div>
                         <h1>Seguro que desea eliminar esta cuenta</h1>
-                        <Button variant={"contained"}
+                        <Button style={{margin: 3}}
+                                variant={"contained"}
                                 onClick={() => this.deleteAccountPeriodDispatch(idAccountPeriodDimension)}
                                 color={"primary"}>Aceptar</Button>
-                        <Button variant={"contained"}
+                        <Button style={{margin: 3}}
+                                variant={"contained"}
                                 onClick={this.handleCloseDialog}
                                 color={"secondary"}>Cancelar</Button>
                     </div>);
