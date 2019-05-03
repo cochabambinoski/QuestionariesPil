@@ -4,14 +4,14 @@ import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
     changeErrorBi,
-    changeErrorRequest, changeErrorRequestAccountPeriodBi, createAccountPeriodBi,
+    changeErrorRequest, changeErrorRequestAccountPeriodBi, changeErrorRequestExchangeRateBi, createAccountPeriodBi,
     createCenterCostConditionBi, deleteAccountPeriodBi,
     deleteCenterCostConditionBi,
     getAllBranches,
     getAllDepartaments,
     getAnswers,
     getAnswersQuestionnarie, getDataCreateAccountPeriodBi, getInitialAccountPeriodBi,
-    getInitialDataCenterCostConditonBi,
+    getInitialDataCenterCostConditonBi, getInitialDataExchangeRateBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
     setInitialDataQuestionerQuestionary,
@@ -847,3 +847,45 @@ export const deleteAccountPeriodServerBi = (id) => {
     }
 };
 
+export const getDataInitialExchangeRateServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_EXCHANGE_RATE}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNT_DIMENSION}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TIME_DIMENSION}`)
+        ])
+            .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+            .then(([exchangesRate, accountsDimension, timeDimension]) => {
+                if (exchangesRate.status === undefined &&
+                    accountsDimension.status === undefined && timeDimension.status === undefined) {
+                    dispatch(getInitialDataExchangeRateBi({
+                        exchangesRate: exchangesRate,
+                        accountsDimension: accountsDimension,
+                        timeDimension: timeDimension
+                    }))
+                } else {
+                    if (accountsDimension.status !== undefined) {
+                        dispatch(changeErrorRequestExchangeRateBi(accountsDimension))
+                    } else if (exchangesRate.status !== undefined) {
+                        dispatch(changeErrorRequestExchangeRateBi(exchangesRate))
+                    } else if (timeDimension.status !== undefined) {
+                        dispatch(changeErrorRequestExchangeRateBi(timeDimension))
+                    }
+                }
+            }).catch(error => {
+            dispatch(changeErrorRequestExchangeRateBi(error))
+        })
+    }
+};
+
+export const createExchangeRateServerBi = (idDate, tc) => {
+
+};
+
+export const updateExchangeRateServerBi = (exchangeRateId, idDate, tc) => {
+
+};
+
+export const deleteExchangeRateServerBi = (id) => {
+
+}

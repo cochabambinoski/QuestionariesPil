@@ -97,5 +97,6 @@
   "GET_TIME_DIMENSION": "dimensionTime/getDimensionsTime",
   "CRATE_ACCOUNT_PERIOD": "accountPeriod/postAccountPeriod?dateId=",
   "UPDATE_ACCOUNT_PERIOD": "accountPeriod/updateAccountPeriod?id=",
-  "DELETE_ACCOUNT_PERIOD": "accountPeriod/deleteAccountPeriod?id="
+  "DELETE_ACCOUNT_PERIOD": "accountPeriod/deleteAccountPeriod?id=",
+  "GET_EXCHANGE_RATE": "exchangeRate/getExchangeRate"
 }

@@ -1,10 +1,7 @@
 import {
-    GET_EXCHANGE_RATE,
-    DELETE_EXCHANGE_RATE,
-    CREATE_EXCHANGE_RATE,
-    UPDATE_EXCHANGE_RATE,
-    CLEAN_EXCHANGE_RATE_REDUCER,
-    CHANGE_ERROR_EXCHANGE_RATE
+    CHANGE_ERROR_EXCHANGE_RATE_BI, CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    CREATE_EXCHANGE_RATE_BI, DELETE_EXCHANGE_RATE_BI,
+    GET_INITIAL_DATA_EXCHANGE_RATE_BI, UPDATE_EXCHANGE_RATE_BI
 } from "../action-types/actionTypes";
 
 const getResponse = response => ({
@@ -37,24 +34,29 @@ const initialState = ({
     load: true,
 });
 
-export const exchangeRate = (state = initialState, action) =>  {
+export const exchangeRate = (state = initialState, action) => {
     switch (action.type) {
-        case GET_EXCHANGE_RATE: {
+        case GET_INITIAL_DATA_EXCHANGE_RATE_BI: {
+            return {
+                ...state, exchangesRate: action.payload.exchangesRate,
+                accountsDimension: action.payload.accountsDimension,
+                timeDimension: action.payload.timeDimension,
+                load: false,
+            }
+        }
+        case CREATE_EXCHANGE_RATE_BI: {
             return {state: getResponse(action.payload)}
         }
-        case DELETE_EXCHANGE_RATE: {
+        case UPDATE_EXCHANGE_RATE_BI: {
             return {state: getResponse(action.payload)}
         }
-        case CREATE_EXCHANGE_RATE: {
+        case DELETE_EXCHANGE_RATE_BI: {
             return {state: getResponse(action.payload)}
         }
-        case UPDATE_EXCHANGE_RATE: {
-            return {state: getResponse(action.payload)}
-        }
-        case CHANGE_ERROR_EXCHANGE_RATE: {
+        case CHANGE_ERROR_EXCHANGE_RATE_BI: {
             return {state: errorRequest(action.payload)}
         }
-        case CLEAN_EXCHANGE_RATE_REDUCER: {
+        case CLEAN_REQUEST_EXCHANGE_RATE_BI: {
             return {state: initialState}
         }
         default:

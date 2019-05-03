@@ -13,41 +13,36 @@ import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import {Grid} from "@material-ui/core";
 import Button from "@material-ui/core/es/Button/Button";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
-import {cleanExchangeRateReducer} from "../../actions";
+import {cleanRequestExchangeRateBi} from "../../actions";
+import Paper from "@material-ui/core/es/Paper/Paper";
+import {formatDateToString} from "../../utils/StringDateUtil";
+import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
+import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 
 class ExchangeRate extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            openDialogDelete: false,
+            item: null,
+            open: false,
+            openModalView: false,
+            openModalDelete: false,
+            openModalCreate: false,
+            openModalUpdate: false
         }
     }
 
-    createExchangeRate = () => {
+    createExchangeRate = (idDate, tc) => {
 
     };
 
-    updateExchangeRate = (item) => {
+    updateExchangeRate = (exchangeRateId, idDate, tc) => {
 
     };
 
-    deleteExchangeRate = (item) => {
-        return (
-            <ModalGeneric open={this.state.openDialogDelete} onClose={this.closeDialogDelete}>
-                <h1> Seguro que desea borrar este Tipo</h1>
-                <Grid container>
-                    <Button variant={"contained"} color={"primary"}>Confirmar</Button>
-                    <Button variant={"contained"} color={"secondary"}>Cancelar</Button>
-                </Grid>
-            </ModalGeneric>
-        )
-    };
+    deleteExchangeRate = (id) => {
 
-    closeDialogDelete = () => {
-        this.setState({
-            openDialogDelete: false
-        })
     };
 
     componentDidMount() {
@@ -58,42 +53,123 @@ class ExchangeRate extends Component {
         return (
             <div>
                 <h1>Error {errorRequest.status}</h1>
-                <Button color={"primary"} variant={"contained"} onClick={this.prop.cleanExchangeRateStateReducer}> Aceptar </Button>
+                <Button color={"primary"} variant={"contained"}
+                        onClick={this.prop.cleanExchangeRateStateReducer}> Aceptar </Button>
             </div>
         )
     }
+
+    renderModal= () => {
+
+    };
 
     render() {
         const {load, exchangesRate} = this.props.reducerVariables;
         if (exchangesRate.errorRequest) {
             return this.renderError(exchangesRate.errorRequest)
         }
+        console.log(this.props.reducerVariables);
         return (
             <div>
+                <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
+                    {this.renderModal}
+                </ModalGeneric>
                 {load ?
                     <CircularProgress/> : (
-                        <List>
-                            {exchangesRate.map(item => {
-                                return (
-                                    <ListItem>
-                                        <h1>{item.idTime}</h1>
-                                        <Grid container>
-                                            <Button onClick={this.createExchangeRate} variant={"contained"}
-                                                    color={"primary"}>Ver</Button>
-                                            <Button onClick={() => this.updateExchangeRate(item)} variant={"contained"}
-                                                    color={"primary"}>Editar</Button>
-                                            <Button onClick={() => this.deleteExchangeRate(item)} variant={"contained"}
-                                                    color={"secondary"}>Eliminar</Button>
-                                        </Grid>
-                                    </ListItem>
-                                )
-                            })}
-                        </List>)
+                        <div>
+                            <Paper style={{marginTop: 5}}>
+                                <Toolbar>
+                                    <Button variant={"contained"} color={"primary"}>Nuevo</Button>
+                                </Toolbar>
+                            </Paper>
+                            <List>
+                                {exchangesRate.map(item => {
+                                    return (
+                                        <Paper style={{marginTop: 5}} key={item.idExchangeRate}>
+                                            <ListItem alignItems={"flex-start"}>
+                                                <Grid container direction={"column"}>
+                                                    <ListItemText>{formatDateToString(item.idDate)}</ListItemText>
+                                                    <Grid container>
+                                                        <Button style={{margin: 3}}
+                                                                onClick={this.createExchangeRate} variant={"contained"}
+                                                                color={"primary"}>Ver</Button>
+                                                        <Button style={{margin: 3}}
+                                                                onClick={() => this.updateExchangeRate(item)}
+                                                                variant={"contained"}
+                                                                color={"primary"}>Editar</Button>
+                                                        <Button style={{margin: 3}}
+                                                                onClick={() => this.deleteExchangeRate(item)}
+                                                                variant={"contained"}
+                                                                color={"secondary"}>Eliminar</Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </ListItem>
+                                        </Paper>
+                                    )
+                                })}
+                            </List>
+                        </div>)
 
                 }
             </div>
         );
     }
+
+    openModalDeleteAccountPeriod = (item) => {
+        this.setState({
+            item: item,
+            open: true,
+            openModalView: false,
+            openModalDelete: true,
+            openModalCreate: false,
+            openModalUpdate: false
+        })
+    };
+
+    openModalUpdateAccountPeriod = (item) => {
+        this.setState({
+            item: item,
+            open: true,
+            openModalView: false,
+            openModalDelete: false,
+            openModalCreate: false,
+            openModalUpdate: true
+        })
+    };
+
+    openModalCreateAccountPeriod = (item) => {
+        this.setState({
+            item: item,
+            open: true,
+            openModalView: false,
+            openModalDelete: false,
+            openModalCreate: true,
+            openModalUpdate: false
+        })
+    };
+
+    openModalViewAccountPeriod = () => {
+        this.setState({
+            item: null,
+            open: true,
+            openModalView: true,
+            openModalDelete: false,
+            openModalCreate: false,
+            openModalUpdate: false
+        })
+    };
+
+    handleCloseDialog = () => {
+        this.setState({
+            item: null,
+            open: false,
+            openModalView: false,
+            openModalDelete: false,
+            openModalCreate: false,
+            openModalUpdate: false
+        })
+    };
+
 }
 
 const mapStateToProps = state => ({
@@ -102,10 +178,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getDataInitial: () => dispatch(getDataInitialExchangeRateServerBi()),
-    createExchangeRate: (exchangeRate) => dispatch(createExchangeRateServerBi(exchangeRate)),
+    createExchangeRate: (idDate, tc) => dispatch(createExchangeRateServerBi(idDate, tc)),
+    updateExchangeRate: (exchangeRateId, idDate, tc) => dispatch(updateExchangeRateServerBi(exchangeRateId, idDate, tc)),
     deleteExchangeRate: (id) => dispatch(deleteExchangeRateServerBi(id)),
-    updateExchangeRate: (exchangeRate) => dispatch(updateExchangeRateServerBi(exchangeRate)),
-    cleanExchangeRateStateReducer: () => dispatch(cleanExchangeRateReducer())
+    cleanExchangeRateStateReducer: () => dispatch(cleanRequestExchangeRateBi())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExchangeRate);
