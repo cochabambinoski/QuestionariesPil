@@ -166,7 +166,8 @@ class CostConditions extends Component {
     }
 
     handleCloseDialogEditItem = () => {
-        this.setState({open: false, itemSelected: null})
+        this.setState({open: false, itemSelected: null});
+        this.props.filterCenterCostConditionServerBi(this.state.centerCost, 0, 0, 0, 0, 0, 0)
     };
 
     handleOpenClickItem = (item) => {
