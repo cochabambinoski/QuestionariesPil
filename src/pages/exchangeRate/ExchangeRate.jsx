@@ -18,6 +18,7 @@ import Paper from "@material-ui/core/es/Paper/Paper";
 import {formatDateToString} from "../../utils/StringDateUtil";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
+import DialogCreateExchangeRate from "./components/DialogCreateExchangeRate";
 
 class ExchangeRate extends Component {
 
@@ -33,20 +34,34 @@ class ExchangeRate extends Component {
         }
     }
 
-    createExchangeRate = (idDate, tc) => {
-
+    createExchangeRateDispatch = (idDate, tc) => {
+        this.props.createExchangeRate(idDate, tc);
+        this.handleCloseDialog();
     };
 
-    updateExchangeRate = (exchangeRateId, idDate, tc) => {
-
+    updateExchangeRateDispatch = (idExchangeRate, idDate, tc) => {
+        this.props.updateExchangeRate(idExchangeRate, idDate, tc);
+        this.handleCloseDialog();
     };
 
-    deleteExchangeRate = (id) => {
-
+    deleteExchangeRateDispatch = (id) => {
+        this.props.deleteExchangeRate(id);
+        this.handleCloseDialog();
     };
 
     componentDidMount() {
         this.props.getDataInitial();
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const {exchangesRate} = this.props.reducerVariables;
+        const {responseRequest} = nextProps.reducerVariables;
+        if (responseRequest !== null) {
+            this.props.getDataInitial();
+            this.props.cleanExchangeRateStateReducer();
+        }
+        const {exChangeRate} = nextProps.reducerVariables;
+        return exchangesRate !== exChangeRate
     }
 
     renderError(errorRequest) {
@@ -59,8 +74,56 @@ class ExchangeRate extends Component {
         )
     }
 
-    renderModal= () => {
-
+    renderModal = () => {
+        const {item, openModalDelete, openModalCreate, openModalUpdate, openModalView} = this.state;
+        const {accountsDimension, timeDimension} = this.props.reducerVariables;
+        switch (true) {
+            case openModalDelete:
+                const {idExchangeRate} = item;
+                return (
+                    <div>
+                        <h1>Seguro que desea eliminar este Tipo de cambio</h1>
+                        <Button style={{margin: 3}}
+                                variant={"contained"}
+                                color={"primary"}
+                                onClick={() => this.deleteExchangeRateDispatch(idExchangeRate)}>Eliminar</Button>
+                        <Button style={{margin: 3}}
+                                variant={"contained"}
+                                color={"secondary"}
+                                onClick={this.handleCloseDialog}>Cancelar</Button>
+                    </div>);
+            case openModalCreate:
+                return (
+                    <div>
+                        <DialogCreateExchangeRate actionDialog={"create"}
+                                                  item={item}
+                                                  accountDimension={accountsDimension}
+                                                  timeDimension={timeDimension}
+                                                  onClose={this.handleCloseDialog}
+                                                  onClick={this.createExchangeRateDispatch}/>
+                    </div>);
+            case openModalUpdate:
+                return (
+                    <div>
+                        <DialogCreateExchangeRate actionDialog={"update"}
+                                                  item={item}
+                                                  accountDimension={accountsDimension}
+                                                  timeDimension={timeDimension}
+                                                  onClose={this.handleCloseDialog}
+                                                  onClick={this.updateExchangeRateDispatch}/>
+                    </div>);
+            case openModalView:
+                return (
+                    <div>
+                        <DialogCreateExchangeRate actionDialog={"view"}
+                                                  item={item}
+                                                  accountDimension={accountsDimension}
+                                                  timeDimension={timeDimension}
+                                                  onClose={this.handleCloseDialog}/>
+                    </div>);
+            default:
+                return null;
+        }
     };
 
     render() {
@@ -68,46 +131,57 @@ class ExchangeRate extends Component {
         if (exchangesRate.errorRequest) {
             return this.renderError(exchangesRate.errorRequest)
         }
-        console.log(this.props.reducerVariables);
+        // noinspection ThisExpressionReferencesGlobalObjectJS
         return (
             <div>
                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
-                    {this.renderModal}
+                    {this.renderModal()}
                 </ModalGeneric>
                 {load ?
                     <CircularProgress/> : (
                         <div>
                             <Paper style={{marginTop: 5}}>
                                 <Toolbar>
-                                    <Button variant={"contained"} color={"primary"}>Nuevo</Button>
+                                    <Button variant={"contained"}
+                                            onClick={() => this.openModalCreateAccountPeriod()}
+                                            color={"primary"}>Nuevo</Button>
                                 </Toolbar>
                             </Paper>
-                            <List>
-                                {exchangesRate.map(item => {
-                                    return (
-                                        <Paper style={{marginTop: 5}} key={item.idExchangeRate}>
-                                            <ListItem alignItems={"flex-start"}>
-                                                <Grid container direction={"column"}>
-                                                    <ListItemText>{formatDateToString(item.idDate)}</ListItemText>
-                                                    <Grid container>
-                                                        <Button style={{margin: 3}}
-                                                                onClick={this.createExchangeRate} variant={"contained"}
-                                                                color={"primary"}>Ver</Button>
-                                                        <Button style={{margin: 3}}
-                                                                onClick={() => this.updateExchangeRate(item)}
-                                                                variant={"contained"}
-                                                                color={"primary"}>Editar</Button>
-                                                        <Button style={{margin: 3}}
-                                                                onClick={() => this.deleteExchangeRate(item)}
-                                                                variant={"contained"}
-                                                                color={"secondary"}>Eliminar</Button>
-                                                    </Grid>
-                                                </Grid>
-                                            </ListItem>
-                                        </Paper>
+                            {
+                                exchangesRate.length > 0 ?
+                                    <List>
+                                        {exchangesRate.map(item => {
+                                            const {idExchangeRate, idDate} = item;
+                                            return (
+                                                <Paper style={{marginTop: 5}} key={idExchangeRate}>
+                                                    <ListItem alignItems={"flex-start"}>
+                                                        <Grid container direction={"column"}>
+                                                            <ListItemText primary={"Id:" + idExchangeRate}/>
+                                                            <ListItemText>{formatDateToString(idDate)}</ListItemText>
+                                                            <Grid container>
+                                                                <Button style={{margin: 3}}
+                                                                        onClick={() => this.openModalViewAccountPeriod(item)}
+                                                                        variant={"contained"}
+                                                                        color={"primary"}>Ver</Button>
+                                                                <Button style={{margin: 3}}
+                                                                        onClick={() => this.openModalUpdateAccountPeriod(item)}
+                                                                        variant={"contained"}
+                                                                        color={"primary"}>Editar</Button>
+                                                                <Button style={{margin: 3}}
+                                                                        onClick={() => this.openModalDeleteAccountPeriod(item)}
+                                                                        variant={"contained"}
+                                                                        color={"secondary"}>Eliminar</Button>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </ListItem>
+                                                </Paper>
+                                            )
+                                        })}
+                                    </List>:(
+                                        <h1>No existen tipos de cambio creados</h1>
                                     )
-                                })}
-                            </List>
+                            }
+
                         </div>)
 
                 }
@@ -148,9 +222,9 @@ class ExchangeRate extends Component {
         })
     };
 
-    openModalViewAccountPeriod = () => {
+    openModalViewAccountPeriod = (item) => {
         this.setState({
-            item: null,
+            item: item,
             open: true,
             openModalView: true,
             openModalDelete: false,

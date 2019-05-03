@@ -45,19 +45,36 @@ export const exchangeRate = (state = initialState, action) => {
             }
         }
         case CREATE_EXCHANGE_RATE_BI: {
-            return {state: getResponse(action.payload)}
+            return {...state,
+                responseRequest: action.payload,
+                exchangesRate: [],
+                accountsDimension: [],
+                timeDimension: []}
         }
         case UPDATE_EXCHANGE_RATE_BI: {
-            return {state: getResponse(action.payload)}
+            return {...state,
+                responseRequest: action.payload,
+                exchangesRate: [],
+                accountsDimension: [],
+                timeDimension: []}
         }
         case DELETE_EXCHANGE_RATE_BI: {
-            return {state: getResponse(action.payload)}
+            return {...state,
+                responseRequest: action.payload,
+                exchangesRate: [],
+                accountsDimension: [],
+                timeDimension: []}
         }
         case CHANGE_ERROR_EXCHANGE_RATE_BI: {
             return {state: errorRequest(action.payload)}
         }
         case CLEAN_REQUEST_EXCHANGE_RATE_BI: {
-            return {state: initialState}
+            return {...state, accountsDimension: [],
+                timeDimension: [],
+                responseRequest: null,
+                errorRequest: null,
+                showDialog: false,
+                load: true}
         }
         default:
             return state;

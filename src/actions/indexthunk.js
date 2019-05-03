@@ -5,8 +5,8 @@ import {
     addMobileSellers,
     changeErrorBi,
     changeErrorRequest, changeErrorRequestAccountPeriodBi, changeErrorRequestExchangeRateBi, createAccountPeriodBi,
-    createCenterCostConditionBi, deleteAccountPeriodBi,
-    deleteCenterCostConditionBi,
+    createCenterCostConditionBi, createExchangeRateBi, deleteAccountPeriodBi,
+    deleteCenterCostConditionBi, deleteExchangeRateBi,
     getAllBranches,
     getAllDepartaments,
     getAnswers,
@@ -21,7 +21,7 @@ import {
     setReachTypes,
     setSystemTypes,
     setUser, updateAccountPeriodBi,
-    updateCenterConstConditionBi
+    updateCenterConstConditionBi, updateExchangeRateBi
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -879,13 +879,60 @@ export const getDataInitialExchangeRateServerBi = () => {
 };
 
 export const createExchangeRateServerBi = (idDate, tc) => {
-
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CREATE_EXCHANGE_RATE}${idDate}&tc=${tc}`;
+        return fetch(url, {method: 'POST'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createExchangeRateBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
 };
 
 export const updateExchangeRateServerBi = (exchangeRateId, idDate, tc) => {
-
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_EXCHANGE_RATE}${exchangeRateId}&idDate=${idDate}&tc=${tc}`;
+        return fetch(url, {method: 'PUT'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateExchangeRateBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
 };
 
 export const deleteExchangeRateServerBi = (id) => {
-
-}
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_EXCHANGE_RATE}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteExchangeRateBi(response))
+                } else {
+                    dispatch(changeErrorRequestExchangeRateBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorRequestExchangeRateBi(error))
+            })
+    }
+};
