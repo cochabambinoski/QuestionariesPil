@@ -18,7 +18,8 @@ import {
 import {getPeriodAndAccountRegistration} from "../../reducers";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 import {cleanRequestAccountPeriodBi} from "../../actions";
-import DialogCreateAndEditPeriodAndAcoount from "./component/DialogCreateAndEditPeriodAndAcoount";
+import DialogCreateAndEditPeriodAndAccount from "./component/DialogCreateAndEditPeriodAndAccount";
+import {formatDateToString} from "../../utils/StringDateUtil";
 
 class PeriodAndAccountRegistration extends Component {
     constructor(props) {
@@ -109,11 +110,12 @@ class PeriodAndAccountRegistration extends Component {
         const {accountsDimension, datesDimension} = this.props.reducer;
         switch (true) {
             case openModalDelete:
+                const {idAccountPeriodDimension} = item;
                 return (
                     <div>
                         <h1>Seguro que desea eliminar esta cuenta</h1>
                         <Button variant={"contained"}
-                                onClick={() => this.deleteAccountPeriodDispatch(item.idAccountPeriodDimension)}
+                                onClick={() => this.deleteAccountPeriodDispatch(idAccountPeriodDimension)}
                                 color={"primary"}>Aceptar</Button>
                         <Button variant={"contained"}
                                 onClick={this.handleCloseDialog}
@@ -122,7 +124,7 @@ class PeriodAndAccountRegistration extends Component {
             case openModalCreate:
                 return (
                     <div>
-                        <DialogCreateAndEditPeriodAndAcoount actionDialog={"create"}
+                        <DialogCreateAndEditPeriodAndAccount actionDialog={"create"}
                                                              item={item}
                                                              accountDimension={accountsDimension}
                                                              datesDimension={datesDimension}
@@ -132,7 +134,7 @@ class PeriodAndAccountRegistration extends Component {
             case openModalUpdate:
                 return (
                     <div>
-                        <DialogCreateAndEditPeriodAndAcoount actionDialog={"update"}
+                        <DialogCreateAndEditPeriodAndAccount actionDialog={"update"}
                                                              item={item}
                                                              accountDimension={accountsDimension}
                                                              datesDimension={datesDimension}
@@ -143,7 +145,7 @@ class PeriodAndAccountRegistration extends Component {
             case openModalView:
                 return (
                     <div>
-                        <DialogCreateAndEditPeriodAndAcoount actionDialog={"view"}
+                        <DialogCreateAndEditPeriodAndAccount actionDialog={"view"}
                                                              item={item}
                                                              accountDimension={accountsDimension}
                                                              datesDimension={datesDimension}
@@ -172,6 +174,7 @@ class PeriodAndAccountRegistration extends Component {
 
     render() {
         const {accountsPeriod} = this.props.reducer;
+        // noinspection ThisExpressionReferencesGlobalObjectJS
         return (
             <div>
                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
@@ -195,21 +198,25 @@ class PeriodAndAccountRegistration extends Component {
                                             <ListItem alignItems={"flex-start"}>
                                                 <Grid container direction={"column"}>
                                                     <ListItemText primary={"Id: " + idAccountPeriodDimension}/>
-                                                    <ListItemText primary={dateId}/>
+                                                    <ListItemText primary={formatDateToString(dateId)}/>
                                                     <Grid item xs={12}>
                                                         <Grid container direction={"row"} justify={"center"}>
                                                             <Grid item>
-                                                                <Button className={"button-item"} variant={"contained"}
+                                                                <Button style={{margin: 3}}
+                                                                        className={"button-item"}
+                                                                        variant={"contained"}
                                                                         onClick={() => this.openModalViewAccountPeriod(item)}
                                                                         color={"primary"}>Ver</Button>
                                                             </Grid>
                                                             <Grid item>
-                                                                <Button className={'button-item'} variant={"contained"}
+                                                                <Button style={{margin: 3}}
+                                                                        className={'button-item'} variant={"contained"}
                                                                         onClick={() => this.openModalUpdateAccountPeriod(item)}
                                                                         color={"primary"}>Editar</Button>
                                                             </Grid>
                                                             <Grid item>
-                                                                <Button className={'button-item'} variant={"contained"}
+                                                                <Button style={{margin: 3}}
+                                                                        className={'button-item'} variant={"contained"}
                                                                         onClick={() => this.openModalDeleteAccountPeriod(item)}
                                                                         color={"secondary"}>Eliminar</Button>
                                                             </Grid>

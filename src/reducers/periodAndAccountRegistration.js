@@ -7,16 +7,6 @@ import {
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI, GET_DATA_CREATE_ACCOUNT_PERIOD
 } from "../action-types/actionTypes";
 
-const getResponse = response => ({
-    accountsPeriod: [],
-    accountsDimension: [],
-    datesDimension: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: false,
-    load: false
-});
-
 const errorState = error => ({
     accountsPeriod: [],
     accountsDimension: [],
@@ -25,16 +15,6 @@ const errorState = error => ({
     errorRequest: error,
     showDialog: false,
     load: false
-});
-
-const cleanInitialState = ({
-    accountsPeriod: [],
-    accountsDimension: [],
-    datesDimension: [],
-    responseRequest: null,
-    errorRequest: null,
-    showDialog: false,
-    load: true
 });
 
 const initialState = ({
