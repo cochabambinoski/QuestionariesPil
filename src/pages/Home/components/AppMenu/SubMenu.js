@@ -59,7 +59,6 @@ class SubMenu extends Component {
     };
 
     getUrl=(option) => {
-        console.log(option);
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";

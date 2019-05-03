@@ -78,19 +78,20 @@ class DialogCreateAndEditPeriodAndAcoount extends Component {
                     </Typography>
                 </Toolbar>
                 <Toolbar>
-                    <form>
-                        <FormControl style={{margin: 8, minWidth: 120,}}>
-                            <InputLabel htmlFor="age-simple"> Cuenta</InputLabel>
-                            <Select value={this.state.account} onChange={this.handleChange}
-                                    inputProps={{name: 'account',}}>
+                    <form style={{display: 'flex', flexWrap: 'wrap'}}>
+                        <FormControl style={{margin: 8, minWidth: 180,}}>
+                            <InputLabel shrink htmlFor="account-label"> Cuenta</InputLabel>
+                            <Select value={this.state.account}
+                                    onChange={this.handleChange}
+                                    inputProps={{name: 'account', id: 'account-label',}}>
                                 {accountDimension.map(item => {
                                     return (<MenuItem value={item}> {item.account}</MenuItem>)
                                 })
                                 }
                             </Select>
                         </FormControl>
-                        <FormControl style={{margin: 8, minWidth: 120,}}>
-                            <InputLabel htmlFor="age-simple"> Fecha</InputLabel>
+                        <FormControl style={{margin: 8, minWidth: 180,}}>
+                            <InputLabel shrink htmlFor="age-simple"> Fecha</InputLabel>
                             <Select value={this.state.date} onChange={this.handleChange} inputProps={{name: 'date',}}>
                                 {datesDimension.map(item => {
                                     return (
@@ -99,7 +100,8 @@ class DialogCreateAndEditPeriodAndAcoount extends Component {
                                 })}
                             </Select>
                         </FormControl>
-                        <TextField id="standard-number"
+                        <TextField style={{margin: 8}}
+                                   id="standard-number"
                                    label="Importe"
                                    value={this.state.amount}
                                    onChange={this.handleChangeAmount('amount')}
