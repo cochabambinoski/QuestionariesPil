@@ -18,7 +18,7 @@ import {
 import {getPeriodAndAccountRegistration} from "../../reducers";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 import {cleanRequestAccountPeriodBi} from "../../actions";
-import DialogCreateAndEditPeriodAndAcoount from "./component/DialogCreateAndEditPeriodAndAcoount";
+import DialogCreateAndEditPeriodAndAccount from "./component/DialogCreateAndEditPeriodAndAccount";
 import {formatDateToString} from "../../utils/StringDateUtil";
 
 class PeriodAndAccountRegistration extends Component {
@@ -124,7 +124,7 @@ class PeriodAndAccountRegistration extends Component {
             case openModalCreate:
                 return (
                     <div>
-                        <DialogCreateAndEditPeriodAndAcoount actionDialog={"create"}
+                        <DialogCreateAndEditPeriodAndAccount actionDialog={"create"}
                                                              item={item}
                                                              accountDimension={accountsDimension}
                                                              datesDimension={datesDimension}
@@ -134,7 +134,7 @@ class PeriodAndAccountRegistration extends Component {
             case openModalUpdate:
                 return (
                     <div>
-                        <DialogCreateAndEditPeriodAndAcoount actionDialog={"update"}
+                        <DialogCreateAndEditPeriodAndAccount actionDialog={"update"}
                                                              item={item}
                                                              accountDimension={accountsDimension}
                                                              datesDimension={datesDimension}
@@ -145,7 +145,7 @@ class PeriodAndAccountRegistration extends Component {
             case openModalView:
                 return (
                     <div>
-                        <DialogCreateAndEditPeriodAndAcoount actionDialog={"view"}
+                        <DialogCreateAndEditPeriodAndAccount actionDialog={"view"}
                                                              item={item}
                                                              accountDimension={accountsDimension}
                                                              datesDimension={datesDimension}
@@ -174,6 +174,7 @@ class PeriodAndAccountRegistration extends Component {
 
     render() {
         const {accountsPeriod} = this.props.reducer;
+        // noinspection ThisExpressionReferencesGlobalObjectJS
         return (
             <div>
                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
@@ -192,7 +193,6 @@ class PeriodAndAccountRegistration extends Component {
                             {
                                 accountsPeriod.map(item => {
                                     const {idAccountPeriodDimension, dateId} = item;
-                                    console.log(dateId);
                                     return (
                                         <Paper style={{marginTop: 5}} key={idAccountPeriodDimension}>
                                             <ListItem alignItems={"flex-start"}>

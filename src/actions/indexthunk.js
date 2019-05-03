@@ -750,7 +750,6 @@ export const getInitialAccountPeriodServerBi = () => {
             })
             .then(response => {
                 if (response.status === undefined) {
-                    console.log(response)
                     dispatch(getInitialAccountPeriodBi(response))
                 } else {
                     dispatch(changeErrorRequestAccountPeriodBi(response))
@@ -769,7 +768,6 @@ export const getDataCreateAccountPeriodServerBi = () => {
         ])
             .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
             .then(([accountsDimension, dateDimension]) => {
-                console.log(dateDimension)
                 if (accountsDimension.status === undefined &&
                     dateDimension.status === undefined) {
                     dispatch(getDataCreateAccountPeriodBi({
