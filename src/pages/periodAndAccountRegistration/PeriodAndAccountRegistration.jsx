@@ -83,9 +83,9 @@ class PeriodAndAccountRegistration extends Component {
         })
     };
 
-    openModalViewAccountPeriod = () => {
+    openModalViewAccountPeriod = (item) => {
         this.setState({
-            item: null,
+            item: item,
             open: true,
             openModalView: true,
             openModalDelete: false,

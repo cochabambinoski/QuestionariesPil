@@ -75,7 +75,7 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
 
     render() {
         const {item} = this.props;
-        const {accountDimension, datesDimension} = this.props;
+        const {accountDimension, datesDimension, actionDialog} = this.props;
         // noinspection JSUnresolvedVariable
         return (
             <div>
@@ -86,7 +86,7 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
                 </Toolbar>
                 <Toolbar>
                     <form style={{display: 'flex', flexWrap: 'wrap'}}>
-                        <FormControl style={{margin: 8, minWidth: 180,}}>
+                        <FormControl style={{margin: 8, minWidth: 180,}} disabled={actionDialog === "view"}>
                             <InputLabel shrink htmlFor="account-label">Cuenta</InputLabel>
                             <Select value={this.state.account}
                                     onChange={this.handleChange}
@@ -97,7 +97,7 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
                                 }
                             </Select>
                         </FormControl>
-                        <FormControl style={{margin: 8, minWidth: 180,}}>
+                        <FormControl style={{margin: 8, minWidth: 180,}} disabled={actionDialog === "view"}>
                             <InputLabel shrink htmlFor="age-simple">Fecha</InputLabel>
                             <Select value={this.state.date} onChange={this.handleChange} inputProps={{name: 'date',}}>
                                 {datesDimension.map(item => {
@@ -116,16 +116,25 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
                                    InputLabelProps={{
                                        shrink: true,
                                    }}
-                                   margin="normal"/>
+                                   margin="normal"
+                                   disabled={actionDialog === "view"}/>
                     </form>
                 </Toolbar>
                 <Toolbar>
-                    <Button style={{margin: 8}} variant={"contained"}
-                            color={"primary"}
-                            onClick={this.acceptOnclick}>Aceptar</Button>
-                    <Button variant={"contained"} color={"secondary"}
-                            style={{margin: 8}}
-                            onClick={this.props.onClose}>Cancelar</Button>
+                    {
+                        actionDialog !== "view" ? (
+                            <div>
+                                <Button style={{margin: 8}} variant={"contained"}
+                                        color={"primary"} onClick={this.acceptOnclick}>Aceptar</Button>
+                                < Button variant={"contained"} color={"secondary"}
+                                         style={{margin: 8}} onClick={this.props.onClose}>Cancelar</Button>
+                            </div>
+                        ) : (
+                            <div>
+                                <Button onClick={this.props.onClose} color={"primary"} variant={"contained"}>Cerrar</Button>
+                            </div>
+                        )
+                    }
                 </Toolbar>
             </div>
         );
