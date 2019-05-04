@@ -26,27 +26,6 @@ import Title from "../Title/Title";
 
 
 const styles = theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: 200,
-    },
-    dense: {
-        marginTop: 19,
-    },
-    menu: {
-        width: 200,
-    },
-    root: {
-        backgroundColor: theme.palette.background.paper,
-        width: 500,
-        position: 'relative',
-        minHeight: 200
-    },
     button: {
         margin: theme.spacing.unit,
         backgroundColor: "#8bc34a",
@@ -209,7 +188,7 @@ class JobsEtl extends Component {
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>
-                    <Toolbar>
+                    <Toolbar style={{background: '#FFFFFF', marginTop: '1em'}}>
                         <div>
                             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
                                 <DatePicker
