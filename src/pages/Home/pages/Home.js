@@ -33,14 +33,22 @@ import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList"
 import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
+import jobsETL from '../../jobsETL/jobsETL'
+
 import {
-    answersRoute, answersIdRoute,
-    assigmentRoute, assigmentIdRoute,
-    questionariesRoute,
+    answersIdRoute,
+    answersRoute,
+    assigmentIdRoute,
+    assigmentRoute,
+    costConditionsRoute,
+    expensesGenerationRoute,
+    jobsEtlRoute,
+    loadBaseInputRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    questionariesRoute,
+    questionariesShowIdRoute,
+    segmentRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
@@ -236,6 +244,7 @@ class Home extends Component {
                 <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
                 <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
                 <Route exact path={costConditionsRoute} component={CostConditions}/>
+                <Route exact path={jobsEtlRoute} component={jobsETL}/>
             </div>
         )
     }
