@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import JsxStyles from '../../styles/JsxStyles';
 import {withStyles} from '@material-ui/core/styles';
+import {Messages} from 'primereact/messages';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Table from "@material-ui/core/es/Table/Table";
 import TableBody from "@material-ui/core/es/TableBody/TableBody";
@@ -64,8 +65,8 @@ class CostConditions extends Component {
         super(props);
         const itemDefault = new CostCondition();
         this.state = {
-            title: "Centro Condiciones de costo",
-            subtitle: "Generación de condiciones de costo",
+            title: "Centro de Costo Condiciones",
+            subtitle: "Generación de condiciones",
             page: 0,
             open: false,
             itemSelected: itemDefault,
@@ -136,6 +137,7 @@ class CostConditions extends Component {
             this.props.createCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion)
                 .then((response) => {
                     let state = response;
+                    console.log(state);
                     if (state !== null || state !== undefined) {
                         this.showResponse(state);
                         if (state === 1) {
@@ -316,13 +318,13 @@ class CostConditions extends Component {
                             <TableHead>
                                 <TableRow>
                                     <CustomTableCell>ID</CustomTableCell>
-                                    <CustomTableCell align="left">CenterCost </CustomTableCell>
-                                    <CustomTableCell align="left">Business</CustomTableCell>
-                                    <CustomTableCell align="left">Channel </CustomTableCell>
-                                    <CustomTableCell align="left">LineCost</CustomTableCell>
-                                    <CustomTableCell align="left">Organization</CustomTableCell>
-                                    <CustomTableCell align="left">Region </CustomTableCell>
-                                    <CustomTableCell align="left">SubRegion </CustomTableCell>
+                                    <CustomTableCell align="left">Centro Costo </CustomTableCell>
+                                    <CustomTableCell align="left">Negocio</CustomTableCell>
+                                    <CustomTableCell align="left">Canal </CustomTableCell>
+                                    <CustomTableCell align="left">Linea</CustomTableCell>
+                                    <CustomTableCell align="left">Organización</CustomTableCell>
+                                    <CustomTableCell align="left">Región </CustomTableCell>
+                                    <CustomTableCell align="left">Sub-Región </CustomTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -369,6 +371,9 @@ class CostConditions extends Component {
                     {this.renderForm()}
                     <div>
                         <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    </div>
+                    <div>
+                        <Messages ref={(el) => this.messages = el}/>
                     </div>
                 </div>
                 {
