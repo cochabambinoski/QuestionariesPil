@@ -17,6 +17,7 @@ import answers from "./answers";
 import {processConfirmation} from "./processConfirmation";
 import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
 import {centerCostCondition} from "./centerCostCondition";
+import {parameter} from "./parameter";
 
 export default combineReducers({
     data,
@@ -32,7 +33,8 @@ export default combineReducers({
     answer,
     processConfirmation,
     createCenterMasterAndCost,
-    centerCostCondition
+    centerCostCondition,
+    parameter
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -77,3 +79,4 @@ export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
 export const getProcessConfirmation = (state) => state.processConfirmation;
 export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterAndCost;
 export const centerCostConditions = (state) => state.centerCostCondition;
+export const parameters = (state) => state.parameter;

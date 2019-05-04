@@ -11,9 +11,11 @@ import {
     filterCenterCostConditionBi,
     getAllBranches,
     getAllDepartaments,
+    getAllParametersBi,
     getAnswers,
     getAnswersQuestionnarie,
     getInitialDataCenterCostConditonBi,
+    jobExecuteBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
     setInitialDataQuestionerQuestionary,
@@ -699,7 +701,7 @@ export const filterDataCenterCostConditionServerBi = (center, business, line, or
                 dispatch(changeErrorBi(error))
             })
     }
-}
+};
 
 export const deleteCenterCostConditionServerBi = id => {
     return dispatch => {
@@ -781,3 +783,39 @@ export const createCenterCostConditionServerBi = (center, business, line, organi
     }
 };
 
+export const getAllParameterServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllParametersBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+export const jobEtlServerBi = ( code, date) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB_WITH_PARAMETER, code, date)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(jobExecuteBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};

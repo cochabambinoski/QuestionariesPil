@@ -92,6 +92,7 @@
   "SUB_REGION_BI": "subRegion",
   "DELETE_CENTER_COST_CONDITION": "centerCostCondition/",
   "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={0}&center={1}&business={2}&line={3}&organization={4}&channel={5}&region={6}&subRegion={7}",
-  "CREATE_CENTER_COST_CONDITION": "centerCostCondition?center={0}&business={1}&line={2}&organization={3}&channel={4}&region={5}&subRegion={6}"
-
+  "CREATE_CENTER_COST_CONDITION": "centerCostCondition?center={0}&business={1}&line={2}&organization={3}&channel={4}&region={5}&subRegion={6}",
+  "GET_ALL_PARAMETERS": "parameters",
+  "JOB_WITH_PARAMETER": "runJobWithParameter?location={0}&parameter={1}"
 }

@@ -31,7 +31,7 @@ function TableSegment(props) {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={props.handleRequestSort}
-                        rowCount={data.length}/>
+                        rowCount={data.length} onSelectAllClick={null}/>
                     <TableBody classes="">
                         {data
                             .sort(props.getSorting(order, orderBy))

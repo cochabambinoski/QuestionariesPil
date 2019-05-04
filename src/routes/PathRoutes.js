@@ -6,6 +6,7 @@ const questionary = "questionary";
 const expensesGeneration = "expensesGeneration";
 const loadBaseInput = "loadBaseInput";
 const costConditions = "costConditions";
+const jobsETL = "jobsETL";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -25,3 +26,5 @@ export const questionaryPublicRoute = `/${questionary}/`;
 export const expensesGenerationRoute = `/${expensesGeneration}/`;
 export const loadBaseInputRoute = `/${loadBaseInput}/`;
 export const costConditionsRoute = `/${costConditions}`;
+export const jobsEtlRoute = `/${jobsETL}`;
+

@@ -36,9 +36,11 @@ import {
     FILTER_CENTER_COST_CONDITION,
     GET_ALL_BRANCHES,
     GET_ALL_DEPARTAMENTS,
+    GET_ALL_PARAMETERS,
     GET_ANSWERS,
     GET_QUESTIONNARIE_ANSWER,
     IS_SAVING_ANSWER,
+    JOB_EXECUTE,
     LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
     LOAD_COST_BASE_INFORMATION,
     LOAD_INPUT_BASE_INFORMATION,
@@ -211,3 +213,7 @@ export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_C
 export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
 
 export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
+
+export const getAllParametersBi = payload => ({type: GET_ALL_PARAMETERS, payload});
+
+export const jobExecuteBi = payload => ({type: JOB_EXECUTE, payload});
