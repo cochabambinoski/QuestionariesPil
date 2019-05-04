@@ -31,6 +31,7 @@ import Select from "@material-ui/core/es/Select/Select";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import IconFilterList from "@material-ui/icons/FilterList";
 import IconSave from "@material-ui/icons/Save";
+import IconClear from "@material-ui/icons/Clear";
 import classNames from 'classnames';
 
 const CustomTableCell = withStyles(theme => ({
@@ -130,6 +131,17 @@ class CostConditions extends Component {
 
     handleFilter = (event) => {
         this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+    };
+
+    handleClean = (event) => {
+        this.setState({
+            business: 0,
+            channel: 0,
+            lineCost: 0,
+            organization: 0,
+            region: 0,
+            subRegion: 0
+        });
     };
 
     handleCreate = (event) => {
@@ -387,6 +399,10 @@ class CostConditions extends Component {
                         <div>
                             <Toolbar style={{background: '#FFFFFF', marginTop: '1em'}}>
                                 {this.renderFilter()}
+                                <Button variant="contained" color={"secondary"} className={classes.button}
+                                        onClick={this.handleClean}>
+                                    <IconClear/>
+                                </Button>
                                 <Button variant="contained" color={"default"} className={classes.button}
                                         onClick={this.handleFilter}>
                                     <IconFilterList className={classNames(classes.leftIcon, classes.iconSmall)}/>
