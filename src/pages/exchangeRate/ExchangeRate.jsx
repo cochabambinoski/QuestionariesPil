@@ -165,8 +165,6 @@ class ExchangeRate extends Component {
 
     render() {
         const {load, exchangesRate, errorRequest} = this.props.reducerVariables;
-        console.log(this.props.reducerVariables);
-        console.log(errorRequest);
         if (errorRequest) {
             return this.renderError(errorRequest)
         }
@@ -191,7 +189,6 @@ class ExchangeRate extends Component {
                                 exchangesRate && exchangesRate.length > 0 ?
                                     <List>
                                         {exchangesRate.map(item => {
-                                            console.log(item);
                                             const {idExchangeRate, idDate} = item;
                                             return (
                                                 <Paper style={{marginTop: 5}} key={idExchangeRate}>
