@@ -92,7 +92,8 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
                                     onChange={this.handleChange}
                                     inputProps={{name: 'account', id: 'account-label',}}>
                                 {accountDimension.map(item => {
-                                    return (<MenuItem value={item}> {item.account}</MenuItem>)
+                                    // noinspection JSUnresolvedVariable
+                                    return (<MenuItem value={item}>{item.accountCod} - {item.account}</MenuItem>)
                                 })
                                 }
                             </Select>
