@@ -191,6 +191,7 @@ class ExchangeRate extends Component {
                                 exchangesRate && exchangesRate.length > 0 ?
                                     <List>
                                         {exchangesRate.map(item => {
+                                            console.log(item);
                                             const {idExchangeRate, idDate} = item;
                                             return (
                                                 <Paper style={{marginTop: 5}} key={idExchangeRate}>
@@ -198,6 +199,7 @@ class ExchangeRate extends Component {
                                                         <Grid container direction={"column"}>
                                                             <ListItemText primary={"Id:" + idExchangeRate}/>
                                                             <ListItemText>{formatDateToString(idDate)}</ListItemText>
+                                                            <ListItemText primary={"Tipo cambio: " + item.tc}/>
                                                             <Grid container>
                                                                 <Button style={{margin: 3}}
                                                                         onClick={() => this.openModalViewAccountPeriod(item)}
