@@ -73,10 +73,10 @@ class ConceptCenter extends Component {
     shouldComponentUpdate(next_props, next_state, nextContext) {
         const {responseRequest} = next_props.reducer;
         console.log(responseRequest, next_props.reducer);
-        if (responseRequest && responseRequest.codeResult > null) {
-            console.log(responseRequest.codeResult);
+        if (responseRequest && responseRequest !== null) {
             if (responseRequest.codeResult >= 0) {
                 this.showResponse(responseRequest.codeResult);
+                this.chargeList()
             }
         }
         return true
@@ -179,7 +179,6 @@ class ConceptCenter extends Component {
     renderList() {
         const {classes} = this.props;
         const {concepts} = this.props.reducer;
-        console.log(this.props.reducer);
         return (
             <div>{
                 concepts == null ? [] : concepts.map((item) => {
