@@ -55,7 +55,6 @@ class OperatingAccounts extends Component {
         const {responseRequest} = nextProps.reducer;
         const {operatingAccount} = nextProps.reducer;
         if (responseRequest) {
-            console.log(responseRequest);
             const {codeResult} = responseRequest;
             this.renderMessages(codeResult);
             this.props.cleanReducer();
@@ -79,10 +78,12 @@ class OperatingAccounts extends Component {
         const accountDimension = accountDimensions.find(itemAccount => OperatingAccounts.findAccountDimension(itemAccount, accountId));
         const {types} = this.props.reducer;
         const type = types.find(itemType => OperatingAccounts.findTypesById(itemType, typeId));
+        // noinspection JSDeprecatedSymbols
         return (
             <React.Fragment>
+                <ListItemText primary={"Codigo tipo: " + type.codeType}/>
+                <ListItemText primary={"Codigo cuenta: " + accountDimension.accountCod}/>
                 <ListItemText primary={"Nombre cuenta: " + accountDimension.account}/>
-                <ListItemText primary={"Nombre tipo:" + type.name}/>
             </React.Fragment>);
     };
 
