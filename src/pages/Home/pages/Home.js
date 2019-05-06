@@ -24,7 +24,6 @@ import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
 import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
-import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
 import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
@@ -34,13 +33,18 @@ import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuesti
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
 import {
-    answersRoute, answersIdRoute,
-    assigmentRoute, assigmentIdRoute,
-    questionariesRoute,
+    answersIdRoute,
+    answersRoute,
+    assigmentIdRoute,
+    assigmentRoute,
+    costConditionsRoute,
+    expensesGenerationRoute,
+    loadBaseInputRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesShowIdRoute, segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    questionariesRoute,
+    questionariesShowIdRoute,
+    segmentRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
@@ -189,7 +193,7 @@ class Home extends Component {
         return (
                 <div className="layout-main">
                     <Growl ref={(el) => this.growl = el}/>
-                    <Route path="/" exact component={Start}/>
+                    <Route path="/" exact component={CostConditions}/>
                     {/*Questionaries Create Show Edit Delete*/}
                     <Route path={questionariesRoute} exact
                            render={(props) => <Questionnaires title={this.state.title}

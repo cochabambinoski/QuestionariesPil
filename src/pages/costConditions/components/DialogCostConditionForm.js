@@ -72,14 +72,13 @@ class DialogCostConditionForm extends Component {
         }
     }
 
-    handleCancel = event => {
+    handleCancel = () => {
         this.props.onClose();
     };
 
-    handleSave = event => {
+    handleSave = () => {
         this.props.updateCenterCostCondition(this.state.costCondition).then((response) => {
             let state = response;
-            console.log(response, state);
             if (state === null || state === undefined) {
                 if (state === 2) {
                     this.setState({process: 1});
@@ -92,12 +91,10 @@ class DialogCostConditionForm extends Component {
         });
     };
 
-    handleDeleteClick = (event) => {
-        console.log(this.state.id);
+    handleDeleteClick = () => {
         this.props.deleteCenterCostCondition(this.state.id)
             .then((response) => {
                 let state = response;
-                console.log(response, state);
                 if (state === null || state === undefined) {
                     if (state === 2) {
                         this.setState({process: 1});
@@ -111,8 +108,7 @@ class DialogCostConditionForm extends Component {
     };
 
     render() {
-        console.log(this.props);
-        const {item, business, centerCost, channel, lineCost, organization, region, subRegion, classes} = this.props;
+        const {business, centerCost, channel, lineCost, organization, region, subRegion, classes} = this.props;
         return (
             <div>
                 <div>

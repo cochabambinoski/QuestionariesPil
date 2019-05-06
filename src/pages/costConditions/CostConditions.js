@@ -15,7 +15,6 @@ import {centerCostConditions, getCreateCenterMasterAndCost} from "../../reducers
 import {
     createCenterCostConditionServerBi,
     filterDataCenterCostConditionServerBi,
-    getCenterCostConditionServerBi,
     getInitialDataCenterCostConditionServerBi
 } from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
@@ -129,11 +128,11 @@ class CostConditions extends Component {
         this.setState({page: 0, rowsPerPage: event.target.value})
     };
 
-    handleFilter = (event) => {
+    handleFilter = () => {
         this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
     };
 
-    handleClean = (event) => {
+    handleClean = () => {
         this.setState({
             business: 0,
             channel: 0,
@@ -144,7 +143,7 @@ class CostConditions extends Component {
         });
     };
 
-    handleCreate = (event) => {
+    handleCreate = () => {
         if (this.state.centerCost > 0 && this.state.business > 0 && this.state.lineCost > 0 && this.state.channel > 0 && this.state.organization > 0 && this.state.region > 0 && this.state.subRegion > 0) {
             this.props.createCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion)
                 .then((response) => {
@@ -154,7 +153,6 @@ class CostConditions extends Component {
                         this.showResponse(state);
                         if (state === 1) {
                             this.setState({
-                                centerCost: 0,
                                 business: 0,
                                 channel: 0,
                                 lineCost: 0,
@@ -174,13 +172,21 @@ class CostConditions extends Component {
             <React.Fragment>
                 <h1> Error {status}</h1>
                 <Button color={"primary"} variant="contained" style={{background: "red"}}
-                        onClick={this.props.cleanResponse}> Aceptar</Button>
+                        onClick={this.props.cleanResponse}>Aceptar</Button>
             </React.Fragment>
         )
     }
 
     handleCloseDialogEditItem = () => {
         this.setState({open: false, itemSelected: null});
+        this.setState({
+            business: 0,
+            channel: 0,
+            lineCost: 0,
+            organization: 0,
+            region: 0,
+            subRegion: 0
+        });
         this.props.filterCenterCostConditionServerBi(this.state.centerCost, 0, 0, 0, 0, 0, 0)
     };
 
