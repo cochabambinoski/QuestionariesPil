@@ -70,6 +70,18 @@ class ConceptCenter extends Component {
         this.chargeList();
     }
 
+    shouldComponentUpdate(next_props, next_state, nextContext) {
+        const {responseRequest} = next_props.reducer;
+        console.log(responseRequest, next_props.reducer);
+        if (responseRequest && responseRequest.codeResult > null) {
+            console.log(responseRequest.codeResult);
+            if (responseRequest.codeResult >= 0) {
+                this.showResponse(responseRequest.codeResult);
+            }
+        }
+        return true
+    }
+
     showSuccess = (title, message) => {
         this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
     };
@@ -149,9 +161,8 @@ class ConceptCenter extends Component {
 
     handleCloseConcept = (response) => {
         this.setState({conceptOpen: false});
-        this.chargeList();
-        if (response >= 0)
-            this.showResponse(response);
+        if (response === 0)
+            this.chargeList();
     };
 
     renderConceptDialog() {
@@ -167,9 +178,11 @@ class ConceptCenter extends Component {
 
     renderList() {
         const {classes} = this.props;
+        const {concepts} = this.props.reducer;
+        console.log(this.props.reducer);
         return (
             <div>{
-                this.state.concepts.map((item) => {
+                concepts == null ? [] : concepts.map((item) => {
                     return (
                         <div style={{marginTop: '1em'}}>
                             <Card key={item.id}>
@@ -260,7 +273,7 @@ ConceptCenter.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    reducerVariable: getConcepts(state) //no tocar
+    reducer: getConcepts(state) //no tocar
 });
 
 const mapDispatchToProps = dispatch => ({

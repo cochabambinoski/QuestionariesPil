@@ -1,6 +1,6 @@
 import {CREATE_CONCEPT_BI, DELETE_CONCEPT_BI, GET_ALL_CONCEPTS, UPDATE_CONCEPT_BI} from "../action-types/actionTypes";
 
-const getResponse = response => ({
+/*const getResponse = response => ({
     concepts: [],
     responseRequest: response,
     errorRequest: null,
@@ -13,7 +13,7 @@ const errorState = error => ({
     errorRequest: error,
     showDialog: false,
     load: false
-});
+});*/
 
 const initialState = ({
     concepts: [],
@@ -24,10 +24,9 @@ const initialState = ({
 });
 
 export const concepts = (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
         case GET_ALL_CONCEPTS: {
-            return {...state, concepts: action.payload, errorRequest:null, load:false}
+            return {...state, concepts: action.payload, errorRequest:null, load:false, responseRequest: null}
         }
         case CREATE_CONCEPT_BI: {
             return {... state, responseRequest: action.payload}

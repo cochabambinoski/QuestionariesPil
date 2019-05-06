@@ -60,48 +60,23 @@ class ConceptForm extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props);
         if (this.props.concept === 0) {
             this.setState({disabled: false});
         }
     }
 
-    shouldComponentUpdate(next_props, next_state) {
-        return true;
-    }
-
     createConcept = (data) => {
-        this.props.createConcept(data)
-            .then((response) => {
-                let state = response;
-                console.log(response, state);
-                if (state === null || state === undefined) {
-                    if (state === 2) {
-                        this.setState({process: 1});
-                        this.props.onClose(state);
-                    }
-                } else {
-                    this.setState({process: state});
-                    this.props.onClose(state);
-                }
-            });
+        this.props.createConcept(data);
+        this.props.onClose(1);
     };
 
     updateConcept = (data) => {
-        this.props.updateConcept(data)
-            .then((response) => {
-                let state = response;
-                console.log(response, state);
-                if (state === null || state === undefined) {
-                    if (state === 2) {
-                        this.setState({process: 1});
-                        this.props.onClose(state);
-                    }
-                } else {
-                    this.setState({process: state});
-                    this.props.onClose(state);
-                }
-            });
+        this.props.updateConcept(data);
+        this.props.onClose(1);
+    };
+
+    closeConcept = () => {
+        this.props.onClose(0);
     };
 
     setConcept = (data) => {
@@ -123,7 +98,6 @@ class ConceptForm extends Component {
     };
 
     renderForm() {
-        console.log(this.props);
         const {classes} = this.props;
         return (
             <div>
@@ -170,7 +144,7 @@ class ConceptForm extends Component {
                     <div className="col-auto">
                         <div className="box">
                             <Button variant="contained" color="default" className={classes.button}
-                                    onClick={this.props.onClose}>
+                                    onClick={this.closeConcept}>
                                 <CancelIcon className={classes.leftIcon}/>
                                 Cancelar
                             </Button>
@@ -202,7 +176,7 @@ ConceptForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    reducerVariable: getConcepts(state) //no tocar
+    reducer: getConcepts(state) //no tocar
 });
 
 const mapDispatchToProps = dispatch => ({

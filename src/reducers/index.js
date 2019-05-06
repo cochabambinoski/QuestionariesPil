@@ -16,8 +16,7 @@ import {answer} from "./answer";
 import answers from "./answers";
 import {processConfirmation} from "./processConfirmation";
 import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
-import {concepts} from "./concepts";
-
+import {concepts, initialStateConcept} from "./concepts";
 
 export default combineReducers({
     data,

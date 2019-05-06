@@ -10,6 +10,7 @@ import {
     deleteCenterCostConditionBi,
     deleteConceptBi,
     getAllBranches,
+    getAllConcepts,
     getAllDepartaments,
     getAnswers,
     getAnswersQuestionnarie,
@@ -874,13 +875,17 @@ export const createCenterCostConditionServerBi = (id, center, business, line, or
 };
 
 export const getAllConceptsBi = () => {
-    return () => {
+    return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.CONCEPTS}`;
         return fetch(url)
             .then(results => {
                 return results.json();
             }).then(response => {
-                return response
+                if (response.status === undefined) {
+                    dispatch(getAllConcepts(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
             });
     };
 };

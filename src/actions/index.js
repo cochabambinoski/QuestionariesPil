@@ -222,17 +222,16 @@ export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
 
-export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
+export const deleteCenterCostConditionBi = payload => ({type: DELETE_CONDITION_CENTER_MASTER, payload});
 
 export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload});
 
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
-export const getAllConcepts = payload=> ({type: GET_ALL_CONCEPTS, payload});
+export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 
-export const deleteConceptBi = payload =>({type: DELETE_CONCEPT_BI, payload});
+export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 
-export const createConceptBi = payload =>({type: CREATE_CONCEPT_BI, payload});
+export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
 
-export const updateConceptBi = payload =>({type: UPDATE_CONCEPT_BI, payload});
-
+export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
