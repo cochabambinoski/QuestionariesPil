@@ -154,25 +154,25 @@ class OperatingAccounts extends Component {
                 if (codeResult && codeResult === 1) {
                     this.messages.show({severity: 'success', summary: 'Creacion Completada'})
                 } else if (codeResult && codeResult === 0) {
-                    this.messages.show({severity: 'success', summary: 'Creacion Fallida'})
+                    this.messages.show({severity: 'error', summary: 'Creacion Fallida'})
                 } else if (codeResult && codeResult === 2) {
-                    this.messages.show({severity: 'success', summary: 'Cuenta ya existente'})
+                    this.messages.show({severity: 'warn', summary: 'Cuenta ya existente'})
                 }
                 return;
             case "update":
                 if (codeResult && codeResult === 1) {
                     this.messages.show({severity: 'success', summary: 'Actualizacion Completada'})
                 } else if (codeResult && codeResult === 0) {
-                    this.messages.show({severity: 'success', summary: 'Actualizacion Fallida'})
+                    this.messages.show({severity: 'error', summary: 'Actualizacion Fallida'})
                 } else if (codeResult && codeResult === 2) {
-                    this.messages.show({severity: 'success', summary: 'Combinacion ya existente'})
+                    this.messages.show({severity: 'warn', summary: 'Combinacion ya existente'})
                 }
                 return;
             case "delete":
                 if (codeResult && codeResult === 1) {
                     this.messages.show({severity: 'success', summary: 'Eliminacion Completada'})
                 } else if (codeResult && codeResult === 0) {
-                    this.messages.show({severity: 'success', summary: 'Eliminacion Fallida'})
+                    this.messages.show({severity: 'error', summary: 'Eliminacion Fallida'})
                 }
                 return;
             default:
