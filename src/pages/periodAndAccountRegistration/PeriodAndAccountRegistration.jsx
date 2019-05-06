@@ -44,10 +44,11 @@ class PeriodAndAccountRegistration extends Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const {accountsPeriod} = this.props.reducer;
         const {nextAccountsPeriod, responseRequest} = nextProps.reducer;
-        if (responseRequest !== null) {
+        if (responseRequest) {
             const {codeResult} = responseRequest;
             this.renderMessages(codeResult);
             this.props.getInitialData();
+            this.props.getDataCreateAccount();
             this.props.cleanReducer();
             return true
         }
