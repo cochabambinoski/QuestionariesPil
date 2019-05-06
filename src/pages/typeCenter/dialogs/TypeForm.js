@@ -64,13 +64,13 @@ class ConceptForm extends Component {
         };
     };
 
-    componentDidMount() {
+    componentWillMount() {
         this.chargeList();
         if (this.props.concept === 0) {
             this.setState({disabled: false});
         }
         let type = this.props.type;
-        if (type !== 0){
+        if (type !== 0) {
             console.log(type);
             this.setState({concept: type.idConcept});
         }
@@ -143,10 +143,11 @@ class ConceptForm extends Component {
     };
 
     handleChange = event => {
-        this.setState({ idConcept: event.target.value});
+        this.setState({idConcept: event.target.value});
     };
 
     renderOptions() {
+        console.log(this.state.concepts);
         return this.state.concepts.map((concepts, i) => {
             return (
                 <MenuItem
@@ -212,7 +213,7 @@ class ConceptForm extends Component {
                                 id: 'id',
                             }}
                         >
-                            {this.renderOptions}
+                            {this.renderOptions()}
                         </Select>
                     </FormControl>
                 </form>
