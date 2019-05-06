@@ -86,8 +86,8 @@ class DialogOperatingAccountEdit extends Component {
                                 onChange={this.handleChange}
                                 inputProps={{name: 'account'}}>
                             {accountDimensions.map(item => {
-                                const {account} = item;
-                                return (<MenuItem value={item}>{account}</MenuItem>)
+                                const {account, accountCod} = item;
+                                return (<MenuItem value={item}>{accountCod} - {account}</MenuItem>)
                             })}
                         </Select>
                     </FormControl>
@@ -97,8 +97,8 @@ class DialogOperatingAccountEdit extends Component {
                                 onChange={this.handleChange}
                                 inputProps={{name: 'type'}}>
                             {types.map(item => {
-                                const {name} = item;
-                                return (<MenuItem value={item}>{name}</MenuItem>)
+                                const {name, codeType} = item;
+                                return (<MenuItem value={item}>{codeType} - {name}</MenuItem>)
                             })}
                         </Select>
                     </FormControl>
