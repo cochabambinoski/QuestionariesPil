@@ -19,6 +19,7 @@ import {formatDateToString} from "../../utils/StringDateUtil";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import DialogCreateExchangeRate from "./components/DialogCreateExchangeRate";
+import {Messages} from "primereact/messages";
 
 class ExchangeRate extends Component {
 
@@ -35,16 +36,19 @@ class ExchangeRate extends Component {
     }
 
     createExchangeRateDispatch = (idDate, tc) => {
+        this.setState({action: "create",});
         this.props.createExchangeRate(idDate, tc);
         this.handleCloseDialog();
     };
 
     updateExchangeRateDispatch = (idExchangeRate, idDate, tc) => {
+        this.setState({action: "update",});
         this.props.updateExchangeRate(idExchangeRate, idDate, tc);
         this.handleCloseDialog();
     };
 
     deleteExchangeRateDispatch = (id) => {
+        this.setState({action: "delete",});
         this.props.deleteExchangeRate(id);
         this.handleCloseDialog();
     };
@@ -56,7 +60,9 @@ class ExchangeRate extends Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const {exchangesRate} = this.props.reducerVariables;
         const {responseRequest} = nextProps.reducerVariables;
-        if (responseRequest !== null) {
+        if (responseRequest) {
+            const {codeResult} = responseRequest;
+            this.renderMessages(codeResult);
             this.props.getDataInitial();
             this.props.cleanExchangeRateStateReducer();
         }
@@ -73,6 +79,37 @@ class ExchangeRate extends Component {
             </div>
         )
     }
+
+    renderMessages = (codeResult) => {
+        const {action} = this.state;
+        switch (action) {
+            case "create":
+                if (codeResult && codeResult === 1) {
+                    this.messages.show({severity: 'success', summary: 'Creacion Completada'})
+                } else if (codeResult && codeResult === 0) {
+                    this.messages.show({severity: 'error', summary: 'Creacion Fallida'})
+                } else if (codeResult && codeResult === 2) {
+                    this.messages.show({severity: 'warn', summary: 'Cuenta ya existente'})
+                }
+                return;
+            case "update":
+                if (codeResult && codeResult === 1) {
+                    this.messages.show({severity: 'success', summary: 'Actualizacion Completada'})
+                } else if (codeResult && codeResult === 0) {
+                    this.messages.show({severity: 'error', summary: 'Actualizacion Fallida'})
+                } else if (codeResult && codeResult === 2) {
+                    this.messages.show({severity: 'warn', summary: 'Combinacion ya existente'})
+                }
+                return;
+            case "delete":
+                if (codeResult && codeResult === 1) {
+                    this.messages.show({severity: 'success', summary: 'Eliminacion Completada'})
+                } else if (codeResult && codeResult === 0) {
+                    this.messages.show({severity: 'error', summary: 'Eliminacion Fallida'})
+                }
+                return;
+        }
+    };
 
     renderModal = () => {
         const {item, openModalDelete, openModalCreate, openModalUpdate, openModalView} = this.state;
@@ -127,13 +164,16 @@ class ExchangeRate extends Component {
     };
 
     render() {
-        const {load, exchangesRate} = this.props.reducerVariables;
-        if (exchangesRate.errorRequest) {
-            return this.renderError(exchangesRate.errorRequest)
+        const {load, exchangesRate, errorRequest} = this.props.reducerVariables;
+        console.log(this.props.reducerVariables);
+        console.log(errorRequest);
+        if (errorRequest) {
+            return this.renderError(errorRequest)
         }
         // noinspection ThisExpressionReferencesGlobalObjectJS
         return (
             <div>
+                <Messages ref={(el) => this.messages = el}/>
                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
                     {this.renderModal()}
                 </ModalGeneric>
@@ -148,7 +188,7 @@ class ExchangeRate extends Component {
                                 </Toolbar>
                             </Paper>
                             {
-                                exchangesRate.length > 0 ?
+                                exchangesRate && exchangesRate.length > 0 ?
                                     <List>
                                         {exchangesRate.map(item => {
                                             const {idExchangeRate, idDate} = item;
@@ -177,7 +217,7 @@ class ExchangeRate extends Component {
                                                 </Paper>
                                             )
                                         })}
-                                    </List>:(
+                                    </List> : (
                                         <h1>No existen tipos de cambio creados</h1>
                                     )
                             }
