@@ -69,10 +69,21 @@ class OperatingAccounts extends Component {
         return accountId === id
     }
 
+    static findTypesById(item, id) {
+        const {typeId} = item;
+        return typeId === id;
+    }
+
     getNameFindAccountDimension = (accountDimensions, item) => {
-        const {accountId} = item;
+        const {accountId, typeId} = item;
         const accountDimension = accountDimensions.find(itemAccount => OperatingAccounts.findAccountDimension(itemAccount, accountId));
-        return (<ListItemText primary={accountDimension.account}/>);
+        const {types} = this.props.reducer;
+        const type = types.find(itemType => OperatingAccounts.findTypesById(itemType, typeId));
+        return (
+            <React.Fragment>
+                <ListItemText primary={"Nombre cuenta: " + accountDimension.account}/>
+                <ListItemText primary={"Nombre tipo:" + type.name}/>
+            </React.Fragment>);
     };
 
     createOperatingAccountDispatch = (accountId, typeId) => {
@@ -194,7 +205,7 @@ class OperatingAccounts extends Component {
                                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
                                     {this.renderModal()}
                                 </ModalGeneric>
-                                {operatingAccounts.length > 0 ? (
+                                {operatingAccounts && operatingAccounts.length > 0 ? (
                                     <div>
                                         <Paper style={{margin: 5}}>
                                             <Toolbar>
@@ -203,7 +214,7 @@ class OperatingAccounts extends Component {
                                                         onClick={() => this.openModalCreateOperatingAccount()}>Nuevo</Button>
                                             </Toolbar>
                                         </Paper>
-                                        <List style={{width: '100%', maxWidth: 360}}>
+                                        <List style={{width: '100%', maxWidth: 420}}>
                                             {
                                                 operatingAccounts.map(item => {
                                                     const {accountOperationId} = item;
