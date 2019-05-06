@@ -39,7 +39,7 @@ class OperatingAccounts extends Component {
             <div>
                 <h1>Error {error ? error.status : null}</h1>
                 <Button variant={"contained"}
-                        onClick={this.props.cleanReducer}
+                        onClick={this.props.getInitialData}
                         color={"primary"}>Aceptar</Button>
             </div>
         )
@@ -54,7 +54,8 @@ class OperatingAccounts extends Component {
         const {operatingAccounts} = this.props.reducer;
         const {responseRequest} = nextProps.reducer;
         const {operatingAccount} = nextProps.reducer;
-        if (responseRequest !== null) {
+        if (responseRequest) {
+            console.log(responseRequest);
             const {codeResult} = responseRequest;
             this.renderMessages(codeResult);
             this.props.cleanReducer();
@@ -74,15 +75,15 @@ class OperatingAccounts extends Component {
         return (<ListItemText primary={accountDimension.account}/>);
     };
 
-    createOperatingAccountDispatch = (accountId, typeId, operation) => {
+    createOperatingAccountDispatch = (accountId, typeId) => {
         this.setState({action: "create",});
-        this.props.createOperatingAccount(accountId, typeId, operation);
+        this.props.createOperatingAccount(accountId, typeId);
         this.handleCloseDialog();
     };
 
-    updateOperatingAccountDispatch = (accountOperationId, accountId, typeId, operation) => {
+    updateOperatingAccountDispatch = (accountOperationId, accountId, typeId) => {
         this.setState({action: "update",});
-        this.props.updateOperatingAccount(accountOperationId, accountId, typeId, operation);
+        this.props.updateOperatingAccount(accountOperationId, accountId, typeId);
         this.handleCloseDialog();
     };
 
@@ -306,8 +307,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getInitialData: () => dispatch(getDataInitialOperatingAccountsServerBi()),
-    createOperatingAccount: (accountId, typeId, operation) => dispatch(createOperatingAccountServerBi(accountId, typeId, operation)),
-    updateOperatingAccount: (accountOperationId, accountId, typeId, operation) => dispatch(updateOperatingAccountServerBi(accountOperationId, accountId, typeId, operation)),
+    createOperatingAccount: (accountId, typeId) => dispatch(createOperatingAccountServerBi(accountId, typeId)),
+    updateOperatingAccount: (accountOperationId, accountId, typeId) => dispatch(updateOperatingAccountServerBi(accountOperationId, accountId, typeId)),
     deleteOperatingAccount: (id) => dispatch(deleteOperatingAccountServerBi(id)),
     cleanReducer: () => dispatch(cleanRequestOperatingAccountsBi())
 });

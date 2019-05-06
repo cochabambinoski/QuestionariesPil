@@ -967,9 +967,9 @@ export const getDataInitialOperatingAccountsServerBi = () => {
     }
 };
 
-export const createOperatingAccountServerBi = (accountId, typeId, operation) => {
+export const createOperatingAccountServerBi = (accountId, typeId) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.CREATE_OPERATING_ACCOUNTS_BI}${accountId}&typeId=${typeId}&operation=${operation}`;
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CREATE_OPERATING_ACCOUNTS_BI}${accountId}&typeId=${typeId}`;
         return fetch(url, {method: 'POST'})
             .then(results => {
                 return results.json()
@@ -987,9 +987,9 @@ export const createOperatingAccountServerBi = (accountId, typeId, operation) => 
     }
 };
 
-export const updateOperatingAccountServerBi = (accountOperationId, accountId, typeId, operation) => {
+export const updateOperatingAccountServerBi = (accountOperationId, accountId, typeId) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_OPERATING_ACCOUNTS_BI}${accountOperationId}&accountId=${accountId}&typeId=${typeId}&operation=${operation}`;
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_OPERATING_ACCOUNTS_BI}${accountOperationId}&accountId=${accountId}&typeId=${typeId}`;
         return fetch(url, {method: 'PUT'})
             .then(results => {
                 return results.json()

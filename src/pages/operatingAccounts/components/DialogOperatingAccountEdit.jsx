@@ -30,12 +30,12 @@ class DialogOperatingAccountEdit extends Component {
                 case "create":
                     //accountId, typeId, operation
                     // noinspection JSUnresolvedVariable
-                    this.props.onClick(account.accountId, type.typeId, 1);
+                    this.props.onClick(account.accountId, type.typeId);
                     return;
                 case "update":
                     //accountOperationId, accountId, typeId, operation
                     // noinspection JSUnresolvedVariable
-                    this.props.onClick(item.accountOperationId, account.accountId, type.typeId, 1);
+                    this.props.onClick(item.accountOperationId, account.accountId, type.typeId);
                     return;
                 case "view":
                     return this.props.onClose;
