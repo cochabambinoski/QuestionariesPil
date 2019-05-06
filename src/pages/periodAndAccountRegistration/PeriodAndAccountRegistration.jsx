@@ -20,6 +20,7 @@ import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 import {cleanRequestAccountPeriodBi} from "../../actions";
 import DialogCreateAndEditPeriodAndAccount from "./component/DialogCreateAndEditPeriodAndAccount";
 import {formatDateToString} from "../../utils/StringDateUtil";
+import {Messages} from "primereact/messages";
 
 class PeriodAndAccountRegistration extends Component {
     constructor(props) {
@@ -30,7 +31,8 @@ class PeriodAndAccountRegistration extends Component {
             openModalView: false,
             openModalDelete: false,
             openModalCreate: false,
-            openModalUpdate: false
+            openModalUpdate: false,
+            action: null,
         }
     }
 
@@ -43,12 +45,45 @@ class PeriodAndAccountRegistration extends Component {
         const {accountsPeriod} = this.props.reducer;
         const {nextAccountsPeriod, responseRequest} = nextProps.reducer;
         if (responseRequest !== null) {
+            const {codeResult} = responseRequest;
+            this.renderMessages(codeResult)
             this.props.getInitialData();
             this.props.cleanReducer();
             return true
         }
         return accountsPeriod !== nextAccountsPeriod;
     }
+
+    renderMessages = (codeResult) => {
+        const {action} = this.state;
+        switch (action) {
+            case "create":
+                if (codeResult && codeResult === 1) {
+                    this.messages.show({severity: 'success', summary: 'Creacion Completada'})
+                } else if (codeResult && codeResult === 0) {
+                    this.messages.show({severity: 'success', summary: 'Creacion Fallida'})
+                } else if (codeResult && codeResult === 2) {
+                    this.messages.show({severity: 'success', summary: 'Cuenta ya existente'})
+                }
+                return;
+            case "update":
+                if (codeResult && codeResult === 1) {
+                    this.messages.show({severity: 'success', summary: 'Actualizacion Completada'})
+                } else if (codeResult && codeResult === 0) {
+                    this.messages.show({severity: 'success', summary: 'Actualizacion Fallida'})
+                } else if (codeResult && codeResult === 2) {
+                    this.messages.show({severity: 'success', summary: 'Combinacion ya existente'})
+                }
+                return;
+            case "delete":
+                if (codeResult && codeResult === 1) {
+                    this.messages.show({severity: 'success', summary: 'Eliminacion Completada'})
+                } else if (codeResult && codeResult === 0) {
+                    this.messages.show({severity: 'success', summary: 'Eliminacion Fallida'})
+                }
+                return;
+        }
+    };
 
     openModalDeleteAccountPeriod = (item) => {
         this.setState({
@@ -160,16 +195,19 @@ class PeriodAndAccountRegistration extends Component {
     };
 
     createAccountPeriodDispatch = (dateId, accountId, amount) => {
+        this.setState({action: "create",});
         this.props.createAccountPeriod(dateId, accountId, amount);
         this.handleCloseDialog();
     };
 
     updateAccountPeriodDispatch = (id, dateId, accountId, amount) => {
+        this.setState({action: "update",});
         this.props.updateAccountPeriod(id, dateId, accountId, amount);
         this.handleCloseDialog();
     };
 
     deleteAccountPeriodDispatch = (id) => {
+        this.setState({action: "delete",});
         this.handleCloseDialog();
         this.props.deleteAccountPeriod(id);
     };
@@ -179,6 +217,7 @@ class PeriodAndAccountRegistration extends Component {
         // noinspection ThisExpressionReferencesGlobalObjectJS
         return (
             <div>
+                <Messages ref={(el) => this.messages = el} />
                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
                     {this.renderDialog()}
                 </ModalGeneric>
@@ -190,7 +229,7 @@ class PeriodAndAccountRegistration extends Component {
                     </Toolbar>
                 </Paper>
                 {
-                    accountsPeriod.length > 0 ?
+                    accountsPeriod && accountsPeriod.length > 0 ?
                         <List style={{width: '100%', maxWidth: 360}}>
                             {
                                 accountsPeriod.map(item => {
