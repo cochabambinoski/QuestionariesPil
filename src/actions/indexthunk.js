@@ -6,6 +6,7 @@ import {
     changeErrorBi,
     changeErrorRequest,
     createCenterCostConditionBi,
+    createConceptBi,
     deleteCenterCostConditionBi,
     deleteConceptBi,
     getAllBranches,
@@ -29,7 +30,8 @@ import {
     setReachTypes,
     setSystemTypes,
     setUser,
-    updateCenterConstConditionBi
+    updateCenterConstConditionBi,
+    updateConceptBi
 } from "./index";
 import * as StringFilterUtil from "../Util/StringFormatUtil";
 
@@ -883,7 +885,7 @@ export const getAllConceptsBi = () => {
     };
 };
 
-export const deleteConceptServerBi = id => {
+export const deleteConceptServerBi = (id) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CONCEPT}${id}`;
         return fetch(url, {method: 'DELETE'})
@@ -896,13 +898,14 @@ export const deleteConceptServerBi = id => {
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
     }
 };
 
-export const createConceptBi = (concept) => {
+export const createConceptServerBi = (concept) => {
     return dispatch => {
         let create = StringFilterUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
         const url = `${Constants.ROUTE_WEB_BI}${create}`;
@@ -917,22 +920,22 @@ export const createConceptBi = (concept) => {
                 return results.json()
             })
             .then(response => {
-                if (response.codeResult === undefined) {
+                if (response.status === undefined) {
                     dispatch(createConceptBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
-                return response.codeResult;
+                return response;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
     }
 };
 
-export const updateConceptBi = (concept) => {
+export const updateConceptServerBi = (concept) => {
     return dispatch => {
-        let create = StringFilterUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        let update = StringFilterUtil.format(Constants.UPDATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
         return fetch(url, {
             method: 'PUT',
             headers: {
@@ -944,12 +947,12 @@ export const updateConceptBi = (concept) => {
                 return results.json()
             })
             .then(response => {
-                if (response.codeResult === undefined) {
-                    dispatch(createConceptBi(response))
+                if (response.status === undefined) {
+                    dispatch(updateConceptBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
-                return response.codeResult;
+                return response;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })

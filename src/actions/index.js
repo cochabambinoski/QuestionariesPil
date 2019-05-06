@@ -14,6 +14,7 @@ import {
     CLEAN_FILTER,
     CLEAN_REQUEST,
     CLEAN_REQUEST_BI,
+    CREATE_CONCEPT_BI,
     CREATE_CONDITION_CENTER_MASTER,
     DATA,
     DELETE_ALL_ASSIGNEMENT_USER,
@@ -64,8 +65,9 @@ import {
     SET_SYSTEM_TYPES,
     SET_USER,
     TRIED_TO_SAVE,
+    UPDATE_CONCEPT_BI,
     UPDATE_CONDITION_CENTER_MASTER,
-    UPDATE_MARKED_OPTIONS
+    UPDATE_MARKED_OPTIONS,
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -229,4 +231,8 @@ export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_C
 export const getAllConcepts = payload=> ({type: GET_ALL_CONCEPTS, payload});
 
 export const deleteConceptBi = payload =>({type: DELETE_CONCEPT_BI, payload});
+
+export const createConceptBi = payload =>({type: CREATE_CONCEPT_BI, payload});
+
+export const updateConceptBi = payload =>({type: UPDATE_CONCEPT_BI, payload});
 

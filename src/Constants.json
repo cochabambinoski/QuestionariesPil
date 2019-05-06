@@ -95,5 +95,5 @@
   "CONCEPTS": "concept",
   "DELETE_CONCEPT": "concept/",
   "CREATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",
-  "UPDATE_CONCEPT": "concept"
+  "UPDATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}"
 }
