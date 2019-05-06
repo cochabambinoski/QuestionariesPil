@@ -69,7 +69,13 @@ import {
     UPDATE_EXCHANGE_RATE_BI,
     DELETE_EXCHANGE_RATE_BI,
     CHANGE_ERROR_EXCHANGE_RATE_BI,
-    CLEAN_REQUEST_EXCHANGE_RATE_BI
+    CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
+    CREATE_OPERATING_ACCOUNTS_BI,
+    UPDATE_OPERATING_ACCOUNTS_BI,
+    DELETE_OPERATING_ACCOUNTS_BI,
+    CHANGE_ERROR_OPERATING_ACCOUNTS_BI,
+    CLEAN_REQUEST_OPERATING_ACCOUNTS_BI
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -237,3 +243,11 @@ export const updateExchangeRateBi = payload => ({type: UPDATE_EXCHANGE_RATE_BI, 
 export const deleteExchangeRateBi = payload => ({type: DELETE_EXCHANGE_RATE_BI, payload});
 export const changeErrorRequestExchangeRateBi = payload => ({type: CHANGE_ERROR_EXCHANGE_RATE_BI,payload});
 export const cleanRequestExchangeRateBi = payload => ({type: CLEAN_REQUEST_EXCHANGE_RATE_BI, payload});
+
+/* export const getInitialOperatingAccounts */
+export const getInitialDataOperatingAccountsBi = payload => ({type: GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI, payload});
+export const createOperatingAccountsBi = payload => ({type: CREATE_OPERATING_ACCOUNTS_BI, payload});
+export const updateOperatingAccountsBi = payload => ({type: UPDATE_OPERATING_ACCOUNTS_BI, payload});
+export const deleteOperatingAccountsBi = payload => ({type: DELETE_OPERATING_ACCOUNTS_BI, payload});
+export const changeErrorOperatingAccountsBi = payload => ({type: CHANGE_ERROR_OPERATING_ACCOUNTS_BI, payload});
+export const cleanRequestOperatingAccountsBi = payload => ({type: CLEAN_REQUEST_OPERATING_ACCOUNTS_BI, payload});

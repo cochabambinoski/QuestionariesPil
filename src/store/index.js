@@ -5,10 +5,7 @@ import {reduxTimeout} from "redux-timeout";
 import thunk from 'redux-thunk';
 
 //Estado inicial de nuestra aplicacion
-const initialState = {
-    idUser: null,
-    idMenu: {transaccion: {ruta: 'Start'}},
-};
+const initialState = {};
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // development
 const composeEnhancers = compose; // build

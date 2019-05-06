@@ -1,6 +1,6 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_WEB_BI": "http://192.168.2.2:8086/bi/",
+  "ROUTE_WEB_BI": "http://localhost:8086/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_ALL_QUESTIONNAIRES_BY_USER": "getAllQuestionaryByUserSystem",
@@ -101,5 +101,10 @@
   "GET_EXCHANGE_RATE": "exchangeRate/getExchangeRate",
   "CREATE_EXCHANGE_RATE": "exchangeRate/postExchangeRate?idDate=",
   "UPDATE_EXCHANGE_RATE": "exchangeRate/updateExchangeRate?exchangeRateId=",
-  "DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id="
+  "DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id=",
+  "GET_OPERATING_ACCOUNTS_BI": "accountOperation/getAccountOperations",
+  "CREATE_OPERATING_ACCOUNTS_BI": "accountOperation/saveAccountOperation?accountId=",
+  "UPDATE_OPERATING_ACCOUNTS_BI": "accountOperation/updateAccountOperation?accountOperationId=",
+  "DELETE_OPERATING_ACCOUNTS_BI": "accountOperation/deleteAccountOperation?id=",
+  "GET_TYPES_BI": "type/getTypes"
 }
