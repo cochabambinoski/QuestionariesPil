@@ -86,10 +86,6 @@ class ConceptForm extends Component {
             });
     };
 
-    shouldComponentUpdate(next_props, next_state) {
-        return true;
-    }
-
     createType = (data) => {
         this.props.createType(data)
             .then((response) => {
