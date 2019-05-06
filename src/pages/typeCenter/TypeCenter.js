@@ -167,80 +167,84 @@ class TypeCenter extends Component {
     }
 
     renderList() {
+        console.log(this.state);
         const {classes} = this.props;
         return (
-            <div>{
-                this.state.types.map((item) => {
-                    return (
-                        <div style={{marginTop: '1em'}}>
-                            <Card key={item.id}>
-                                <CardContent>
-                                    <div className="row between-xs" style={{marginRight: '1em'}}>
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <h1 className='titleA'> {item.id}</h1>
+            <div>
+                {
+                    this.state.types.map((item) => {
+                        return (
+                            <div style={{marginTop: '1em'}}>
+                                <Card key={item.id}>
+                                    <CardContent>
+                                        <div className="row between-xs" style={{marginRight: '1em'}}>
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <h1 className='titleA'> {item.id}</h1>
+                                                </div>
+                                            </div>
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <h2 className='titleB'>{item.abbreviation}</h2>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <h2 className='titleB'>{item.abbreviation}</h2>
+                                        <div className="row">
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <b>Nombre: </b>
+                                                    <label
+                                                        className='label'>{item.name}</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <b>Nombre: </b>
-                                                <label
-                                                    className='label'>{item.name}</label>
+                                        <div className="row">
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <b>Codigo Tipo: </b>
+                                                    <label
+                                                        className='label'>{item.codeType}</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <b>Codigo Tipo: </b>
-                                                <label
-                                                    className='label'>{item.codeType}</label>
+                                        <div className="row">
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <b>Id Concepto: </b>
+                                                    <label
+                                                        className='label'>{item.idConcept}</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <b>Id Concepto: </b>
-                                                <label
-                                                    className='label'>{item.idConcept}</label>
+                                    </CardContent>
+                                    <CardActions>
+                                        <div className="row between-xs" style={{padding: '0.5em'}}>
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <Button variant="contained" color="primary"
+                                                            className={classes.button}
+                                                            onClick={event => this.handleType(event, item)}>
+                                                        <EditIcon className={classes.leftIcon}/>
+                                                        Editar
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                            <div className="col-auto">
+                                                <div className="box">
+                                                    <Button variant="contained" color="secondary"
+                                                            className={classes.button}
+                                                            onClick={event => this.handleDeleteClick(event, item.id)}>
+                                                        <DeleteIcon className={classes.leftIcon}/>
+                                                        Eliminar
+                                                    </Button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </CardContent>
-                                <CardActions>
-                                    <div className="row between-xs" style={{padding: '0.5em'}}>
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <Button variant="contained" color="primary" className={classes.button}
-                                                        onClick={event => this.handleType(event, item)}>
-                                                    <EditIcon className={classes.leftIcon}/>
-                                                    Editar
-                                                </Button>
-                                            </div>
-                                        </div>
-                                        <div className="col-auto">
-                                            <div className="box">
-                                                <Button variant="contained" color="secondary" className={classes.button}
-                                                        onClick={event => this.handleDeleteClick(event, item.id)}>
-                                                    <DeleteIcon className={classes.leftIcon}/>
-                                                    Eliminar
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </CardActions>
-                            </Card>
-                        </div>
-                    );
-                })}
+                                    </CardActions>
+                                </Card>
+                            </div>
+                        );
+                    })}
             </div>
         );
     }
@@ -250,8 +254,8 @@ class TypeCenter extends Component {
         const fab = {
             color: "primary",
             className: classes.fab,
-            icon: <AddIcon/>
         };
+        console.log(this.state);
         return (
             <div>
                 <div>
@@ -263,10 +267,12 @@ class TypeCenter extends Component {
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>
-                    {this.renderList}
+                    <div>
+                        {this.renderList()}
+                    </div>
                     <Button variant="fab" className={fab.className} color={fab.color}
                             onClick={event => this.handleType(event, 0)}>
-                        {fab.icon}
+                        <AddIcon/>
                     </Button>
                 </div>
             </div>

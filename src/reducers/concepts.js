@@ -24,7 +24,6 @@ const initialState = ({
 });
 
 export const concepts = (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
         case GET_ALL_CONCEPTS: {
             return {...state, concepts: action.payload, errorRequest:null, load:false}

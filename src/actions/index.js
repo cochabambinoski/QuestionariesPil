@@ -71,7 +71,6 @@ import {
     UPDATE_CONCEPT_BI,
     UPDATE_CONDITION_CENTER_MASTER,
     UPDATE_MARKED_OPTIONS,
-    UPDATE_MARKED_OPTIONS,
     UPDATE_TYPES_BI
 } from "../action-types/actionTypes";
 
