@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 import DeleteDialog from "./dialogs/DeleteDialog";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 import ConceptForm from "./dialogs/ConceptForm";
-import {getCreateConcepts} from "../../reducers";
+import {getConcepts} from "../../reducers";
 
 const styles = theme => ({
     root: {
@@ -99,7 +99,6 @@ class ConceptCenter extends Component {
     chargeList = () => {
         this.props.getAllConcepts()
             .then((data) => {
-                console.log(data);
                 this.setState(() => ({
                     concepts: data
                 }));
@@ -261,7 +260,7 @@ ConceptCenter.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    reducerVariable: getCreateConcepts(state) //no tocar
+    reducerVariable: getConcepts(state) //no tocar
 });
 
 const mapDispatchToProps = dispatch => ({

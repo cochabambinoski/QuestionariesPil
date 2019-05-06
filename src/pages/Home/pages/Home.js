@@ -51,6 +51,7 @@ import {
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
+import {Start} from "../../Start/Start";
 import TypeCenter from "../../typeCenter/TypeCenter";
 import {Start} from "../../Start/Start";
 
@@ -231,7 +232,7 @@ class Home extends Component {
 
                                     <div className="layout-main">
                                         <Growl ref={(el) => this.growl = el}/>
-                                        <Route path="/" exact component={ConceptCenter}/>
+                                        <Route path="/" exact component={Start}/>
                                         {/*Questionaries Create Show Edit Delete*/}
                                         <Route path={questionariesRoute} exact
                                                render={(props) => <Questionnaires title={this.state.title}

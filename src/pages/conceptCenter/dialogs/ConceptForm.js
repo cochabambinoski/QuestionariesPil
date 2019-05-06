@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import connect from "react-redux/es/connect/connect";
-import {createConceptBi, updateConceptBi} from "../../../actions/indexthunk";
+import {createConceptServerBi, updateConceptServerBi} from "../../../actions/indexthunk";
 import TextField from "@material-ui/core/TextField/TextField";
 import {withStyles} from "@material-ui/core";
 import JsxStyles from "../../../styles/JsxStyles";
@@ -10,6 +10,7 @@ import Title from "../../Title/Title";
 import Button from "@material-ui/core/Button/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel"
+import {getConcepts} from "../../../reducers";
 
 const styles = theme => ({
     container: {
@@ -200,9 +201,13 @@ ConceptForm.propTypes = {
     onClose: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => ({
-    createConcept: concept => dispatch(createConceptBi(concept)),
-    updateConcept: concept => dispatch(updateConceptBi(concept))
+const mapStateToProps = state => ({
+    reducerVariable: getConcepts(state) //no tocar
 });
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, JsxStyles)(ConceptForm));
+const mapDispatchToProps = dispatch => ({
+    createConcept: concept => dispatch(createConceptServerBi(concept)),
+    updateConcept: concept => dispatch(updateConceptServerBi(concept))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(ConceptForm));

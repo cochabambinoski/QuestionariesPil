@@ -23,19 +23,20 @@ const initialState = ({
     load: true
 });
 
-export const createConcepts = (state = initialState, action) => {
+export const concepts = (state = initialState, action) => {
+    console.log(action);
     switch (action.type) {
         case GET_ALL_CONCEPTS: {
             return {...state, concepts: action.payload, errorRequest:null, load:false}
         }
         case CREATE_CONCEPT_BI: {
-            return {state:getResponse(action.payload)}
+            return {... state, responseRequest: action.payload}
         }
         case UPDATE_CONCEPT_BI: {
-            return {state:getResponse(action.payload)}
+            return {... state, responseRequest: action.payload}
         }
         case DELETE_CONCEPT_BI: {
-            return {state:getResponse(action.payload)}
+            return {... state, responseRequest: action.payload}
         }
         default: {
             return state
