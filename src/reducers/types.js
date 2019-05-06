@@ -24,18 +24,19 @@ const initialState = ({
 });
 
 export const createTypes = (state = initialState, action) => {
+    console.log(action);
     switch (action.type) {
         case GET_ALL_TYPES: {
-            return {...state, concepts: action.payload, errorRequest:null, load:false}
+            return {...state, types: action.payload, errorRequest: null, load: false, responseRequest: null}
         }
         case CREATE_TYPES_BI: {
-            return {state:getResponse(action.payload)}
+            return {...state, responseRequest: action.payload}
         }
         case UPDATE_TYPES_BI: {
-            return {state:getResponse(action.payload)}
+            return {...state, responseRequest: action.payload}
         }
         case DELETE_CONCEPT_BI: {
-            return {state:getResponse(action.payload)}
+            return {...state, responseRequest: action.payload}
         }
         default: {
             return state

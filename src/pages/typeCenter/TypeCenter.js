@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {getCreateTypes} from "../../reducers";
 import {connect} from 'react-redux';
-import {deleteTypeServerBi, getAllTypesBi} from "../../actions/indexthunk";
+import {deleteTypeServerBi, getAllTypesServerBi} from "../../actions/indexthunk";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import CardActions from "@material-ui/core/CardActions/CardActions";
@@ -66,8 +66,18 @@ class TypeCenter extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.chargeList();
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const {responseRequest} = nextProps.reducerVariable;
+        if (responseRequest !== null) {
+            const {codeResult} = responseRequest;
+            this.showResponse(codeResult);
+            this.chargeList();
+        }
+        return true;
     }
 
     showSuccess = (title, message) => {
@@ -143,9 +153,8 @@ class TypeCenter extends Component {
 
     handleCloseType = (response) => {
         this.setState({typeOpen: false});
-        this.chargeList();
         if (response >= 0)
-            this.showResponse(response);
+            this.chargeList();
     };
 
     renderDeleteDialog() {
@@ -167,12 +176,13 @@ class TypeCenter extends Component {
     }
 
     renderList() {
-        console.log(this.state);
         const {classes} = this.props;
+        const {types} = this.props.reducerVariable;
+        console.log(this.props);
         return (
             <div>
                 {
-                    this.state.types.map((item) => {
+                    types === null ? [] : types.map((item) => {
                         return (
                             <div style={{marginTop: '1em'}}>
                                 <Card key={item.id}>
@@ -255,7 +265,6 @@ class TypeCenter extends Component {
             color: "primary",
             className: classes.fab,
         };
-        console.log(this.state);
         return (
             <div>
                 <div>
@@ -280,18 +289,29 @@ class TypeCenter extends Component {
     }
 }
 
-TypeCenter.propTypes = {
+TypeCenter
+    .propTypes = {
     theme: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-    reducerVariable: getCreateTypes(state) //no tocar
-});
+const
+    mapStateToProps = state => ({
+        reducerVariable: getCreateTypes(state) //no tocar
+    });
 
-const mapDispatchToProps = dispatch => ({
-    getAllTypes: () => dispatch(getAllTypesBi()),
-    deleteType: (id) => dispatch(deleteTypeServerBi(id)),
-});
+const
+    mapDispatchToProps = dispatch => ({
+        getAllTypes: () => dispatch(getAllTypesServerBi()),
+        deleteType: (id) => dispatch(deleteTypeServerBi(id)),
+    });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(TypeCenter));
+export default connect(mapStateToProps, mapDispatchToProps)
+
+(
+    withStyles(styles, JsxStyles)
+
+    (
+        TypeCenter
+    ))
+;

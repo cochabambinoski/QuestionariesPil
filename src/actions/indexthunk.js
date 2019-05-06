@@ -7,11 +7,13 @@ import {
     changeErrorRequest,
     createCenterCostConditionBi,
     createConceptBi,
+    createTypeBi,
     deleteCenterCostConditionBi,
     deleteConceptBi,
     deleteTypeBi,
     getAllBranches,
     getAllDepartaments,
+    getAllTypesBi,
     getAnswers,
     getAnswersQuestionnarie,
     getBusinessBi,
@@ -32,7 +34,8 @@ import {
     setSystemTypes,
     setUser,
     updateCenterConstConditionBi,
-    updateConceptBi
+    updateConceptBi,
+    updateTypeBi
 } from "./index";
 import * as StringFilterUtil from "../Util/StringFormatUtil";
 
@@ -834,23 +837,23 @@ export const deleteCenterCostConditionServerBi = id => {
 };
 
 export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
-  return dispatch => {
-      const urlPrE = String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion);
-      const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-      return fetch(url)
-          .then(results => {
-              return results.json()
-          })
-          .then(response => {
-              if (response.status === undefined) {
-                  dispatch(updateCenterConstConditionBi(response))
-              } else {
-                  dispatch(changeErrorBi(response))
-              }
-          }).catch(error => {
-              dispatch(changeErrorBi(error))
-          })
-  }
+    return dispatch => {
+        const urlPrE = String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion);
+        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateCenterConstConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
 };
 
 
@@ -960,21 +963,24 @@ export const updateConceptServerBi = (concept) => {
     }
 };
 
-export const getAllTypesBi = () => {
-    return () => {
+export const getAllTypesServerBi = () => {
+    return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.TYPES}`;
         return fetch(url)
             .then(results => {
                 return results.json();
             }).then(response => {
-                return response
+                if (response.status === undefined) {
+                    dispatch(getAllTypesBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
             });
     };
 };
 
-export const createTypeBi = (type) => {
+export const createTypeServerBi = (type) => {
     return dispatch => {
-        console.log(type);
         let create = StringFilterUtil.format(Constants.CREATE_TYPE, type.idConcept, type.codeType, type.name, type.abbreviation);
         const url = `${Constants.ROUTE_WEB_BI}${create}`;
         return fetch(url, {
@@ -988,19 +994,18 @@ export const createTypeBi = (type) => {
                 return results.json()
             })
             .then(response => {
-                if (response.codeResult === undefined) {
+                if (response.status === undefined) {
                     dispatch(createTypeBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
-                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
     }
 };
 
-export const updateTypeBi = (type) => {
+export const updateTypeServerBi = (type) => {
     return dispatch => {
         let update = StringFilterUtil.format(Constants.UPDATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
         const url = `${Constants.ROUTE_WEB_BI}${update}`;
@@ -1015,12 +1020,12 @@ export const updateTypeBi = (type) => {
                 return results.json()
             })
             .then(response => {
-                if (response.codeResult === undefined) {
+                if (response.status === undefined) {
+                    console.log(response);
                     dispatch(updateTypeBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
-                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })

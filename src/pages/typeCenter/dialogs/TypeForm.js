@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import connect from "react-redux/es/connect/connect";
-import {createTypeBi, getAllConceptsBi, updateTypeBi} from "../../../actions/indexthunk";
+import {createTypeServerBi, getAllConceptsBi, updateTypeServerBi} from "../../../actions/indexthunk";
 import TextField from "@material-ui/core/TextField/TextField";
 import {withStyles} from "@material-ui/core";
 import JsxStyles from "../../../styles/JsxStyles";
@@ -87,35 +87,17 @@ class ConceptForm extends Component {
     };
 
     createType = (data) => {
-        this.props.createType(data)
-            .then((response) => {
-                let state = response;
-                if (state === null || state === undefined) {
-                    if (state === 2) {
-                        this.setState({process: 1});
-                        this.props.onClose(state);
-                    }
-                } else {
-                    this.setState({process: state});
-                    this.props.onClose(state);
-                }
-            });
+        this.props.createType(data);
+        this.props.onClose(1);
     };
 
     updateType = (data) => {
-        this.props.updateType(data)
-            .then((response) => {
-                let state = response;
-                if (state === null || state === undefined) {
-                    if (state === 2) {
-                        this.setState({process: 1});
-                        this.props.onClose(state);
-                    }
-                } else {
-                    this.setState({process: state});
-                    this.props.onClose(state);
-                }
-            });
+        this.props.updateType(data);
+        this.props.onClose(1);
+    };
+
+    closeType = () => {
+        this.props.onClose(0);
     };
 
     setType = (data) => {
@@ -239,7 +221,7 @@ class ConceptForm extends Component {
                                 variant="contained"
                                 color="default"
                                 className={classes.button}
-                                onClick={this.props.onClose}>
+                                onClick={this.closeType}>
                                 <CancelIcon
                                     className={classes.leftIcon}/>
                                 Cancelar
@@ -272,8 +254,8 @@ ConceptForm.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-    createType: concept => dispatch(createTypeBi(concept)),
-    updateType: concept => dispatch(updateTypeBi(concept)),
+    createType: concept => dispatch(createTypeServerBi(concept)),
+    updateType: concept => dispatch(updateTypeServerBi(concept)),
     getAllConcepts: () => dispatch(getAllConceptsBi()),
 });
 
