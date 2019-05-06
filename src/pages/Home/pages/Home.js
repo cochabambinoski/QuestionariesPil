@@ -53,7 +53,6 @@ import CostConditions from "../../costConditions/CostConditions";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
 import {Start} from "../../Start/Start";
 import TypeCenter from "../../typeCenter/TypeCenter";
-import {Start} from "../../Start/Start";
 
 class Home extends Component {
     state = {
