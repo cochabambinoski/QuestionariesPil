@@ -38,7 +38,7 @@ class DialogCreateExchangeRate extends Component {
                     return;
                 case "update":
                     // noinspection JSUnresolvedVariable
-                    this.props.onClick(item.idExchangeRate, item.idDate, item.tc);
+                    this.props.onClick(item.idExchangeRate, date.idTime, tc);
                     return;
                 case "view":
                     return this.props.onClose;
