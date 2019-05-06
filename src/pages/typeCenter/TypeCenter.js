@@ -109,7 +109,6 @@ class TypeCenter extends Component {
     chargeList = () => {
         this.props.getAllTypes()
             .then((data) => {
-                console.log(data);
                 this.setState(() => ({
                     types: data
                 }));
@@ -178,7 +177,6 @@ class TypeCenter extends Component {
     renderList() {
         const {classes} = this.props;
         const {types} = this.props.reducerVariable;
-        console.log(this.props);
         return (
             <div>
                 {

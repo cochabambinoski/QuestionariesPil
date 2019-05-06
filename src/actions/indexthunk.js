@@ -1021,7 +1021,6 @@ export const updateTypeServerBi = (type) => {
             })
             .then(response => {
                 if (response.status === undefined) {
-                    console.log(response);
                     dispatch(updateTypeBi(response))
                 } else {
                     dispatch(changeErrorBi(response))

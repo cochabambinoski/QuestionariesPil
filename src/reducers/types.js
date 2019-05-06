@@ -24,7 +24,6 @@ const initialState = ({
 });
 
 export const createTypes = (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
         case GET_ALL_TYPES: {
             return {...state, types: action.payload, errorRequest: null, load: false, responseRequest: null}
