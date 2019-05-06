@@ -56,12 +56,9 @@ class OperatingAccounts extends Component {
         const {operatingAccount} = nextProps.reducer;
         if (responseRequest !== null) {
             const {codeResult} = responseRequest;
-            console.log(this.state);
-            console.log(nextState);
-            console.log(codeResult);
             this.renderMessages(codeResult);
-            this.props.getInitialData();
             this.props.cleanReducer();
+            this.props.getInitialData();
         }
         return operatingAccounts !== operatingAccount;
     }
