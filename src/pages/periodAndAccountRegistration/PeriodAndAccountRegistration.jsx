@@ -44,10 +44,11 @@ class PeriodAndAccountRegistration extends Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const {accountsPeriod} = this.props.reducer;
         const {nextAccountsPeriod, responseRequest} = nextProps.reducer;
-        if (responseRequest !== null) {
+        if (responseRequest) {
             const {codeResult} = responseRequest;
             this.renderMessages(codeResult);
             this.props.getInitialData();
+            this.props.getDataCreateAccount();
             this.props.cleanReducer();
             return true
         }
@@ -212,6 +213,29 @@ class PeriodAndAccountRegistration extends Component {
         this.props.deleteAccountPeriod(id);
     };
 
+    static findAccountDimension(item, id) {
+        const {accountId} = item;
+        return accountId === id
+    }
+
+    getCodeAccount = (item) => {
+        const {accountId} = item;
+        const {accountsDimension} = this.props.reducer;
+        const accountDimension = accountsDimension.find(itemAccount => PeriodAndAccountRegistration.findAccountDimension(itemAccount, accountId));
+        // noinspection JSUnresolvedVariable
+        return (accountDimension ? (
+            <React.Fragment>
+                <ListItemText primary={"Codigo: " + accountDimension.accountCod}/>
+                <ListItemText primary={"Nombre: " + accountDimension.account}/>
+            </React.Fragment>
+        ) : (
+            <div>
+                <ListItemText primary={"Sin nombre"}/>
+                <ListItemText primary={"Sin Codigo"}/>
+            </div>
+        ))
+    };
+
     render() {
         const {accountsPeriod} = this.props.reducer;
         // noinspection ThisExpressionReferencesGlobalObjectJS
@@ -230,16 +254,19 @@ class PeriodAndAccountRegistration extends Component {
                 </Paper>
                 {
                     accountsPeriod && accountsPeriod.length > 0 ?
-                        <List style={{width: '100%', maxWidth: 360}}>
+                        <List style={{width: '100%', maxWidth: 400}}>
                             {
                                 accountsPeriod.map(item => {
-                                    const {idAccountPeriodDimension, dateId} = item;
+                                    const {idAccountPeriodDimension, dateId, amount} = item;
+                                    // noinspection ThisExpressionReferencesGlobalObjectJS
                                     return (
                                         <Paper style={{marginTop: 5}} key={idAccountPeriodDimension}>
                                             <ListItem alignItems={"flex-start"}>
                                                 <Grid container direction={"column"}>
                                                     <ListItemText primary={"Id: " + idAccountPeriodDimension}/>
-                                                    <ListItemText primary={formatDateToString(dateId)}/>
+                                                    {this.getCodeAccount(item)}
+                                                    <ListItemText primary={"Fecha: " + formatDateToString(dateId)}/>
+                                                    <ListItemText primary={"Importe: " + amount }/>
                                                     <Grid item xs={12}>
                                                         <Grid container direction={"row"} justify={"center"}>
                                                             <Grid item>
