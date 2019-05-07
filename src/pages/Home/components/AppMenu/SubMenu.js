@@ -7,19 +7,20 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
     answersRoute,
     assigmentRoute,
-    indexRoute,
-    questionariesRoute,
-    segmentRoute,
-    expensesGenerationRoute,
-    loadBaseInputRoute,
+    conceptCenterRoute,
     costConditionsRoute,
-    periodAndAccountRegistrationRoute,
     exchangeRateRoute,
-    operatingAccountsRoute
+    expensesGenerationRoute,
+    indexRoute,
+    loadBaseInputRoute,
+    operatingAccountsRoute,
+    periodAndAccountRegistrationRoute,
+    questionariesRoute,
+    segmentRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
@@ -63,7 +64,7 @@ class SubMenu extends Component {
         this.setState({anchorEl: null});
     };
 
-    getUrl=(option) => {
+    getUrl = (option) => {
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";
@@ -87,6 +88,8 @@ class SubMenu extends Component {
                 return exchangeRateRoute;
             case 'operatingAccounts':
                     return operatingAccountsRoute;
+            case 'conceptCenter':
+                return conceptCenterRoute;
             default:
                 return indexRoute;
         }

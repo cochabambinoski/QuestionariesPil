@@ -9,6 +9,7 @@ const costConditions = "costConditions";
 const periodAndAccountRegistration = "periodAndAccountRegistration";
 const exchangeRate = "exchangeRate";
 const operatingAccounts = "operatingAccounts";
+const conceptCenter = "conceptCenter";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -27,7 +28,8 @@ export const segmentRoute = `/${segment}`;
 export const questionaryPublicRoute = `/${questionary}/`;
 export const expensesGenerationRoute = `/${expensesGeneration}/`;
 export const loadBaseInputRoute = `/${loadBaseInput}/`;
-export const costConditionsRoute = `/${costConditions}`;
 export const periodAndAccountRegistrationRoute = `/${periodAndAccountRegistration}`;
 export const exchangeRateRoute = `/${exchangeRate}`;
 export const operatingAccountsRoute = `/${operatingAccounts}`;
+export const costConditionsRoute = `/${costConditions}/`;
+export const conceptCenterRoute = `/${conceptCenter}/`;

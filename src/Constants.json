@@ -106,5 +106,9 @@
   "CREATE_OPERATING_ACCOUNTS_BI": "accountOperation/saveAccountOperation?accountId=",
   "UPDATE_OPERATING_ACCOUNTS_BI": "accountOperation/updateAccountOperation?accountOperationId=",
   "DELETE_OPERATING_ACCOUNTS_BI": "accountOperation/deleteAccountOperation?id=",
-  "GET_TYPES_BI": "type/getTypes"
+  "GET_TYPES_BI": "type/getTypes",
+  "CONCEPTS": "concept",
+  "DELETE_CONCEPT": "concept/",
+  "CREATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",
+  "UPDATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}"
 }
