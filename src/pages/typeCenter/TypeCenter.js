@@ -177,6 +177,7 @@ class TypeCenter extends Component {
     renderList() {
         const {classes} = this.props;
         const {types} = this.props.reducerVariable;
+        console.log(types);
         return (
             <div>
                 {
@@ -293,10 +294,9 @@ TypeCenter
     classes: PropTypes.object.isRequired,
 };
 
-const
-    mapStateToProps = state => ({
-        reducerVariable: getCreateTypes(state) //no tocar
-    });
+const mapStateToProps = state => ({
+    reducerVariable: getCreateTypes(state) //no tocar
+});
 
 const
     mapDispatchToProps = dispatch => ({

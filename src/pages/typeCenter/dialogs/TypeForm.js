@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
+import {getConcepts} from "../../../reducers";
 
 const styles = theme => ({
     container: {
@@ -71,19 +72,22 @@ class ConceptForm extends Component {
         }
         let type = this.props.type;
         if (type !== 0) {
-            console.log(type);
             this.setState({concept: type.idConcept});
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const {concepts} = nextProps.reducerVariable;
+        console.log(concepts);
+        if (concepts !== null && this.state.concepts.length === 0) {
+            console.log(concepts);
+            this.setState({concepts: concepts});
+        }
+        return true;
+    }
+
     chargeList = () => {
-        this.props.getAllConcepts()
-            .then((data) => {
-                console.log(data);
-                this.setState(() => ({
-                    concepts: data
-                }));
-            });
+        this.props.getAllConcepts();
     };
 
     createType = (data) => {
@@ -253,10 +257,14 @@ ConceptForm.propTypes = {
     onClose: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+    reducerVariable: getConcepts(state) //no tocar
+});
+
 const mapDispatchToProps = dispatch => ({
     createType: concept => dispatch(createTypeServerBi(concept)),
     updateType: concept => dispatch(updateTypeServerBi(concept)),
     getAllConcepts: () => dispatch(getAllConceptsBi()),
 });
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, JsxStyles)(ConceptForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(ConceptForm));
