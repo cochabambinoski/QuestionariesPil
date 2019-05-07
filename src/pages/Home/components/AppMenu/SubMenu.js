@@ -7,14 +7,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
     answersRoute,
     assigmentRoute,
+    costConditionsRoute,
+    expensesGenerationRoute,
     indexRoute,
+    jobsEtlRoute,
+    loadBaseInputRoute,
     questionariesRoute,
-    segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute
+    segmentRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
@@ -59,6 +62,7 @@ class SubMenu extends Component {
     };
 
     getUrl=(option) => {
+        console.log(option);
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";
@@ -76,6 +80,8 @@ class SubMenu extends Component {
                 return loadBaseInputRoute;
             case 'costCondition':
                 return costConditionsRoute;
+            case 'jobsETL':
+                return jobsEtlRoute;
             default:
                 return indexRoute;
         }
