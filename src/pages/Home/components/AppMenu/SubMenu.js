@@ -17,15 +17,10 @@ import {
     expensesGenerationRoute,
     indexRoute,
     loadBaseInputRoute,
+    operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
     questionariesRoute,
-    segmentRoute,
-    expensesGenerationRoute,
-    loadBaseInputRoute,
-    costConditionsRoute,
-    periodAndAccountRegistrationRoute,
-    exchangeRateRoute,
-    operatingAccountsRoute
+    segmentRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({

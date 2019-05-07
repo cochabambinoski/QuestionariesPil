@@ -36,7 +36,7 @@ export default combineReducers({
     processConfirmation,
     periodAndAccountRegistration,
     exchangeRate,
-    operatingAccounts
+    operatingAccounts,
     createCenterMasterAndCost,
     concepts,
 });
