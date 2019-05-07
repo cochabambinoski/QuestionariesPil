@@ -4,10 +4,15 @@ import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Constants from '../../../../Constants';
+import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
+import {InputText} from 'primereact/inputtext';
+import {InputTextarea} from 'primereact/inputtextarea';
+import {RadioButton} from 'primereact/radiobutton';
 import Question from '../../components/Question/Question.js';
 import Questions from '../../components/Questions/Questions.js';
+import QuestionnaireRange from '../../components/QuestionnaireRange/QuestionnaireRange.js';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
@@ -20,10 +25,18 @@ import {
     getSystemTypes,
     getUser
 } from "../../../../reducers";
-import {changeIdExistingQuestionary, setMenuContainer} from "../../../../actions/index";
+import {changeIdExistingQuestionary, fillOutQuestionaryRangeAll, setMenuContainer} from "../../../../actions/index";
 import {withStyles} from '@material-ui/core/styles';
 import {ScrollPanel} from 'primereact/scrollpanel';
+import {Col, Row} from 'react-flexbox-grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from "@material-ui/core/Typography/Typography";
+import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
+import Toolbar from "@material-ui/core/Toolbar";
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
@@ -37,12 +50,8 @@ import {
     getTypeSystemByUser,
     saveQuestionnaire
 } from "../../../../actions/indexthunk";
-import ToolbarQuestionnaire from "../../components/toolbarQuestionnaire/ToolbarQuestionnaire";
-import EditTextQuestionnaire from "../../components/editTextQuestionnaire/EditTextQuestionnaire";
-import RadioButtonSystem from "../../components/radioButton/RadioButtonSystem";
-import RadioButtonReach from "../../components/radioButton/RadioButtonReach";
-import QuestionnaireRangeContainer from "../../components/QuestionnaireRange/QuestionnaireRangeContainer";
-import {Grid} from "@material-ui/core";
+import Link from "react-router-dom/es/Link";
+import {questionariesRoute} from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
     root: {
@@ -124,8 +133,8 @@ class Questionnaire extends Component {
             this.showWarning("", "Debe especificar el nombre del cuestionario");
             return;
         }
-        if (this.state.reach == null || this.state.system == null) {
-            this.showWarning("", "Seleccione el sistema y el alcance de la encuesta");
+        if(this.state.reach == null || this.state.system == null){
+            this.showWarning("", "Seleccione el sistema y el alcance de la encuesta")
             return;
         }
         let ranges = this.state.ranges;
@@ -192,7 +201,6 @@ class Questionnaire extends Component {
     }
 
     contains = (list, value) => {
-        // noinspection ES6ConvertVarToLetConst
         for (var i = 0; i < list.length; i++) {
             if (list[i].id === value.id) {
                 return i;
@@ -202,16 +210,22 @@ class Questionnaire extends Component {
     };
 
     selectBranches(branches) {
-        this.setState(() => ({
+        this.setState((prevState, props) => ({
             lsBranches: branches
         }));
     }
 
     updateRanges(ranges) {
-        this.setState(() => ({
+        this.setState((prevState, props) => ({
             ranges: ranges
         }));
     }
+
+    handleCloseModal = (event) => {
+        this.setState({
+            modalVisible: false
+        });
+    };
 
     componentDidMount() {
         this.props.getQuestionsTypes('TIPPREG');
@@ -225,18 +239,19 @@ class Questionnaire extends Component {
     getTypeSystemByUser() {
         this.props.fetchGetTypeSystemByUser(this.props.user.id)
             .then((result) => {
-                if (result !== null && result !== undefined) {
-                    this.setState(() => ({
+                if (result != null) {
+                    this.setState((prevState, props) => ({
                         limitSystem: result
                     }));
-                    const {codigoSap} = result;
-                    if (codigoSap === Constants.CODSAP_USER_SYSTEM_POS) {
-                        this.setState({limitPOS: true});
-                        this.setState({system: this.props.systemTypes[1]});
-                    }
-                    if (codigoSap === Constants.CODSAP_USER_SYSTEM_SVM) {
-                        this.setState({limitSVM: true});
-                        this.setState({system: this.props.systemTypes[0]});
+                    if (result !== null && result !== undefined) {
+                        if (result.codigoSap === Constants.CODSAP_USER_SYSTEM_POS) {
+                            this.setState({limitPOS: true});
+                            this.setState({system: this.props.systemTypes[1]});
+                        }
+                        if (result.codigoSap === Constants.CODSAP_USER_SYSTEM_SVM) {
+                            this.setState({limitSVM: true});
+                            this.setState({system: this.props.systemTypes[0]});
+                        }
                     }
                 }
             });
@@ -329,8 +344,7 @@ class Questionnaire extends Component {
     }
 
     assignDenpendentQuestion(index, question) {
-        const {asigned} = this.props;
-        if (asigned)
+        if (this.props.asigned)
             this.showError("No se pueden eliminar opciones de un cuestionario asignado");
         else {
             let auxQuestions = this.state.lsQuestions;
@@ -376,17 +390,12 @@ class Questionnaire extends Component {
         }
     };
 
-    onHandleChange = e => {
-        this.setState({
-            ...this.state, [e.target.name]: e.target.value
-        })
-    };
-
     render() {
+        const {classes} = this.props;
         if (this.state.savedSuccessfully) {
             return <Redirect to='/questionnaires'/>
         }
-        const {questionnaireId1, classes} = this.props;
+        const {questionnaireId1} = this.props;
         let title = 'Crear Cuestionario';
         let subtitle = 'En esta sección podrás crear nuevos cuestionarios.';
         if (questionnaireId1 != null) {
@@ -397,50 +406,151 @@ class Questionnaire extends Component {
             <div>
                 <Growl ref={(el) => this.growl = el}/>
                 <Title tilte={title} subtitle={subtitle}/>
-                <ToolbarQuestionnaire readOnly={this.props.readOnly} handleNewQuestion={this.handleNewQuestion}
-                                      saveQuestionnaire={this.saveQuestionnaire}/>
+                <Toolbar className="toolbarFullWidth">
+                    <div style={{padding: '5px'}}>
+                        {this.props.readOnly ?
+                            <Row>
+                                <Col>
+                                    <Link to={questionariesRoute}>
+                                        <Button label="Cancelar" className="ui-button-danger" onClick={() => {
+                                        }}/>
+                                    </Link>
+                                </Col>
+                            </Row>
+                            :
+                            <Row>
+
+                                <Col>
+                                    <Button label="Guardar" onClick={() => {
+                                        this.saveQuestionnaire()
+                                    }}/>
+                                </Col>
+
+                                <Col>
+                                    <Link to={questionariesRoute}>
+                                        <Button label="Cancelar" className="ui-button-danger"
+                                        />
+                                    </Link>
+                                </Col>
+                                <Col>
+                                    <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
+                                </Col>
+                            </Row>
+                        }
+                    </div>
+                </Toolbar>
                 <Messages ref={(el) => this.messages = el}/>
                 <br/>
-                <div style={{flexGrow: 1}}>
-                    <Grid container spacing={24}>
-                        <Grid item xs={6}>
+                <div className="ui-g">
+
+                    <Row xs>
+                        <Col xs>
                             <div>
-                                <div className="text card-w-title">
-                                    <EditTextQuestionnaire readOnly={this.props.readOnly}
-                                                           name={this.state.name}
-                                                           description={this.state.description}
-                                                           onHandleChange={this.onHandleChange}/>
+                                <div>
+                                    <div className="text card-w-title">
+                                        <div>
+                                            {this.props.readOnly ?
+                                                <h1>{this.state.name}</h1>
+                                                :
+                                                <div>
+                                                    <InputText id="float-input" placeholder="Nombre del cuestionario"
+                                                               type="text" style={{marginBottom: '15px'}}
+                                                               required maxLength="50" size="51" value={this.state.name}
+                                                               onChange={(e) => this.setState({name: e.target.value})}/>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div>
+                                            {this.props.readOnly ?
+                                                <p>{this.state.description}</p>
+                                                :
+                                                <InputTextarea className="description"
+                                                               placeholder="Descripcion (opcional)"
+                                                               type="text" maxLength="255"
+                                                               style={{width: '385px'}}
+                                                               value={this.state.description}
+                                                               onChange={(e) => this.setState({description: e.target.value})}
+                                                               rows={4} autoResize={false}/>
+                                            }
+                                        </div>
 
-                                    <RadioButtonSystem
-                                        systemTypes={this.props.systemTypes}
-                                        readOnly={this.props.readOnly}
-                                        limitSVM={this.state.limitSVM}
-                                        system={this.state.system}
-                                        limitPOS={this.state.limitPOS}
-                                        onHandleChange={this.onHandleChange}/>
+                                        <div>
+                                            Seleccione a qué sistema corresponde la encuesta:
+                                            <div className="radio-container">
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb1" name="system"
+                                                                 value={this.props.systemTypes[0]}
+                                                                 onChange={(e) => this.setState({system: e.value})}
+                                                                 checked={this.state.system && this.state.system.nombre === this.props.systemTypes[0].nombre}
+                                                                 disabled={this.props.readOnly || this.state.limitPOS}/>
+                                                    <label htmlFor="rb1"
+                                                           className="p-radiobutton-label">{this.props.systemTypes[0].nombre}</label>
+                                                </div>
 
-                                    <RadioButtonReach
-                                        reachTypes={this.props.reachTypes}
-                                        reach={this.state.reach}
-                                        readOnly={this.props.readOnly}
-                                        onHandleChange={this.onHandleChange}/>
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb2" name="system"
+                                                                 value={this.props.systemTypes[1]}
+                                                                 onChange={(e) => this.setState({system: e.value})}
+                                                                 checked={this.state.system && this.state.system.nombre === this.props.systemTypes[1].nombre}
+                                                                 disabled={this.props.readOnly || this.state.limitSVM}/>
+                                                    <label htmlFor="rb2"
+                                                           className="p-radiobutton-label">{this.props.systemTypes[1].nombre}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            Seleccione el alcance de la encuesta:
+                                            <div className="radio-container">
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb3" name="reach"
+                                                                 value={this.props.reachTypes[0]}
+                                                                 onChange={(e) => this.setState({reach: e.value})}
+                                                                 checked={this.state.reach && this.state.reach.nombre === this.props.reachTypes[0].nombre}
+                                                                 disabled={this.props.readOnly}/>
+                                                    <label htmlFor="rb3"
+                                                           className="p-radiobutton-label">{this.props.reachTypes[0].nombre}</label>
+                                                </div>
+
+                                                <div className="radio-item">
+                                                    <RadioButton inputId="rb4" name="reach"
+                                                                 value={this.props.reachTypes[1]}
+                                                                 onChange={(e) => this.setState({reach: e.value})}
+                                                                 checked={this.state.reach && this.state.reach.nombre === this.props.reachTypes[1].nombre}
+                                                                 disabled={this.props.readOnly}/>
+                                                    <label htmlFor="rb4"
+                                                           className="p-radiobutton-label">{this.props.reachTypes[1].nombre}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
-
-                                <QuestionnaireRangeContainer
-                                    classes={classes}
-                                    handleSetStatePanelRange={this.handleSetStatePanelRange}
-                                    updateRanges={this.updateRanges}
-                                    expandPanelRange={this.state.expandPanelRange}
-                                    readOnly={this.props.readOnly}
-                                    system={this.state.system}
-                                    questionnaireId={this.props.questionnaireId !== null ? this.props.questionnaireId : undefined}/>
+                                <ExpansionPanel expanded={this.state.expandPanelRange}>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
+                                        this.handleSetStatePanelRange()
+                                    }}/>}>
+                                        <div className={classes.column}>
+                                            <Typography className={classes.heading}>Rango del Cuestionario</Typography>
+                                        </div>
+                                    </ExpansionPanelSummary>
+                                    <Divider/>
+                                    <ExpansionPanelDetails>
+                                        <ScrollPanel style={{width: '100%', height: '600px'}}>
+                                            <QuestionnaireRange updateRanges={this.updateRanges}
+                                                                readOnly={this.props.readOnly}
+                                                                system={this.state.system}
+                                                                questionnaireId={this.props.questionnaireId !== null ? this.props.questionnaireId : undefined}/>
+                                        </ScrollPanel>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
                             </div>
 
-                        </Grid>
+                        </Col>
 
-                        <Grid item xs={6}>
+                        <Col xs>
                             < ModalContainer>
                                 <Dialog
                                     open={this.state.openQuestion}
@@ -484,8 +594,8 @@ class Questionnaire extends Component {
                                                assignDenpendentQuestion={this.assignDenpendentQuestion}/>
                                 </ScrollPanel>
                             </div>
-                        </Grid>
-                    </Grid>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         );
@@ -507,6 +617,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+    fillOutQuestionaryRangeAll: value => dispatch(fillOutQuestionaryRangeAll(value)),
     changeIdExistingQuestionary: value => dispatch(changeIdExistingQuestionary(value)),
     setIdMenu: value => dispatch(setMenuContainer(value)),
     changeIdQuestionarySelected: value => dispatch(changeIdExistingQuestionary(value)),

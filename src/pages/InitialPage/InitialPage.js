@@ -48,6 +48,8 @@ class InitialPage extends Component {
             case false:
                 component = <PublicQuestionnaires/>;
                 break;
+            default:
+                return null;
         }
         return (
             this.state.uploadUser === null ?

@@ -17,10 +17,12 @@ import {
     indexRoute,
     loadBaseInputRoute,
     questionariesRoute,
+    segmentRoute, expensesGenerationRoute,
+    loadBaseInputRoute, costConditionsRoute, periodAndAccountRegistrationRoute, exchangeRateRoute
     segmentRoute
 } from "../../../../routes/PathRoutes";
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,
@@ -79,6 +81,10 @@ class SubMenu extends Component {
                 return loadBaseInputRoute;
             case 'costCondition':
                 return costConditionsRoute;
+            case 'accountPeriod':
+                return periodAndAccountRegistrationRoute;
+            case 'exchangeRate':
+                return exchangeRateRoute;
             case 'conceptCenter':
                 return conceptCenterRoute;
             default:

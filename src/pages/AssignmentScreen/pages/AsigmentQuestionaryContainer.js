@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {InputText} from "primereact/inputtext";
 import QuestionaryAsignmet from "../../AssignmentSeller/pages/QuestionaryAssigment/QuestionaryAsignmet";
-import AssignmentQuestionary from "./AssignmentQuestionary";
 import {connect} from 'react-redux';
 import {editQueryTextAssignedQuestionary} from "../../../actions";
 import Title from "../../Title/Title";

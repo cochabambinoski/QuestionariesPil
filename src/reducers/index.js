@@ -16,6 +16,8 @@ import {answer} from "./answer";
 import answers from "./answers";
 import {processConfirmation} from "./processConfirmation";
 import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
+import {periodAndAccountRegistration} from "./periodAndAccountRegistration";
+import {exchangeRate} from "./exchangeRate";
 import {concepts, initialStateConcept} from "./concepts";
 
 export default combineReducers({
@@ -31,6 +33,9 @@ export default combineReducers({
     answers,
     answer,
     processConfirmation,
+    createCenterMasterAndCost,
+    periodAndAccountRegistration,
+    exchangeRate,
     createCenterMasterAndCost,
     concepts,
 });
@@ -76,4 +81,7 @@ export const getAnswers = state => state.answers.answers;
 export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
 export const getProcessConfirmation = (state) => state.processConfirmation;
 export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterAndCost;
+export const getPeriodAndAccountRegistration = (state) => state.periodAndAccountRegistration;
+export const getExchangeRate = (state) => state.exchangeRate;
+
 export const getConcepts = (state) => state.concepts;

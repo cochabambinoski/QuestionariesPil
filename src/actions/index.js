@@ -68,6 +68,26 @@ import {
     UPDATE_CONCEPT_BI,
     UPDATE_CONDITION_CENTER_MASTER,
     UPDATE_MARKED_OPTIONS,
+    CHANGE_ERROR_REQUEST,
+    CHANGE_ERROR_REQUEST_BI,
+    CLEAN_REQUEST_BI,
+    DELETE_CONDITION_CENTER_MASTER,
+    UPDATE_CONDITION_CENTER_MASTER,
+    CREATE_CONDITION_CENTER_MASTER,
+    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
+    LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI,
+    CREATE_ACCOUNT_PERIOD_BI,
+    UPDATE_ACCOUNT_PERIOD_BI,
+    DELETE_ACCOUNT_PERIOD_BI,
+    CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
+    CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
+    GET_DATA_CREATE_ACCOUNT_PERIOD,
+    GET_INITIAL_DATA_EXCHANGE_RATE_BI,
+    CREATE_EXCHANGE_RATE_BI,
+    UPDATE_EXCHANGE_RATE_BI,
+    DELETE_EXCHANGE_RATE_BI,
+    CHANGE_ERROR_EXCHANGE_RATE_BI,
+    CLEAN_REQUEST_EXCHANGE_RATE_BI
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -202,22 +222,6 @@ export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 
-export const getCenterCostConditionBi = payload => ({type: GET_CENTER_COST_CONDITION_BI, payload});
-
-export const getCostCenterBi = payload => ({type: GET_COST_CENTER_BI, payload});
-
-export const getBusinessBi = payload => ({type: GET_BUSINESS_BI, payload});
-
-export const getLineCostBi = payload => ({type: GET_LINE_COST_BI, payload});
-
-export const getOrganizationBi = payload => ({type: GET_ORGANIZATION_BI, payload});
-
-export const getChannelBi = payload => ({type: GET_CHANNEL_BI, payload});
-
-export const getRegionBi = payload => ({type: GET_REGION_BI, payload});
-
-export const getSubRegionBi = payload => ({type: GET_SUB_REGION_BI, payload});
-
 export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
@@ -228,6 +232,29 @@ export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_
 
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
+export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
+
+export const getInitialAccountPeriodBi = payload => ({type: LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI, payload});
+
+export const createAccountPeriodBi = payload => ({type: CREATE_ACCOUNT_PERIOD_BI, payload});
+
+export const updateAccountPeriodBi = payload => ({type: UPDATE_ACCOUNT_PERIOD_BI, payload});
+
+export const deleteAccountPeriodBi = payload => ({type: DELETE_ACCOUNT_PERIOD_BI, payload});
+
+export const changeErrorRequestAccountPeriodBi = payload => ({type: CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+export const cleanRequestAccountPeriodBi = payload => ({type: CLEAN_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+/* Exchange Rate */
+export const getInitialDataExchangeRateBi = payload => ({type: GET_INITIAL_DATA_EXCHANGE_RATE_BI, payload});
+export const createExchangeRateBi = payload => ({type: CREATE_EXCHANGE_RATE_BI, payload});
+export const updateExchangeRateBi = payload => ({type: UPDATE_EXCHANGE_RATE_BI, payload});
+export const deleteExchangeRateBi = payload => ({type: DELETE_EXCHANGE_RATE_BI, payload});
+export const changeErrorRequestExchangeRateBi = payload => ({type: CHANGE_ERROR_EXCHANGE_RATE_BI,payload});
+export const cleanRequestExchangeRateBi = payload => ({type: CLEAN_REQUEST_EXCHANGE_RATE_BI, payload});
 export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 
 export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
