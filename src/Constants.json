@@ -102,6 +102,12 @@
   "CREATE_EXCHANGE_RATE": "exchangeRate/postExchangeRate?idDate=",
   "UPDATE_EXCHANGE_RATE": "exchangeRate/updateExchangeRate?exchangeRateId=",
   "DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id=",
+  "GET_OPERATING_ACCOUNTS_BI": "accountOperation/getAccountOperations",
+  "CREATE_OPERATING_ACCOUNTS_BI": "accountOperation/saveAccountOperation?accountId=",
+  "UPDATE_OPERATING_ACCOUNTS_BI": "accountOperation/updateAccountOperation?accountOperationId=",
+  "DELETE_OPERATING_ACCOUNTS_BI": "accountOperation/deleteAccountOperation?id=",
+  "GET_TYPES_BI": "type/getTypes"
+  "DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id=",
   "CONCEPTS": "concept",
   "DELETE_CONCEPT": "concept/",
   "CREATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",

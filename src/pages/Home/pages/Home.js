@@ -34,26 +34,28 @@ import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuesti
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
 import {
-    answersIdRoute,
     answersRoute,
-    assigmentIdRoute,
+    answersIdRoute,
     assigmentRoute,
-    conceptCenterRoute,
-    costConditionsRoute,
-    exchangeRateRoute,
-    expensesGenerationRoute,
-    loadBaseInputRoute,
-    periodAndAccountRegistrationRoute,
+    assigmentIdRoute,
+    questionariesRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
-    questionariesRoute,
     questionariesShowIdRoute,
-    segmentRoute
+    segmentRoute,
+    expensesGenerationRoute,
+    conceptCenterRoute,
+    loadBaseInputRoute,
+    costConditionsRoute,
+    periodAndAccountRegistrationRoute,
+    exchangeRateRoute,
+    operatingAccountsRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
 import PeriodAndAccountRegistration from "../../periodAndAccountRegistration/PeriodAndAccountRegistration";
 import ExchangeRate from "../../exchangeRate/ExchangeRate";
+import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
 
 class Home extends Component {
@@ -249,6 +251,7 @@ class Home extends Component {
                 <Route exact path={costConditionsRoute} component={CostConditions}/>
                 <Route exact path={periodAndAccountRegistrationRoute} component={PeriodAndAccountRegistration}/>
                 <Route exact path={exchangeRateRoute} component={ExchangeRate}/>
+                <Route exact path={operatingAccountsRoute} component={OperatingAccounts}/>
                 <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
 
             </div>

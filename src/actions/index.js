@@ -73,7 +73,16 @@ import {
     UPDATE_CONCEPT_BI,
     UPDATE_CONDITION_CENTER_MASTER,
     UPDATE_EXCHANGE_RATE_BI,
-    UPDATE_MARKED_OPTIONS
+    UPDATE_MARKED_OPTIONS,
+    DELETE_EXCHANGE_RATE_BI,
+    CHANGE_ERROR_EXCHANGE_RATE_BI,
+    CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
+    CREATE_OPERATING_ACCOUNTS_BI,
+    UPDATE_OPERATING_ACCOUNTS_BI,
+    DELETE_OPERATING_ACCOUNTS_BI,
+    CHANGE_ERROR_OPERATING_ACCOUNTS_BI,
+    CLEAN_REQUEST_OPERATING_ACCOUNTS_BI
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -218,10 +227,7 @@ export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_
 
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
-export const getInitialDataCenterCostConditonBi = payload => ({
-    type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
-    payload
-});
+export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
 
 export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
 
@@ -244,10 +250,15 @@ export const updateExchangeRateBi = payload => ({type: UPDATE_EXCHANGE_RATE_BI, 
 export const deleteExchangeRateBi = payload => ({type: DELETE_EXCHANGE_RATE_BI, payload});
 export const changeErrorRequestExchangeRateBi = payload => ({type: CHANGE_ERROR_EXCHANGE_RATE_BI, payload});
 export const cleanRequestExchangeRateBi = payload => ({type: CLEAN_REQUEST_EXCHANGE_RATE_BI, payload});
-export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
-
-export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
-
+/* export const getInitialOperatingAccounts */
+export const getInitialDataOperatingAccountsBi = payload => ({type: GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI, payload});
+export const createOperatingAccountsBi = payload => ({type: CREATE_OPERATING_ACCOUNTS_BI, payload});
+export const updateOperatingAccountsBi = payload => ({type: UPDATE_OPERATING_ACCOUNTS_BI, payload});
+export const deleteOperatingAccountsBi = payload => ({type: DELETE_OPERATING_ACCOUNTS_BI, payload});
+export const changeErrorOperatingAccountsBi = payload => ({type: CHANGE_ERROR_OPERATING_ACCOUNTS_BI, payload});
+export const cleanRequestOperatingAccountsBi = payload => ({type: CLEAN_REQUEST_OPERATING_ACCOUNTS_BI, payload});
+/*Concepts*/
 export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
-
+export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
+export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
