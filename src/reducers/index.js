@@ -18,7 +18,7 @@ import {processConfirmation} from "./processConfirmation";
 import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
 import {periodAndAccountRegistration} from "./periodAndAccountRegistration";
 import {exchangeRate} from "./exchangeRate";
-import {concepts, initialStateConcept} from "./concepts";
+import {concepts} from "./concepts";
 
 export default combineReducers({
     data,
@@ -33,7 +33,6 @@ export default combineReducers({
     answers,
     answer,
     processConfirmation,
-    createCenterMasterAndCost,
     periodAndAccountRegistration,
     exchangeRate,
     createCenterMasterAndCost,
