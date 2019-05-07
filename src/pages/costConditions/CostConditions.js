@@ -125,7 +125,9 @@ class CostConditions extends Component {
     };
 
     handleFilter = () => {
-        this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+        if (this.state.centerCost > 0 && this.state.business > 0 && this.state.lineCost > 0 && this.state.channel > 0 && this.state.organization > 0 && this.state.region > 0 && this.state.subRegion > 0) {
+            this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+        }
     };
 
     handleClean = () => {
@@ -232,6 +234,7 @@ class CostConditions extends Component {
             business, centerCost,
             channel, lineCost, organization, region, subRegion
         } = this.props.reducerVariable;
+        console.log(centerCost);
         return (
             <div>
                 <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
@@ -240,7 +243,7 @@ class CostConditions extends Component {
                         value={this.state.centerCost}
                         onChange={this.handleChange}
                         inputProps={{name: 'centerCost'}}>
-                        {centerCost.map(item => {
+                        {centerCost === undefined ? [] : centerCost.map(item => {
                             return <MenuItem value={item.id}>{item.code + " " + item.center}</MenuItem>
                         })}
                     </Select>
@@ -251,7 +254,7 @@ class CostConditions extends Component {
                         value={this.state.business}
                         onChange={this.handleChange}
                         inputProps={{name: 'business'}}>
-                        {business.map(item => {
+                        {business === undefined ? [] : business.map(item => {
                             return <MenuItem value={item.id}>{item.business}</MenuItem>
                         })}
                     </Select>
@@ -262,7 +265,7 @@ class CostConditions extends Component {
                         value={this.state.channel}
                         onChange={this.handleChange}
                         inputProps={{name: 'channel'}}>
-                        {channel.map(item => {
+                        {channel === undefined ? [] : channel.map(item => {
                             return <MenuItem value={item.id}>{item.channel}</MenuItem>
                         })}
                     </Select>
@@ -273,7 +276,7 @@ class CostConditions extends Component {
                         value={this.state.lineCost}
                         onChange={this.handleChange}
                         inputProps={{name: 'lineCost'}}>
-                        {lineCost.map(item => {
+                        {lineCost === undefined ? [] : lineCost.map(item => {
                             return <MenuItem value={item.id}>{item.line}</MenuItem>
                         })}
                     </Select>
@@ -284,7 +287,7 @@ class CostConditions extends Component {
                         value={this.state.organization}
                         onChange={this.handleChange}
                         inputProps={{name: 'organization'}}>
-                        {organization.map(item => {
+                        {organization === undefined ? [] : organization.map(item => {
                             return <MenuItem value={item.id}>{item.organization}</MenuItem>
                         })}
                     </Select>
@@ -295,7 +298,7 @@ class CostConditions extends Component {
                         value={this.state.region}
                         onChange={this.handleChange}
                         inputProps={{name: 'region'}}>
-                        {region.map(item => {
+                        {region === undefined ? [] : region.map(item => {
                             return <MenuItem value={item.id}>{item.region}</MenuItem>
                         })}
                     </Select>
@@ -306,7 +309,7 @@ class CostConditions extends Component {
                         value={this.state.subRegion}
                         onChange={this.handleChange}
                         inputProps={{name: 'subRegion'}}>
-                        {subRegion.map(item => {
+                        {subRegion === undefined ? [] : subRegion.map(item => {
                             return <MenuItem value={item.id}>{item.subRegion}</MenuItem>
                         })}
                     </Select>
