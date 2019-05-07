@@ -801,10 +801,17 @@ export const getAllParameterServerBi = () => {
             })
     }
 };
-export const jobEtlServerBi = ( code, date) => {
+export const jobEtlServerBi = (code, date) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB_WITH_PARAMETER, code, date)}`;
-        return fetch(url)
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            timeout: 3600000
+        })
             .then(results => {
                 return results.json()
             })
