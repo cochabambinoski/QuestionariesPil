@@ -110,7 +110,7 @@ class MultipleOption extends Component {
     render() {
         const {readOnly, lsOptions} = this.props;
         return (
-            <Fragment>
+            <div style={{marginBottom: '20px'}}>
                 <div style={{
                     paddingBottom: '15px',
                     paddingTop: '10px',
@@ -121,7 +121,6 @@ class MultipleOption extends Component {
                 }}>
                     {
                         lsOptions.map((option, index) => {
-                            // noinspection RequiredAttributes,JSUnresolvedVariable
                             return (
                                 option.operacionId === 1 ?
                                     <div style={{display: 'flex', flexDirection: 'row', margin: '2px'}} key={index}>
@@ -150,7 +149,7 @@ class MultipleOption extends Component {
                             <Button label="Añadir opcion" onClick={this.addOption}/>
                         </ButtonAcceptCancel>
                 }
-            </Fragment>
+            </div>
         );
     }
 }

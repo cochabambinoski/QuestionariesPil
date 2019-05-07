@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import AnswerList from "../AnswerList/AnswerList";
 import Title from "../../../Title/Title";
-import GraphicsDetail from "../GraphicsDetail/GraphicsDetail";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import SnackBarContentView from "../../../../components/SnackBarContent/SnackBarContentView";
 

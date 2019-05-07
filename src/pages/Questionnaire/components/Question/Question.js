@@ -52,7 +52,7 @@ class Question extends Component {
 		question.lsQuestionOptions = [];
 		question.type = e.value;
 		question.required = 0;
-		this.setState(() => ({
+		this.setState((prevState, props) => ({
 			squestion: question
 		}));
 	}
@@ -153,7 +153,7 @@ class Question extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps !== undefined && nextProps.question != null) {
 			let question = nextProps.question;
-			this.setState(() => ({
+			this.setState((prevState, props) => ({
 				squestion: question
 			}));
 			if (question.type != null && question.type.codigoSap === Constants.CODSAP_FREE_ANSWER) {

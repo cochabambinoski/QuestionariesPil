@@ -6,25 +6,37 @@ import {
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     ADD_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     ADD_PARAM_FILTER_MOBILE_SELLER_TYPE,
+    CHANGE_ERROR_EXCHANGE_RATE_BI,
+    CHANGE_ERROR_OPERATING_ACCOUNTS_BI,
     CHANGE_ERROR_REQUEST,
+    CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
     CHANGE_ERROR_REQUEST_BI,
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
     CLEAN_FILTER,
     CLEAN_REQUEST,
+    CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
+    CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
+    CREATE_ACCOUNT_PERIOD_BI,
     CREATE_CONCEPT_BI,
     CREATE_CONDITION_CENTER_MASTER,
+    CREATE_EXCHANGE_RATE_BI,
+    CREATE_OPERATING_ACCOUNTS_BI,
     CREATE_TYPES_BI,
     DATA,
+    DELETE_ACCOUNT_PERIOD_BI,
     DELETE_ALL_ASSIGNEMENT_USER,
     DELETE_ASSIGNEMENT_USER,
     DELETE_CONCEPT_BI,
     DELETE_CONDITION_CENTER_MASTER,
+    DELETE_EXCHANGE_RATE_BI,
     DELETE_MOBILE_ASSIGNED_LIST_AUX,
     DELETE_MOBILE_LIST_AUX,
     DELETE_MOBILE_SELLERS,
+    DELETE_OPERATING_ACCOUNTS_BI,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
@@ -40,17 +52,14 @@ import {
     GET_ALL_DEPARTAMENTS,
     GET_ALL_TYPES,
     GET_ANSWERS,
-    GET_BUSINESS_BI,
-    GET_CENTER_COST_CONDITION_BI,
-    GET_CHANNEL_BI,
-    GET_COST_CENTER_BI,
-    GET_LINE_COST_BI,
-    GET_ORGANIZATION_BI,
+    GET_DATA_CREATE_ACCOUNT_PERIOD,
+    GET_INITIAL_DATA_EXCHANGE_RATE_BI,
+    GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
     GET_QUESTIONNARIE_ANSWER,
-    GET_REGION_BI,
-    GET_SUB_REGION_BI,
     IS_SAVING_ANSWER,
+    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
     LOAD_COST_BASE_INFORMATION,
+    LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI,
     LOAD_INPUT_BASE_INFORMATION,
     REMOVE_ALL_ASSIGNEMENT_USER,
     SAVE_CLIENT,
@@ -68,9 +77,12 @@ import {
     SET_SYSTEM_TYPES,
     SET_USER,
     TRIED_TO_SAVE,
+    UPDATE_ACCOUNT_PERIOD_BI,
     UPDATE_CONCEPT_BI,
     UPDATE_CONDITION_CENTER_MASTER,
+    UPDATE_EXCHANGE_RATE_BI,
     UPDATE_MARKED_OPTIONS,
+    UPDATE_OPERATING_ACCOUNTS_BI,
     UPDATE_TYPES_BI
 } from "../action-types/actionTypes";
 
@@ -206,22 +218,6 @@ export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 
-export const getCenterCostConditionBi = payload => ({type: GET_CENTER_COST_CONDITION_BI, payload});
-
-export const getCostCenterBi = payload => ({type: GET_COST_CENTER_BI, payload});
-
-export const getBusinessBi = payload => ({type: GET_BUSINESS_BI, payload});
-
-export const getLineCostBi = payload => ({type: GET_LINE_COST_BI, payload});
-
-export const getOrganizationBi = payload => ({type: GET_ORGANIZATION_BI, payload});
-
-export const getChannelBi = payload => ({type: GET_CHANNEL_BI, payload});
-
-export const getRegionBi = payload => ({type: GET_REGION_BI, payload});
-
-export const getSubRegionBi = payload => ({type: GET_SUB_REGION_BI, payload});
-
 export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
@@ -232,6 +228,41 @@ export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_
 
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
+export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
+
+export const getInitialAccountPeriodBi = payload => ({type: LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI, payload});
+
+export const createAccountPeriodBi = payload => ({type: CREATE_ACCOUNT_PERIOD_BI, payload});
+
+export const updateAccountPeriodBi = payload => ({type: UPDATE_ACCOUNT_PERIOD_BI, payload});
+
+export const deleteAccountPeriodBi = payload => ({type: DELETE_ACCOUNT_PERIOD_BI, payload});
+
+export const changeErrorRequestAccountPeriodBi = payload => ({type: CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+export const cleanRequestAccountPeriodBi = payload => ({type: CLEAN_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+/* Exchange Rate */
+export const getInitialDataExchangeRateBi = payload => ({type: GET_INITIAL_DATA_EXCHANGE_RATE_BI, payload});
+export const createExchangeRateBi = payload => ({type: CREATE_EXCHANGE_RATE_BI, payload});
+export const updateExchangeRateBi = payload => ({type: UPDATE_EXCHANGE_RATE_BI, payload});
+export const deleteExchangeRateBi = payload => ({type: DELETE_EXCHANGE_RATE_BI, payload});
+export const changeErrorRequestExchangeRateBi = payload => ({type: CHANGE_ERROR_EXCHANGE_RATE_BI, payload});
+export const cleanRequestExchangeRateBi = payload => ({type: CLEAN_REQUEST_EXCHANGE_RATE_BI, payload});
+/* export const getInitialOperatingAccounts */
+export const getInitialDataOperatingAccountsBi = payload => ({type: GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI, payload});
+export const createOperatingAccountsBi = payload => ({type: CREATE_OPERATING_ACCOUNTS_BI, payload});
+export const updateOperatingAccountsBi = payload => ({type: UPDATE_OPERATING_ACCOUNTS_BI, payload});
+export const deleteOperatingAccountsBi = payload => ({type: DELETE_OPERATING_ACCOUNTS_BI, payload});
+export const changeErrorOperatingAccountsBi = payload => ({type: CHANGE_ERROR_OPERATING_ACCOUNTS_BI, payload});
+export const cleanRequestOperatingAccountsBi = payload => ({type: CLEAN_REQUEST_OPERATING_ACCOUNTS_BI, payload});
+/*Concepts*/
+export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
+export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
+export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
+export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
 export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 
 export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});

@@ -314,7 +314,7 @@ class EnhancedTable extends Component {
     }
 }
 
-const styles = () => ({
+const styles = theme => ({
     tableWrapper: {
         overflowX: 'auto'
     }

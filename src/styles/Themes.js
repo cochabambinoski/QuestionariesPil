@@ -26,6 +26,9 @@ export const themePrimary = createMuiTheme({
         backgroundDrawer: {
             main: '#424242'
         }
-    }
+    },
+    typography: {
+        useNextVariants: true,
+    },
 });
 

@@ -15,7 +15,7 @@ import ReportIcon from "@material-ui/icons/FileCopy";
 import EditSeg from "@material-ui/icons/EditOutlined";
 
 function TableSegment(props) {
-    const {classes, startDate, endDate} = props;
+    const { startDate, endDate} = props;
     const {data, order, orderBy, selected, rowsPerPage, page} = props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return(

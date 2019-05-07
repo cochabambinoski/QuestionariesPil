@@ -118,8 +118,7 @@ class MultipleSelection extends Component {
                 }}>
                     {
                         lsOptions.map((option, index) => {
-                            // noinspection RequiredAttributes,JSUnresolvedVariable
-                            return (
+                           return (
                                 option.operacionId === 1 ?
                                     <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
                                         <Checkbox checked={false}/>

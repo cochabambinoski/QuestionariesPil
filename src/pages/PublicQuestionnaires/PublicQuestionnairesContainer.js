@@ -37,7 +37,8 @@ class PublicQuestionnairesContainer extends Component {
     };
 
     showMessageAndInvalidate = (title, message, messageType) => {
-        this.setState(() => {
+       // this.invalidateQuestionnaire();
+        this.setState((previousState, currentProps) => {
             this.growl.show({severity: messageType, summary: title, detail: message});
         });
     };
