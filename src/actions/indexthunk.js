@@ -790,7 +790,6 @@ export const getDataCreateAccountPeriodServerBi = () => {
 export const createAccountPeriodServerBi = (dateId, accountId, amount) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.CRATE_ACCOUNT_PERIOD}${dateId}&accountId=${accountId}&amount=${amount}`;
-        console.log(url);
         return fetch(url, {method: "POST"})
             .then(results => {
                 return results.json()
@@ -841,7 +840,6 @@ export const deleteAccountPeriodServerBi = (id) => {
                 }
             })
             .catch(error => {
-                console.log(error);
                 dispatch(changeErrorRequestAccountPeriodBi(error))
             })
     }
