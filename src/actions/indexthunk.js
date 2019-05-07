@@ -4,26 +4,26 @@ import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
     changeErrorBi,
+    changeErrorRequest,
+    changeErrorRequestAccountPeriodBi,
+    changeErrorRequestExchangeRateBi,
+    createAccountPeriodBi,
+    createCenterCostConditionBi,
     createConceptBi,
-    changeErrorRequest, changeErrorRequestAccountPeriodBi, changeErrorRequestExchangeRateBi, createAccountPeriodBi,
-    createCenterCostConditionBi, createExchangeRateBi, deleteAccountPeriodBi,
-    deleteCenterCostConditionBi, deleteExchangeRateBi,
+    createExchangeRateBi,
+    deleteAccountPeriodBi,
+    deleteCenterCostConditionBi,
     deleteConceptBi,
+    deleteExchangeRateBi,
     getAllBranches,
     getAllConcepts,
     getAllDepartaments,
     getAnswers,
-    getAnswersQuestionnarie, getDataCreateAccountPeriodBi, getInitialAccountPeriodBi,
-    getInitialDataCenterCostConditonBi, getInitialDataExchangeRateBi,
-
-    getBusinessBi,
-    getCenterCostConditionBi,
-    getChannelBi,
-    getCostCenterBi,
-    getLineCostBi,
-    getOrganizationBi,
-    getRegionBi,
-    getSubRegionBi,
+    getAnswersQuestionnarie,
+    getDataCreateAccountPeriodBi,
+    getInitialAccountPeriodBi,
+    getInitialDataCenterCostConditonBi,
+    getInitialDataExchangeRateBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
     setInitialDataQuestionerQuestionary,
@@ -32,9 +32,11 @@ import {
     setQuestionnaireStatus,
     setReachTypes,
     setSystemTypes,
-    setUser, updateAccountPeriodBi,
-    updateCenterConstConditionBi, updateExchangeRateBi,
-    updateConceptBi
+    setUser,
+    updateAccountPeriodBi,
+    updateCenterConstConditionBi,
+    updateConceptBi,
+    updateExchangeRateBi
 } from "./index";
 import * as StringFilterUtil from "../Util/StringFormatUtil";
 
@@ -639,25 +641,6 @@ export const getCostBaseInformation = () => {
     }
 };
 
-export const getCenterCostConditionServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.CENTER_COST_CONDITION_BI}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getCenterCostConditionBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
 export const getInitialDataCenterCostConditionServerBi = () => {
     return dispatch => {
         Promise.all([
@@ -736,25 +719,6 @@ export const deleteCenterCostConditionServerBi = id => {
     }
 };
 
-export const getCostCenterServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.COST_CENTER_BI}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getCostCenterBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
 export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
@@ -774,25 +738,6 @@ export const updateCenterCostConditionSeverBi = (id, center, business, line, org
     }
 };
 
-export const getBusinessServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getBusinessBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
 export const createCenterCostConditionServerBi = (id, center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
@@ -803,25 +748,6 @@ export const createCenterCostConditionServerBi = (id, center, business, line, or
             .then(response => {
                 if (response.status === undefined) {
                     dispatch(createCenterCostConditionBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const getOrganizationServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.ORGANIZATION_BI}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getOrganizationBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
@@ -896,25 +822,6 @@ export const createAccountPeriodServerBi = (dateId, accountId, amount) => {
     }
 };
 
-export const getChannelServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.CHANNEL_BI}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getChannelBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
 export const updateAccountPeriodServerBi = (id, dateId, accountId, amount) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_ACCOUNT_PERIOD}${id}&dateId=${dateId}&accountId=${accountId}&amount=${amount}`;
@@ -930,25 +837,6 @@ export const updateAccountPeriodServerBi = (id, dateId, accountId, amount) => {
                 }
             }).catch(error => {
                 dispatch(changeErrorRequestAccountPeriodBi(error))
-            })
-    }
-};
-
-export const getRegionServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getRegionBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
             })
     }
 };
@@ -1024,25 +912,6 @@ export const createExchangeRateServerBi = (idDate, tc) => {
     }
 };
 
-export const deleteCenterCostConditionServerBi = id => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(deleteCenterCostConditionBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
 export const updateExchangeRateServerBi = (exchangeRateId, idDate, tc) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_EXCHANGE_RATE}${exchangeRateId}&idDate=${idDate}&tc=${tc}`;
@@ -1078,26 +947,6 @@ export const deleteExchangeRateServerBi = (id) => {
             })
             .catch(error => {
                 dispatch(changeErrorRequestExchangeRateBi(error))
-            })
-    }
-};
-
-export const createCenterCostConditionServerBi = (id, center, business, line, organization, channel, region, subRegion) => {
-    return dispatch => {
-        const urlPrE = String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion);
-        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(createCenterCostConditionBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
             })
     }
 };

@@ -101,8 +101,7 @@
   "GET_EXCHANGE_RATE": "exchangeRate/getExchangeRate",
   "CREATE_EXCHANGE_RATE": "exchangeRate/postExchangeRate?idDate=",
   "UPDATE_EXCHANGE_RATE": "exchangeRate/updateExchangeRate?exchangeRateId=",
-  "DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id="
-  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={1}&center={2}&business={3}&line={4}&organization={5}&channel={6}&region={7}&subRegion={8}",
+  "DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id=",
   "CONCEPTS": "concept",
   "DELETE_CONCEPT": "concept/",
   "CREATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",

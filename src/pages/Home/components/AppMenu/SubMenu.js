@@ -13,12 +13,12 @@ import {
     assigmentRoute,
     conceptCenterRoute,
     costConditionsRoute,
+    exchangeRateRoute,
     expensesGenerationRoute,
     indexRoute,
     loadBaseInputRoute,
+    periodAndAccountRegistrationRoute,
     questionariesRoute,
-    segmentRoute, expensesGenerationRoute,
-    loadBaseInputRoute, costConditionsRoute, periodAndAccountRegistrationRoute, exchangeRateRoute
     segmentRoute
 } from "../../../../routes/PathRoutes";
 
