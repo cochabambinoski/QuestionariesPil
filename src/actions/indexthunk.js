@@ -13,8 +13,8 @@ import {
     createConceptBi,
     createExchangeRateBi,
     createOperatingAccountsBi,
-    deleteAccountPeriodBi,
     createTypeBi,
+    deleteAccountPeriodBi,
     deleteCenterCostConditionBi,
     deleteConceptBi,
     deleteExchangeRateBi,
@@ -45,7 +45,7 @@ import {
     updateConceptBi,
     updateExchangeRateBi,
     updateOperatingAccountsBi,
-"DELETE_EXCHANGE_RATE": "exchangeRate/deleteExchangeRate?id=",
+    updateTypeBi,
 } from "./index";
 import * as StringFilterUtil from "../Util/StringFormatUtil";
 
@@ -1026,26 +1026,6 @@ export const updateOperatingAccountServerBi = (accountOperationId, accountId, ty
             })
             .catch(error => {
                 dispatch(changeErrorOperatingAccountsBi(error))
-            })
-    }
-};
-
-export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
-    return dispatch => {
-        const urlPrE = String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion);
-        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(updateCenterConstConditionBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
             })
     }
 };

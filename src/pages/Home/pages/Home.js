@@ -34,22 +34,21 @@ import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuesti
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
 import {
-    answersRoute,
     answersIdRoute,
-    assigmentRoute,
+    answersRoute,
     assigmentIdRoute,
-    questionariesRoute,
+    assigmentRoute,
+    conceptCenterRoute,
+    costConditionsRoute,
+    exchangeRateRoute,
+    expensesGenerationRoute,
+    loadBaseInputRoute,
+    operatingAccountsRoute,
+    periodAndAccountRegistrationRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
+    questionariesRoute,
     questionariesShowIdRoute,
-    segmentRoute,
-    expensesGenerationRoute,
-    conceptCenterRoute,
-    loadBaseInputRoute,
-    costConditionsRoute,
-    periodAndAccountRegistrationRoute,
-    exchangeRateRoute,
-    operatingAccountsRoute,
     segmentRoute,
     typeCenterRoute
 } from "../../../routes/PathRoutes";
@@ -59,7 +58,6 @@ import PeriodAndAccountRegistration from "../../periodAndAccountRegistration/Per
 import ExchangeRate from "../../exchangeRate/ExchangeRate";
 import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
-import {Start} from "../../Start/Start";
 import TypeCenter from "../../typeCenter/TypeCenter";
 
 class Home extends Component {
@@ -294,13 +292,12 @@ class Home extends Component {
                                             sessionActive={this.props.sessionActive}
                                             onSelectedMenu={this.handleChangeContainer}/>
                                     </ScrollPanel>
-                                        {/*Finanzas */}
-                                        <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
-                                        <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
-                                        <Route exact path={costConditionsRoute} component={CostConditions}/>
-                                        <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
-                                        <Route exact path={typeCenterRoute} component={TypeCenter}/>
-                                    </div>
+                                    {/*Finanzas */}
+                                    <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
+                                    <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
+                                    <Route exact path={costConditionsRoute} component={CostConditions}/>
+                                    <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
+                                    <Route exact path={typeCenterRoute} component={TypeCenter}/>
                                 </div>
 
                                 {this.renderContentByRoute()}

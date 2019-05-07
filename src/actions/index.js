@@ -263,18 +263,8 @@ export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
 export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
-export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
-
-export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
-
-export const createConceptBi = payload =>({type: CREATE_CONCEPT_BI, payload});
-
-export const updateConceptBi = payload =>({type: UPDATE_CONCEPT_BI, payload});
-
+/*Type*/
 export const getAllTypesBi = payload => ({type: GET_ALL_TYPES, payload});
-
 export const createTypeBi = payload => ({type: CREATE_TYPES_BI, payload});
-
 export const updateTypeBi = payload => ({type: UPDATE_TYPES_BI, payload});
-
 export const deleteTypeBi = payload => ({type: DELETE_TYPES_BI, payload});
