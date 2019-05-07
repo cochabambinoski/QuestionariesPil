@@ -631,7 +631,7 @@ class ClientVerifier extends Component {
     }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
     getClientsByNitOrNameInSystem: (searchTerm, system) => dispatch(getClientsByNitOrNameInSystem(searchTerm, system)),

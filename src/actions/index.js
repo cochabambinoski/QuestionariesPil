@@ -50,7 +50,19 @@ import {
     SET_USER,
     TRIED_TO_SAVE,
     UPDATE_MARKED_OPTIONS,
-    CHANGE_ERROR_REQUEST
+    CHANGE_ERROR_REQUEST,
+    CHANGE_ERROR_REQUEST_BI,
+    CLEAN_REQUEST_BI,
+    DELETE_CONDITION_CENTER_MASTER,
+    UPDATE_CONDITION_CENTER_MASTER,
+    CREATE_CONDITION_CENTER_MASTER,
+    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
+    LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI,
+    CREATE_ACCOUNT_PERIOD_BI,
+    UPDATE_ACCOUNT_PERIOD_BI,
+    DELETE_ACCOUNT_PERIOD_BI,
+    CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
+    CLEAN_REQUEST_ACCOUNT_PERIOD_BI, GET_DATA_CREATE_ACCOUNT_PERIOD
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -184,3 +196,29 @@ export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMA
 export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
+
+export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
+
+export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
+
+export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
+
+export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload});
+
+export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
+
+export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
+
+export const getInitialAccountPeriodBi = payload => ({type: LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI, payload});
+
+export const createAccountPeriodBi = payload => ({type: CREATE_ACCOUNT_PERIOD_BI, payload});
+
+export const updateAccountPeriodBi = payload => ({type: UPDATE_ACCOUNT_PERIOD_BI, payload});
+
+export const deleteAccountPeriodBi = payload => ({type: DELETE_ACCOUNT_PERIOD_BI, payload});
+
+export const changeErrorRequestAccountPeriodBi = payload => ({type: CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+export const cleanRequestAccountPeriodBi = payload => ({type: CLEAN_REQUEST_ACCOUNT_PERIOD_BI, payload});

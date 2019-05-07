@@ -50,17 +50,17 @@ class PublicQuestionnairesContainer extends Component {
                     <Growl ref={(el) => this.growl = el}/>
                     {
                         this.props.connection === false ? <ErrorPage/> :
-                                <Fragment>
-                                    <Route path="/questionary/:id"
-                                           render={props =>
-                                               <AnswerPageContainer
-                                                   questionnaireId={props.match.params.id}
-                                                   invalidateQuestionnaire={this.invalidateQuestionnaire}
-                                                   showMessageAndInvalidate = {this.showMessageAndInvalidate}
-                                                   {...props}/> }/>
-                                    <Route path="/" exact
-                                           component={PublicQuestionnairesListContainer}/>
-                                </Fragment>
+                            <Fragment>
+                                <Route path="/questionary/:id"
+                                       render={props =>
+                                           <AnswerPageContainer
+                                               questionnaireId={props.match.params.id}
+                                               invalidateQuestionnaire={this.invalidateQuestionnaire}
+                                               showMessageAndInvalidate={this.showMessageAndInvalidate}
+                                               {...props}/>}/>
+                                <Route path="/" exact
+                                       component={PublicQuestionnairesListContainer}/>
+                            </Fragment>
                     }
                 </div>
             </BrowserRouter>

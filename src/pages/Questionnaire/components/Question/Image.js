@@ -1,34 +1,26 @@
 import React, {Component} from 'react';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import {Button} from 'primereact/button';
+import ButtonAcceptCancel from "./ButtonAcceptCancel";
 
 class Image extends Component {
     constructor(props) {
         super(props);
         this.addQuestion = this.addQuestion.bind(this);
     }
-    validateFields(options) {
-        let emptyOptions = options.filter((option) => (option.option === ""));
-        if (emptyOptions.length === 0)
-            this.props.addQuestion();
 
-    }
     addQuestion() {
         this.props.addQuestion();
     }
+
     render() {
+        const {readOnly} = this.props;
         return (
-            <div className="ui-g" style={{ width: '250px', marginTop: '20px'}}>
+            <div className="ui-g" style={{width: '250px', marginTop: '20px'}}>
                 {
-                    this.props.readOnly ? <div/> :
-                        <div>
-                            <span>
-                                <Button label="Aceptar" onClick={this.addQuestion} />
-                                <Button label="Cancelar" onClick={this.props.handleClose} className="ui-button-danger" />
-                            </span>
-                        </div>
+                    readOnly ? <div/> :
+                        <ButtonAcceptCancel addQuestion={this.addQuestion} handleClose={this.props.handleClose}/>
                 }
             </div>
         );

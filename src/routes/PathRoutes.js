@@ -5,6 +5,8 @@ const segment = "segment";
 const questionary = "questionary";
 const expensesGeneration = "expensesGeneration";
 const loadBaseInput = "loadBaseInput";
+const costConditions = "costConditions";
+const periodAndAccountRegistration = "periodAndAccountRegistration";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -23,3 +25,5 @@ export const segmentRoute = `/${segment}`;
 export const questionaryPublicRoute = `/${questionary}/`;
 export const expensesGenerationRoute = `/${expensesGeneration}/`;
 export const loadBaseInputRoute = `/${loadBaseInput}/`;
+export const costConditionsRoute = `/${costConditions}`;
+export const periodAndAccountRegistrationRoute = `/${periodAndAccountRegistration}`;

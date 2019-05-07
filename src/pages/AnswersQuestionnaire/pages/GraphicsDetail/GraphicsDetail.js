@@ -84,7 +84,7 @@ class GraphicsDetail extends Component {
 
     render() {
         const {value} = this.state;
-        const { classes, theme } = this.props;
+        const { theme } = this.props;
         return (
             <div>
                 {

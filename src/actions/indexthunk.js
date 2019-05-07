@@ -2,20 +2,26 @@ import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
-    getAnswers,
-    getAnswersQuestionnarie,
     addMobileSellers,
+    changeErrorBi,
+    changeErrorRequest, changeErrorRequestAccountPeriodBi, createAccountPeriodBi,
+    createCenterCostConditionBi, deleteAccountPeriodBi,
+    deleteCenterCostConditionBi,
     getAllBranches,
     getAllDepartaments,
+    getAnswers,
+    getAnswersQuestionnarie, getDataCreateAccountPeriodBi, getInitialAccountPeriodBi,
+    getInitialDataCenterCostConditonBi,
+    loadCostBaseInformation,
+    loadInputBaseInformation,
     setInitialDataQuestionerQuestionary,
     setInitialDataTypesSeller,
     setMenu,
     setQuestionnaireStatus,
     setReachTypes,
     setSystemTypes,
-    setUser,
-    loadCostBaseInformation,
-    loadInputBaseInformation, changeErrorRequest
+    setUser, updateAccountPeriodBi,
+    updateCenterConstConditionBi
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -618,3 +624,224 @@ export const getCostBaseInformation = () => {
             })
     }
 };
+
+export const getInitialDataCenterCostConditionServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CENTER_COST_CONDITION_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.COST_CENTER_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.LINE_COST_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.ORGANIZATION_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CHANNEL_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.SUB_REGION_BI}`)
+        ])
+            .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(),
+                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
+            .then(([centerCostCondition, costCenter, business, lineCost, organization, channel, region, subRegion]) => {
+                if (centerCostCondition.status === undefined &&
+                    costCenter.status === undefined &&
+                    business.status === undefined &&
+                    lineCost.status === undefined &&
+                    organization.status === undefined &&
+                    channel.status === undefined &&
+                    region.status === undefined &&
+                    subRegion.status === undefined) {
+                    dispatch(getInitialDataCenterCostConditonBi({
+                        centerCostConditions: centerCostCondition,
+                        centerCost: costCenter,
+                        business: business,
+                        lineCost: lineCost,
+                        organization: organization,
+                        channel: channel,
+                        region: region,
+                        subRegion: subRegion,
+                    }));
+                } else {
+                    if (centerCostCondition.status !== undefined) {
+                        dispatch(changeErrorBi(centerCostCondition))
+                    } else if (costCenter.status !== undefined) {
+                        dispatch(changeErrorBi(costCenter))
+                    } else if (business.status !== undefined) {
+                        dispatch(changeErrorBi(business))
+                    } else if (lineCost.status !== undefined) {
+                        dispatch(changeErrorBi(lineCost))
+                    } else if (organization.status !== undefined) {
+                        dispatch(changeErrorBi(organization))
+                    } else if (channel.status !== undefined) {
+                        dispatch(changeErrorBi(channel))
+                    } else if (region.status !== undefined) {
+                        dispatch(changeErrorBi(region))
+                    } else if (subRegion.status !== undefined) {
+                        dispatch(changeErrorBi(subRegion))
+                    }
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const deleteCenterCostConditionServerBi = id => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateCenterConstConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const createCenterCostConditionServerBi = (id, center, business, line, organization, channel, region, subRegion) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getInitialAccountPeriodServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNTS_PERIOD}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(getInitialAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const getDataCreateAccountPeriodServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNT_DIMENSION}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TIME_DIMENSION}`)
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+            .then(([accountsDimension, dateDimension]) => {
+                if (accountsDimension.status === undefined &&
+                    dateDimension.status === undefined) {
+                    dispatch(getDataCreateAccountPeriodBi({
+                        accountsDimension: accountsDimension,
+                        dateDimension: dateDimension
+                    }))
+                } else {
+                    if (accountsDimension.status !== undefined) {
+                        dispatch(changeErrorRequestAccountPeriodBi(accountsDimension))
+                    } else if (dateDimension.status !== undefined) {
+                        dispatch(changeErrorRequestAccountPeriodBi(dateDimension))
+                    }
+                }
+            }).catch(error => {
+            dispatch(changeErrorRequestAccountPeriodBi(error))
+        })
+    }
+};
+
+export const createAccountPeriodServerBi = (dateId, accountId, amount) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CRATE_ACCOUNT_PERIOD}${dateId}&accountId=${accountId}&amount=${amount}`;
+        return fetch(url, {method: "POST"})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const updateAccountPeriodServerBi = (id, dateId, accountId, amount) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_ACCOUNT_PERIOD}${id}&dateId=${dateId}&accountId=${accountId}&amount=${amount}`;
+        return fetch(url, {method: 'PUT'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const deleteAccountPeriodServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_ACCOUNT_PERIOD}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+

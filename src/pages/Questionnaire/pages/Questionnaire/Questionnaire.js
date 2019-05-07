@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Questionnaire.css';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Constants from '../../../../Constants';
@@ -46,7 +46,8 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import {
     getAssignmentsByQuestionnaire,
     getQuestionsTypes,
-    getQuetionnaireById, getTypeSystemByUser,
+    getQuetionnaireById,
+    getTypeSystemByUser,
     saveQuestionnaire
 } from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
