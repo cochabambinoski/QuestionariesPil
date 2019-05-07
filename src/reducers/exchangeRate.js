@@ -4,16 +4,6 @@ import {
     GET_INITIAL_DATA_EXCHANGE_RATE_BI, UPDATE_EXCHANGE_RATE_BI
 } from "../action-types/actionTypes";
 
-const getResponse = response => ({
-    exchangesRate: [],
-    accountsDimension: [],
-    timeDimension: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: false,
-});
-
 const errorRequest = error => ({
     exchangesRate: [],
     accountsDimension: [],
