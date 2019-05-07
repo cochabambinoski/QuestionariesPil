@@ -98,6 +98,10 @@ class CostConditions extends Component {
         this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
     };
 
+    showInfo = (title, message) => {
+        this.messages.show({life: 5000, severity: 'info', summary: title, detail: message});
+    };
+
     showWarn = (title, message) => {
         this.messages.show({life: 5000, severity: 'warn', summary: title, detail: message});
     };
@@ -125,9 +129,10 @@ class CostConditions extends Component {
     };
 
     handleFilter = () => {
-        if (this.state.centerCost > 0 && this.state.business > 0 && this.state.lineCost > 0 && this.state.channel > 0 && this.state.organization > 0 && this.state.region > 0 && this.state.subRegion > 0) {
+        if (this.state.centerCost > 0) {
             this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
-        }
+        } else
+            this.showInfo("Filtro","Debe tener Centro costo para poder filtrar la lista")
     };
 
     handleClean = () => {
@@ -161,7 +166,7 @@ class CostConditions extends Component {
                         }
                     }
                 });
-        }
+        }else this.showInfo("No guardado","Debe elegir todas las opciones para poder guardar")
     };
 
     renderError() {
