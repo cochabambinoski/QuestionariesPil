@@ -3,15 +3,15 @@ import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
-    changeErrorBi,
+    changeErrorBi, changeErrorOperatingAccountsBi,
     changeErrorRequest, changeErrorRequestAccountPeriodBi, changeErrorRequestExchangeRateBi, createAccountPeriodBi,
-    createCenterCostConditionBi, createExchangeRateBi, deleteAccountPeriodBi,
-    deleteCenterCostConditionBi, deleteExchangeRateBi,
+    createCenterCostConditionBi, createExchangeRateBi, createOperatingAccountsBi, deleteAccountPeriodBi,
+    deleteCenterCostConditionBi, deleteExchangeRateBi, deleteOperatingAccountsBi,
     getAllBranches,
     getAllDepartaments,
     getAnswers,
     getAnswersQuestionnarie, getDataCreateAccountPeriodBi, getInitialAccountPeriodBi,
-    getInitialDataCenterCostConditonBi, getInitialDataExchangeRateBi,
+    getInitialDataCenterCostConditonBi, getInitialDataExchangeRateBi, getInitialDataOperatingAccountsBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
     setInitialDataQuestionerQuestionary,
@@ -21,7 +21,7 @@ import {
     setReachTypes,
     setSystemTypes,
     setUser, updateAccountPeriodBi,
-    updateCenterConstConditionBi, updateExchangeRateBi
+    updateCenterConstConditionBi, updateExchangeRateBi, updateOperatingAccountsBi
 } from "./index";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -931,6 +931,96 @@ export const deleteExchangeRateServerBi = (id) => {
             })
             .catch(error => {
                 dispatch(changeErrorRequestExchangeRateBi(error))
+            })
+    }
+};
+
+export const getDataInitialOperatingAccountsServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_OPERATING_ACCOUNTS_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNT_DIMENSION}`)
+        ])
+            .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+            .then(([operatingAccounts, types, accountDimensions]) => {
+                if (operatingAccounts.status === undefined && types.status === undefined && accountDimensions.status === undefined) {
+                    dispatch(getInitialDataOperatingAccountsBi({
+                        operatingAccounts: operatingAccounts,
+                        types: types,
+                        accountDimensions: accountDimensions
+                    }))
+                } else {
+                    if (operatingAccounts.status !== undefined) {
+                        dispatch(changeErrorOperatingAccountsBi(operatingAccounts))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorOperatingAccountsBi(types))
+                    } else if (accountDimensions.status !== undefined) {
+                        dispatch(changeErrorOperatingAccountsBi(accountDimensions))
+                    }
+                }
+            }).catch(error => {
+            dispatch(changeErrorOperatingAccountsBi(error))
+        })
+    }
+};
+
+export const createOperatingAccountServerBi = (accountId, typeId) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CREATE_OPERATING_ACCOUNTS_BI}${accountId}&typeId=${typeId}`;
+        return fetch(url, {method: 'POST'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createOperatingAccountsBi(response))
+                } else {
+                    dispatch(changeErrorOperatingAccountsBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorOperatingAccountsBi(error))
+            })
+    }
+};
+
+export const updateOperatingAccountServerBi = (accountOperationId, accountId, typeId) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_OPERATING_ACCOUNTS_BI}${accountOperationId}&accountId=${accountId}&typeId=${typeId}`;
+        return fetch(url, {method: 'PUT'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateOperatingAccountsBi(response))
+                } else {
+                    dispatch(changeErrorOperatingAccountsBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorOperatingAccountsBi(error))
+            })
+    }
+};
+
+export const deleteOperatingAccountServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_OPERATING_ACCOUNTS_BI}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteOperatingAccountsBi(response))
+                } else {
+                    dispatch(changeErrorOperatingAccountsBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorOperatingAccountsBi(error))
             })
     }
 };

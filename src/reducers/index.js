@@ -18,6 +18,7 @@ import {processConfirmation} from "./processConfirmation";
 import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
 import {periodAndAccountRegistration} from "./periodAndAccountRegistration";
 import {exchangeRate} from "./exchangeRate";
+import {operatingAccounts} from "./operatingAccounts";
 
 export default combineReducers({
     data,
@@ -35,6 +36,7 @@ export default combineReducers({
     createCenterMasterAndCost,
     periodAndAccountRegistration,
     exchangeRate,
+    operatingAccounts
 });
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
@@ -80,3 +82,4 @@ export const getProcessConfirmation = (state) => state.processConfirmation;
 export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterAndCost;
 export const getPeriodAndAccountRegistration = (state) => state.periodAndAccountRegistration;
 export const getExchangeRate = (state) => state.exchangeRate;
+export const getOperatingAccounts = (state) => state.operatingAccounts;
