@@ -203,7 +203,7 @@ class Home extends Component {
         return (
             <div className="layout-main">
                 <Growl ref={(el) => this.growl = el}/>
-                <Route path="/" exact component={Start}/>
+                <Route path="/" exact component={CostConditions}/>
                 {/*Questionaries Create Show Edit Delete*/}
                 <Route path={questionariesRoute} exact
                        render={(props) => <Questionnaires title={this.state.title}
