@@ -34,6 +34,5 @@ export const exchangeRateRoute = `/${exchangeRate}`;
 export const operatingAccountsRoute = `/${operatingAccounts}`;
 export const costConditionsRoute = `/${costConditions}/`;
 export const conceptCenterRoute = `/${conceptCenter}/`;
-export const costConditionsRoute = `/${costConditions}`;
 export const jobsEtlRoute = `/${jobsETL}`;
 

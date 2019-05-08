@@ -192,16 +192,15 @@ class JobsEtl extends Component {
                         <div>
                             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
                                 <DatePicker
-                                    format={format(selectedDate, 'dd/MM/yyyy')}
+                                    format={format(selectedDate, '\'MMMM, yyyy\'')}
                                     keyboard
                                     clearable
-                                    label="Fecha de ejecución"
+                                    label="Mes de ejecución"
                                     value={selectedDate}
                                     onChange={this.handleDateChange}
                                     animateYearScrolling={true}
-                                    //minDate={new Date()}
-                                    onInputChange={e => console.log("Keyboard Input:", e.target.value)}
-                                />
+                                    minDate={new Date('01/01/2019')}
+                                    onInputChange={e => console.log("Keyboard Input:", e.target.value)}/>
                             </MuiPickersUtilsProvider>
                         </div>
                     </Toolbar>

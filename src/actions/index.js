@@ -19,11 +19,11 @@ import {
     CLEAN_REQUEST,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
+    CLEAN_REQUEST_CCMAC,
     CLEAN_REQUEST_EXCHANGE_RATE_BI,
     CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
     CREATE_ACCOUNT_PERIOD_BI,
     CREATE_CONCEPT_BI,
-    CLEAN_REQUEST_CCMAC,
     CREATE_CONDITION_CENTER_MASTER,
     CREATE_EXCHANGE_RATE_BI,
     CREATE_OPERATING_ACCOUNTS_BI,
@@ -58,8 +58,8 @@ import {
     GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
     GET_QUESTIONNARIE_ANSWER,
     IS_SAVING_ANSWER,
-    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
     JOB_EXECUTE,
+    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
     LOAD_COST_BASE_INFORMATION,
     LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI,
     LOAD_INPUT_BASE_INFORMATION,
@@ -244,6 +244,7 @@ export const createAccountPeriodBi = payload => ({type: CREATE_ACCOUNT_PERIOD_BI
 export const updateAccountPeriodBi = payload => ({type: UPDATE_ACCOUNT_PERIOD_BI, payload});
 
 export const deleteAccountPeriodBi = payload => ({type: DELETE_ACCOUNT_PERIOD_BI, payload});
+export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
 
 export const changeErrorRequestAccountPeriodBi = payload => ({type: CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI, payload});
 
@@ -268,8 +269,6 @@ export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
 export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
-export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
-
 export const getAllParametersBi = payload => ({type: GET_ALL_PARAMETERS, payload});
 
 export const jobExecuteBi = payload => ({type: JOB_EXECUTE, payload});

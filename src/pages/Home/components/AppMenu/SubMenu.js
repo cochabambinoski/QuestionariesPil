@@ -18,7 +18,6 @@ import {
     indexRoute,
     jobsEtlRoute,
     loadBaseInputRoute,
-    loadBaseInputRoute,
     operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
     questionariesRoute,
