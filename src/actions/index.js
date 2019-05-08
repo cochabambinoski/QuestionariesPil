@@ -11,6 +11,7 @@ import {
     CHANGE_ERROR_REQUEST,
     CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
     CHANGE_ERROR_REQUEST_BI,
+    CHANGE_ERROR_REQUEST_CCMAC,
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
@@ -18,6 +19,7 @@ import {
     CLEAN_REQUEST,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
+    CLEAN_REQUEST_CCMAC,
     CLEAN_REQUEST_EXCHANGE_RATE_BI,
     CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
     CREATE_ACCOUNT_PERIOD_BI,
@@ -47,6 +49,7 @@ import {
     EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
     EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST,
     FILL_OUT_QUESTIONARY_RANGE_ALL,
+    FILTER_CENTER_COST_CONDITION,
     GET_ALL_BRANCHES,
     GET_ALL_CONCEPTS,
     GET_ALL_DEPARTAMENTS,
@@ -218,7 +221,11 @@ export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 
+export const changeErrorBiCCMAC = payload => ({type: CHANGE_ERROR_REQUEST_CCMAC, payload});
+
 export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
+
+export const cleanRequestCCMAC = () => ({type: CLEAN_REQUEST_CCMAC});
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
 
@@ -229,6 +236,8 @@ export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
 export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
 
 export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
 

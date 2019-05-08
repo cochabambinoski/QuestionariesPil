@@ -24,7 +24,6 @@ import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
 import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
-import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
 import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
@@ -255,6 +254,7 @@ class Home extends Component {
                 <Route exact path={exchangeRateRoute} component={ExchangeRate}/>
                 <Route exact path={operatingAccountsRoute} component={OperatingAccounts}/>
                 <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
+                <Route exact path={typeCenterRoute} component={TypeCenter}/>
 
             </div>
         )
@@ -292,12 +292,6 @@ class Home extends Component {
                                             sessionActive={this.props.sessionActive}
                                             onSelectedMenu={this.handleChangeContainer}/>
                                     </ScrollPanel>
-                                    {/*Finanzas */}
-                                    <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
-                                    <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
-                                    <Route exact path={costConditionsRoute} component={CostConditions}/>
-                                    <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
-                                    <Route exact path={typeCenterRoute} component={TypeCenter}/>
                                 </div>
 
                                 {this.renderContentByRoute()}

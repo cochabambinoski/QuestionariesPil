@@ -4,6 +4,7 @@ import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
     changeErrorBi,
+    changeErrorBiCCMAC,
     changeErrorOperatingAccountsBi,
     changeErrorRequest,
     changeErrorRequestAccountPeriodBi,
@@ -20,6 +21,7 @@ import {
     deleteExchangeRateBi,
     deleteOperatingAccountsBi,
     deleteTypeBi,
+    filterCenterCostConditionBi,
     getAllBranches,
     getAllConcepts,
     getAllDepartaments,
@@ -47,7 +49,7 @@ import {
     updateOperatingAccountsBi,
     updateTypeBi,
 } from "./index";
-import * as StringFilterUtil from "../Util/StringFormatUtil";
+import * as StringFormatUtil from "../Util/StringFormatUtil";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
 export const SET_QUESTIONNAIRES_DATA = 'SET_QUESTIONNAIRES_DATA';
@@ -653,7 +655,6 @@ export const getCostBaseInformation = () => {
 export const getInitialDataCenterCostConditionServerBi = () => {
     return dispatch => {
         Promise.all([
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CENTER_COST_CONDITION_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.COST_CENTER_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.LINE_COST_BI}`),
@@ -662,11 +663,10 @@ export const getInitialDataCenterCostConditionServerBi = () => {
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`),
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.SUB_REGION_BI}`)
         ])
-            .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(),
-                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
-            .then(([centerCostCondition, costCenter, business, lineCost, organization, channel, region, subRegion]) => {
-                if (centerCostCondition.status === undefined &&
-                    costCenter.status === undefined &&
+            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(),
+                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
+            .then(([costCenter, business, lineCost, organization, channel, region, subRegion]) => {
+                if (costCenter.status === undefined &&
                     business.status === undefined &&
                     lineCost.status === undefined &&
                     organization.status === undefined &&
@@ -674,7 +674,6 @@ export const getInitialDataCenterCostConditionServerBi = () => {
                     region.status === undefined &&
                     subRegion.status === undefined) {
                     dispatch(getInitialDataCenterCostConditonBi({
-                        centerCostConditions: centerCostCondition,
                         centerCost: costCenter,
                         business: business,
                         lineCost: lineCost,
@@ -684,41 +683,40 @@ export const getInitialDataCenterCostConditionServerBi = () => {
                         subRegion: subRegion,
                     }));
                 } else {
-                    if (centerCostCondition.status !== undefined) {
-                        dispatch(changeErrorBi(centerCostCondition))
-                    } else if (costCenter.status !== undefined) {
-                        dispatch(changeErrorBi(costCenter))
+                    if (costCenter.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(costCenter))
                     } else if (business.status !== undefined) {
-                        dispatch(changeErrorBi(business))
+                        dispatch(changeErrorBiCCMAC(business))
                     } else if (lineCost.status !== undefined) {
-                        dispatch(changeErrorBi(lineCost))
+                        dispatch(changeErrorBiCCMAC(lineCost))
                     } else if (organization.status !== undefined) {
-                        dispatch(changeErrorBi(organization))
+                        dispatch(changeErrorBiCCMAC(organization))
                     } else if (channel.status !== undefined) {
-                        dispatch(changeErrorBi(channel))
+                        dispatch(changeErrorBiCCMAC(channel))
                     } else if (region.status !== undefined) {
-                        dispatch(changeErrorBi(region))
+                        dispatch(changeErrorBiCCMAC(region))
                     } else if (subRegion.status !== undefined) {
-                        dispatch(changeErrorBi(subRegion))
+                        dispatch(changeErrorBiCCMAC(subRegion))
                     }
                 }
             })
             .catch(error => {
-                dispatch(changeErrorBi(error))
+                dispatch(changeErrorBiCCMAC(error))
             })
     }
 };
 
-export const deleteCenterCostConditionServerBi = id => {
+export const filterDataCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CENTER_COST_CONDITION_BI, center, business, line, organization, channel, region, subRegion)}`;
         return fetch(url)
             .then(results => {
                 return results.json()
             })
             .then(response => {
+                console.log(response);
                 if (response.status === undefined) {
-                    dispatch(deleteCenterCostConditionBi(response))
+                    dispatch(filterCenterCostConditionBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
@@ -728,10 +726,43 @@ export const deleteCenterCostConditionServerBi = id => {
     }
 };
 
-export const updateCenterCostConditionSeverBi = (id, center, business, line, organization, channel, region, subRegion) => {
+export const deleteCenterCostConditionServerBi = id => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-        return fetch(url)
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                console.log(response);
+                if (response.status === undefined) {
+                    dispatch(deleteCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateCenterCostConditionSeverBi = (costCondition) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.UPDATE_CENTER_COST_CONDITION, costCondition.id, costCondition.centerCost, costCondition.business, costCondition.lineCost, costCondition.organization, costCondition.channel, costCondition.region, costCondition.subRegion)}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
             .then(results => {
                 return results.json()
             })
@@ -741,16 +772,23 @@ export const updateCenterCostConditionSeverBi = (id, center, business, line, org
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
     }
 };
 
-export const createCenterCostConditionServerBi = (id, center, business, line, organization, channel, region, subRegion) => {
+export const createCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${String.format(Constants.UPDATE_CENTER_COST_CONDITION, id, center, business, line, organization, channel, region, subRegion)}`;
-        return fetch(url)
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CREATE_CENTER_COST_CONDITION, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
             .then(results => {
                 return results.json()
             })
@@ -760,11 +798,189 @@ export const createCenterCostConditionServerBi = (id, center, business, line, or
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
     }
 };
+
+export const getAllTypesServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.TYPES}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllTypesBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            });
+    };
+};
+
+export const createTypeServerBi = (type) => {
+    return dispatch => {
+        let create = StringFormatUtil.format(Constants.CREATE_TYPE, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateTypeServerBi = (type) => {
+    return dispatch => {
+        let update = StringFormatUtil.format(Constants.UPDATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const deleteTypeServerBi = id => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_TYPE}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const createConceptServerBi = (concept) => {
+    return dispatch => {
+        let create = StringFormatUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+export const updateConceptServerBi = (concept) => {
+    return dispatch => {
+        let update = StringFormatUtil.format(Constants.UPDATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getAllConceptsBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CONCEPTS}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllConcepts(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            });
+    };
+};
+
+export const deleteConceptServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CONCEPT}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
 
 export const getInitialAccountPeriodServerBi = () => {
     return dispatch => {
@@ -1050,179 +1266,3 @@ export const deleteOperatingAccountServerBi = (id) => {
     }
 };
 
-export const getAllConceptsBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.CONCEPTS}`;
-        return fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(response => {
-                if (response.status === undefined) {
-                    dispatch(getAllConcepts(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            });
-    };
-};
-
-export const deleteConceptServerBi = (id) => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CONCEPT}${id}`;
-        return fetch(url, {method: 'DELETE'})
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(deleteConceptBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-                return response;
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const createConceptServerBi = (concept) => {
-    return dispatch => {
-        let create = StringFilterUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${create}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(createConceptBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-                return response;
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const updateConceptServerBi = (concept) => {
-    return dispatch => {
-        let update = StringFilterUtil.format(Constants.UPDATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${update}`;
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(updateConceptBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-                return response;
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const getAllTypesServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.TYPES}`;
-        return fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(response => {
-                if (response.status === undefined) {
-                    dispatch(getAllTypesBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            });
-    };
-};
-
-export const createTypeServerBi = (type) => {
-    return dispatch => {
-        let create = StringFilterUtil.format(Constants.CREATE_TYPE, type.idConcept, type.codeType, type.name, type.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${create}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(createTypeBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const updateTypeServerBi = (type) => {
-    return dispatch => {
-        let update = StringFilterUtil.format(Constants.UPDATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${update}`;
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(updateTypeBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const deleteTypeServerBi = id => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_TYPE}${id}`;
-        return fetch(url, {method: 'DELETE'})
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(deleteTypeBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
