@@ -39,7 +39,7 @@ function DeleteDialog(props) {
             aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title"
                          className="titleBody">
-                <h1 className="dialogTitle">{"Alerta"}</h1>
+                <h1 className="dialogTitle">Alerta</h1>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description" className="dialogBody">

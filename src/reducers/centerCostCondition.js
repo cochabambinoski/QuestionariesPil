@@ -7,14 +7,6 @@ import {
     UPDATE_CONDITION_CENTER_MASTER
 } from '../action-types/actionTypes';
 
-const getResponse = response => ({
-    centerCostConditions: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: true
-});
-
 const errorState = error => ({
     centerCostConditions: [],
     errorRequest: error,

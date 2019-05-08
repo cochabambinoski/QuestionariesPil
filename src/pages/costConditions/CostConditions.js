@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import JsxStyles from '../../styles/JsxStyles';
 import {withStyles} from '@material-ui/core/styles';
+import {Messages} from 'primereact/messages';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Table from "@material-ui/core/es/Table/Table";
 import TableBody from "@material-ui/core/es/TableBody/TableBody";
@@ -29,6 +30,7 @@ import Select from "@material-ui/core/es/Select/Select";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import IconFilterList from "@material-ui/icons/FilterList";
 import IconSave from "@material-ui/icons/Save";
+import IconClear from "@material-ui/icons/Clear";
 import classNames from 'classnames';
 
 const CustomTableCell = withStyles(theme => ({
@@ -63,8 +65,8 @@ class CostConditions extends Component {
         super(props);
         const itemDefault = new CostCondition();
         this.state = {
-            title: "Centro Condiciones de costo",
-            subtitle: "Generación de condiciones de costo",
+            title: "Centro de Costo Condiciones",
+            subtitle: "Generación de condiciones",
             page: 0,
             open: false,
             itemSelected: itemDefault,
@@ -126,20 +128,34 @@ class CostConditions extends Component {
         this.setState({page: 0, rowsPerPage: event.target.value})
     };
 
-    handleFilter = (event) => {
-        this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+    handleFilter = () => {
+        if (this.state.centerCost > 0) {
+            this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+        } else
+            this.showInfo("Filtro","Debe tener Centro costo para poder filtrar la lista")
     };
 
-    handleCreate = (event) => {
+    handleClean = () => {
+        this.setState({
+            business: 0,
+            channel: 0,
+            lineCost: 0,
+            organization: 0,
+            region: 0,
+            subRegion: 0
+        });
+    };
+
+    handleCreate = () => {
         if (this.state.centerCost > 0 && this.state.business > 0 && this.state.lineCost > 0 && this.state.channel > 0 && this.state.organization > 0 && this.state.region > 0 && this.state.subRegion > 0) {
             this.props.createCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion)
                 .then((response) => {
                     let state = response;
+                    console.log(state);
                     if (state !== null || state !== undefined) {
                         this.showResponse(state);
                         if (state === 1) {
                             this.setState({
-                                centerCost: 0,
                                 business: 0,
                                 channel: 0,
                                 lineCost: 0,
@@ -150,7 +166,7 @@ class CostConditions extends Component {
                         }
                     }
                 });
-        }
+        }else this.showInfo("No guardado","Debe elegir todas las opciones para poder guardar")
     };
 
     renderError() {
@@ -159,13 +175,21 @@ class CostConditions extends Component {
             <React.Fragment>
                 <h1> Error {status}</h1>
                 <Button color={"primary"} variant="contained" style={{background: "red"}}
-                        onClick={this.props.cleanResponse}> Aceptar</Button>
+                        onClick={this.props.cleanResponse}>Aceptar</Button>
             </React.Fragment>
         )
     }
 
     handleCloseDialogEditItem = () => {
         this.setState({open: false, itemSelected: null});
+        this.setState({
+            business: 0,
+            channel: 0,
+            lineCost: 0,
+            organization: 0,
+            region: 0,
+            subRegion: 0
+        });
         this.props.filterCenterCostConditionServerBi(this.state.centerCost, 0, 0, 0, 0, 0, 0)
     };
 
@@ -215,6 +239,7 @@ class CostConditions extends Component {
             business, centerCost,
             channel, lineCost, organization, region, subRegion
         } = this.props.reducerVariable;
+        console.log(centerCost);
         return (
             <div>
                 <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
@@ -223,7 +248,7 @@ class CostConditions extends Component {
                         value={this.state.centerCost}
                         onChange={this.handleChange}
                         inputProps={{name: 'centerCost'}}>
-                        {centerCost.map(item => {
+                        {centerCost === undefined ? [] : centerCost.map(item => {
                             return <MenuItem value={item.id}>{item.code + " " + item.center}</MenuItem>
                         })}
                     </Select>
@@ -234,7 +259,7 @@ class CostConditions extends Component {
                         value={this.state.business}
                         onChange={this.handleChange}
                         inputProps={{name: 'business'}}>
-                        {business.map(item => {
+                        {business === undefined ? [] : business.map(item => {
                             return <MenuItem value={item.id}>{item.business}</MenuItem>
                         })}
                     </Select>
@@ -245,7 +270,7 @@ class CostConditions extends Component {
                         value={this.state.channel}
                         onChange={this.handleChange}
                         inputProps={{name: 'channel'}}>
-                        {channel.map(item => {
+                        {channel === undefined ? [] : channel.map(item => {
                             return <MenuItem value={item.id}>{item.channel}</MenuItem>
                         })}
                     </Select>
@@ -256,7 +281,7 @@ class CostConditions extends Component {
                         value={this.state.lineCost}
                         onChange={this.handleChange}
                         inputProps={{name: 'lineCost'}}>
-                        {lineCost.map(item => {
+                        {lineCost === undefined ? [] : lineCost.map(item => {
                             return <MenuItem value={item.id}>{item.line}</MenuItem>
                         })}
                     </Select>
@@ -267,7 +292,7 @@ class CostConditions extends Component {
                         value={this.state.organization}
                         onChange={this.handleChange}
                         inputProps={{name: 'organization'}}>
-                        {organization.map(item => {
+                        {organization === undefined ? [] : organization.map(item => {
                             return <MenuItem value={item.id}>{item.organization}</MenuItem>
                         })}
                     </Select>
@@ -278,7 +303,7 @@ class CostConditions extends Component {
                         value={this.state.region}
                         onChange={this.handleChange}
                         inputProps={{name: 'region'}}>
-                        {region.map(item => {
+                        {region === undefined ? [] : region.map(item => {
                             return <MenuItem value={item.id}>{item.region}</MenuItem>
                         })}
                     </Select>
@@ -289,7 +314,7 @@ class CostConditions extends Component {
                         value={this.state.subRegion}
                         onChange={this.handleChange}
                         inputProps={{name: 'subRegion'}}>
-                        {subRegion.map(item => {
+                        {subRegion === undefined ? [] : subRegion.map(item => {
                             return <MenuItem value={item.id}>{item.subRegion}</MenuItem>
                         })}
                     </Select>
@@ -313,13 +338,13 @@ class CostConditions extends Component {
                             <TableHead>
                                 <TableRow>
                                     <CustomTableCell>ID</CustomTableCell>
-                                    <CustomTableCell align="left">CenterCost </CustomTableCell>
-                                    <CustomTableCell align="left">Business</CustomTableCell>
-                                    <CustomTableCell align="left">Channel </CustomTableCell>
-                                    <CustomTableCell align="left">LineCost</CustomTableCell>
-                                    <CustomTableCell align="left">Organization</CustomTableCell>
-                                    <CustomTableCell align="left">Region </CustomTableCell>
-                                    <CustomTableCell align="left">SubRegion </CustomTableCell>
+                                    <CustomTableCell align="left">Centro Costo </CustomTableCell>
+                                    <CustomTableCell align="left">Negocio</CustomTableCell>
+                                    <CustomTableCell align="left">Canal </CustomTableCell>
+                                    <CustomTableCell align="left">Linea</CustomTableCell>
+                                    <CustomTableCell align="left">Organización</CustomTableCell>
+                                    <CustomTableCell align="left">Región </CustomTableCell>
+                                    <CustomTableCell align="left">Sub-Región </CustomTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -367,6 +392,9 @@ class CostConditions extends Component {
                     <div>
                         <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
                     </div>
+                    <div>
+                        <Messages ref={(el) => this.messages = el}/>
+                    </div>
                 </div>
                 {
                     load ?
@@ -379,6 +407,10 @@ class CostConditions extends Component {
                         <div>
                             <Toolbar style={{background: '#FFFFFF', marginTop: '1em'}}>
                                 {this.renderFilter()}
+                                <Button variant="contained" color={"secondary"} className={classes.button}
+                                        onClick={this.handleClean}>
+                                    <IconClear/>
+                                </Button>
                                 <Button variant="contained" color={"default"} className={classes.button}
                                         onClick={this.handleFilter}>
                                     <IconFilterList className={classNames(classes.leftIcon, classes.iconSmall)}/>
