@@ -127,9 +127,10 @@ class JobsEtl extends Component {
     };
 
     renderTable() {
-        const {classes} = this.props;
+        const {classes, order, orderBy} = this.props;
         const {parameter} = this.props.parameter;
         const {rowsPerPage, page} = this.state;
+        parameter.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1 );
         if (this.props.parameter.errorRequest) {
             return this.renderError()
         }
