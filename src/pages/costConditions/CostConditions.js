@@ -342,8 +342,8 @@ class CostConditions extends Component {
                                     <CustomTableCell>ID</CustomTableCell>
                                     <CustomTableCell align="left">Centro Costo </CustomTableCell>
                                     <CustomTableCell align="left">Negocio</CustomTableCell>
-                                    <CustomTableCell align="left">Canal </CustomTableCell>
-                                    <CustomTableCell align="left">Linea</CustomTableCell>
+                                    <CustomTableCell align="left">Linea </CustomTableCell>
+                                    <CustomTableCell align="left">Canal</CustomTableCell>
                                     <CustomTableCell align="left">Organización</CustomTableCell>
                                     <CustomTableCell align="left">Región </CustomTableCell>
                                     <CustomTableCell align="left">Sub-Región </CustomTableCell>
