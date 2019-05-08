@@ -13,7 +13,7 @@ import withStyles from "@material-ui/core/es/styles/withStyles";
 import JsxStyles from "../../styles/JsxStyles";
 import connect from "react-redux/es/connect/connect";
 import {getProcessConfirmation, parameters} from "../../reducers";
-import {getAllParameterServerBi, jobEtlServerBi} from "../../actions/indexthunk";
+import {getAllParameterServerBi, getInitialDataParametersServerBi, jobEtlServerBi} from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
 import SwapVert from "@material-ui/icons/SwapVert";
 import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
@@ -23,7 +23,6 @@ import esLocale from "date-fns/locale/es";
 import startOfMonth from "date-fns/startOfMonth"
 import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
-
 
 const styles = theme => ({
     button: {
@@ -66,8 +65,13 @@ class JobsEtl extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllParameter()
+        this.getInitialData(new Date());
     }
+
+    getInitialData=(date)=>{
+        const dataParam = startOfMonth(date);
+        this.props.getInitialDataParameters(format(dataParam, 'yyyyMMdd'))
+    };
 
     componentWillUpdate(nextProps, nextState, nextContext) {
     }
@@ -96,6 +100,7 @@ class JobsEtl extends Component {
 
     handleDateChange = date => {
         this.setState({selectedDate: date});
+        this.getInitialData(date);
     };
 
     handleChangePage = (event, page) => {
@@ -137,25 +142,33 @@ class JobsEtl extends Component {
                                 <TableRow>
                                     <CustomTableCell>Codigo</CustomTableCell>
                                     <CustomTableCell align="left">Nombre</CustomTableCell>
+                                    <CustomTableCell align="left">Grupo</CustomTableCell>
                                     <CustomTableCell align="left">Orden</CustomTableCell>
-                                    <CustomTableCell align="left"> Ejecutar</CustomTableCell>
+                                    <CustomTableCell align="left">Ejecutar</CustomTableCell>
+                                    <CustomTableCell align="left">Estado</CustomTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {parameter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                                    <TableRow hover key={item.id}>
+                                {parameter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => {
+                                    const isProcess = item.state === "Procesando";
+                                    const isExecute = item.state === "Ejecutado";
+                                    return (<TableRow hover key={item.id}>
                                         <TableCell component={"th"} scope={"row"}>{item.code}</TableCell>
                                         <TableCell>{item.name}</TableCell>
+                                        <TableCell>{item.groupName}</TableCell>
                                         <TableCell>{item.order}</TableCell>
                                         <TableCell>
                                             <Button variant="contained" size="small" className={classes.button}
+                                                    disabled={isProcess}
                                                     onClick={event => this.handleExecuteClick(event, item.code)}>
                                                 <SwapVert className={classNames(classes.leftIcon, classes.iconSmall)}/>
                                             </Button>
 
                                         </TableCell>
-                                    </TableRow>
-                                ))}
+                                        <TableCell
+                                            style={isProcess?{color: 'red'}:isExecute?{color:'green'}:{color:'black'}}>{item.state}</TableCell>
+                                    </TableRow>)
+                                })}
                             </TableBody>
                             <TableFooter>
                                 <TableRow>
@@ -223,6 +236,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getAllParameter: () => dispatch(getAllParameterServerBi()),
     jobEtl: (code, date) => dispatch(jobEtlServerBi(code, date)),
+    getInitialDataParameters: (dataParam) => dispatch(getInitialDataParametersServerBi(dataParam))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(JobsEtl));

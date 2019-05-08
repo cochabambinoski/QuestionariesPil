@@ -31,6 +31,7 @@ import {
     getInitialDataCenterCostConditonBi,
     getInitialDataExchangeRateBi,
     getInitialDataOperatingAccountsBi,
+    getInitialDataParametersBi,
     jobExecuteBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
@@ -1222,51 +1223,31 @@ export const jobEtlServerBi = (code, date) => {
     }
 };
 
-export const getInitialDataParametersServerBi = () => {
+export const getInitialDataParametersServerBi = (dataParam) => {
     return dispatch => {
         Promise.all([
             fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`),
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`),
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.LINE_COST_BI}`),
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.ORGANIZATION_BI}`),
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CHANNEL_BI}`),
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`),
-            fetch(`${Constants.ROUTE_WEB_BI}${Constants.SUB_REGION_BI}`)
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.GET_ALL_JOBS_BI, dataParam)}`)
         ])
-            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(),
-                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
-            .then(([costCenter, business, lineCost, organization, channel, region, subRegion]) => {
-                if (costCenter.status === undefined &&
-                    business.status === undefined &&
-                    lineCost.status === undefined &&
-                    organization.status === undefined &&
-                    channel.status === undefined &&
-                    region.status === undefined &&
-                    subRegion.status === undefined) {
-                    dispatch(getInitialDataCenterCostConditonBi({
-                        centerCost: costCenter,
-                        business: business,
-                        lineCost: lineCost,
-                        organization: organization,
-                        channel: channel,
-                        region: region,
-                        subRegion: subRegion,
+            .then(([res1, res2, res3]) => Promise.all([res1.json(),
+                res2.json(), res3.json()]))
+            .then(([parameters, types, jobs]) => {
+                if (parameters.status === undefined &&
+                    types.status === undefined &&
+                    jobs.status === undefined) {
+                    dispatch(getInitialDataParametersBi({
+                        parameters: parameters,
+                        types: types,
+                        jobs: jobs
                     }));
                 } else {
-                    if (costCenter.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(costCenter))
-                    } else if (business.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(business))
-                    } else if (lineCost.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(lineCost))
-                    } else if (organization.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(organization))
-                    } else if (channel.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(channel))
-                    } else if (region.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(region))
-                    } else if (subRegion.status !== undefined) {
-                        dispatch(changeErrorBiCCMAC(subRegion))
+                    if (parameters.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(parameters))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(types))
+                    } else if (jobs.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(jobs))
                     }
                 }
             })

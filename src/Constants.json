@@ -90,8 +90,9 @@
   "CHANNEL_BI": "channel",
   "REGION_BI": "region",
   "SUB_REGION_BI": "subRegion",
+  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={0}&center={1}&business={2}&line={3}&organization={4}&channel={5}&region={6}&subRegion={7}",
+  "CREATE_CENTER_COST_CONDITION": "centerCostCondition?center={0}&business={1}&line={2}&organization={3}&channel={4}&region={5}&subRegion={6}",
   "DELETE_CENTER_COST_CONDITION": "centerCostCondition/",
-  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={1}&center={2}&business={3}&line={4}&organization={5}&channel={6}&region={7}&subRegion={8}",
   "GET_ACCOUNTS_PERIOD": "accountPeriod/getAccountsPeriod",
   "GET_ACCOUNT_DIMENSION": "accountDimension/getAccountDimension",
   "GET_TIME_DIMENSION": "dimensionTime/getDimensionsTime",
@@ -111,8 +112,7 @@
   "DELETE_CONCEPT": "concept/",
   "CREATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",
   "UPDATE_CONCEPT": "concept?id={0}&name={1}&abbreviation={2}",
-  "UPDATE_CENTER_COST_CONDITION": "centerCostCondition?id={0}&center={1}&business={2}&line={3}&organization={4}&channel={5}&region={6}&subRegion={7}",
-  "CREATE_CENTER_COST_CONDITION": "centerCostCondition?center={0}&business={1}&line={2}&organization={3}&channel={4}&region={5}&subRegion={6}",
   "GET_ALL_PARAMETERS": "parameters",
+  "GET_ALL_JOBS_BI": "jobsParameter?dataParam={0}",
   "JOB_WITH_PARAMETER": "runJobWithParameter?location={0}&parameter={1}"
 }

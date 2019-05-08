@@ -54,6 +54,7 @@ import {
     GET_ALL_PARAMETERS,
     GET_ANSWERS,
     GET_DATA_CREATE_ACCOUNT_PERIOD,
+    GET_DATA_PARAMETERS,
     GET_INITIAL_DATA_EXCHANGE_RATE_BI,
     GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
     GET_QUESTIONNARIE_ANSWER,
@@ -270,5 +271,5 @@ export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
 export const getAllParametersBi = payload => ({type: GET_ALL_PARAMETERS, payload});
-
 export const jobExecuteBi = payload => ({type: JOB_EXECUTE, payload});
+export const getInitialDataParametersBi = payload => ({type: GET_DATA_PARAMETERS, payload});
