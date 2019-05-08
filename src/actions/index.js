@@ -35,6 +35,7 @@ import {
     DELETE_CONCEPT_BI,
     DELETE_CONDITION_CENTER_MASTER,
     DELETE_EXCHANGE_RATE_BI,
+    DELETE_CONDITION_CENTER_MASTER,
     DELETE_MOBILE_ASSIGNED_LIST_AUX,
     DELETE_MOBILE_LIST_AUX,
     DELETE_MOBILE_SELLERS,
@@ -229,7 +230,7 @@ export const cleanRequestCCMAC = () => ({type: CLEAN_REQUEST_CCMAC});
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
 
-export const deleteCenterCostConditionBi = payload => ({type: DELETE_CONDITION_CENTER_MASTER, payload});
+export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
 
 export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload});
 

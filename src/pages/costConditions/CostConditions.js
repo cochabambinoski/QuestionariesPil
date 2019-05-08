@@ -328,7 +328,6 @@ class CostConditions extends Component {
         const {
             centerCostConditions
         } = this.props.reducerCostCondition;
-        console.log(centerCostConditions);
         const {rowsPerPage, page} = this.state;
         if (this.props.reducerCostCondition.errorRequest) {
             return this.renderError()

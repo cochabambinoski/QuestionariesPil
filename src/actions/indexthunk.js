@@ -4,8 +4,6 @@ import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
     changeErrorBi,
-    changeErrorBiCCMAC,
-    changeErrorOperatingAccountsBi,
     changeErrorRequest,
     changeErrorRequestAccountPeriodBi,
     changeErrorRequestExchangeRateBi,
@@ -17,6 +15,7 @@ import {
     createTypeBi,
     deleteAccountPeriodBi,
     deleteCenterCostConditionBi,
+    filterCenterCostConditionBi,
     deleteConceptBi,
     deleteExchangeRateBi,
     deleteOperatingAccountsBi,
@@ -714,7 +713,6 @@ export const filterDataCenterCostConditionServerBi = (center, business, line, or
                 return results.json()
             })
             .then(response => {
-                console.log(response);
                 if (response.status === undefined) {
                     dispatch(filterCenterCostConditionBi(response))
                 } else {
@@ -740,13 +738,11 @@ export const deleteCenterCostConditionServerBi = id => {
                 return results.json()
             })
             .then(response => {
-                console.log(response);
                 if (response.status === undefined) {
                     dispatch(deleteCenterCostConditionBi(response))
                 } else {
                     dispatch(changeErrorBi(response))
                 }
-                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
@@ -779,6 +775,7 @@ export const updateCenterCostConditionSeverBi = (costCondition) => {
     }
 };
 
+
 export const createCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CREATE_CENTER_COST_CONDITION, center, business, line, organization, channel, region, subRegion)}`;
@@ -804,6 +801,7 @@ export const createCenterCostConditionServerBi = (center, business, line, organi
             })
     }
 };
+
 
 export const getAllTypesServerBi = () => {
     return dispatch => {
