@@ -6,11 +6,16 @@ import {
     answersIdRoute,
     answersRoute,
     assigmentIdRoute,
-    assigmentRoute, costConditionsRoute, expensesGenerationRoute, loadBaseInputRoute,
+    assigmentRoute,
+    conceptCenterRoute,
+    costConditionsRoute,
+    expensesGenerationRoute,
+    loadBaseInputRoute,
     questionariesEditIdRoute,
     questionariesNewRoute,
     questionariesRoute,
-    questionariesShowIdRoute, segmentRoute
+    questionariesShowIdRoute,
+    segmentRoute
 } from "../../../routes/PathRoutes";
 import Questionnaires from "../../QuestionnairesList/pages/QuestionnairesList";
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
@@ -75,6 +80,7 @@ function ComponentInflator(props) {
                 <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
                 <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
                 <Route exact path={costConditionsRoute} component={CostConditions}/>
+                <Route exact path={conceptCenterRoute} component={conceptCenterRoute}/>
             </div>
         </div>
     )

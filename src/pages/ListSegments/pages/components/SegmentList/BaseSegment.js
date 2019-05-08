@@ -8,8 +8,8 @@ import {Button} from "primereact/button";
 import Dialog from "@material-ui/core/Dialog";
 
 function BaseSegment(props) {
-    const { baseOpen, segment } = props;
-    return(
+    const {baseOpen, segment} = props;
+    return (
         <Dialog
             className="fullDialog"
             fullScreen

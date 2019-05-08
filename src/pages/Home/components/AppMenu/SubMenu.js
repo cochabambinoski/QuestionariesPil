@@ -11,11 +11,16 @@ import {Link} from 'react-router-dom';
 import {
     answersRoute,
     assigmentRoute,
+    conceptCenterRoute,
     costConditionsRoute,
+    exchangeRateRoute,
     expensesGenerationRoute,
     indexRoute,
     jobsEtlRoute,
     loadBaseInputRoute,
+    loadBaseInputRoute,
+    operatingAccountsRoute,
+    periodAndAccountRegistrationRoute,
     questionariesRoute,
     segmentRoute
 } from "../../../../routes/PathRoutes";
@@ -61,8 +66,7 @@ class SubMenu extends Component {
         this.setState({anchorEl: null});
     };
 
-    getUrl=(option) => {
-        console.log(option);
+    getUrl = (option) => {
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";
@@ -80,6 +84,14 @@ class SubMenu extends Component {
                 return loadBaseInputRoute;
             case 'costCondition':
                 return costConditionsRoute;
+            case 'accountPeriod':
+                return periodAndAccountRegistrationRoute;
+            case 'exchangeRate':
+                return exchangeRateRoute;
+            case 'operatingAccounts':
+                    return operatingAccountsRoute;
+            case 'conceptCenter':
+                return conceptCenterRoute;
             case 'jobsETL':
                 return jobsEtlRoute;
             default:

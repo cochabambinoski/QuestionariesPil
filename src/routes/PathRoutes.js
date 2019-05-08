@@ -6,6 +6,10 @@ const questionary = "questionary";
 const expensesGeneration = "expensesGeneration";
 const loadBaseInput = "loadBaseInput";
 const costConditions = "costConditions";
+const periodAndAccountRegistration = "periodAndAccountRegistration";
+const exchangeRate = "exchangeRate";
+const operatingAccounts = "operatingAccounts";
+const conceptCenter = "conceptCenter";
 const jobsETL = "jobsETL";
 
 export const indexRoute = '/';
@@ -25,6 +29,11 @@ export const segmentRoute = `/${segment}`;
 export const questionaryPublicRoute = `/${questionary}/`;
 export const expensesGenerationRoute = `/${expensesGeneration}/`;
 export const loadBaseInputRoute = `/${loadBaseInput}/`;
+export const periodAndAccountRegistrationRoute = `/${periodAndAccountRegistration}`;
+export const exchangeRateRoute = `/${exchangeRate}`;
+export const operatingAccountsRoute = `/${operatingAccounts}`;
+export const costConditionsRoute = `/${costConditions}/`;
+export const conceptCenterRoute = `/${conceptCenter}/`;
 export const costConditionsRoute = `/${costConditions}`;
 export const jobsEtlRoute = `/${jobsETL}`;
 

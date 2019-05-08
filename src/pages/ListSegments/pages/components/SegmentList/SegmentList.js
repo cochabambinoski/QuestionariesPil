@@ -83,13 +83,12 @@ class SegmentList extends Component {
     componentDidMount() {
         this.setState({dates: [this.state.startDate, this.state.endDate]});
         this.chargeList(this.state.startDate, this.state.endDate);
-    };
+    }
 
     /**
      * click filter by dates range
-     * @param event
      */
-    handlerFilter = event => {
+    handlerFilter = () => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
             this.setState({startDate: this.state.dates[0], endDate: this.state.dates[1]});
             this.updateDates(this.state.startDate, this.state.endDate);
@@ -173,7 +172,7 @@ class SegmentList extends Component {
     getSegment(id) {
         this.props.getSegment(id)
             .then((data) => {
-                this.setState(prevState => ({
+                this.setState(() => ({
                     segment: data
                 }));
                 this.setState({segmentOpen: true});
@@ -362,7 +361,7 @@ class SegmentList extends Component {
                 })}
             </div>
         );
-    };
+    }
 
     render() {
         const {classes} = this.props;
@@ -393,7 +392,7 @@ class SegmentList extends Component {
             </div>
 
         );
-    };
+    }
 }
 
 SegmentList.propTypes = {
