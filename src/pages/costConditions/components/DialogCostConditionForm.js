@@ -54,6 +54,7 @@ class DialogCostConditionForm extends Component {
     constructor(props) {
         super(props);
         const {item} = props;
+        console.log(item);
         if (item) {
             this.state = {
                 title: "",
@@ -105,6 +106,10 @@ class DialogCostConditionForm extends Component {
                     this.props.onClose(false);
                 }
             });
+    };
+
+    handleChange = event => {
+        this.setState({[event.target.name]: event.target.value})
     };
 
     render() {

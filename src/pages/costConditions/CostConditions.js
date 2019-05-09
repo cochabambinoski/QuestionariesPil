@@ -197,9 +197,9 @@ class CostConditions extends Component {
             id: item[0],
             centerCost: item[1],
             business: item[3],
-            channel: item[5],
-            lineCost: item[7],
-            organization: item[9],
+            lineCost: item[5],
+            organization: item[7],
+            channel: item[9],
             region: item[11],
             subRegion: item[13]
         };
