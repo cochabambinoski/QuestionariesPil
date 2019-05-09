@@ -78,9 +78,7 @@ class ConceptForm extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const {concepts} = nextProps.reducerVariable;
-        console.log(concepts);
         if (concepts !== null && this.state.concepts.length === 0) {
-            console.log(concepts);
             this.setState({concepts: concepts});
         }
         return true;
@@ -129,7 +127,6 @@ class ConceptForm extends Component {
     };
 
     renderOptions() {
-        console.log(this.state.concepts);
         return this.state.concepts.map((concepts, i) => {
             return (
                 <MenuItem

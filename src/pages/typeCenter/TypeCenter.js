@@ -177,7 +177,6 @@ class TypeCenter extends Component {
     renderList() {
         const {classes} = this.props;
         const {types} = this.props.reducerVariable;
-        console.log(types);
         return (
             <div>
                 {

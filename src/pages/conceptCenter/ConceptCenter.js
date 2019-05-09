@@ -81,7 +81,6 @@ class ConceptCenter extends Component {
             }
         }
 
-        console.log(next_props.reducer.concepts, this.props.reducer.concepts);
         if (this.state.conceptOpen !== next_state.conceptOpen || this.state.deleteOpen !== next_state.deleteOpen)
             return true;
         else

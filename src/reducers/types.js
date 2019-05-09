@@ -1,20 +1,5 @@
 import {CREATE_TYPES_BI, DELETE_TYPES_BI, GET_ALL_TYPES, UPDATE_TYPES_BI} from "../action-types/actionTypes";
 
-const getResponse = response => ({
-    types: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: true
-});
-
-const errorState = error => ({
-    types: [],
-    errorRequest: error,
-    showDialog: false,
-    load: false
-});
-
 const initialState = ({
     types: [],
     responseRequest: null,

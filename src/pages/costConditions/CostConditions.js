@@ -151,7 +151,6 @@ class CostConditions extends Component {
             this.props.createCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion)
                 .then((response) => {
                     let state = response;
-                    console.log(state);
                     if (state !== null || state !== undefined) {
                         this.showResponse(state);
                         if (state === 1) {
@@ -239,7 +238,6 @@ class CostConditions extends Component {
             business, centerCost,
             channel, lineCost, organization, region, subRegion
         } = this.props.reducerVariable;
-        console.log(centerCost);
         return (
             <div>
                 <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
