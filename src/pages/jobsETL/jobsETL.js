@@ -100,7 +100,7 @@ class JobsEtl extends Component {
         console.log('execute');
         this.setState({answerOpen: false});
         const date = startOfMonth(this.state.selectedDate);
-        this.props.jobEtl(this.state.toExecute, format(date, 'yyyyMMdd'));
+        this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
     };
 
     handleDateChange = date => {
@@ -147,7 +147,7 @@ class JobsEtl extends Component {
     renderAnswerDialog() {
         return (
             <AnswerDialog answerOpen={this.state.answerOpen} handleClose={this.handleClose}
-                          handleAnswer={this.handleExecuteClick}/>
+                          handleAnswer={this.handleExecuteClick} execute={this.state.toExecute} />
         );
     }
 
@@ -186,7 +186,7 @@ class JobsEtl extends Component {
                                         <TableCell>
                                             <Button variant="contained" size="small" className={classes.button}
                                                     disabled={isProcess}
-                                                    onClick={event => this.handleAnswer(event, item.code)}>
+                                                    onClick={event => this.handleAnswer(event, item)}>
                                                 <PlayArrow className={classNames(classes.leftIcon, classes.iconSmall)}/>
                                             </Button>
 

@@ -30,7 +30,7 @@ const styles = theme => ({
 });
 
 function AnswerDialog(props) {
-    const {answerOpen, classes} = props;
+    const {answerOpen, classes, execute} = props;
     return (
         <Dialog
             open={answerOpen}
@@ -43,7 +43,8 @@ function AnswerDialog(props) {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description" className="dialogBody">
-                    ¿Esta seguro de ejecutar el Job?, puede tardar varios minutos
+                    <b>¿Esta seguro de ejecutar el Job {execute === null ? '' : execute.name}?</b>
+                    <br/>Puede tardar varios minutos
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
