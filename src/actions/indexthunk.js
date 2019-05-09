@@ -1201,7 +1201,7 @@ export const jobEtlServerBi = (code, date) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB_WITH_PARAMETER, code, date)}`;
         return fetch(url, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
