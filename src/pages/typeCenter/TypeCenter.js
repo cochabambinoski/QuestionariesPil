@@ -301,10 +301,4 @@ const
 
 export default connect(mapStateToProps, mapDispatchToProps)
 
-(
-    withStyles(styles, JsxStyles)
-
-    (
-        TypeCenter
-    ))
-;
+(withStyles(styles, JsxStyles)(TypeCenter));
