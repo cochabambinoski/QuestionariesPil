@@ -25,7 +25,7 @@ const initialState = ({
 export const centerCostCondition = (state = initialState, action) => {
     switch (action.type) {
         case FILTER_CENTER_COST_CONDITION: {
-            return {...state, centerCostConditions: action.payload, errorRequest: null, load: false}
+            return {...state, centerCostConditions: action.payload, errorRequest: null, load: false, responseRequest: null}
         }
         case DELETE_CONDITION_CENTER_MASTER: {
             return {... state, responseRequest: action.payload}
