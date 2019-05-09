@@ -84,10 +84,6 @@ class TypeCenter extends Component {
         this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
     };
 
-    showInfo = (title, message) => {
-        this.messages.show({life: 5000, severity: 'info', summary: title, detail: message});
-    };
-
     showWarn = (title, message) => {
         this.messages.show({life: 5000, severity: 'warn', summary: title, detail: message});
     };
