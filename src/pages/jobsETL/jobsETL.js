@@ -15,7 +15,7 @@ import connect from "react-redux/es/connect/connect";
 import {getProcessConfirmation, parameters} from "../../reducers";
 import {getAllParameterServerBi, getInitialDataParametersServerBi, jobEtlServerBi} from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
-import SwapVert from "@material-ui/icons/SwapVert";
+import PlayArrow from "@material-ui/icons/PlayArrow";
 import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {format} from 'date-fns/esm'
@@ -23,6 +23,7 @@ import esLocale from "date-fns/locale/es";
 import startOfMonth from "date-fns/startOfMonth"
 import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
+import AnswerDialog from "./dialogs/AnswerDialog";
 
 const styles = theme => ({
     button: {
@@ -60,7 +61,9 @@ class JobsEtl extends Component {
             itemSelected: null,
             rowsPerPage: 5,
             parameters: this.props.parameter,
-            parameter: null
+            parameter: null,
+            answerOpen: false,
+            toExecute:false
         }
     }
 
@@ -68,7 +71,7 @@ class JobsEtl extends Component {
         this.getInitialData(new Date());
     }
 
-    getInitialData=(date)=>{
+    getInitialData = (date) => {
         const dataParam = startOfMonth(date);
         this.props.getInitialDataParameters(format(dataParam, 'yyyyMMdd'))
     };
@@ -92,10 +95,11 @@ class JobsEtl extends Component {
         this.messages.show({life: 5000, severity: 'error', summary: title, detail: message});
     };
 
-    handleExecuteClick = (event, code) => {
+    handleExecuteClick = () => {
+        console.log('execute');
+        this.setState({answerOpen: false});
         const date = startOfMonth(this.state.selectedDate);
-        this.props.jobEtl(code, format(date, 'yyyyMMdd'));
-        console.log(this.props.execute)
+        this.props.jobEtl(this.state.toExecute, format(date, 'yyyyMMdd'));
     };
 
     handleDateChange = date => {
@@ -109,6 +113,14 @@ class JobsEtl extends Component {
 
     handleChangeRowsPerPage = event => {
         this.setState({page: 0, rowsPerPage: event.target.value})
+    };
+
+    handleAnswer=(event, item) => {
+      this.setState({answerOpen:true, toExecute: item})
+    };
+
+    handleClose = () => {
+        this.setState({answerOpen: false, toExecute:null});
     };
 
     showResponse() {
@@ -126,11 +138,18 @@ class JobsEtl extends Component {
         }
     };
 
+    renderAnswerDialog() {
+        return (
+            <AnswerDialog answerOpen={this.state.answerOpen} handleClose={this.handleClose}
+                          handleAnswer={this.handleExecuteClick}/>
+        );
+    }
+
     renderTable() {
         const {classes, order, orderBy} = this.props;
         const {parameter} = this.props.parameter;
         const {rowsPerPage, page} = this.state;
-        parameter.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1 );
+        parameter.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1);
         if (this.props.parameter.errorRequest) {
             return this.renderError()
         }
@@ -161,13 +180,13 @@ class JobsEtl extends Component {
                                         <TableCell>
                                             <Button variant="contained" size="small" className={classes.button}
                                                     disabled={isProcess}
-                                                    onClick={event => this.handleExecuteClick(event, item.code)}>
-                                                <SwapVert className={classNames(classes.leftIcon, classes.iconSmall)}/>
+                                                    onClick={event => this.handleAnswer(event, item.code)}>
+                                                <PlayArrow className={classNames(classes.leftIcon, classes.iconSmall)}/>
                                             </Button>
 
                                         </TableCell>
                                         <TableCell
-                                            style={isProcess?{color: 'red'}:isExecute?{color:'green'}:{color:'black'}}>{item.state}</TableCell>
+                                            style={isProcess ? {color: 'red'} : isExecute ? {color: 'green'} : {color: 'black'}}>{item.state}</TableCell>
                                     </TableRow>)
                                 })}
                             </TableBody>
@@ -201,6 +220,7 @@ class JobsEtl extends Component {
                            subtitle={'En esta sección podras ejecuatar Jobs de manera completa o por partes segun su orden de prioridad'}/>
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
+                <div>{this.renderAnswerDialog()}</div>
                 <div>
                     <Toolbar style={{background: '#FFFFFF', marginTop: '1em'}}>
                         <div>
