@@ -46,7 +46,6 @@ export const parameter = (state = initialState, action) => {
                     }
                 });
                 let group = types.find(t => {
-                    console.log(parameter, t);
                     if (t.typeId === parseInt(parameter.group, 10)) {
                         return t;
                     }

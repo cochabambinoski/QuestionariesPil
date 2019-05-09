@@ -16,11 +16,11 @@ import {
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
     CLEAN_FILTER,
-    CLEAN_REQUEST,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
     CLEAN_REQUEST_CCMAC,
     CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    CLEAN_REQUEST_EXECUTE,
     CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
     CREATE_ACCOUNT_PERIOD_BI,
     CREATE_CONCEPT_BI,
@@ -216,7 +216,7 @@ export const loadInputBaseInformation = payload => ({type: LOAD_INPUT_BASE_INFOR
 
 export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMATION, payload});
 
-export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
+export const cleanRequestResponse = () => ({type: CLEAN_REQUEST_EXECUTE});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 

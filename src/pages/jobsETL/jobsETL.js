@@ -24,6 +24,7 @@ import startOfMonth from "date-fns/startOfMonth"
 import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
 import AnswerDialog from "./dialogs/AnswerDialog";
+import {cleanRequestResponse} from "../../actions";
 
 const styles = theme => ({
     button: {
@@ -63,7 +64,7 @@ class JobsEtl extends Component {
             parameters: this.props.parameter,
             parameter: null,
             answerOpen: false,
-            toExecute:false
+            toExecute: false
         }
     }
 
@@ -115,15 +116,16 @@ class JobsEtl extends Component {
         this.setState({page: 0, rowsPerPage: event.target.value})
     };
 
-    handleAnswer=(event, item) => {
-      this.setState({answerOpen:true, toExecute: item})
+    handleAnswer = (event, item) => {
+        this.setState({answerOpen: true, toExecute: item})
     };
 
     handleClose = () => {
-        this.setState({answerOpen: false, toExecute:null});
+        this.setState({answerOpen: false, toExecute: null});
     };
 
     showResponse() {
+        console.log(this.props.execute);
         if (this.props.execute.errorRequest !== null && this.props.execute.responseRequest === null) {
             this.showError('Error', 'Ocurrió un error al procesar la transacción');
         } else if (this.props.execute.errorRequest === null) {
@@ -131,8 +133,12 @@ class JobsEtl extends Component {
             if (codeResult !== null) {
                 if (codeResult === 1) {
                     this.showSuccess('Procesado', 'La transacción se realizó correctamente');
+                    this.props.cleanRequestResponse();
+                    this.getInitialData(this.state.selectedDate)
                 } else {
+                    this.props.cleanRequestResponse();
                     this.showError('Error', 'Ocurrió un error al procesar la transacción');
+                    this.getInitialData(this.state.selectedDate)
                 }
             }
         }
@@ -257,7 +263,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getAllParameter: () => dispatch(getAllParameterServerBi()),
     jobEtl: (code, date) => dispatch(jobEtlServerBi(code, date)),
-    getInitialDataParameters: (dataParam) => dispatch(getInitialDataParametersServerBi(dataParam))
+    getInitialDataParameters: (dataParam) => dispatch(getInitialDataParametersServerBi(dataParam)),
+    cleanRequestResponse: () => dispatch(cleanRequestResponse()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(JobsEtl));
