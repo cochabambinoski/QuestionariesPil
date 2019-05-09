@@ -123,6 +123,17 @@ class DialogCostConditionForm extends Component {
                             defaultValue={this.state.id}
                             margin={"normal"}/>
                         <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                            <InputLabel>Centro de Costo</InputLabel>
+                            <Select
+                                value={this.state.centerCost}
+                                onChange={this.handleChange}
+                                inputProps={{name: 'centerCost'}}>
+                                {centerCost.map(item => {
+                                    return <MenuItem value={item.id}>{item.code + " " + item.center}</MenuItem>
+                                })}
+                            </Select>
+                        </FormControl>
+                        <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
                             <InputLabel>Negocio</InputLabel>
                             <Select
                                 value={this.state.business}
@@ -134,17 +145,27 @@ class DialogCostConditionForm extends Component {
                             </Select>
                         </FormControl>
                         <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
-                            <InputLabel>Centro de Costo</InputLabel>
+                            <InputLabel>Linea</InputLabel>
                             <Select
-                                value={this.state.centerCost}
+                                value={this.state.lineCost}
                                 onChange={this.handleChange}
-                                inputProps={{name: 'centerCost'}}>
-                                {centerCost.map(item => {
-                                    return <MenuItem value={item.id}>{item.code + " " + item.center}</MenuItem>
+                                inputProps={{name: 'lineCost'}}>
+                                {lineCost.map(item => {
+                                    return <MenuItem value={item.id}>{item.line}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
-
+                        <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                            <InputLabel>Organización</InputLabel>
+                            <Select
+                                value={this.state.organization}
+                                onChange={this.handleChange}
+                                inputProps={{name: 'organization'}}>
+                                {organization.map(item => {
+                                    return <MenuItem value={item.id}>{item.organization}</MenuItem>
+                                })}
+                            </Select>
+                        </FormControl>
                         <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
                             <InputLabel>Canal</InputLabel>
                             <Select
@@ -156,31 +177,6 @@ class DialogCostConditionForm extends Component {
                                 })}
                             </Select>
                         </FormControl>
-
-                        <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
-                            <InputLabel>Linea</InputLabel>
-                            <Select
-                                value={this.state.lineCost}
-                                onChange={this.handleChange}
-                                inputProps={{name: 'lineCost'}}>
-                                {lineCost.map(item => {
-                                    return <MenuItem value={item.id}>{item.line}</MenuItem>
-                                })}
-                            </Select>
-                        </FormControl>
-
-                        <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
-                            <InputLabel>Organizacion</InputLabel>
-                            <Select
-                                value={this.state.organization}
-                                onChange={this.handleChange}
-                                inputProps={{name: 'organization'}}>
-                                {organization.map(item => {
-                                    return <MenuItem value={item.id}>{item.organization}</MenuItem>
-                                })}
-                            </Select>
-                        </FormControl>
-
                         <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
                             <InputLabel>Region</InputLabel>
                             <Select
@@ -192,7 +188,6 @@ class DialogCostConditionForm extends Component {
                                 })}
                             </Select>
                         </FormControl>
-
                         <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
                             <InputLabel>SubRegion</InputLabel>
                             <Select

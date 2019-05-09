@@ -130,7 +130,7 @@ class CostConditions extends Component {
 
     handleFilter = () => {
         if (this.state.centerCost > 0) {
-            this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.channel, this.state.organization, this.state.region, this.state.subRegion);
+            this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.organization, this.state.channel, this.state.region, this.state.subRegion);
         } else
             this.showInfo("Filtro","Debe tener Centro costo para poder filtrar la lista")
     };
@@ -263,17 +263,6 @@ class CostConditions extends Component {
                     </Select>
                 </FormControl>
                 <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
-                    <InputLabel>Canal</InputLabel>
-                    <Select
-                        value={this.state.channel}
-                        onChange={this.handleChange}
-                        inputProps={{name: 'channel'}}>
-                        {channel === undefined ? [] : channel.map(item => {
-                            return <MenuItem value={item.id}>{item.channel}</MenuItem>
-                        })}
-                    </Select>
-                </FormControl>
-                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
                     <InputLabel>Linea</InputLabel>
                     <Select
                         value={this.state.lineCost}
@@ -292,6 +281,17 @@ class CostConditions extends Component {
                         inputProps={{name: 'organization'}}>
                         {organization === undefined ? [] : organization.map(item => {
                             return <MenuItem value={item.id}>{item.organization}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+                <FormControl style={{margin: 5, minWidth: 120, maxWidth: 300}}>
+                    <InputLabel>Canal</InputLabel>
+                    <Select
+                        value={this.state.channel}
+                        onChange={this.handleChange}
+                        inputProps={{name: 'channel'}}>
+                        {channel === undefined ? [] : channel.map(item => {
+                            return <MenuItem value={item.id}>{item.channel}</MenuItem>
                         })}
                     </Select>
                 </FormControl>
@@ -339,8 +339,8 @@ class CostConditions extends Component {
                                     <CustomTableCell align="left">Centro Costo </CustomTableCell>
                                     <CustomTableCell align="left">Negocio</CustomTableCell>
                                     <CustomTableCell align="left">Linea </CustomTableCell>
-                                    <CustomTableCell align="left">Canal</CustomTableCell>
                                     <CustomTableCell align="left">Organización</CustomTableCell>
+                                    <CustomTableCell align="left">Canal</CustomTableCell>
                                     <CustomTableCell align="left">Región </CustomTableCell>
                                     <CustomTableCell align="left">Sub-Región </CustomTableCell>
                                 </TableRow>
