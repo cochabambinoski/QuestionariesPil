@@ -16,11 +16,11 @@ import {
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
     CLEAN_FILTER,
-    CLEAN_REQUEST,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
     CLEAN_REQUEST_CCMAC,
     CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    CLEAN_REQUEST_EXECUTE,
     CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
     CREATE_ACCOUNT_PERIOD_BI,
     CREATE_CONCEPT_BI,
@@ -53,13 +53,16 @@ import {
     GET_ALL_BRANCHES,
     GET_ALL_CONCEPTS,
     GET_ALL_DEPARTAMENTS,
+    GET_ALL_PARAMETERS,
     GET_ALL_TYPES,
     GET_ANSWERS,
     GET_DATA_CREATE_ACCOUNT_PERIOD,
+    GET_DATA_PARAMETERS,
     GET_INITIAL_DATA_EXCHANGE_RATE_BI,
     GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
     GET_QUESTIONNARIE_ANSWER,
     IS_SAVING_ANSWER,
+    JOB_EXECUTE,
     LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
     LOAD_COST_BASE_INFORMATION,
     LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI,
@@ -217,7 +220,7 @@ export const loadInputBaseInformation = payload => ({type: LOAD_INPUT_BASE_INFOR
 
 export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMATION, payload});
 
-export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
+export const cleanRequestResponse = () => ({type: CLEAN_REQUEST_EXECUTE});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 
@@ -277,3 +280,7 @@ export const getAllTypesBi = payload => ({type: GET_ALL_TYPES, payload});
 export const createTypeBi = payload => ({type: CREATE_TYPES_BI, payload});
 export const updateTypeBi = payload => ({type: UPDATE_TYPES_BI, payload});
 export const deleteTypeBi = payload => ({type: DELETE_TYPES_BI, payload});
+
+export const getAllParametersBi = payload => ({type: GET_ALL_PARAMETERS, payload});
+export const jobExecuteBi = payload => ({type: JOB_EXECUTE, payload});
+export const getInitialDataParametersBi = payload => ({type: GET_DATA_PARAMETERS, payload});

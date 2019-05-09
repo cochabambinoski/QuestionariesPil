@@ -22,6 +22,7 @@ import {operatingAccounts} from "./operatingAccounts";
 import {concepts} from "./concepts";
 import {centerCostCondition} from "./centerCostCondition";
 import {createTypes} from "./types";
+import {parameter} from "./parameter";
 
 export default combineReducers({
     data,
@@ -42,7 +43,8 @@ export default combineReducers({
     createCenterMasterAndCost,
     concepts,
     createTypes,
-    centerCostCondition
+    centerCostCondition,
+    parameter
 });
 
 export const getMenu = state => state.idMenu;
@@ -90,6 +92,7 @@ export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterA
 export const getPeriodAndAccountRegistration = (state) => state.periodAndAccountRegistration;
 export const getExchangeRate = (state) => state.exchangeRate;
 export const getOperatingAccounts = (state) => state.operatingAccounts;
+export const centerCostConditions = (state) => state.centerCostCondition;
+export const parameters = (state) => state.parameter;
 export const getConcepts = (state) => state.concepts;
 export const getCreateTypes = (state) => state.createTypes;
-export const centerCostConditions = (state) => state.centerCostCondition;

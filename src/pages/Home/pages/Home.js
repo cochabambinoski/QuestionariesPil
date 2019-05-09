@@ -24,6 +24,7 @@ import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
 import {BrowserRouter, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
+import {Start} from "../../Start/Start";
 import ListSegment from "../../ListSegments/pages/ListSegments";
 import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
@@ -32,6 +33,8 @@ import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList"
 import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
+import jobsETL from '../../jobsETL/jobsETL'
+
 import {
     answersIdRoute,
     answersRoute,
@@ -41,6 +44,7 @@ import {
     costConditionsRoute,
     exchangeRateRoute,
     expensesGenerationRoute,
+    jobsEtlRoute,
     loadBaseInputRoute,
     operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
@@ -58,7 +62,6 @@ import ExchangeRate from "../../exchangeRate/ExchangeRate";
 import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
 import TypeCenter from "../../typeCenter/TypeCenter";
-import {Start} from "../../Start/Start";
 
 class Home extends Component {
 
@@ -256,7 +259,7 @@ class Home extends Component {
                 <Route exact path={operatingAccountsRoute} component={OperatingAccounts}/>
                 <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
                 <Route exact path={typeCenterRoute} component={TypeCenter}/>
-
+                <Route exact path={jobsEtlRoute} component={jobsETL}/>
             </div>
         )
     }

@@ -26,6 +26,7 @@ import {
     getAllConcepts,
     getAllDepartaments,
     getAllTypesBi,
+    getAllParametersBi,
     getAnswers,
     getAnswersQuestionnarie,
     getDataCreateAccountPeriodBi,
@@ -33,6 +34,8 @@ import {
     getInitialDataCenterCostConditonBi,
     getInitialDataExchangeRateBi,
     getInitialDataOperatingAccountsBi,
+    getInitialDataParametersBi,
+    jobExecuteBi,
     loadCostBaseInformation,
     loadInputBaseInformation,
     setInitialDataQuestionerQuestionary,
@@ -777,7 +780,6 @@ export const updateCenterCostConditionSeverBi = (costCondition) => {
     }
 };
 
-
 export const createCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CREATE_CENTER_COST_CONDITION, center, business, line, organization, channel, region, subRegion)}`;
@@ -980,7 +982,6 @@ export const deleteConceptServerBi = (id) => {
             })
     }
 };
-
 
 export const getInitialAccountPeriodServerBi = () => {
     return dispatch => {
@@ -1266,3 +1267,81 @@ export const deleteOperatingAccountServerBi = (id) => {
     }
 };
 
+export const getAllParameterServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllParametersBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const jobEtlServerBi = (code, date) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB_WITH_PARAMETER, code, date)}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            timeout: 3600000
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(jobExecuteBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getInitialDataParametersServerBi = (dataParam) => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.GET_ALL_JOBS_BI, dataParam)}`)
+        ])
+            .then(([res1, res2, res3]) => Promise.all([res1.json(),
+                res2.json(), res3.json()]))
+            .then(([parameters, types, jobs]) => {
+                if (parameters.status === undefined &&
+                    types.status === undefined &&
+                    jobs.status === undefined) {
+                    dispatch(getInitialDataParametersBi({
+                        parameters: parameters,
+                        types: types,
+                        jobs: jobs
+                    }));
+                } else {
+                    if (parameters.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(parameters))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(types))
+                    } else if (jobs.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(jobs))
+                    }
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorBiCCMAC(error))
+            })
+    }
+};

@@ -1,6 +1,6 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_WEB_BI": "http://192.168.241.110:8086/bi/",
+  "ROUTE_WEB_BI": "http://localhost:8086/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_ALL_QUESTIONNAIRES_BY_USER": "getAllQuestionaryByUserSystem",
@@ -115,5 +115,8 @@
   "TYPES": "type",
   "CREATE_TYPE": "type?idConcept={0}&codeType={1}&name={2}&abbreviation={3}",
   "UPDATE_TYPE": "type?id={0}&idConcept={1}&codeType={2}&name={3}&abbreviation={4}",
-  "DELETE_TYPE": "type/"
+  "DELETE_TYPE": "type/",
+  "GET_ALL_PARAMETERS": "parameters",
+  "GET_ALL_JOBS_BI": "jobsParameter?dataParam={0}",
+  "JOB_WITH_PARAMETER": "runJobWithParameter?location={0}&parameter={1}"
 }

@@ -16,6 +16,7 @@ import {
     exchangeRateRoute,
     expensesGenerationRoute,
     indexRoute,
+    jobsEtlRoute,
     loadBaseInputRoute,
     operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
@@ -93,6 +94,8 @@ class SubMenu extends Component {
                 return conceptCenterRoute;
             case 'typeCenter':
                 return typeCenterRoute;
+            case 'jobsETL':
+                return jobsEtlRoute;
             default:
                 return indexRoute;
         }
