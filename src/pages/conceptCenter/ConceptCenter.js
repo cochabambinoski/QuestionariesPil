@@ -72,14 +72,20 @@ class ConceptCenter extends Component {
 
     shouldComponentUpdate(next_props, next_state, nextContext) {
         const {responseRequest} = next_props.reducer;
-        console.log(responseRequest, next_props.reducer);
-        if (responseRequest && responseRequest !== null) {
+        if (responseRequest) {
             if (responseRequest.codeResult >= 0) {
                 this.showResponse(responseRequest.codeResult);
-                this.chargeList()
+                this.chargeList();
+                if (this.state.conceptOpen !== next_state.conceptOpen || this.state.deleteOpen !== next_state.deleteOpen)
+                this.setState({deleteOpen: false, conceptOpen: false});
             }
         }
-        return true
+
+        if (this.state.conceptOpen !== next_state.conceptOpen || this.state.deleteOpen !== next_state.deleteOpen)
+            return true;
+        else
+            return next_props.reducer.concepts !== this.props.reducer.concepts;
+
     }
 
     showSuccess = (title, message) => {
@@ -110,11 +116,6 @@ class ConceptCenter extends Component {
 
     chargeList = () => {
         this.props.getAllConcepts()
-            .then((data) => {
-                this.setState(() => ({
-                    concepts: data
-                }));
-            });
     };
 
     handleDeleteClick = (event, id) => {
@@ -125,26 +126,16 @@ class ConceptCenter extends Component {
 
     handleDelete = () => {
         this.deleteConcept();
+        this.setState({deleteOpen: false})
     };
 
     deleteConcept = () => {
         this.props.deleteConcept(this.state.toDelete)
-            .then((result) => {
-                if (result === "ERROR") {
-                    this.showError('Error', 'No se pudo eliminar la segmentación');
-                } else {
-                    this.chargeList();
-                    this.handleClose();
-                    if (result !== undefined || result !== null)
-                        this.showSuccess('Eliminado', 'Se elimino una segmentación');
-                }
-            });
     };
 
     handleClose = () => {
         this.setState({deleteOpen: false});
         this.setState({toDelete: null});
-        this.chargeList();
     };
 
     renderDeleteDialog() {

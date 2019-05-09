@@ -10,6 +10,7 @@ const periodAndAccountRegistration = "periodAndAccountRegistration";
 const exchangeRate = "exchangeRate";
 const operatingAccounts = "operatingAccounts";
 const conceptCenter = "conceptCenter";
+const typeCenter = "typeCenter";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -33,3 +34,4 @@ export const exchangeRateRoute = `/${exchangeRate}`;
 export const operatingAccountsRoute = `/${operatingAccounts}`;
 export const costConditionsRoute = `/${costConditions}/`;
 export const conceptCenterRoute = `/${conceptCenter}/`;
+export const typeCenterRoute = `/${typeCenter}/`;

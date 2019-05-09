@@ -20,6 +20,8 @@ import {periodAndAccountRegistration} from "./periodAndAccountRegistration";
 import {exchangeRate} from "./exchangeRate";
 import {operatingAccounts} from "./operatingAccounts";
 import {concepts} from "./concepts";
+import {centerCostCondition} from "./centerCostCondition";
+import {createTypes} from "./types";
 
 export default combineReducers({
     data,
@@ -39,7 +41,10 @@ export default combineReducers({
     operatingAccounts,
     createCenterMasterAndCost,
     concepts,
+    createTypes,
+    centerCostCondition
 });
+
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
 export const getMobileAssignement = state => state.assignmentUser;
@@ -85,5 +90,6 @@ export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterA
 export const getPeriodAndAccountRegistration = (state) => state.periodAndAccountRegistration;
 export const getExchangeRate = (state) => state.exchangeRate;
 export const getOperatingAccounts = (state) => state.operatingAccounts;
-
 export const getConcepts = (state) => state.concepts;
+export const getCreateTypes = (state) => state.createTypes;
+export const centerCostConditions = (state) => state.centerCostCondition;

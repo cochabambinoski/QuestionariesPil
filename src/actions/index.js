@@ -11,6 +11,7 @@ import {
     CHANGE_ERROR_REQUEST,
     CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
     CHANGE_ERROR_REQUEST_BI,
+    CHANGE_ERROR_REQUEST_CCMAC,
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
@@ -18,6 +19,7 @@ import {
     CLEAN_REQUEST,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
+    CLEAN_REQUEST_CCMAC,
     CLEAN_REQUEST_EXCHANGE_RATE_BI,
     CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
     CREATE_ACCOUNT_PERIOD_BI,
@@ -25,6 +27,7 @@ import {
     CREATE_CONDITION_CENTER_MASTER,
     CREATE_EXCHANGE_RATE_BI,
     CREATE_OPERATING_ACCOUNTS_BI,
+    CREATE_TYPES_BI,
     DATA,
     DELETE_ACCOUNT_PERIOD_BI,
     DELETE_ALL_ASSIGNEMENT_USER,
@@ -40,14 +43,17 @@ import {
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE,
+    DELETE_TYPES_BI,
     EDIT_ASSIGNEMENT_USER,
     EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST,
     EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
     EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST,
     FILL_OUT_QUESTIONARY_RANGE_ALL,
+    FILTER_CENTER_COST_CONDITION,
     GET_ALL_BRANCHES,
     GET_ALL_CONCEPTS,
     GET_ALL_DEPARTAMENTS,
+    GET_ALL_TYPES,
     GET_ANSWERS,
     GET_DATA_CREATE_ACCOUNT_PERIOD,
     GET_INITIAL_DATA_EXCHANGE_RATE_BI,
@@ -79,7 +85,8 @@ import {
     UPDATE_CONDITION_CENTER_MASTER,
     UPDATE_EXCHANGE_RATE_BI,
     UPDATE_MARKED_OPTIONS,
-    UPDATE_OPERATING_ACCOUNTS_BI
+    UPDATE_OPERATING_ACCOUNTS_BI,
+    UPDATE_TYPES_BI
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -214,17 +221,23 @@ export const cleanRequestResponse = () => ({type: CLEAN_REQUEST});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 
+export const changeErrorBiCCMAC = payload => ({type: CHANGE_ERROR_REQUEST_CCMAC, payload});
+
 export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
+
+export const cleanRequestCCMAC = () => ({type: CLEAN_REQUEST_CCMAC});
 
 export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
 
-export const deleteCenterCostConditionBi = payload => ({type: DELETE_CONDITION_CENTER_MASTER, payload});
+export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
 
 export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload});
 
 export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
 
 export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
 
 export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
 
@@ -259,3 +272,8 @@ export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
 export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
 export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
 export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
+/*Type*/
+export const getAllTypesBi = payload => ({type: GET_ALL_TYPES, payload});
+export const createTypeBi = payload => ({type: CREATE_TYPES_BI, payload});
+export const updateTypeBi = payload => ({type: UPDATE_TYPES_BI, payload});
+export const deleteTypeBi = payload => ({type: DELETE_TYPES_BI, payload});
