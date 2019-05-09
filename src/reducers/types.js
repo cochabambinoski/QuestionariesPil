@@ -1,4 +1,4 @@
-import {CREATE_TYPES_BI, DELETE_CONCEPT_BI, GET_ALL_TYPES, UPDATE_TYPES_BI} from "../action-types/actionTypes";
+import {CREATE_TYPES_BI, DELETE_TYPES_BI, GET_ALL_TYPES, UPDATE_TYPES_BI} from "../action-types/actionTypes";
 
 const getResponse = response => ({
     types: [],
@@ -34,7 +34,7 @@ export const createTypes = (state = initialState, action) => {
         case UPDATE_TYPES_BI: {
             return {...state, responseRequest: action.payload}
         }
-        case DELETE_CONCEPT_BI: {
+        case DELETE_TYPES_BI: {
             return {...state, responseRequest: action.payload}
         }
         default: {
