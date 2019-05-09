@@ -31,7 +31,6 @@ const styles = theme => ({
 
 function AnswerDialog(props) {
     const {answerOpen, classes} = props;
-    console.log(props);
     return (
         <Dialog
             open={answerOpen}
