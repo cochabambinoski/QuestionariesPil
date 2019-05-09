@@ -58,6 +58,7 @@ import ExchangeRate from "../../exchangeRate/ExchangeRate";
 import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
 import TypeCenter from "../../typeCenter/TypeCenter";
+import {Start} from "../../Start/Start";
 
 class Home extends Component {
 
