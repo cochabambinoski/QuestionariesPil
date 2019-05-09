@@ -3,6 +3,7 @@ import {
     CLEAN_REQUEST_BI,
     CREATE_CONDITION_CENTER_MASTER,
     DELETE_CONDITION_CENTER_MASTER,
+    FILTER_CENTER_COST_CONDITION,
     UPDATE_CONDITION_CENTER_MASTER
 } from '../action-types/actionTypes';
 
@@ -23,6 +24,9 @@ const initialState = ({
 
 export const centerCostCondition = (state = initialState, action) => {
     switch (action.type) {
+        case FILTER_CENTER_COST_CONDITION: {
+            return {...state, centerCostConditions: action.payload, errorRequest: null, load: false, responseRequest: null}
+        }
         case DELETE_CONDITION_CENTER_MASTER: {
             return {... state, responseRequest: action.payload}
         }

@@ -21,7 +21,8 @@ import {
     operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
     questionariesRoute,
-    segmentRoute
+    segmentRoute,
+    typeCenterRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
@@ -91,6 +92,8 @@ class SubMenu extends Component {
                     return operatingAccountsRoute;
             case 'conceptCenter':
                 return conceptCenterRoute;
+            case 'typeCenter':
+                return typeCenterRoute;
             case 'jobsETL':
                 return jobsEtlRoute;
             default:

@@ -14,15 +14,18 @@ import {
     createConceptBi,
     createExchangeRateBi,
     createOperatingAccountsBi,
+    createTypeBi,
     deleteAccountPeriodBi,
     deleteCenterCostConditionBi,
     deleteConceptBi,
     deleteExchangeRateBi,
     deleteOperatingAccountsBi,
+    deleteTypeBi,
     filterCenterCostConditionBi,
     getAllBranches,
     getAllConcepts,
     getAllDepartaments,
+    getAllTypesBi,
     getAllParametersBi,
     getAnswers,
     getAnswersQuestionnarie,
@@ -47,8 +50,8 @@ import {
     updateConceptBi,
     updateExchangeRateBi,
     updateOperatingAccountsBi,
+    updateTypeBi,
 } from "./index";
-import * as StringFilterUtil from "../Util/StringFormatUtil";
 import * as StringFormatUtil from "../Util/StringFormatUtil";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
@@ -803,6 +806,183 @@ export const createCenterCostConditionServerBi = (center, business, line, organi
     }
 };
 
+
+export const getAllTypesServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.TYPES}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllTypesBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            });
+    };
+};
+
+export const createTypeServerBi = (type) => {
+    return dispatch => {
+        let create = StringFormatUtil.format(Constants.CREATE_TYPE, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateTypeServerBi = (type) => {
+    return dispatch => {
+        let update = StringFormatUtil.format(Constants.UPDATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const deleteTypeServerBi = id => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_TYPE}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const createConceptServerBi = (concept) => {
+    return dispatch => {
+        let create = StringFormatUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+export const updateConceptServerBi = (concept) => {
+    return dispatch => {
+        let update = StringFormatUtil.format(Constants.UPDATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getAllConceptsBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CONCEPTS}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllConcepts(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            });
+    };
+};
+
+export const deleteConceptServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CONCEPT}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
 export const getInitialAccountPeriodServerBi = () => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNTS_PERIOD}`;
@@ -1083,96 +1263,6 @@ export const deleteOperatingAccountServerBi = (id) => {
             })
             .catch(error => {
                 dispatch(changeErrorOperatingAccountsBi(error))
-            })
-    }
-};
-
-export const getAllConceptsBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.CONCEPTS}`;
-        return fetch(url)
-            .then(results => {
-                return results.json();
-            }).then(response => {
-                if (response.status === undefined) {
-                    dispatch(getAllConcepts(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            });
-    };
-};
-
-export const deleteConceptServerBi = (id) => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CONCEPT}${id}`;
-        return fetch(url, {method: 'DELETE'})
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(deleteConceptBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-                return response;
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const createConceptServerBi = (concept) => {
-    return dispatch => {
-        let create = StringFilterUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${create}`;
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(createConceptBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-                return response;
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
-export const updateConceptServerBi = (concept) => {
-    return dispatch => {
-        let update = StringFilterUtil.format(Constants.UPDATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
-        const url = `${Constants.ROUTE_WEB_BI}${update}`;
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(updateConceptBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-                return response;
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
             })
     }
 };

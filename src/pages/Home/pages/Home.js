@@ -52,7 +52,8 @@ import {
     questionariesNewRoute,
     questionariesRoute,
     questionariesShowIdRoute,
-    segmentRoute
+    segmentRoute,
+    typeCenterRoute
 } from "../../../routes/PathRoutes";
 import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
 import CostConditions from "../../costConditions/CostConditions";
@@ -60,6 +61,7 @@ import PeriodAndAccountRegistration from "../../periodAndAccountRegistration/Per
 import ExchangeRate from "../../exchangeRate/ExchangeRate";
 import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
 import ConceptCenter from "../../conceptCenter/ConceptCenter";
+import TypeCenter from "../../typeCenter/TypeCenter";
 
 class Home extends Component {
 
@@ -203,31 +205,31 @@ class Home extends Component {
 
     renderContentByRoute() {
         return (
-            <div className="layout-main">
-                <Growl ref={(el) => this.growl = el}/>
-                <Route path="/" exact component={Start}/>
-                {/*Questionaries Create Show Edit Delete*/}
-                <Route path={questionariesRoute} exact
-                       render={(props) => <Questionnaires title={this.state.title}
-                                                          detail={this.state.detail}
-                                                          showMessage={this.showSuccess}
-                                                          {...props}/>}
-                />
-                <Route path={questionariesNewRoute} exact strict
-                       render={(props) => <Questionnaire questionary={null}
-                                                         showMessage={this.showSuccess}
-                                                         {...props}/>}
-                />
-                <Route path={questionariesShowIdRoute} exact strict
-                       render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                       readOnly={true}
-                                                       showMessage={this.showSuccess} {...props}/>}
-                />
-                <Route path={questionariesEditIdRoute} exact strict
-                       render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                       showMessage={this.showSuccess} {...props}/>}
-                />
-                {/*Assigment Questionnaries*/}
+                <div className="layout-main">
+                    <Growl ref={(el) => this.growl = el}/>
+                    <Route path="/" exact component={Start}/>
+                    {/*Questionaries Create Show Edit Delete*/}
+                    <Route path={questionariesRoute} exact
+                           render={(props) => <Questionnaires title={this.state.title}
+                                                              detail={this.state.detail}
+                                                              showMessage={this.showSuccess}
+                                                              {...props}/>}
+                    />
+                    <Route path={questionariesNewRoute} exact strict
+                           render={(props) => <Questionnaire questionary={null}
+                                                             showMessage={this.showSuccess}
+                                                             {...props}/>}
+                    />
+                    <Route path={questionariesShowIdRoute} exact strict
+                           render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                           readOnly={true}
+                                                           showMessage={this.showSuccess} {...props}/>}
+                    />
+                    <Route path={questionariesEditIdRoute} exact strict
+                           render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                           showMessage={this.showSuccess} {...props}/>}
+                    />
+                    {/*Assigment Questionnaries*/}
 
                 <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
                 <Route path={assigmentIdRoute} exact strict
@@ -256,6 +258,7 @@ class Home extends Component {
                 <Route exact path={exchangeRateRoute} component={ExchangeRate}/>
                 <Route exact path={operatingAccountsRoute} component={OperatingAccounts}/>
                 <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
+                <Route exact path={typeCenterRoute} component={TypeCenter}/>
                 <Route exact path={jobsEtlRoute} component={jobsETL}/>
             </div>
         )
