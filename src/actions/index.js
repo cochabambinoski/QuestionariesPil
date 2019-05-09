@@ -16,7 +16,6 @@ import {
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
     CLEAN_FILTER,
-    CLEAN_REQUEST,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
     CLEAN_REQUEST_CCMAC,
@@ -54,8 +53,8 @@ import {
     GET_ALL_BRANCHES,
     GET_ALL_CONCEPTS,
     GET_ALL_DEPARTAMENTS,
-    GET_ALL_TYPES,
     GET_ALL_PARAMETERS,
+    GET_ALL_TYPES,
     GET_ANSWERS,
     GET_DATA_CREATE_ACCOUNT_PERIOD,
     GET_DATA_PARAMETERS,
@@ -252,8 +251,6 @@ export const createAccountPeriodBi = payload => ({type: CREATE_ACCOUNT_PERIOD_BI
 export const updateAccountPeriodBi = payload => ({type: UPDATE_ACCOUNT_PERIOD_BI, payload});
 
 export const deleteAccountPeriodBi = payload => ({type: DELETE_ACCOUNT_PERIOD_BI, payload});
-
-export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
 
 export const changeErrorRequestAccountPeriodBi = payload => ({type: CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI, payload});
 

@@ -43,7 +43,6 @@ export default combineReducers({
     createCenterMasterAndCost,
     concepts,
     createTypes,
-    createCenterMasterAndCost,
     centerCostCondition,
     parameter
 });
@@ -97,4 +96,3 @@ export const centerCostConditions = (state) => state.centerCostCondition;
 export const parameters = (state) => state.parameter;
 export const getConcepts = (state) => state.concepts;
 export const getCreateTypes = (state) => state.createTypes;
-export const centerCostConditions = (state) => state.centerCostCondition;
