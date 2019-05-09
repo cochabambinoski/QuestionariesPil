@@ -5,14 +5,6 @@ import {
     GET_DATA_PARAMETERS,
 } from "../action-types/actionTypes";
 
-const getResponse = response => ({
-    parameter: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: true
-});
-
 const errorState = error => ({
     parameter: [],
     errorRequest: error,

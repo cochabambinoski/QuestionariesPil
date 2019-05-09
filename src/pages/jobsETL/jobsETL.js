@@ -13,7 +13,7 @@ import withStyles from "@material-ui/core/es/styles/withStyles";
 import JsxStyles from "../../styles/JsxStyles";
 import connect from "react-redux/es/connect/connect";
 import {getProcessConfirmation, parameters} from "../../reducers";
-import {getAllParameterServerBi, getInitialDataParametersServerBi, jobEtlServerBi} from "../../actions/indexthunk";
+import {getInitialDataParametersServerBi, jobEtlServerBi} from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
 import PlayArrow from "@material-ui/icons/PlayArrow";
 import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
@@ -53,7 +53,6 @@ class JobsEtl extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = {
             title: "Centro Condiciones de costo",
             subtitle: "Generación de condiciones de costo",
@@ -84,20 +83,11 @@ class JobsEtl extends Component {
         this.messages.show({life: 5000, severity: 'success', summary: title, detail: message});
     };
 
-    showInfo = (title, message) => {
-        this.messages.show({life: 5000, severity: 'info', summary: title, detail: message});
-    };
-
-    showWarn = (title, message) => {
-        this.messages.show({life: 5000, severity: 'warn', summary: title, detail: message});
-    };
-
     showError = (title, message) => {
         this.messages.show({life: 5000, severity: 'error', summary: title, detail: message});
     };
 
     handleExecuteClick = () => {
-        console.log('execute');
         this.setState({answerOpen: false});
         const date = startOfMonth(this.state.selectedDate);
         this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
@@ -125,7 +115,6 @@ class JobsEtl extends Component {
     };
 
     showResponse() {
-        console.log(this.props.execute);
         if (this.props.execute.errorRequest !== null && this.props.execute.responseRequest === null) {
             this.showError('Error', 'Ocurrió un error al procesar la transacción');
         } else if (this.props.execute.errorRequest === null) {
@@ -152,7 +141,7 @@ class JobsEtl extends Component {
     }
 
     renderTable() {
-        const {classes, order, orderBy} = this.props;
+        const {classes} = this.props;
         const {parameter} = this.props.parameter;
         const {rowsPerPage, page} = this.state;
         parameter.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1);
@@ -214,7 +203,6 @@ class JobsEtl extends Component {
     }
 
     render() {
-        const {classes} = this.props;
         const {selectedDate} = this.state;
         {
             this.props.execute.jobExectute !== null ? this.showResponse() : null
@@ -261,7 +249,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    getAllParameter: () => dispatch(getAllParameterServerBi()),
     jobEtl: (code, date) => dispatch(jobEtlServerBi(code, date)),
     getInitialDataParameters: (dataParam) => dispatch(getInitialDataParametersServerBi(dataParam)),
     cleanRequestResponse: () => dispatch(cleanRequestResponse()),

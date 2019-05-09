@@ -739,7 +739,6 @@ export const deleteCenterCostConditionServerBi = id => {
                 return results.json()
             })
             .then(response => {
-                console.log(response);
                 if (response.status === undefined) {
                     dispatch(deleteCenterCostConditionBi(response))
                 } else {

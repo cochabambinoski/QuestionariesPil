@@ -13,7 +13,3 @@ export function format(fmt, ...args) {
         }
     });
 }
-
-function print(fmt, ...args) {
-    console.log(format(fmt, ...args));
-}

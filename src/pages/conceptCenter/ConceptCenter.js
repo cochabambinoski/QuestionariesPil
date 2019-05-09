@@ -72,7 +72,6 @@ class ConceptCenter extends Component {
 
     shouldComponentUpdate(next_props, next_state, nextContext) {
         const {responseRequest} = next_props.reducer;
-        console.log(responseRequest, next_props.reducer);
         if (responseRequest && responseRequest !== null) {
             if (responseRequest.codeResult >= 0) {
                 this.showResponse(responseRequest.codeResult);
