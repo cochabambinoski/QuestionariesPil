@@ -744,6 +744,7 @@ export const deleteCenterCostConditionServerBi = id => {
                 } else {
                     dispatch(changeErrorBi(response))
                 }
+                return response.codeResult;
             }).catch(error => {
                 dispatch(changeErrorBi(error))
             })
