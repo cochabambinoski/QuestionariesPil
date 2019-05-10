@@ -136,7 +136,7 @@ class JobsEtl extends Component {
     renderAnswerDialog() {
         return (
             <AnswerDialog answerOpen={this.state.answerOpen} handleClose={this.handleClose}
-                          handleAnswer={this.handleExecuteClick} execute={this.state.toExecute} />
+                          handleAnswer={this.handleExecuteClick} execute={this.state.toExecute}/>
         );
     }
 
@@ -205,7 +205,9 @@ class JobsEtl extends Component {
     render() {
         const {selectedDate} = this.state;
         {
-            this.props.execute.jobExectute !== null ? this.showResponse() : null
+            if (this.props.execute.jobExectute !== null) {
+                this.showResponse()
+            }
         }
         return (
             <div>

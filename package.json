@@ -44,7 +44,7 @@
     "react-redux": "^5.1.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "2.1.1",
     "react-select": "^2.4.3",
     "react-sizeme": "^2.5.2",
     "react-swipeable-views": "^0.12.18",
@@ -76,5 +76,14 @@
       "env",
       "react-app"
     ]
-  }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

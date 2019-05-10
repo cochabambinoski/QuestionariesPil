@@ -7,12 +7,12 @@ import thunk from 'redux-thunk';
 //Estado inicial de nuestra aplicacion
 const initialState = {};
 
- const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // development
-//const composeEnhancers = compose; // build
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // development
+const composeEnhancers = compose; // build
 
 export const store = createStore(
     reducer, initialState,
-     composeEnhancers(applyMiddleware(reduxTimeout(), logger, thunk) // development
-    //composeEnhancers(applyMiddleware(reduxTimeout(), thunk) // build
+    //composeEnhancers(applyMiddleware(reduxTimeout(), logger, thunk) // development
+    composeEnhancers(applyMiddleware(reduxTimeout(), thunk) // build
     ),
 );
