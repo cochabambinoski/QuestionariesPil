@@ -1,5 +1,4 @@
-import {Component} from "react";
-import React from "react";
+import React, {Component} from "react";
 import connect from "react-redux/es/connect/connect";
 import Title from "../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
@@ -29,7 +28,7 @@ class GenerationExpenses extends Component {
                 {
                     this.props.reduxVariable !== null ? this.renderResponse() : null
                 }
-                <Title tilte={'Distribución de Gastos'}
+                <Title title={'Distribución de Gastos'}
                        subtitle={'En esta sección podrás generar la base de gastos separado por centro de costo y paquete, ' +
                        'el objetivo es desglosar o distribuir en los siguientes niveles de negocio, línea, organización, ' +
                        'canal, región y sub región.'}/>
@@ -66,9 +65,12 @@ class GenerationExpenses extends Component {
         return (
             <div>
                 <ModalGeneric open={this.props.reduxVariable.showDialog} onClose={this.handleClose}>
+                    <Title title="Respuesta" subtitle=""/>
+                    <br/>
                     <Typography>
                         {message}
                     </Typography>
+                    <br/>
                     <Button color={"primary"} variant="contained" style={{position: 'center', background: "#03A8E4"}}
                             onClick={this.props.cleanResponse}>Aceptar</Button>
                 </ModalGeneric>

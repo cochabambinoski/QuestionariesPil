@@ -19,7 +19,10 @@ const styles = theme => ({
         width: theme.spacing.unit * 60,
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
+        paddingLeft: theme.spacing.unit * 2,
+        paddingRight: theme.spacing.unit * 2,
+        paddingTop:0,
+        paddingBottom: theme.spacing.unit * 2,
         outline: 'none',
     },
 });

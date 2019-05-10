@@ -242,7 +242,7 @@ class ConceptCenter extends Component {
                     {this.renderConceptDialog()}
                 </div>
                 <div>
-                    <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    <Title title={this.state.title} subtitle={this.state.subtitle}/>
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>

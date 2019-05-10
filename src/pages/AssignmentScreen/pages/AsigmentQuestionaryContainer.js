@@ -28,7 +28,7 @@ class AsigmentQuestionaryContainer extends Component {
     render() {
         return (
             <div className="text">
-                <Title tilte={'Asignación de Cuestionarios'}
+                <Title title={'Asignación de Cuestionarios'}
                        subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
                 <Messages ref={(el) => this.messages = el}/>
                 <br/>

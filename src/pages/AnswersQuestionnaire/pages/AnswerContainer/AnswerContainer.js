@@ -47,7 +47,7 @@ class AnswerContainer extends Component {
         return (
             <div>
 
-                <Title tilte={'Encuestas respondidas'}
+                <Title title={'Encuestas respondidas'}
                        subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/>
                 <br/>
                 <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}

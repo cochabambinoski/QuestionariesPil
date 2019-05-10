@@ -143,7 +143,7 @@ class Questionnaires extends Component {
                                handleConfirm={this.handleClose} handleCancel={this.exitModal}>
                         </Modal>
                     </ModalContainer>
-                    <Title tilte={'Lista de Encuestas'}
+                    <Title title={'Lista de Encuestas'}
                            subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                     <Toolbar className="toolbarFullWidth">
                         <div>

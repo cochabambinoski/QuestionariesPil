@@ -21,6 +21,7 @@ import {cleanRequestAccountPeriodBi} from "../../actions";
 import DialogCreateAndEditPeriodAndAccount from "./component/DialogCreateAndEditPeriodAndAccount";
 import {formatDateToString} from "../../utils/StringDateUtil";
 import {Messages} from "primereact/messages";
+import Title from "../Title/Title";
 
 class PeriodAndAccountRegistration extends Component {
     constructor(props) {
@@ -149,15 +150,24 @@ class PeriodAndAccountRegistration extends Component {
                 const {idAccountPeriodDimension} = item;
                 return (
                     <div>
-                        <h1>Seguro que desea eliminar esta cuenta</h1>
-                        <Button style={{margin: 3}}
-                                variant={"contained"}
-                                onClick={() => this.deleteAccountPeriodDispatch(idAccountPeriodDimension)}
-                                color={"primary"}>Aceptar</Button>
-                        <Button style={{margin: 3}}
-                                variant={"contained"}
-                                onClick={this.handleCloseDialog}
-                                color={"secondary"}>Cancelar</Button>
+                        <div>
+                            <Title title="Alerta" subtitle={this.state.subtitle}/>
+                        </div>
+                        <br/>
+                        <div>
+                            <h1><b>¿Está seguro que desea eliminar esta cuenta?</b></h1>
+                        </div>
+                        <br/>
+                        <div>
+                            <Button style={{margin: 3}}
+                                    variant={"contained"}
+                                    onClick={() => this.deleteAccountPeriodDispatch(idAccountPeriodDimension)}
+                                    color={"primary"}>Aceptar</Button>
+                            <Button style={{margin: 3}}
+                                    variant={"contained"}
+                                    onClick={this.handleCloseDialog}
+                                    color={"secondary"}>Cancelar</Button>
+                        </div>
                     </div>);
             case openModalCreate:
                 return (
@@ -241,7 +251,7 @@ class PeriodAndAccountRegistration extends Component {
         // noinspection ThisExpressionReferencesGlobalObjectJS
         return (
             <div>
-                <Messages ref={(el) => this.messages = el} />
+                <Messages ref={(el) => this.messages = el}/>
                 <ModalGeneric open={this.state.open} onClose={this.handleCloseDialog}>
                     {this.renderDialog()}
                 </ModalGeneric>
@@ -266,7 +276,7 @@ class PeriodAndAccountRegistration extends Component {
                                                     <ListItemText primary={"Id: " + idAccountPeriodDimension}/>
                                                     {this.getCodeAccount(item)}
                                                     <ListItemText primary={"Fecha: " + formatDateToString(dateId)}/>
-                                                    <ListItemText primary={"Importe: " + amount }/>
+                                                    <ListItemText primary={"Importe: " + amount}/>
                                                     <Grid item xs={12}>
                                                         <Grid container direction={"row"} justify={"center"}>
                                                             <Grid item>

@@ -27,7 +27,7 @@ class LoadBaseInput extends Component {
                 {
                     this.props.reduxVariable !== null ? this.renderResponse() : null
                 }
-                <Title tilte={'Carga de información Base'}
+                <Title title={'Carga de información Base'}
                        subtitle={'En esta sección, podrá cargar la información base de los ingresos y gastos, para la generación de distribución de gastos.'}/>
                 <Messages ref={(el) => this.messages = el}/>
                 <Toolbar className="toolbarFullWidth">
@@ -67,9 +67,12 @@ class LoadBaseInput extends Component {
         return (
             <div>
                 <ModalGeneric open={this.props.reduxVariable.showDialog} onClose={this.handleClose}>
+                    <Title title="Respuesta" subtitle=""/>
+                    <br/>
                     <Typography>
                         {message}
                     </Typography>
+                    <br/>
                     <Button color={"primary"} variant="contained" style={{position: 'center', background: "#03A8E4"}}
                             onClick={this.props.cleanResponse}>Aceptar</Button>
                 </ModalGeneric>

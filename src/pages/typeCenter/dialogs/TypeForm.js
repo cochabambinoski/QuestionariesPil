@@ -238,7 +238,7 @@ class ConceptForm extends Component {
         const {process} = this.state;
         return (
             <div>
-                <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                <Title title={this.props.type === 0 ? "Crear" : "Editar"} subtitle={this.state.subtitle}/>
                 {
                     process ? this.renderForm() :
                         <CircularProgress size={500} style={{color: '#2196f3'[200]}} thickness={5}/>

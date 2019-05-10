@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Typography from "@material-ui/core/es/Typography/Typography";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
 import Select from "@material-ui/core/es/Select/Select";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import Button from "@material-ui/core/es/Button/Button";
+import Title from "../../Title/Title";
 
 class DialogOperatingAccountEdit extends Component {
 
@@ -13,7 +13,8 @@ class DialogOperatingAccountEdit extends Component {
         super(props);
         this.state = {
             account: null,
-            type: null
+            type: null,
+            title: "Cuenta Operacion "
         }
     }
 
@@ -76,9 +77,10 @@ class DialogOperatingAccountEdit extends Component {
         // noinspection JSUnresolvedVariable
         return (
             <div>
-                <Typography>
-                    Cuenta Operacion {item ? item.accountOperationId : null}
-                </Typography>
+                <div>
+                    <Title title={this.state.title.concat(item ? String(item.accountOperationId) : null)}
+                           subtitle={this.state.subtitle}/>
+                </div>
                 <form>
                     <FormControl style={{margin: 8, minWidth: 180}} disabled={isDisable}>
                         <InputLabel shrink htmlFor={"account-label"}>Cuenta</InputLabel>

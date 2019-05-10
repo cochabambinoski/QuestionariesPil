@@ -46,7 +46,7 @@ const styles = theme => ({
     },
     rightIcon: {
         marginLeft: theme.spacing.unit,
-    },
+    }
 });
 
 class DialogCostConditionForm extends Component {
@@ -57,8 +57,6 @@ class DialogCostConditionForm extends Component {
         console.log(item);
         if (item) {
             this.state = {
-                title: "",
-                subtitle: "",
                 costCondition: item,
                 id: item.id,
                 business: item.business,
@@ -68,6 +66,8 @@ class DialogCostConditionForm extends Component {
                 organization: item.organization,
                 region: item.region,
                 subRegion: item.subRegion,
+                title: 'Edición o Elimninación',
+                subtitle:'',
                 toDelete: null,
             }
         }
@@ -117,7 +117,7 @@ class DialogCostConditionForm extends Component {
         return (
             <div>
                 <div>
-                    <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    <Title title={this.state.title} subtitle={this.state.subtitle}/>
                 </div>
                 <div>
                     <form className={classes.container} noValidate autoComplete="off">

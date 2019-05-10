@@ -388,7 +388,7 @@ class CostConditions extends Component {
                 <div>
                     {this.renderForm()}
                     <div>
-                        <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                        <Title title={this.state.title} subtitle={this.state.subtitle}/>
                     </div>
                     <div>
                         <Messages ref={(el) => this.messages = el}/>

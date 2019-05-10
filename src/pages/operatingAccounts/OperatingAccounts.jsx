@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
 import {getOperatingAccounts} from "../../reducers";
 import {
-    createOperatingAccountServerBi, deleteOperatingAccountServerBi,
+    createOperatingAccountServerBi,
+    deleteOperatingAccountServerBi,
     getDataInitialOperatingAccountsServerBi,
     updateOperatingAccountServerBi
 } from "../../actions/indexthunk";
@@ -18,6 +19,7 @@ import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 import DialogOperatingAccountEdit from "./components/DialogOperatingAccountEdit";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import {Messages} from "primereact/messages";
+import Title from "../Title/Title";
 
 class OperatingAccounts extends Component {
 
@@ -113,15 +115,24 @@ class OperatingAccounts extends Component {
                 const {accountOperationId} = item;
                 return (
                     <div>
-                        <h1>Seguro que desea eliminar esta Cuenta</h1>
-                        <Button style={{margin: 3}}
-                                variant={"contained"}
-                                color={"primary"}
-                                onClick={() => this.deleteOperatingAccountDispatch(accountOperationId)}>Aceptar</Button>
-                        <Button style={{margin: 3}}
-                                variant={"contained"}
-                                color={"primary"}
-                                onClick={this.handleCloseDialog}>Cancelar</Button>
+                        <div>
+                            <Title title="Alerta" subtitle={this.state.subtitle}/>
+                        </div>
+                        <br/>
+                        <div>
+                            <h1><b>¿Está seguro que desea eliminar esta cuenta?</b></h1>
+                        </div>
+                        <br/>
+                        <div>
+                            <Button style={{margin: 3}}
+                                    variant={"contained"}
+                                    color={"primary"}
+                                    onClick={() => this.deleteOperatingAccountDispatch(accountOperationId)}>Aceptar</Button>
+                            <Button style={{margin: 3}}
+                                    variant={"contained"}
+                                    color={"primary"}
+                                    onClick={this.handleCloseDialog}>Cancelar</Button>
+                        </div>
                     </div>);
             case openModalCreate:
                 return (

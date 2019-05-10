@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
-import Typography from "@material-ui/core/es/Typography/Typography";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import TextField from "@material-ui/core/es/TextField/TextField";
 import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
 import Select from "@material-ui/core/es/Select/Select";
 import Button from "@material-ui/core/es/Button/Button";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
+import Title from "../../Title/Title";
 
 class DialogCreateAndEditPeriodAndAccount extends Component {
     constructor(props) {
@@ -15,6 +15,7 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
             account: null,
             date: null,
             amount: null,
+            title: "Cuenta Periodo "
         }
     }
 
@@ -79,11 +80,9 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
         // noinspection JSUnresolvedVariable
         return (
             <div>
-                <Toolbar>
-                    <Typography>
-                        Cuenta Periodo {item ? item.idAccountPeriodDimension : null}
-                    </Typography>
-                </Toolbar>
+                <div>
+                    <Title title={this.state.title.concat( item ? String(item.idAccountPeriodDimension) : null)} subtitle={this.state.subtitle}/>
+                </div>
                 <Toolbar>
                     <form style={{display: 'flex', flexWrap: 'wrap'}}>
                         <FormControl style={{margin: 8, minWidth: 180,}} disabled={actionDialog === "view"}>

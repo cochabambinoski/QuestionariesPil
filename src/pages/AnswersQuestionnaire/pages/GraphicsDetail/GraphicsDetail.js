@@ -90,7 +90,7 @@ class GraphicsDetail extends Component {
                 {
                     this.props.answerQuestionnaire ?
                         <div>
-                            <Title tilte={'Detalles de la encuesta'}
+                            <Title title={'Detalles de la encuesta'}
                                    subtitle={'Presione una pregunta para ver los detalles de la pregunta.'}/>
                             <br/>
                             <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>

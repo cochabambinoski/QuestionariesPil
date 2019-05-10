@@ -24,7 +24,7 @@ class ListSegments extends Component {
         return (
             <div>
                 <div>
-                    <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    <Title title={this.state.title} subtitle={this.state.subtitle}/>
                 </div>
                 <div>
                     <div>

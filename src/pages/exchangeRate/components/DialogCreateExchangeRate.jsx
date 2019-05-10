@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
-import Typography from "@material-ui/core/es/Typography/Typography";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import Select from "@material-ui/core/es/Select/Select";
 import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import TextField from "@material-ui/core/es/TextField/TextField";
 import Button from "@material-ui/core/es/Button/Button";
+import Title from "../../Title/Title";
 
 class DialogCreateExchangeRate extends Component {
 
@@ -14,7 +14,8 @@ class DialogCreateExchangeRate extends Component {
         super(props);
         this.state = {
             date: null,
-            tc: null
+            tc: null,
+            title : "Tipo Cambio ",
         }
     }
 
@@ -72,11 +73,9 @@ class DialogCreateExchangeRate extends Component {
         // noinspection JSUnresolvedVariable
         return (
             <div>
-                <Toolbar>
-                    <Typography>
-                        Tipo Cambio {item ? item.idExchangeRate : null}
-                    </Typography>
-                </Toolbar>
+                <div>
+                    <Title title={this.state.title.concat( item ? String(item.idExchangeRate) : null)} subtitle={this.state.subtitle}/>
+                </div>
                 <Toolbar>
                     <form>
                         <FormControl style={{margin: 8, minWidth: 180}} disabled={isDisable}>

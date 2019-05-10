@@ -210,7 +210,7 @@ class JobsEtl extends Component {
         return (
             <div>
                 <div>
-                    <Title tilte={'Ejecución de Jobs'}
+                    <Title title={'Ejecución de Jobs'}
                            subtitle={'En esta sección podras ejecuatar Jobs de manera completa o por partes segun su orden de prioridad'}/>
                     <Messages ref={(el) => this.messages = el}/>
                 </div>

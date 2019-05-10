@@ -405,7 +405,7 @@ class Questionnaire extends Component {
         return (
             <div>
                 <Growl ref={(el) => this.growl = el}/>
-                <Title tilte={title} subtitle={subtitle}/>
+                <Title title={title} subtitle={subtitle}/>
                 <Toolbar className="toolbarFullWidth">
                     <div style={{padding: '5px'}}>
                         {this.props.readOnly ?

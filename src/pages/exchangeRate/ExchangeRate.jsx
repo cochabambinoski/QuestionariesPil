@@ -20,6 +20,7 @@ import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import DialogCreateExchangeRate from "./components/DialogCreateExchangeRate";
 import {Messages} from "primereact/messages";
+import Title from "../Title/Title";
 
 class ExchangeRate extends Component {
 
@@ -119,15 +120,24 @@ class ExchangeRate extends Component {
                 const {idExchangeRate} = item;
                 return (
                     <div>
-                        <h1>Seguro que desea eliminar este Tipo de cambio</h1>
-                        <Button style={{margin: 3}}
-                                variant={"contained"}
-                                color={"primary"}
-                                onClick={() => this.deleteExchangeRateDispatch(idExchangeRate)}>Eliminar</Button>
-                        <Button style={{margin: 3}}
-                                variant={"contained"}
-                                color={"secondary"}
-                                onClick={this.handleCloseDialog}>Cancelar</Button>
+                        <div>
+                            <Title title="Alerta" subtitle={this.state.subtitle}/>
+                        </div>
+                        <br/>
+                        <div>
+                            <b>¿Está seguro que desea eliminar este Tipo de cambio?</b>
+                        </div>
+                        <br/>
+                        <div>
+                            <Button style={{margin: 3}}
+                                    variant={"contained"}
+                                    color={"primary"}
+                                    onClick={() => this.deleteExchangeRateDispatch(idExchangeRate)}>Eliminar</Button>
+                            <Button style={{margin: 3}}
+                                    variant={"contained"}
+                                    color={"secondary"}
+                                    onClick={this.handleCloseDialog}>Cancelar</Button>
+                        </div>
                     </div>);
             case openModalCreate:
                 return (
