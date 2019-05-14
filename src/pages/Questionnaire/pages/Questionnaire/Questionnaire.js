@@ -195,7 +195,8 @@ class Questionnaire extends Component {
         if (index === -1) {
             auxQuestions.push(question);
         } else {
-            auxQuestions[question];
+            // noinspection JSUnusedLocalSymbols
+            let auxQuestion = auxQuestions[question];
         }
         this.setState({lsQuestions: auxQuestions});
     }
