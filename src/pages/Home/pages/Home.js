@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import {getIdUser, getMenu, getUser} from "../../../reducers";
 import AppInlineProfile from "../components/AppInlineProfile/AppInlineProfile";
 import {fetchInitialData, getMenuByUser} from "../../../actions/indexthunk";
-import {BrowserRouter, Route} from "react-router-dom";
+import {HashRouter as Router, Route} from "react-router-dom";
 import AnswerContainer from "../../AnswersQuestionnaire/pages/AnswerContainer/AnswerContainer";
 import AsigmentQuestionaryContainer from "../../AssignmentScreen/pages/AsigmentQuestionaryContainer";
 import {Start} from "../../Start/Start";
@@ -205,32 +205,31 @@ class Home extends Component {
 
     renderContentByRoute() {
         return (
-                <div className="layout-main">
-                    <Growl ref={(el) => this.growl = el}/>
-                    <Route path="/" exact component={Start}/>
-                    {/*Questionaries Create Show Edit Delete*/}
-                    <Route path={questionariesRoute} exact
-                           render={(props) => <Questionnaires title={this.state.title}
-                                                              detail={this.state.detail}
-                                                              showMessage={this.showSuccess}
-                                                              {...props}/>}
-                    />
-                    <Route path={questionariesNewRoute} exact strict
-                           render={(props) => <Questionnaire questionary={null}
-                                                             showMessage={this.showSuccess}
-                                                             {...props}/>}
-                    />
-                    <Route path={questionariesShowIdRoute} exact strict
-                           render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                           readOnly={true}
-                                                           showMessage={this.showSuccess} {...props}/>}
-                    />
-                    <Route path={questionariesEditIdRoute} exact strict
-                           render={props => <Questionnaire questionnaireId={props.match.params.id}
-                                                           showMessage={this.showSuccess} {...props}/>}
-                    />
-                    {/*Assigment Questionnaries*/}
-
+            <div className="layout-main">
+                <Growl ref={(el) => this.growl = el}/>
+                <Route path="/" exact component={Start}/>
+                {/*Questionaries Create Show Edit Delete*/}
+                <Route path={questionariesRoute} exact
+                       render={(props) => <Questionnaires title={this.state.title}
+                                                          detail={this.state.detail}
+                                                          showMessage={this.showSuccess}
+                                                          {...props}/>}
+                />
+                <Route path={questionariesNewRoute} exact strict
+                       render={(props) => <Questionnaire questionary={null}
+                                                         showMessage={this.showSuccess}
+                                                         {...props}/>}
+                />
+                <Route path={questionariesShowIdRoute} exact strict
+                       render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                       readOnly={true}
+                                                       showMessage={this.showSuccess} {...props}/>}
+                />
+                <Route path={questionariesEditIdRoute} exact strict
+                       render={props => <Questionnaire questionnaireId={props.match.params.id}
+                                                       showMessage={this.showSuccess} {...props}/>}
+                />
+                {/*Assigment Questionnaries*/}
                 <Route path={assigmentRoute} exact component={AsigmentQuestionaryContainer}/>
                 <Route path={assigmentIdRoute} exact strict
                        render={props => <AssignmentQuestionary
@@ -238,7 +237,6 @@ class Home extends Component {
                            onSelectedQuestionary={null}
                            showSuccess={this.showSuccess} {...props}/>}
                 />
-
                 {/*Answers Questionnaries*/}
                 <Route path={answersRoute} exact component={AnswerContainer}/>
                 <Route path={answersIdRoute} exact
@@ -246,10 +244,8 @@ class Home extends Component {
                            idQuestionary={props.match.params.id}
                        />}
                 />
-
                 {/*Segment */}
                 <Route path={segmentRoute} exact component={ListSegment}/>
-
                 {/*Finanzas */}
                 <Route exact path={expensesGenerationRoute} component={GenerationExpenses}/>
                 <Route exact path={loadBaseInputRoute} component={LoadBaseInput}/>
@@ -274,7 +270,7 @@ class Home extends Component {
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
         return (
-            <BrowserRouter>
+            <Router>
                 <Fragment>
                     {
                         this.props.user === null ?
@@ -297,12 +293,11 @@ class Home extends Component {
                                             onSelectedMenu={this.handleChangeContainer}/>
                                     </ScrollPanel>
                                 </div>
-
                                 {this.renderContentByRoute()}
                             </div>
                     }
                 </Fragment>
-            </BrowserRouter>
+            </Router>
         );
     }
 }
