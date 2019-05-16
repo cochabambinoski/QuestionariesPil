@@ -78,7 +78,7 @@ class DialogOperatingAccountEdit extends Component {
         return (
             <div>
                 <div>
-                    <Title title={this.state.title.concat(item ? String(item.accountOperationId) : null)}
+                    <Title title={this.state.title.concat(item ? String(item.accountOperationId) : "")}
                            subtitle={this.state.subtitle}/>
                 </div>
                 <form>

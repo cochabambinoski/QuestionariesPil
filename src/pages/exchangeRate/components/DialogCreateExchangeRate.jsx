@@ -74,7 +74,7 @@ class DialogCreateExchangeRate extends Component {
         return (
             <div>
                 <div>
-                    <Title title={this.state.title.concat( item ? String(item.idExchangeRate) : null)} subtitle={this.state.subtitle}/>
+                    <Title title={this.state.title.concat( item ? String(item.idExchangeRate) : "")} subtitle={this.state.subtitle}/>
                 </div>
                 <Toolbar>
                     <form>

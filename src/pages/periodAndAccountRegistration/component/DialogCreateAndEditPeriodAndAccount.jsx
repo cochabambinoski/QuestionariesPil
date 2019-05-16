@@ -81,7 +81,7 @@ class DialogCreateAndEditPeriodAndAccount extends Component {
         return (
             <div>
                 <div>
-                    <Title title={this.state.title.concat( item ? String(item.idAccountPeriodDimension) : null)} subtitle={this.state.subtitle}/>
+                    <Title title={this.state.title.concat( item ? String(item.idAccountPeriodDimension) : "")} subtitle={this.state.subtitle}/>
                 </div>
                 <Toolbar>
                     <form style={{display: 'flex', flexWrap: 'wrap'}}>
