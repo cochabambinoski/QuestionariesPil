@@ -91,6 +91,7 @@ class JobsEtl extends Component {
         this.setState({answerOpen: false});
         const date = startOfMonth(this.state.selectedDate);
         this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
+        this.getInitialData(date);
     };
 
     handleDateChange = date => {
