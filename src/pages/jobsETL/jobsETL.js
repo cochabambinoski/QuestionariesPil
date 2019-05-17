@@ -24,7 +24,7 @@ import startOfMonth from "date-fns/startOfMonth"
 import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
 import AnswerDialog from "./dialogs/AnswerDialog";
-import {cleanRequestResponse} from "../../actions";
+import {changeStateParameter, cleanRequestResponse} from "../../actions";
 
 const styles = theme => ({
     button: {
@@ -49,6 +49,10 @@ const CustomTableCell = withStyles(theme => ({
     },
 }))(TableCell);
 
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
 class JobsEtl extends Component {
 
     constructor(props) {
@@ -63,7 +67,8 @@ class JobsEtl extends Component {
             parameters: this.props.parameter,
             parameter: null,
             answerOpen: false,
-            toExecute: false
+            toExecute: false,
+            position : -1
         }
     }
 
@@ -91,7 +96,10 @@ class JobsEtl extends Component {
         this.setState({answerOpen: false});
         const date = startOfMonth(this.state.selectedDate);
         this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
-        this.getInitialData(date);
+        this.props.changeState(this.state.position);
+        /*sleep(500).then(() => {
+            this.getInitialData(date);
+        });*/
     };
 
     handleDateChange = date => {
@@ -107,8 +115,8 @@ class JobsEtl extends Component {
         this.setState({page: 0, rowsPerPage: event.target.value})
     };
 
-    handleAnswer = (event, item) => {
-        this.setState({answerOpen: true, toExecute: item})
+    handleAnswer = (event, item, index) => {
+        this.setState({answerOpen: true, toExecute: item, position: index})
     };
 
     handleClose = () => {
@@ -145,7 +153,6 @@ class JobsEtl extends Component {
         const {classes} = this.props;
         const {parameter} = this.props.parameter;
         const {rowsPerPage, page} = this.state;
-        parameter.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1);
         if (this.props.parameter.errorRequest) {
             return this.renderError()
         }
@@ -165,7 +172,7 @@ class JobsEtl extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {parameter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => {
+                                {parameter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item , index) => {
                                     const isProcess = item.state === "Procesando";
                                     const isExecute = item.state === "Ejecutado";
                                     return (<TableRow hover key={item.id}>
@@ -176,7 +183,7 @@ class JobsEtl extends Component {
                                         <TableCell>
                                             <Button variant="contained" size="small" className={classes.button}
                                                     disabled={isProcess}
-                                                    onClick={event => this.handleAnswer(event, item)}>
+                                                    onClick={event => this.handleAnswer(event, item, index)}>
                                                 <PlayArrow className={classNames(classes.leftIcon, classes.iconSmall)}/>
                                             </Button>
 
@@ -255,6 +262,7 @@ const mapDispatchToProps = dispatch => ({
     jobEtl: (code, date) => dispatch(jobEtlServerBi(code, date)),
     getInitialDataParameters: (dataParam) => dispatch(getInitialDataParametersServerBi(dataParam)),
     cleanRequestResponse: () => dispatch(cleanRequestResponse()),
+    changeState: (position) => dispatch(changeStateParameter(position))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(JobsEtl));

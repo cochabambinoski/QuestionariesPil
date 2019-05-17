@@ -15,6 +15,7 @@ import {
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
+    CHANGE_STATE,
     CLEAN_FILTER,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
@@ -221,6 +222,8 @@ export const loadInputBaseInformation = payload => ({type: LOAD_INPUT_BASE_INFOR
 export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMATION, payload});
 
 export const cleanRequestResponse = () => ({type: CLEAN_REQUEST_EXECUTE});
+
+export const changeStateParameter = (payload) => ({type: CHANGE_STATE, payload});
 
 export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
 

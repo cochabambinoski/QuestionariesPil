@@ -1,5 +1,6 @@
 import {
     CHANGE_ERROR_REQUEST_PARAMETER_BI,
+    CHANGE_STATE,
     CLEAN_REQUEST_PARAMETER_BI,
     GET_ALL_PARAMETERS,
     GET_DATA_PARAMETERS,
@@ -45,6 +46,7 @@ export const parameter = (state = initialState, action) => {
                 parameter.state = type.name;
                 parameter.groupName = group.name;
                 listParams.push(parameter);
+                listParams.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1);
             }
             return {...state, parameter: listParams, errorRequest: null}
         }
@@ -53,6 +55,17 @@ export const parameter = (state = initialState, action) => {
         }
         case CLEAN_REQUEST_PARAMETER_BI: {
             return {state: initialState}
+        }
+        case CHANGE_STATE: {
+            console.log(action.payload, state);
+            const index = action.payload;
+            return {
+                ...state,
+                parameter: state.parameter.map(
+                    (content, i) => i === index ? {...content, state: "Procesando"}
+                        : content
+                )
+            }
         }
         default: {
             return state
