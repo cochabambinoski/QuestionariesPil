@@ -132,7 +132,7 @@ class CostConditions extends Component {
         if (this.state.centerCost > 0) {
             this.props.filterCenterCostConditionServerBi(this.state.centerCost, this.state.business, this.state.lineCost, this.state.organization, this.state.channel, this.state.region, this.state.subRegion);
         } else
-            this.showInfo("Filtro","Debe tener Centro costo para poder filtrar la lista")
+            this.showInfo("Filtro", "Debe tener Centro costo para poder filtrar la lista")
     };
 
     handleClean = () => {
@@ -165,7 +165,7 @@ class CostConditions extends Component {
                         }
                     }
                 });
-        }else this.showInfo("No guardado","Debe elegir todas las opciones para poder guardar")
+        } else this.showInfo("No guardado", "Debe elegir todas las opciones para poder guardar")
     };
 
     renderError() {

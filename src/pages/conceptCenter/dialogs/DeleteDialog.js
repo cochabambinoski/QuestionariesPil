@@ -61,7 +61,6 @@ function DeleteDialog(props) {
 }
 
 DeleteDialog.propTypes = {
-    theme: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
 };
 export default (withStyles(styles, JsxStyles)(DeleteDialog));

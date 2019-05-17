@@ -18,6 +18,7 @@ import Title from "../Title/Title";
 import DeleteDialog from "../conceptCenter/dialogs/DeleteDialog";
 import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
 import TypeForm from "./dialogs/TypeForm";
+import Fab from '@material-ui/core/Fab/Fab';
 
 const styles = theme => ({
     root: {
@@ -235,7 +236,7 @@ class TypeCenter extends Component {
                                             </div>
                                             <div className="col-auto">
                                                 <div className="box">
-                                                    <Button variant="contained" color="secondary"
+                                                    <Button  variant="contained" color="secondary"
                                                             className={classes.button}
                                                             onClick={event => this.handleDeleteClick(event, item.id)}>
                                                         <DeleteIcon className={classes.leftIcon}/>
@@ -258,6 +259,7 @@ class TypeCenter extends Component {
         const fab = {
             color: "primary",
             className: classes.fab,
+            icon: <AddIcon/>
         };
         return (
             <div>
@@ -273,19 +275,17 @@ class TypeCenter extends Component {
                     <div>
                         {this.renderList()}
                     </div>
-                    <Button variant="fab" className={fab.className} color={fab.color}
+                    <Fab className={fab.className} color={fab.color}
                             onClick={event => this.handleType(event, 0)}>
-                        <AddIcon/>
-                    </Button>
+                        {fab.icon}
+                    </Fab>
                 </div>
             </div>
         );
     }
 }
 
-TypeCenter
-    .propTypes = {
-    theme: PropTypes.object.isRequired,
+TypeCenter.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
