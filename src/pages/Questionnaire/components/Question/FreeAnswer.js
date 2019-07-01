@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
+import ButtonAcceptCancel from "./ButtonAcceptCancel";
 
 class FreeAnswer extends Component {
 	constructor(props) {
@@ -58,7 +58,6 @@ class FreeAnswer extends Component {
 	componentWillReceiveProps(nextProps) {
 		this.setState({selected: {option: nextProps.lsOptions[0].option}});
 	}
-
 	render() {
 		const validationTypes = [
 			{option: 'Sin validacion'},
@@ -66,12 +65,13 @@ class FreeAnswer extends Component {
 			{option: 'Numero'},
 			{option: 'Decimal'}
 		];
+		const { readOnly, lsOptions} = this.props;
 		return (
 			<div style={{marginBottom: '10px'}}>
 				<div>
 					{
-						this.props.readOnly ?
-							<div>Tipo de validacion: {this.props.lsOptions[0].option}</div> :
+						readOnly ?
+							<div>Tipo de validacion: {lsOptions[0].option}</div> :
 							<div style={{display: 'flex'}}>
 								<Dropdown value={this.state.selected} options={validationTypes}
 								          onChange={(e) => this.updateTypeOption(e.value, 0)}
@@ -81,13 +81,8 @@ class FreeAnswer extends Component {
 					}
 				</div>
 				{
-					this.props.readOnly ? <div/> :
-						<div>
-                            <span>
-                                <Button label="Aceptar" onClick={this.addQuestion}/>
-                                <Button label="Cancelar" onClick={this.props.handleClose} className="ui-button-danger"/>
-                            </span>
-						</div>
+					readOnly ? <div/> :
+						<ButtonAcceptCancel addQuestion={this.addQuestion} handleClose={this.props.handleClose}/>
 				}
 			</div>
 		);

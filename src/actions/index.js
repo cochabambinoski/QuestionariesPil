@@ -1,54 +1,78 @@
 import {
     ADD_ALL_ASSIGNEMENT_USER,
     ADD_ASSIGNEMENT_USER,
-    ADD_MOBILE_SELLER,
     ADD_MOBILE_SELLERS,
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     ADD_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     ADD_PARAM_FILTER_MOBILE_SELLER_TYPE,
+    CHANGE_ERROR_EXCHANGE_RATE_BI,
+    CHANGE_ERROR_OPERATING_ACCOUNTS_BI,
+    CHANGE_ERROR_REQUEST,
+    CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
+    CHANGE_ERROR_REQUEST_BI,
+    CHANGE_ERROR_REQUEST_CCMAC,
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
+    CHANGE_STATE,
     CLEAN_FILTER,
-    CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    CONCAT_FILTER_MOBILE_SELLER_BRANCH,
-    CREATE_QUESTION,
-    CREATE_QUESTION_OPTION,
-    CREATE_QUESTIONARY,
-    CREATE_QUESTIONARY_RANGE,
+    CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
+    CLEAN_REQUEST_BI,
+    CLEAN_REQUEST_CCMAC,
+    CLEAN_REQUEST_EXCHANGE_RATE_BI,
+    CLEAN_REQUEST_EXECUTE,
+    CLEAN_REQUEST_OPERATING_ACCOUNTS_BI,
+    CREATE_ACCOUNT_PERIOD_BI,
+    CREATE_CONCEPT_BI,
+    CREATE_CONDITION_CENTER_MASTER,
+    CREATE_EXCHANGE_RATE_BI,
+    CREATE_OPERATING_ACCOUNTS_BI,
+    CREATE_TYPES_BI,
     DATA,
+    DELETE_ACCOUNT_PERIOD_BI,
     DELETE_ALL_ASSIGNEMENT_USER,
     DELETE_ASSIGNEMENT_USER,
+    DELETE_CONCEPT_BI,
+    DELETE_CONDITION_CENTER_MASTER,
+    DELETE_EXCHANGE_RATE_BI,
     DELETE_MOBILE_ASSIGNED_LIST_AUX,
     DELETE_MOBILE_LIST_AUX,
     DELETE_MOBILE_SELLERS,
+    DELETE_OPERATING_ACCOUNTS_BI,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     DELETE_PARAM_FILTER_MOBILE_SELLER_BRANCH,
     DELETE_PARAM_FILTER_MOBILE_SELLER_TYPE,
-    DELETE_QUESTION,
-    DELETE_QUESTION_OPTION,
-    DELETE_QUESTIONARY,
-    DELETE_QUESTIONARY_RANGE,
+    DELETE_TYPES_BI,
     EDIT_ASSIGNEMENT_USER,
     EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST,
     EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
     EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST,
-    FILL_OUT_QUESTION_OPTION_ALL,
     FILL_OUT_QUESTIONARY_RANGE_ALL,
-    FILL_OUT_QUESTIONNAIRE,
-    FILL_OUT_QUESTIONS_ALL,
+    FILTER_CENTER_COST_CONDITION,
     GET_ALL_BRANCHES,
+    GET_ALL_CONCEPTS,
     GET_ALL_DEPARTAMENTS,
-    GET_INITIAL_DATA,
+    GET_ALL_PARAMETERS,
+    GET_ALL_TYPES,
+    GET_ANSWERS,
+    GET_DATA_CREATE_ACCOUNT_PERIOD,
+    GET_DATA_PARAMETERS,
+    GET_INITIAL_DATA_EXCHANGE_RATE_BI,
+    GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
+    GET_QUESTIONNARIE_ANSWER,
     IS_SAVING_ANSWER,
+    JOB_EXECUTE,
+    LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST,
+    LOAD_COST_BASE_INFORMATION,
+    LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI,
+    LOAD_INPUT_BASE_INFORMATION,
     REMOVE_ALL_ASSIGNEMENT_USER,
     SAVE_CLIENT,
     SAVE_INTERVIEWED_NAME,
     SAVE_MOBILE_ASSIGNED_LIST_AUX,
     SAVE_MOBILE_LIST_AUX,
-    SEARCH_ASYNC_ENTITIES,
     SET_ID_USER,
     SET_INITIAL_DATA_QUESTIONER_QUESTIONARY,
     SET_INITIAL_DATA_TYPES_SELLER,
@@ -60,12 +84,13 @@ import {
     SET_SYSTEM_TYPES,
     SET_USER,
     TRIED_TO_SAVE,
+    UPDATE_ACCOUNT_PERIOD_BI,
+    UPDATE_CONCEPT_BI,
+    UPDATE_CONDITION_CENTER_MASTER,
+    UPDATE_EXCHANGE_RATE_BI,
     UPDATE_MARKED_OPTIONS,
-	SET_STATUS_TYPES,
-    GET_ANSWERS,
-    SET_ANSWERS,
-    GET_QUESTIONNARIE_ANSWER,
-    SET_QUESTIONNARIE_ANSWER,
+    UPDATE_OPERATING_ACCOUNTS_BI,
+    UPDATE_TYPES_BI
 } from "../action-types/actionTypes";
 
 export function data() {
@@ -96,10 +121,6 @@ export const deleteMobileSellers = payload => ({type: DELETE_MOBILE_SELLERS, pay
 
 export const editAssignementUser = payload => ({type: EDIT_ASSIGNEMENT_USER, payload});
 
-export const searchEntitiesAsync = payload => ({type: SEARCH_ASYNC_ENTITIES, payload});
-
-export const setInitialData = payload => ({type: GET_INITIAL_DATA, payload});
-
 export const editQueryTextMobileSellerList = payload => ({type: EDIT_QUERY_TEXT_MOBILE_SELLER_LIST, payload});
 
 export const editQueryTextMobileSellerAssignedList = payload => ({
@@ -110,30 +131,6 @@ export const editQueryTextMobileSellerAssignedList = payload => ({
 export const editQueryTextAssignedQuestionary = payload => ({type: EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST, payload});
 
 export const addMobileSellers = payload => ({type: ADD_MOBILE_SELLERS, payload});
-
-export const addMobileSeller = payload => ({type: ADD_MOBILE_SELLER, payload});
-
-export const createQuestionary = payload => ({type: CREATE_QUESTIONARY, payload});
-
-export const deleteQuestionary = payload => ({type: DELETE_QUESTIONARY});
-
-export const fillOutQuestionnaire = payload => ({type: FILL_OUT_QUESTIONNAIRE, payload});
-
-export const createQuestion = payload => ({type: CREATE_QUESTION, payload});
-
-export const deleteQuestion = payload => ({type: DELETE_QUESTION, payload});
-
-export const fillOutQuestionAll = payload => ({type: FILL_OUT_QUESTIONS_ALL, payload});
-
-export const createQuestionOption = payload => ({type: CREATE_QUESTION_OPTION, payload});
-
-export const deleteQuestionOption = payload => ({type: DELETE_QUESTION_OPTION, payload});
-
-export const fillOutQuestionOptionAll = payload => ({type: FILL_OUT_QUESTION_OPTION_ALL, payload});
-
-export const createQuestionaryRange = payload => ({type: CREATE_QUESTIONARY_RANGE, payload});
-
-export const deleteQuestionaryRange = payload => ({type: DELETE_QUESTIONARY_RANGE, payload});
 
 export const fillOutQuestionaryRangeAll = payload => ({type: FILL_OUT_QUESTIONARY_RANGE_ALL, payload});
 
@@ -154,8 +151,6 @@ export const addParamFilterMobileSellerType = payload => ({type: ADD_PARAM_FILTE
 
 export const addParamFilterMobileSellerBranch = payload => ({type: ADD_PARAM_FILTER_MOBILE_SELLER_BRANCH, payload});
 
-export const concatFilterMobileSellerBranch = payload => ({type: CONCAT_FILTER_MOBILE_SELLER_BRANCH, payload});
-
 export const addParamFilterMobileSellerAssignedType = payload => ({
     type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_TYPE,
     payload
@@ -163,11 +158,6 @@ export const addParamFilterMobileSellerAssignedType = payload => ({
 
 export const addParamFilterMobileSellerAssignedBranch = payload => ({
     type: ADD_PARAM_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
-    payload
-});
-
-export const concatFilterMobileSellerAssignedBranch = payload => ({
-    type: CONCAT_FILTER_MOBILE_SELLER_ASSIGNED_BRANCH,
     payload
 });
 
@@ -223,12 +213,77 @@ export const saveInterviewedName = payload => ({type: SAVE_INTERVIEWED_NAME, pay
 
 export const setSavingAnswer = payload => ({type: IS_SAVING_ANSWER, payload});
 
-export const setStatusTypes = payload => ({type: SET_STATUS_TYPES, payload});
-
 export const getAnswers = payload => ({type: GET_ANSWERS, payload});
-
-export const setAnswers = payload => ({type: SET_ANSWERS, payload});
 
 export const getAnswersQuestionnarie = payload => ({type: GET_QUESTIONNARIE_ANSWER, payload});
 
-export const setAnswersQuestionnarie = payload => ({type: SET_QUESTIONNARIE_ANSWER, payload});
+export const loadInputBaseInformation = payload => ({type: LOAD_INPUT_BASE_INFORMATION, payload});
+
+export const loadCostBaseInformation = payload => ({type: LOAD_COST_BASE_INFORMATION, payload});
+
+export const cleanRequestResponse = () => ({type: CLEAN_REQUEST_EXECUTE});
+
+export const changeStateParameter = (payload) => ({type: CHANGE_STATE, payload});
+
+export const changeErrorRequest = payload => ({type: CHANGE_ERROR_REQUEST, payload});
+
+export const changeErrorBiCCMAC = payload => ({type: CHANGE_ERROR_REQUEST_CCMAC, payload});
+
+export const changeErrorBi = payload => ({type: CHANGE_ERROR_REQUEST_BI, payload});
+
+export const cleanRequestCCMAC = () => ({type: CLEAN_REQUEST_CCMAC});
+
+export const cleanRequestBi = () => ({type: CLEAN_REQUEST_BI});
+
+export const deleteCenterCostConditionBi = payload =>({type: DELETE_CONDITION_CENTER_MASTER, payload});
+
+export const updateCenterConstConditionBi = payload => ({type: UPDATE_CONDITION_CENTER_MASTER, payload});
+
+export const createCenterCostConditionBi = payload => ({type: CREATE_CONDITION_CENTER_MASTER, payload});
+
+export const getInitialDataCenterCostConditonBi = payload => ({type: LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST, payload});
+
+export const filterCenterCostConditionBi = payload => ({type: FILTER_CENTER_COST_CONDITION, payload});
+
+export const getDataCreateAccountPeriodBi = payload => ({type: GET_DATA_CREATE_ACCOUNT_PERIOD, payload});
+
+export const getInitialAccountPeriodBi = payload => ({type: LOAD_INIT_DATA_ACCOUNT_PERIOD_REGISTRATION_BI, payload});
+
+export const createAccountPeriodBi = payload => ({type: CREATE_ACCOUNT_PERIOD_BI, payload});
+
+export const updateAccountPeriodBi = payload => ({type: UPDATE_ACCOUNT_PERIOD_BI, payload});
+
+export const deleteAccountPeriodBi = payload => ({type: DELETE_ACCOUNT_PERIOD_BI, payload});
+
+export const changeErrorRequestAccountPeriodBi = payload => ({type: CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+export const cleanRequestAccountPeriodBi = payload => ({type: CLEAN_REQUEST_ACCOUNT_PERIOD_BI, payload});
+
+/* Exchange Rate */
+export const getInitialDataExchangeRateBi = payload => ({type: GET_INITIAL_DATA_EXCHANGE_RATE_BI, payload});
+export const createExchangeRateBi = payload => ({type: CREATE_EXCHANGE_RATE_BI, payload});
+export const updateExchangeRateBi = payload => ({type: UPDATE_EXCHANGE_RATE_BI, payload});
+export const deleteExchangeRateBi = payload => ({type: DELETE_EXCHANGE_RATE_BI, payload});
+export const changeErrorRequestExchangeRateBi = payload => ({type: CHANGE_ERROR_EXCHANGE_RATE_BI, payload});
+export const cleanRequestExchangeRateBi = payload => ({type: CLEAN_REQUEST_EXCHANGE_RATE_BI, payload});
+/* export const getInitialOperatingAccounts */
+export const getInitialDataOperatingAccountsBi = payload => ({type: GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI, payload});
+export const createOperatingAccountsBi = payload => ({type: CREATE_OPERATING_ACCOUNTS_BI, payload});
+export const updateOperatingAccountsBi = payload => ({type: UPDATE_OPERATING_ACCOUNTS_BI, payload});
+export const deleteOperatingAccountsBi = payload => ({type: DELETE_OPERATING_ACCOUNTS_BI, payload});
+export const changeErrorOperatingAccountsBi = payload => ({type: CHANGE_ERROR_OPERATING_ACCOUNTS_BI, payload});
+export const cleanRequestOperatingAccountsBi = payload => ({type: CLEAN_REQUEST_OPERATING_ACCOUNTS_BI, payload});
+/*Concepts*/
+export const createConceptBi = payload => ({type: CREATE_CONCEPT_BI, payload});
+export const getAllConcepts = payload => ({type: GET_ALL_CONCEPTS, payload});
+export const deleteConceptBi = payload => ({type: DELETE_CONCEPT_BI, payload});
+export const updateConceptBi = payload => ({type: UPDATE_CONCEPT_BI, payload});
+/*Type*/
+export const getAllTypesBi = payload => ({type: GET_ALL_TYPES, payload});
+export const createTypeBi = payload => ({type: CREATE_TYPES_BI, payload});
+export const updateTypeBi = payload => ({type: UPDATE_TYPES_BI, payload});
+export const deleteTypeBi = payload => ({type: DELETE_TYPES_BI, payload});
+
+export const getAllParametersBi = payload => ({type: GET_ALL_PARAMETERS, payload});
+export const jobExecuteBi = payload => ({type: JOB_EXECUTE, payload});
+export const getInitialDataParametersBi = payload => ({type: GET_DATA_PARAMETERS, payload});

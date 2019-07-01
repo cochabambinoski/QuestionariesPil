@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Questionnaire.css';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Constants from '../../../../Constants';
@@ -46,7 +46,8 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import {
     getAssignmentsByQuestionnaire,
     getQuestionsTypes,
-    getQuetionnaireById, getTypeSystemByUser,
+    getQuetionnaireById,
+    getTypeSystemByUser,
     saveQuestionnaire
 } from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
@@ -194,7 +195,8 @@ class Questionnaire extends Component {
         if (index === -1) {
             auxQuestions.push(question);
         } else {
-            auxQuestions[question];
+            // noinspection JSUnusedLocalSymbols
+            let auxQuestion = auxQuestions[question];
         }
         this.setState({lsQuestions: auxQuestions});
     }
@@ -404,7 +406,7 @@ class Questionnaire extends Component {
         return (
             <div>
                 <Growl ref={(el) => this.growl = el}/>
-                <Title tilte={title} subtitle={subtitle}/>
+                <Title title={title} subtitle={subtitle}/>
                 <Toolbar className="toolbarFullWidth">
                     <div style={{padding: '5px'}}>
                         {this.props.readOnly ?

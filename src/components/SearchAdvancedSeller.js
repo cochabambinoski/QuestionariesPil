@@ -77,14 +77,6 @@ class SearchAdvancedSeller extends Component {
         }
     };
 
-    typeSearchAdvances = () => {
-        if (this.props.typeSearch === Constants.TYPE_SEARCH_MOBILE_SELLER) {
-            return Constants.TYPE_SEARCH_MOBILE_SELLER
-        } else {
-            return Constants.TYPE_SEARCH_MOBILE_SELLER_ASSIGNED
-        }
-    };
-
     render() {
         const {classes} = this.props;
         return (

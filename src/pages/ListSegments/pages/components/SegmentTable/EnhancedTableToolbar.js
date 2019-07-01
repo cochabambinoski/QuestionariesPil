@@ -40,14 +40,10 @@ class EnhancedTableToolbar extends Component {
         this.setState({dates: [this.state.startDate, this.state.endDate]});
     }
 
-    /**
-     * click filter by dates range
-     * @param event
-     */
-    handlerFilter = event => {
+    handlerFilter = () => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
-            this.setState({ startDate : this.state.dates[0], enDate : this.state.dates[1]});
-            this.props.updateDates(this.state.startDate, this.state.enDate);
+            this.setState({ startDate : this.state.dates[0], endDate : this.state.dates[1]});
+            this.props.updateDates(this.state.startDate, this.state.endDate);
         }
     };
 

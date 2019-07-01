@@ -2,18 +2,15 @@
  * Created by smirandaz on 08/28/2018.
  */
 import React, {Component} from "react";
-import {withStyles} from "@material-ui/core/styles";
 import EnhancedTable from "./components/SegmentTable/EnhancedTable";
 import SegmentList from "./components/SegmentList/SegmentList";
 import Title from "../../Title/Title";
 import {SizeMe} from 'react-sizeme';
 
-const styles = theme => ({});
-
 class ListSegments extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             option: null,
             baseOpen: false,
@@ -23,11 +20,11 @@ class ListSegments extends Component {
         };
     }
 
-    renderList() {
+    render() {
         return (
             <div>
                 <div>
-                    <Title tilte={this.state.title} subtitle={this.state.subtitle}/>
+                    <Title title={this.state.title} subtitle={this.state.subtitle}/>
                 </div>
                 <div>
                     <div>
@@ -47,18 +44,8 @@ class ListSegments extends Component {
             </div>
         );
     }
-
-    render() {
-        return (
-            <div>
-                {this.renderList()}
-            </div>
-        );
-    }
 }
 
-ListSegments.propTypes = {};
-
-export default withStyles(styles)(ListSegments);
+export default ListSegments;
 
 

@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import Constants from './../../../Constants'
 import './QuestionnairesList.css';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
@@ -143,7 +143,7 @@ class Questionnaires extends Component {
                                handleConfirm={this.handleClose} handleCancel={this.exitModal}>
                         </Modal>
                     </ModalContainer>
-                    <Title tilte={'Lista de Encuestas'}
+                    <Title title={'Lista de Encuestas'}
                            subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                     <Toolbar className="toolbarFullWidth">
                         <div>

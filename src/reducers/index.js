@@ -14,18 +14,43 @@ import {questionnaires} from "./questionnaires";
 import {connection} from "./connection";
 import {answer} from "./answer";
 import answers from "./answers";
-
+import {processConfirmation} from "./processConfirmation";
+import {createCenterMasterAndCost} from "./createCenterMasterAndCost";
+import {periodAndAccountRegistration} from "./periodAndAccountRegistration";
+import {exchangeRate} from "./exchangeRate";
+import {operatingAccounts} from "./operatingAccounts";
+import {concepts} from "./concepts";
+import {centerCostCondition} from "./centerCostCondition";
+import {createTypes} from "./types";
+import {parameter} from "./parameter";
 
 export default combineReducers({
     data,
-     user, idMenu, assignmentUser, initialData, searchFilter, createQuestionary, questionnaires, connection, answers, answer
+    user,
+    idMenu,
+    assignmentUser,
+    initialData,
+    searchFilter,
+    createQuestionary,
+    questionnaires,
+    connection,
+    answers,
+    answer,
+    processConfirmation,
+    periodAndAccountRegistration,
+    exchangeRate,
+    operatingAccounts,
+    createCenterMasterAndCost,
+    concepts,
+    createTypes,
+    centerCostCondition,
+    parameter
 });
+
 export const getMenu = state => state.idMenu;
 export const getIdUser = state => state.idUser;
 export const getMobileAssignement = state => state.assignmentUser;
-export const getTypeQuestionerQuestionary = state => state.typeQuestionerQuestionary;
 export const getTypeByCodSapQuestionerQuestionary = (state, codSap) => (_getTypeCodeSap(state.initialData.typeQuestionerQuestionary, codSap));
-export const getTypeByCodSap = (state, codSap) => (_getTypeCodeSap(state.initialData, codSap));
 export const getQueryMobileSeller = state => state.searchFilter.queryMobileSeller;
 export const getQueryMobileSellerAssigment = state => state.searchFilter.queryMobileSellerAssigned;
 export const getQueryQuestionerAssigment = state => state.searchFilter.queryQuestionaryAssigned;
@@ -62,3 +87,12 @@ export const getIsSavingAnswer = (state) => state.answer.isSavingAnswer;
 
 export const getAnswers = state => state.answers.answers;
 export const getQuestionnarieAnswers = (state) => state.answers.questionnarie;
+export const getProcessConfirmation = (state) => state.processConfirmation;
+export const getCreateCenterMasterAndCost = (state) => state.createCenterMasterAndCost;
+export const getPeriodAndAccountRegistration = (state) => state.periodAndAccountRegistration;
+export const getExchangeRate = (state) => state.exchangeRate;
+export const getOperatingAccounts = (state) => state.operatingAccounts;
+export const centerCostConditions = (state) => state.centerCostCondition;
+export const parameters = (state) => state.parameter;
+export const getConcepts = (state) => state.concepts;
+export const getCreateTypes = (state) => state.createTypes;
