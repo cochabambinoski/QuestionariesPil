@@ -18,6 +18,7 @@ import {
     indexRoute,
     jobsEtlRoute,
     loadBaseInputRoute,
+    masterJobsRoute,
     operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
     questionariesRoute,
@@ -96,6 +97,8 @@ class SubMenu extends Component {
                 return typeCenterRoute;
             case 'jobsETL':
                 return jobsEtlRoute;
+            case 'MasterJobs':
+                return masterJobsRoute;
             default:
                 return indexRoute;
         }

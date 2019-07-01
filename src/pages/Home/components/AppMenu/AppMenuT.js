@@ -8,12 +8,15 @@ import '../../../../layout/layout.css'
 class AppMenuT extends Component {
 
     renderSubMenu = (itemMenu) => {
+        console.log(itemMenu)
         switch (itemMenu.label) {
             case "Supervision":
                 return <SubMenu key={itemMenu.id} menus={itemMenu.items} title={itemMenu.label}/>;
             case "Segmentación de clientes":
                 return <SubMenu key={itemMenu.id} menus={itemMenu.items} title={itemMenu.label}/>;
             case "Presupuesto y Planeamiento":
+                return <SubMenu key={itemMenu.id} menus={itemMenu.items} title={itemMenu.label}/>;
+            case "Maestros SAP":
                 return <SubMenu key={itemMenu.id} menus={itemMenu.items} title={itemMenu.label}/>;
             default:
                 return null;

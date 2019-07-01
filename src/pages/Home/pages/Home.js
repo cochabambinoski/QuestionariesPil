@@ -34,6 +34,14 @@ import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuesti
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';
 import jobsETL from '../../jobsETL/jobsETL'
+import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
+import CostConditions from "../../costConditions/CostConditions";
+import PeriodAndAccountRegistration from "../../periodAndAccountRegistration/PeriodAndAccountRegistration";
+import ExchangeRate from "../../exchangeRate/ExchangeRate";
+import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
+import ConceptCenter from "../../conceptCenter/ConceptCenter";
+import TypeCenter from "../../typeCenter/TypeCenter";
+import MasterJobs from '../../masterJobs/masterJobs'
 
 import {
     answersIdRoute,
@@ -46,6 +54,7 @@ import {
     expensesGenerationRoute,
     jobsEtlRoute,
     loadBaseInputRoute,
+    masterJobsRoute,
     operatingAccountsRoute,
     periodAndAccountRegistrationRoute,
     questionariesEditIdRoute,
@@ -55,13 +64,6 @@ import {
     segmentRoute,
     typeCenterRoute
 } from "../../../routes/PathRoutes";
-import LoadBaseInput from "../../LoadBaseInput/LoadBaseInput";
-import CostConditions from "../../costConditions/CostConditions";
-import PeriodAndAccountRegistration from "../../periodAndAccountRegistration/PeriodAndAccountRegistration";
-import ExchangeRate from "../../exchangeRate/ExchangeRate";
-import OperatingAccounts from "../../operatingAccounts/OperatingAccounts";
-import ConceptCenter from "../../conceptCenter/ConceptCenter";
-import TypeCenter from "../../typeCenter/TypeCenter";
 
 class Home extends Component {
 
@@ -256,6 +258,8 @@ class Home extends Component {
                 <Route exact path={conceptCenterRoute} component={ConceptCenter}/>
                 <Route exact path={typeCenterRoute} component={TypeCenter}/>
                 <Route exact path={jobsEtlRoute} component={jobsETL}/>
+                {/*Master Jobs SAP*/}
+                <Route exact path={masterJobsRoute} component={MasterJobs}/>
             </div>
         )
     }

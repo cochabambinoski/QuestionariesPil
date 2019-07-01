@@ -12,6 +12,7 @@ const operatingAccounts = "operatingAccounts";
 const conceptCenter = "conceptCenter";
 const typeCenter = "typeCenter";
 const jobsETL = "jobsETL";
+const masterJobs ="masterJobs";
 
 export const indexRoute = '/';
 export const questionariesRoute = `/${questionnaries}`;
@@ -37,3 +38,4 @@ export const costConditionsRoute = `/${costConditions}/`;
 export const conceptCenterRoute = `/${conceptCenter}/`;
 export const typeCenterRoute = `/${typeCenter}/`;
 export const jobsEtlRoute = `/${jobsETL}`;
+export const masterJobsRoute = `/${masterJobs}`;
