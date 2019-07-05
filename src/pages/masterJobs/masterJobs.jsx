@@ -18,7 +18,7 @@ import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
 import AnswerDialog from "./dialogs/AnswerDialog";
 import {getProcessConfirmation, parameters} from "../../reducers";
-import {getMasterParametersServerBi} from "../../actions/indexthunk";
+import {getMasterParametersServerBi, jobMasterEtlServerBi} from "../../actions/indexthunk";
 import {changeStateParameter, cleanRequestResponse} from "../../actions";
 
 const styles = theme => ({
@@ -226,7 +226,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    jobEtl: (code, date) => dispatch(jobMasterEtlServerBi(code, date)),
+    jobEtl: (code) => dispatch(jobMasterEtlServerBi(code)),
     getMasterParametersServerBi: () => dispatch(getMasterParametersServerBi()),
     cleanRequestResponse: () => dispatch(cleanRequestResponse()),
     changeState: (position) => dispatch(changeStateParameter(position))
