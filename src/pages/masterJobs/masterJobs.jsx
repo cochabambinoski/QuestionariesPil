@@ -14,14 +14,12 @@ import JsxStyles from "../../styles/JsxStyles";
 import connect from "react-redux/es/connect/connect";
 import Button from "@material-ui/core/es/Button";
 import PlayArrow from "@material-ui/icons/PlayArrow";
-import {format} from 'date-fns/esm'
 import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
 import AnswerDialog from "./dialogs/AnswerDialog";
 import {getProcessConfirmation, parameters} from "../../reducers";
-import {getMasterParametersServerBi, jobEtlServerBi} from "../../actions/indexthunk";
+import {getMasterParametersServerBi} from "../../actions/indexthunk";
 import {changeStateParameter, cleanRequestResponse} from "../../actions";
-import startOfMonth from "date-fns/startOfMonth";
 
 const styles = theme => ({
     button: {
@@ -65,7 +63,7 @@ class MasterJobs extends Component {
     }
 
     componentDidMount() {
-        this.getInitialData(new Date());
+        this.getInitialData();
     }
 
     getInitialData = () => {
@@ -85,14 +83,12 @@ class MasterJobs extends Component {
 
     handleExecuteClick = () => {
         this.setState({answerOpen: false});
-        const date = startOfMonth(this.state.selectedDate);
-        this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
+        this.props.jobEtl(this.state.toExecute.code);
         this.props.changeState(this.state.position);
     };
 
-    handleDateChange = date => {
-        this.setState({selectedDate: date});
-        this.getInitialData(date);
+    handleDateChange = () => {
+        this.getInitialData();
     };
 
     handleChangePage = (event, page) => {
@@ -120,11 +116,11 @@ class MasterJobs extends Component {
                 if (codeResult === 1) {
                     this.showSuccess('Procesado', 'La transacción se realizó correctamente');
                     this.props.cleanRequestResponse();
-                    this.getInitialData(this.state.selectedDate)
+                    this.getInitialData()
                 } else {
                     this.props.cleanRequestResponse();
                     this.showError('Error', 'Ocurrió un error al procesar la transacción');
-                    this.getInitialData(this.state.selectedDate)
+                    this.getInitialData()
                 }
             }
         }
@@ -230,7 +226,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    jobEtl: (code, date) => dispatch(jobEtlServerBi(code, date)),
+    jobEtl: (code, date) => dispatch(jobMasterEtlServerBi(code, date)),
     getMasterParametersServerBi: () => dispatch(getMasterParametersServerBi()),
     cleanRequestResponse: () => dispatch(cleanRequestResponse()),
     changeState: (position) => dispatch(changeStateParameter(position))
