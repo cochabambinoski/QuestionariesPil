@@ -197,7 +197,7 @@ class MasterJobs extends Component {
             <div>
                 <div>
                     <Title title={'Ejecución de Jobs Maestros SAP'}
-                           subtitle={'En esta sección podras ejecuatar Jobs de manera completa o por partes segun su orden de prioridad de Maestros SAP'}/>
+                           subtitle={'En esta sección podras ejecutar Jobs de manera completa o por partes segun su orden de prioridad de Maestros SAP'}/>
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>{this.renderAnswerDialog()}</div>
