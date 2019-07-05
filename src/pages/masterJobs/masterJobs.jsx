@@ -87,10 +87,6 @@ class MasterJobs extends Component {
         this.props.changeState(this.state.position);
     };
 
-    handleDateChange = () => {
-        this.getInitialData();
-    };
-
     handleChangePage = (event, page) => {
         this.setState({page})
     };
@@ -192,7 +188,6 @@ class MasterJobs extends Component {
     }
 
     render() {
-        const {selectedDate} = this.state;
         {
             if (this.props.execute.jobExectute !== null) {
                 this.showResponse()

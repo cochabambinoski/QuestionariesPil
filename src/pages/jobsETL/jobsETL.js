@@ -49,10 +49,6 @@ const CustomTableCell = withStyles(theme => ({
     },
 }))(TableCell);
 
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
-
 class JobsEtl extends Component {
 
     constructor(props) {
@@ -97,9 +93,6 @@ class JobsEtl extends Component {
         const date = startOfMonth(this.state.selectedDate);
         this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
         this.props.changeState(this.state.position);
-        /*sleep(500).then(() => {
-            this.getInitialData(date);
-        });*/
     };
 
     handleDateChange = date => {
