@@ -1,4 +1,3 @@
-/*constants*/
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
   "ROUTE_WEB_BI": "http://localhost:8086/bi/",
