@@ -118,5 +118,6 @@
   "DELETE_TYPE": "type/",
   "GET_ALL_PARAMETERS": "parameters",
   "GET_ALL_JOBS_BI": "jobsParameter?dataParam={0}",
-  "JOB_WITH_PARAMETER": "runJobWithParameter?location={0}&parameter={1}"
+  "JOB_WITH_PARAMETER": "runJobWithParameter?location={0}&parameter={1}",
+  "JOB": "runJob?location={0}"
 }
