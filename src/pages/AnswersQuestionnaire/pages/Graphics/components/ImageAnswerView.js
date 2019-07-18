@@ -65,7 +65,7 @@ class ImageAnswerView extends Component {
                             <Image src={Constants.ROUTE_WEB_SERVICES+Constants.GET_IMAGE_ANSWER+answer.answerDetail} alt={answer.question.question}/>
                             <GridListTileBar
                                 title={answer.title}
-                                subtitle={<span>Por: {answer.answer.interviewedName ? answer.answer.interviewedName : answer.answer.client.nombreFactura}</span>}
+                                subtitle={<span>Por: {answer.answer.interviewedName ? answer.answer.interviewedName : answer.answer.client ? answer.answer.client.nombreFactura : "Sin nombre"}</span>}
                                 actionIcon={
                                     <IconButton className={classes.icon} onClick={event => this.openDialog(answer.answerDetail )}>
                                         <InfoIcon/>

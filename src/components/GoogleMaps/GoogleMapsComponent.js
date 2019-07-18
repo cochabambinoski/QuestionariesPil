@@ -81,8 +81,8 @@ class GoogleMapsComponent extends Component {
                 if (answer.latitude !== 0 && answer.longitude !== 0) {
                     overlaysAnswer.push(new google.maps.Marker({
                         position: {lat: answer.latitude, lng: answer.longitude},
-                        title: answer.interviewedName ? answer.interviewedName : answer.client.nombreFactura,
-                        snippet: !answer.interviewedName ? answer.client.codigo : null
+                        title: answer.interviewedName ? answer.interviewedName : answer.client ? answer.client.nombreFactura : "Sin nombre",
+                        snippet: answer.interviewedName ? null : answer.client ? answer.client.codigo: null
                     }))
                 }
             })
