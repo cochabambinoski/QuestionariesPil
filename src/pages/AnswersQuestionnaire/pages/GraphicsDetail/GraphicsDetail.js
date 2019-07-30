@@ -12,12 +12,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import './style.css';
 import {connect} from 'react-redux';
-import {getAnswers, getQuestionnarieAnswers} from "../../../../reducers";
+import { getQuestionnarieAnswers} from "../../../../reducers";
 import {getAnswersAnsQuestionnaireByQuestionnaire,} from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
 import Title from "../../../Title/Title";
 import {answersRoute} from "../../../../routes/PathRoutes";
 import SwipeableViews from 'react-swipeable-views';
+import {cleanCurrentAnswer} from "../../../../actions";
 
 const styles = theme => ({
     root: {
@@ -61,7 +62,6 @@ class GraphicsDetail extends Component {
     generateGraphics = (question) => {
         this.setState({
             currentQuestion: question,
-            listAnswerCurrent: generateListAnswers(question.id, this.props.answers)
         });
     };
 
@@ -78,66 +78,61 @@ class GraphicsDetail extends Component {
         this.props.getAnswersAndQuestionnaireByIdQuestionnaire(this.props.idQuestionary)
     };
 
-    componentDidMount(){
+    componentDidMount() {
         this.getAnswers();
+    }
+
+    componentWillUnmount() {
+        this.props.cleanCurrentAnswer()
     }
 
     render() {
         const {value} = this.state;
-        const { theme } = this.props;
+        const {theme} = this.props;
         return (
             <div>
-                {
-                    this.props.answerQuestionnaire ?
-                        <div>
-                            <Title title={'Detalles de la encuesta'}
-                                   subtitle={'Presione una pregunta para ver los detalles de la pregunta.'}/>
-                            <br/>
-                            <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>
-                                <ExpansionPanelSummary
-                                    expandIcon={<ExpandMoreIcon onClick={() => {
-                                        this.handleSetStateFirstSellerSearch()
-                                    }}/>}>
-                                    <Link to={answersRoute}>
-                                        <IconButton aria-label="Comments">
-                                            <ArrowBack/>
-                                        </IconButton>
-                                    </Link>
+                {this.props.answerQuestionnaire ?
+                    <div>
+                        <Title title={'Detalles de la encuesta'}
+                               subtitle={'Presione una pregunta para ver los detalles de la pregunta.'}/>
+                        <br/>
+                        <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon onClick={() => {
+                                this.handleSetStateFirstSellerSearch()
+                            }}/>}>
+                                <Link to={answersRoute}>
+                                    <IconButton aria-label="Comments">
+                                        <ArrowBack/>
+                                    </IconButton>
+                                </Link>
 
-                                    <Tabs className='tabs-style'
-                                          position="static"
-                                          color="default"
-                                          indicatorColor="primary"
-                                          textColor="primary"
-                                          scrollable
-                                          scrollButtons="auto"
-                                          value={value} onChange={this.handleChange}>
-                                        {
-                                            this.props.answerQuestionnaire.lsQuestions.map((question) => {
-                                                return <Tab label={question.question} key={question.id}
-                                                            onClick={() => {
-                                                                this.generateGraphics(question)
-                                                            }}/>
-                                            })
+                                <Tabs className='tabs-style' position="static" color="default" indicatorColor="primary"
+                                      textColor="primary" scrollable scrollButtons="auto" value={value}
+                                      onChange={this.handleChange}>
+                                    {
+                                        this.props.answerQuestionnaire.lsQuestions.map((question) => {
+                                            return <Tab label={question.question} key={question.id} onClick={() => {
+                                                this.generateGraphics(question)
+                                            }}/>
+                                        })
+                                    }
+                                </Tabs>
+                            </ExpansionPanelSummary>
+                            <Divider/>
+                            {/*<GoogleMapsComponent answers={this.props.answers}/>*/}
+                        </ExpansionPanel>
+                        <SwipeableViews
+                            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                            index={this.state.value}
+                            onChangeIndex={this.handleChangeIndex}>
+                            {
+                                this.props.answerQuestionnaire.lsQuestions.map((question) => {
+                                    return <Graphics question={question}/>
+                                })
+                            }
+                        </SwipeableViews>
 
-                                        }
-                                    </Tabs>
-                                </ExpansionPanelSummary>
-                                <Divider/>
-                                <GoogleMapsComponent answers={this.props.answers}/>
-                            </ExpansionPanel>
-                            <SwipeableViews
-                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                                index={this.state.value}
-                                onChangeIndex={this.handleChangeIndex}>
-                                {
-                                    this.props.answerQuestionnaire.lsQuestions.map((question) => {
-                                        return <Graphics question={question} listAnswerCurrent={generateListAnswers(question.id, this.props.answers)}/>
-                                    })
-                                }
-                            </SwipeableViews>
-
-                        </div> : <h1> Cargando... </h1>
+                    </div> : <h1> Cargando... </h1>
                 }
             </div>
         );
@@ -145,12 +140,12 @@ class GraphicsDetail extends Component {
 }
 
 const mapStateToProps = state => ({
-    answers: getAnswers(state),
     answerQuestionnaire: getQuestionnarieAnswers(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     getAnswersAndQuestionnaireByIdQuestionnaire: value => dispatch(getAnswersAnsQuestionnaireByQuestionnaire(value)),
+    cleanCurrentAnswer: () => dispatch(cleanCurrentAnswer())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(GraphicsDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(GraphicsDetail));

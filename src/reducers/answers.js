@@ -2,7 +2,7 @@ import {
     GET_ANSWERS,
     SET_ANSWERS,
     GET_QUESTIONNARIE_ANSWER,
-    SET_QUESTIONNARIE_ANSWER
+    SET_QUESTIONNARIE_ANSWER, CLEAN_CURRENT_ANSWERS
 } from "../action-types/actionTypes";
 
 
@@ -30,6 +30,11 @@ const initialState = ({
         case SET_QUESTIONNARIE_ANSWER: {
             return {...state, questionnarie: action.payload}
         }
+
+        case CLEAN_CURRENT_ANSWERS: {
+            return {...state, answers: [], questionnarie: null}
+        }
+
         default:
             return state;
     }

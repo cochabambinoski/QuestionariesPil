@@ -24,7 +24,7 @@ Pie.prototype.addData = function (answers, isFreeAnswer) {
             this.data.answers.push(answer);
             this.data.datasets[0].data.push(1);
         }
-    })
+    });
 };
 
 const getIndex = (answerCurrent, answerList) => {
