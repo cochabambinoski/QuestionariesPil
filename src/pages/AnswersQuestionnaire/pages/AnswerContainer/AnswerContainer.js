@@ -39,14 +39,12 @@ class AnswerContainer extends Component {
         if (reason === 'clickaway') {
             return;
         }
-
         this.setState({open: false});
     };
 
     render() {
         return (
             <div>
-
                 <Title title={'Encuestas respondidas'}
                        subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/>
                 <br/>
@@ -54,20 +52,10 @@ class AnswerContainer extends Component {
                             showAnswersGraphics={this.showAnswersGraphics}
                             handleClick={this.handleClick}/>
 
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    open={this.state.open}
-                    autoHideDuration={6000}
-                    onClose={this.handleClose}
-                >
-                    <SnackBarContentView
-                        onClose={this.handleClose}
-                        variant="info"
-                        message="Esta encuesta no fue respondida."
-                    />
+                <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'left',}} open={this.state.open}
+                          autoHideDuration={6000} onClose={this.handleClose}>
+                    <SnackBarContentView onClose={this.handleClose} variant="info"
+                                         message="Esta encuesta no fue respondida."/>
                 </Snackbar>
             </div>
         );

@@ -290,7 +290,7 @@ export const getAssignedMobileSellersByQuestionnaire = id => {
 
 export const getAnswersByQuestionnaire = id => {
     return () => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id)
+        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.QUESTIONNAIRE_HAS_ANSWERS + id)
             .then(results => {
                 return results.json();
             }).then(response => {

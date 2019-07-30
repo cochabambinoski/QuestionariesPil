@@ -58,7 +58,7 @@ class AnswerList extends Component {
     handleListItemClick = (event, questionnaire) => {
         this.props.getAnswersByQuestionnaire(questionnaire.id)
             .then((data) => {
-                if (data.length > 0) {
+                if (data) {
                     this.handlePushClick(questionnaire)
                 } else {
                     this.props.handleClick()
@@ -74,39 +74,30 @@ class AnswerList extends Component {
         const {classes} = this.props;
         return (
             <Grid fluid className='nomargin'>
-
                 <div className="itemList">
                     {
                         this.props.questionnaires.length > 0 ?
                             <List className={classes.root} subheader={<li/>}>
                                 {
                                     this.props.questionnaires.map(questionnaire => (
-
-                                            <ListItem button
-                                                      key={questionnaire.id}
-                                                     onClick={event => this.handleListItemClick(event, questionnaire)}
-                                            >
-                                                <Avatar>
-                                                    <Assignment/>
-                                                </Avatar>
-                                                <ListItemText primary="Nombre" secondary={questionnaire.name}/>
-                                                <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
-                                                <ListItemSecondaryAction>
-                                                    <IconButton aria-label="Comments">
-                                                        <PieChart/>
-                                                    </IconButton>
-                                                </ListItemSecondaryAction>
-                                            </ListItem>
-
+                                        <ListItem button key={questionnaire.id}
+                                                  onClick={event => this.handleListItemClick(event, questionnaire)}>
+                                            <Avatar>
+                                                <Assignment/>
+                                            </Avatar>
+                                            <ListItemText primary="Nombre" secondary={questionnaire.name}/>
+                                            <ListItemText primary="Creado" secondary={questionnaire.fechaId}/>
+                                            <ListItemSecondaryAction>
+                                                <IconButton aria-label="Comments">
+                                                    <PieChart/>
+                                                </IconButton>
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
                                     ))
                                 }
-                            </List>
-                            :
-                            null
+                            </List> : null
                     }
                 </div>
-
-
             </Grid>
         );
     }
