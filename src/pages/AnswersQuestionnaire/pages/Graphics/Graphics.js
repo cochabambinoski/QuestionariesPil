@@ -4,16 +4,17 @@ import {Pie} from './modelQuestions/Pie'
 import {TIPPREG1, TIPPREG2, TIPPREG3, TIPPREG4, TIPPREG5} from '../Graphics/typeQuestions'
 import FreeAnswerTable from "./components/FreeAnswerTable";
 import ImageAnswerView from "./components/ImageAnswerView";
+import GraphicsPie from "../../../../components/graphicsPie/GraphicsPie";
 
 class Graphics extends Component {
 
 
-    createModels(listAnswerCurrent){
+    static createModels(listAnswerCurrent){
         let data = new Pie();
         return data.addData(listAnswerCurrent)
     }
 
-    createComponents(data) {
+    static createComponents(data) {
         if (data !== undefined) return <Chart type="pie" data={data.data}/>
     };
 
@@ -23,30 +24,22 @@ class Graphics extends Component {
         if(this.props.question){
             switch (this.props.question.type.codigoSap) {
                 case TIPPREG1:
-                    data = new Pie();
-                    data.addData(this.props.listAnswerCurrent, false);
-                    innerComponent = this.createComponents(data);
+                    innerComponent = <GraphicsPie question={this.props.question}/>;
                     break;
                 case TIPPREG2:
-                    data = new Pie();
-                    data.addData(this.props.listAnswerCurrent, false);
-                    innerComponent = this.createComponents(data);
+                    innerComponent = <GraphicsPie question={this.props.question}/>;
                     break;
                 case TIPPREG3:
-                    data = new Pie();
-                    data.addData(this.props.listAnswerCurrent, true);
-                    innerComponent = <FreeAnswerTable data={data}/>;
+                    //innerComponent = <FreeAnswerTable data={data}/>;
                     break;
                 case TIPPREG4:
-                    data = new Pie();
-                    data.addData(this.props.listAnswerCurrent, false);
-                    innerComponent = this.createComponents(data);
+                    innerComponent = <GraphicsPie question={this.props.question}/>;
                     break;
                 case TIPPREG5:
-                    innerComponent = <ImageAnswerView data={this.props.listAnswerCurrent} />;
+                   // innerComponent = <ImageAnswerView data={this.props.listAnswerCurrent} />;
                     break;
                 default:
-                    innerComponent = this.createComponents(data);
+                    innerComponent = <GraphicsPie question={this.props.question}/>;
                     break;
             }
         }

@@ -36,7 +36,7 @@ const styles = theme => ({
 class FreeAnswerTable extends Component {
 
     render() {
-        const arrayColums =["Cliente", "Repuesta"];
+        const arrayColumns =["Cliente", "Repuesta"];
         const { classes } = this.props;
         return (
             <Paper className={classes.root}>
@@ -44,7 +44,7 @@ class FreeAnswerTable extends Component {
                     <TableHead>
                         <TableRow>
                             {
-                                arrayColums.map((colums, index) => {
+                                arrayColumns.map((colums, index) => {
                                     return <TableCell key={index}>{colums}</TableCell>
                                 })
                             }

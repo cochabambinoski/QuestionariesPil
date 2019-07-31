@@ -290,7 +290,7 @@ export const getAssignedMobileSellersByQuestionnaire = id => {
 
 export const getAnswersByQuestionnaire = id => {
     return () => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id)
+        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.QUESTIONNAIRE_HAS_ANSWERS + id)
             .then(results => {
                 return results.json();
             }).then(response => {
@@ -586,12 +586,10 @@ export const saveAnswers = answers => {
 export const getAnswersAnsQuestionnaireByQuestionnaire = id => {
     return dispatch => {
         Promise.all([
-            fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ANSwERS}${encodeURIComponent(id)}`),
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`),
         ])
-            .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
-            .then(([answers, questionnarie]) => {
-                dispatch(getAnswers(answers));
+            .then(([res1]) => Promise.all([res1.json()]))
+            .then(([questionnarie]) => {
                 dispatch(getAnswersQuestionnarie(questionnarie));
             });
     };
