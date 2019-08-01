@@ -47,8 +47,8 @@ class AnswerList extends Component {
         this.props.fetchGetQuestionaries();
     }
 
-    handleSelectedQuestionary = idQuestionary => {
-        this.setState({questionnaireSelected: idQuestionary})
+    handleSelectedQuestionary = idQuestionnaire => {
+        this.setState({questionnaireSelected: idQuestionnaire})
     };
 
     handlePushClick = (questionnaire) => {
@@ -58,7 +58,7 @@ class AnswerList extends Component {
     handleListItemClick = (event, questionnaire) => {
         this.props.getAnswersByQuestionnaire(questionnaire.id)
             .then((data) => {
-                if (data) {
+                if (data > 0) {
                     this.handlePushClick(questionnaire)
                 } else {
                     this.props.handleClick()
@@ -66,8 +66,8 @@ class AnswerList extends Component {
             });
     };
 
-    showAnswerGraphics(questionary) {
-        this.props.showAnswersGraphics(this.state.AnswerList, questionary)
+    showAnswerGraphics(questionnaire) {
+        this.props.showAnswersGraphics(this.state.AnswerList, questionnaire)
     }
 
     render() {
