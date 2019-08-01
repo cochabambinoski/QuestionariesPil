@@ -20,7 +20,6 @@ class Graphics extends Component {
 
     render() {
         let innerComponent;
-        let data;
         if(this.props.question){
             switch (this.props.question.type.codigoSap) {
                 case TIPPREG1:
@@ -36,7 +35,7 @@ class Graphics extends Component {
                     innerComponent = <GraphicsPie question={this.props.question}/>;
                     break;
                 case TIPPREG5:
-                   // innerComponent = <ImageAnswerView data={this.props.listAnswerCurrent} />;
+                    innerComponent = <ImageAnswerView question={this.props.question} />;
                     break;
                 default:
                     innerComponent = <GraphicsPie question={this.props.question}/>;
