@@ -127,7 +127,7 @@ class GraphicsDetail extends Component {
                             onChangeIndex={this.handleChangeIndex}>
                             {
                                 this.props.answerQuestionnaire.lsQuestions.map((question) => {
-                                    return <Graphics question={question}/>
+                                    return <Graphics question={question} key={question.id}/>
                                 })
                             }
                         </SwipeableViews>

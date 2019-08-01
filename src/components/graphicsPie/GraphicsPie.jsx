@@ -33,7 +33,6 @@ export default class GraphicsPie extends Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <Fragment>
                 {
