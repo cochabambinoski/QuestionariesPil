@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import GridListTile from "@material-ui/core/GridListTile/GridListTile";
 import GridList from "@material-ui/core/GridList/GridList";
 import GridListTileBar from "@material-ui/core/GridListTileBar/GridListTileBar";
@@ -42,6 +42,7 @@ const styles = theme => ({
     }
 });
 
+//noinspection JSUnresolvedVariable
 class ImageAnswerView extends Component {
 
     constructor(props){
@@ -55,7 +56,7 @@ class ImageAnswerView extends Component {
         this.setState({ openDialog: true, answerDetail: answerDetail})
     }
 
-    closeDialog(answerDetail){
+    closeDialog(){
         this.setState({ openDialog: false})
     }
 
@@ -69,9 +70,10 @@ class ImageAnswerView extends Component {
 
     componentDidMount() {
         const {pivot, ant} = this.state;
+        let {codigoSap} = this.props.question.type;
         Promise.all([
             fetch(`${Constants.ROUTE_WEB_SERVICES}${StringFormatUtil.format(Constants.GET_DATA_OF_FREE_QUESTION, this.props.question.id, ant, pivot)}`),
-            fetch(`${Constants.ROUTE_WEB_SERVICES}${StringFormatUtil.format(Constants.GET_CANT_ANSWER_BY_QUESTION, this.props.question.id, this.props.question.type.codigoSap)}`)
+            fetch(`${Constants.ROUTE_WEB_SERVICES}${StringFormatUtil.format(Constants.GET_CANT_ANSWER_BY_QUESTION, this.props.question.id, codigoSap)}`)
         ]).then(([res1, res2]) => Promise.all([res1.json(), res2.json()])).then(([answers, cant]) => {
             if (answers.status === undefined && cant.status === undefined) {
                 this.setState({answers: answers, cant: cant, errorRequest: null, isLoading: false})
@@ -105,7 +107,7 @@ class ImageAnswerView extends Component {
                                         title={answer.title}
                                         subtitle={<span>Por: {answer.answer.interviewedName ? answer.answer.interviewedName : answer.answer.client ? answer.answer.client.nombreFactura : "Sin nombre"}</span>}
                                         actionIcon={
-                                            <IconButton className={classes.icon} onClick={event => this.openDialog(answer.answerDetail )}>
+                                            <IconButton className={classes.icon} onClick={() => this.openDialog(answer.answerDetail )}>
                                                 <InfoIcon/>
                                             </IconButton>
                                         }
@@ -129,7 +131,7 @@ class ImageAnswerView extends Component {
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button label="Cancelar" onClick={event => this.closeDialog()} className="ui-button-secondary">
+                            <Button label="Cancelar" onClick={() => this.closeDialog()} className="ui-button-secondary">
                                 Cerrar
                             </Button>
                         </DialogActions>

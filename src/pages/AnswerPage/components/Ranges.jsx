@@ -59,7 +59,7 @@ class FreeAnswer extends Component {
         this.setState({isEnabled: enabled});
     };
 
-    componentWillReceiveProps = (nextProps) => {
+    componentWillReceiveProps = () => {
         const enabled = this.verifyPrecondition();
         this.setState({isEnabled: enabled});
     };
