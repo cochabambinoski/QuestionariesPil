@@ -5,7 +5,7 @@ import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Card} from 'primereact/card';
 import './Questions.scss';
-import ModalContainer from "../../../../components/modal/pages/modal";
+import ModalContainer from "../../../../components/modal/modal";
 import Modal from "../../../../components/modal/components/modal";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";

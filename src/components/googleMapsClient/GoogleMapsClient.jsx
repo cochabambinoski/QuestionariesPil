@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './GoogleMapsClient.scss'
-import GoogleMapsComponent from "../GoogleMaps/GoogleMapsComponent";
+import GoogleMapsComponent from "../googleMapsComponent/GoogleMapsComponent";
 import Constants from '../../Constants'
 
 class GoogleMapsClient extends Component {

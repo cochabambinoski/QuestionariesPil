@@ -7,7 +7,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import {withStyles} from '@material-ui/core/styles';
 import Image from 'pimg';
 import Constants from "../../../../../Constants";
-import ModalContainer from "../../../../../components/modal/pages/modal";
+import ModalContainer from "../../../../../components/modal/modal";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";

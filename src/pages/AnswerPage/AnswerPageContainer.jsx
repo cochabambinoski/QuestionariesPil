@@ -10,7 +10,7 @@ import 'primereact/resources/primereact.min.css';
 import 'font-awesome/css/font-awesome.css';
 import classNames from 'classnames';
 import {saveClient, saveInterviewedName, setMarkedOptions, triedToSave, updateMarkedOptions} from "../../actions";
-import ModalContainer from '../../components/modal/pages/modal';
+import ModalContainer from '../../components/modal/modal';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";

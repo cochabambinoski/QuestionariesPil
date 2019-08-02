@@ -37,7 +37,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Divider from "@material-ui/core/Divider/Divider";
 import Title from "../../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
-import ModalContainer from "../../../../components/modal/pages/modal";
+import ModalContainer from "../../../../components/modal/modal";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";

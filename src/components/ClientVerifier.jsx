@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
-import ModalContainer from './modal/pages/modal';
+import ModalContainer from './modal/modal';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";

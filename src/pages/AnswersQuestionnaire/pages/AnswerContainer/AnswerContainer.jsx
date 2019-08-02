@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AnswerList from "../AnswerList/AnswerList";
 import Title from "../../../Title/Title";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import SnackBarContentView from "../../../../components/SnackBarContent/SnackBarContentView";
+import SnackBarContentView from "../../../../components/snackBarCustom/SnackBarContentView";
 
 class AnswerContainer extends Component {
 

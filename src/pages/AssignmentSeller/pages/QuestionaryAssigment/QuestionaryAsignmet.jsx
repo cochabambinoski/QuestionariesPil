@@ -8,7 +8,7 @@ import {withStyles} from "@material-ui/core";
 import {connect} from 'react-redux';
 import {getQueryQuestionerAssigment, getQuestionnaries} from "../../../../reducers";
 import {fetchGetQuestionaries} from "../../../../actions/indexthunk";
-import ModalContainer from "../../../../components/modal/pages/modal";
+import ModalContainer from "../../../../components/modal/modal";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";

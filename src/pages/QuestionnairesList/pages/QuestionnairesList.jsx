@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
 import Modal from "../../../components/modal/components/modal";
-import ModalContainer from "../../../components/modal/pages/modal";
+import ModalContainer from "../../../components/modal/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';
