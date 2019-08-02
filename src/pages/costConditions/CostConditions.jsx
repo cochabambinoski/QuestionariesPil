@@ -20,7 +20,7 @@ import {
 import Button from "@material-ui/core/es/Button";
 import CircularProgress from "@material-ui/core/es/CircularProgress/CircularProgress";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import DialogCostConditionForm from "./components/DialogCostConditionForm";
 import CostCondition from "../../models/CostCondition";
 import Title from "../Title/Title";

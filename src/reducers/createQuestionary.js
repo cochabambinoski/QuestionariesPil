@@ -12,7 +12,7 @@ import {
     DELETE_QUESTIONARY_RANGE,
     FILL_OUT_QUESTIONARY_RANGE_ALL,
     CHANGE_ID_EXISTING_QUESTIONARY
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const initialState = ({
     idQuestionary: null,

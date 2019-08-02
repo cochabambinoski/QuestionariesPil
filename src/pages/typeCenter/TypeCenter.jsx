@@ -16,7 +16,7 @@ import green from "@material-ui/core/colors/green";
 import PropTypes from "prop-types";
 import Title from "../Title/Title";
 import DeleteDialog from "../conceptCenter/dialogs/DeleteDialog";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import TypeForm from "./dialogs/TypeForm";
 import Fab from '@material-ui/core/Fab/Fab';
 

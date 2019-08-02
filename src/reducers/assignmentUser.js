@@ -12,7 +12,7 @@ import {
     REMOVE_ALL_ASSIGNEMENT_USER,
     SAVE_MOBILE_ASSIGNED_LIST_AUX,
     DELETE_MOBILE_ASSIGNED_LIST_AUX
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 import {SET_QUESTIONNAIRE_ASSIGNEMENTS} from "../actions/indexthunk";
 
 const initialState = (

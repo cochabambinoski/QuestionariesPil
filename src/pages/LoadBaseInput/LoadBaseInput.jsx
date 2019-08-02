@@ -9,7 +9,7 @@ import {getProcessConfirmation} from "../../reducers";
 import Button from "@material-ui/core/es/Button/Button";
 import {cleanRequestResponse} from "../../actions";
 import Typography from "@material-ui/core/es/Typography/Typography";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 
 class LoadBaseInput extends Component {
 

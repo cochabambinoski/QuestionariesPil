@@ -36,8 +36,8 @@ import {
     deleteSaveMobileSellerListAux,
     removeAllAssignmentUser
 } from "../../../actions";
-import ModalContainer from "../../../widgets/Modal/pages/modal";
-import Modal from "../../../widgets/Modal/components/modal";
+import ModalContainer from "../../../components/modal/pages/modal";
+import Modal from "../../../components/modal/components/modal";
 import Title from "../../Title/Title";
 import {getQuetionnaireById, saveAssignment} from "../../../actions/indexthunk";
 import Dialog from '@material-ui/core/Dialog';

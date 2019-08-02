@@ -3,7 +3,7 @@ import {
     SET_ANSWERS,
     GET_QUESTIONNARIE_ANSWER,
     SET_QUESTIONNARIE_ANSWER, CLEAN_CURRENT_ANSWERS
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 
 const initialState = ({

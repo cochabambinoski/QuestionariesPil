@@ -1,4 +1,4 @@
-import {SEARCH_ASYNC_ENTITIES} from "../action-types/actionTypes";
+import {SEARCH_ASYNC_ENTITIES} from "../actions/actionTypes";
 
 const initialState = (
     {

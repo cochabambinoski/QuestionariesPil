@@ -5,7 +5,7 @@ import {
     DELETE_CONDITION_CENTER_MASTER,
     FILTER_CENTER_COST_CONDITION,
     UPDATE_CONDITION_CENTER_MASTER
-} from '../action-types/actionTypes';
+} from '../actions/actionTypes';
 
 const errorState = error => ({
     centerCostConditions: [],

@@ -5,7 +5,7 @@ import {
     DELETE_ACCOUNT_PERIOD_BI,
     CHANGE_ERROR_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI, GET_DATA_CREATE_ACCOUNT_PERIOD
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const errorState = error => ({
     accountsPeriod: [],

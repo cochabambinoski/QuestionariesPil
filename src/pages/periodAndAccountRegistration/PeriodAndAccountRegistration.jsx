@@ -16,7 +16,7 @@ import {
     updateAccountPeriodServerBi
 } from "../../actions/indexthunk";
 import {getPeriodAndAccountRegistration} from "../../reducers";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import {cleanRequestAccountPeriodBi} from "../../actions";
 import DialogCreateAndEditPeriodAndAccount from "./component/DialogCreateAndEditPeriodAndAccount";
 import {formatDateToString} from "../../utils/StringDateUtil";

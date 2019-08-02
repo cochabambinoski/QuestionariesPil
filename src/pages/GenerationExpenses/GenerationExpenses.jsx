@@ -4,7 +4,7 @@ import Title from "../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {Messages} from "primereact/messages";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import Typography from "@material-ui/core/es/Typography";
 import {getProcessConfirmation} from "../../reducers";
 import {getGenerationExpenses} from "../../actions/indexthunk";

@@ -1,4 +1,4 @@
-import { SET_ID_USER, SET_USER, SET_MENU} from "../action-types/actionTypes";
+import { SET_ID_USER, SET_USER, SET_MENU} from "../actions/actionTypes";
 
 const initialState = ({
         idUser: null,

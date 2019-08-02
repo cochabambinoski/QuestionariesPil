@@ -2,7 +2,7 @@ import {
     CHANGE_ERROR_REQUEST_CCMAC,
     CLEAN_REQUEST_CCMAC,
     LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST
-} from '../action-types/actionTypes';
+} from '../actions/actionTypes';
 
 const getResponse = response => ({
     centerCost: [],

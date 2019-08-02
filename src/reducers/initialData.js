@@ -8,7 +8,7 @@ import {
     SET_REACH_TYPES,
     SET_SYSTEM_TYPES,
 	SET_STATUS_TYPES,
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 import {GET_QUESTION_TYPES} from "../actions/indexthunk";
 
 const initialState = (

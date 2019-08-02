@@ -15,7 +15,7 @@ import CardActions from "@material-ui/core/CardActions/CardActions";
 import {deleteConceptServerBi, getAllConceptsBi} from "../../actions/indexthunk";
 import {connect} from 'react-redux';
 import DeleteDialog from "./dialogs/DeleteDialog";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import ConceptForm from "./dialogs/ConceptForm";
 import {getConcepts} from "../../reducers";
 

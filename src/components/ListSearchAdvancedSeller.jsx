@@ -38,7 +38,7 @@ import {
     deleteParamFilterMobileSellerBranch,
     deleteParamFilterMobileSellerType
 } from "../actions";
-import {existElementInList, filter, remove,} from '../Util/ArrayFilterUtil';
+import {existElementInList, filter, remove,} from '../utils/ArrayFilterUtil';
 
 const styles = theme => ({
     root: {

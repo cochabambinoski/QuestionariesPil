@@ -15,7 +15,7 @@ import Paper from "@material-ui/core/es/Paper/Paper";
 import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import {Grid} from "@material-ui/core";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import DialogOperatingAccountEdit from "./components/DialogOperatingAccountEdit";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import {Messages} from "primereact/messages";
