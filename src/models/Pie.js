@@ -1,4 +1,4 @@
-import {arrayColors} from '../colors'
+import {arrayColors} from '../pages/AnswersQuestionnaire/pages/Graphics/colors'
 
 export function Pie() {
     this.data = {

@@ -1,4 +1,4 @@
-import {arrayColors} from "../colors";
+import {arrayColors} from "../pages/AnswersQuestionnaire/pages/Graphics/colors";
 
 export const data = {
     labels: [],
@@ -8,5 +8,5 @@ export const data = {
 let datasets =[{
     data: [],
     backgroundColor: arrayColors,
-    hoverBackgroundColor: arrayColors,
+    label:null,
 }];
