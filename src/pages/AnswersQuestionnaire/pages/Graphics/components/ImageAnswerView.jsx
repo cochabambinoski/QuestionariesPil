@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import GridListTile from "@material-ui/core/GridListTile/GridListTile";
 import GridList from "@material-ui/core/GridList/GridList";
 import GridListTileBar from "@material-ui/core/GridListTileBar/GridListTileBar";
@@ -32,23 +32,22 @@ const styles = theme => ({
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
+    children: {
+        overflowY: 'scroll',
+        height: 600,
+        overflow: 'hidden',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+    }
 });
 
 class ImageAnswerView extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            openDialog: false,
-            answerDetail: null,
-            answers: null,
-            errorRequest: null,
-            isLoading: true,
-            cant: null,
-            pivot: 1,
-            ant: false,
-            page: 0,
-            rowsPerPage: 50,
+        this.state = {openDialog: false, answerDetail: null, answers: null, errorRequest: null, isLoading: true,
+            cant: null, pivot: 1, ant: false, page: 0, rowsPerPage: 50,
         }
     }
 

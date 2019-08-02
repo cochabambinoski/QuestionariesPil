@@ -1,12 +1,9 @@
-/**
- * Created by smirandaz on 09/11/2018.
- */
 import React, {Component} from 'react';
+import './title.scss';
 
 class Title extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             title: props.title,
             subtitle: props.subtitle,
@@ -24,8 +21,6 @@ class Title extends Component {
         );
     }
 }
-
-Title.propTypes = {};
 
 export default  (Title);
 

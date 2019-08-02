@@ -4,7 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Button} from 'primereact/button';
 import {Card} from 'primereact/card';
-import './Questions.css';
+import './Questions.scss';
 import ModalContainer from "../../../../widgets/Modal/pages/modal";
 import Modal from "../../../../widgets/Modal/components/modal";
 import Dialog from "@material-ui/core/Dialog/Dialog";

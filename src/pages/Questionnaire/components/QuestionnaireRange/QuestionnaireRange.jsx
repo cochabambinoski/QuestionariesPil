@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import './QuestionnaireRange.css';
+import './QuestionnaireRange.scss';
 import {Checkbox} from 'primereact/checkbox';
 import {connect} from 'react-redux';
 import {getBranches, getCities, getUser} from "../../../../reducers";

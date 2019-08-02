@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Questionary from "./index";
-import './styles.css'
+import './styles.scss'
 import PropTypes from "prop-types";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';

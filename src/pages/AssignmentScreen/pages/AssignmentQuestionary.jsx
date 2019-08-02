@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MobileSellerList from '../../AssignmentSeller/pages/MobileSellerList/MobileSellerList';
 import {Col, Row} from 'react-flexbox-grid';
-import './styles.css';
+import './styles.scss';
 import '../../../layout/layout.css';
 import {Button} from "primereact/button";
 import {Messages} from 'primereact/messages';

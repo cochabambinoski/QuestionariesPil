@@ -10,16 +10,9 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 
 const styles = theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-    },
-    table: {
-        minWidth: 500,
-    },
-    tableWrapper: {
-        overflowX: 'auto',
-    },
+    root: {width: '100%', marginTop: theme.spacing.unit * 3,},
+    table: {minWidth: 500,},
+    tableWrapper: {overflowX: 'auto',},
     row: {
         '&:nth-of-type(odd)': {
             backgroundColor: theme.palette.background.default,
@@ -32,14 +25,8 @@ class TablePaginationCustom extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            answers: null,
-            errorRequest: null,
-            isLoading: true,
-            cant: null,
-            pivot: 1,
-            ant: false,
-            page: 0,
-            rowsPerPage: 50,
+            answers: null, errorRequest: null, isLoading: true, cant: null, pivot: 1, ant: false,
+            page: 0, rowsPerPage: 50,
         }
     }
 
@@ -60,8 +47,8 @@ class TablePaginationCustom extends Component {
                         <Table Table className={classes.table}>
                             <TableHead>
                                 <TableRow>
-                                    {columns.map((colums, index) => {
-                                        return <TableCell key={index}>{colums}</TableCell>
+                                    {columns.map((column, index) => {
+                                        return <TableCell key={index}>{column}</TableCell>
                                     })}
                                 </TableRow>
                             </TableHead>
@@ -70,10 +57,8 @@ class TablePaginationCustom extends Component {
                             </TableBody>
                             <TableFooter>
                                 <TableRow>
-                                    <TablePagination rowsPerPageOptions={[50]} colSpan={3}
-                                                     count={rows.length}
-                                                     rowsPerPage={rowsPerPage} page={page}
-                                                     SelectProps={{native: true,}}
+                                    <TablePagination rowsPerPageOptions={[50]} colSpan={3} count={rows.length}
+                                                     rowsPerPage={rowsPerPage} page={page} SelectProps={{native: true,}}
                                                      onChangePage={this.props.handleChangePage}
                                                      onChangeRowsPerPage={this.props.handleChangeRowsPerPage}/>
                                 </TableRow>

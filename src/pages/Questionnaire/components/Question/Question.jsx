@@ -7,15 +7,15 @@ import {Dropdown} from 'primereact/dropdown';
 import {InputSwitch} from 'primereact/inputswitch';
 import {Messages} from 'primereact/messages';
 import Constants from '../../../../Constants.json';
-import MultipleOption from './MultipleOption.js';
-import MultipleSelection from './MultipleSelection.js';
-import FreeAnswer from './FreeAnswer.js';
-import Range from './Range.js';
-import Image from './Image.js';
+import MultipleOption from './MultipleOption.jsx';
+import MultipleSelection from './MultipleSelection.jsx';
+import FreeAnswer from './FreeAnswer.jsx';
+import Range from './Range.jsx';
+import Image from './Image.jsx';
 import {connect} from 'react-redux';
 import {getUser} from "../../../../reducers";
 import {Button} from "../../../../../node_modules/primereact/button";
-import './Question.css';
+import './Question.scss';
 
 class Question extends Component {
 	constructor(props) {

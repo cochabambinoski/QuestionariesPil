@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from "../../../../../../../node_modules/primereact/button";
 import {Card} from "../../../../../../../node_modules/primereact/card";
-import './styles.css';
+import './styles.scss';
 import {connect} from 'react-redux';
 import {addAssignementUser, deleteAssignementUser, editAssignementUser} from '../../../../../../actions/index';
 import IconButton from "@material-ui/core/IconButton/IconButton";

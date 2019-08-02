@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import QuestionaryData from "./components/QuestionaryData/QuestionaryData";
 import PropTypes from "prop-types";
-import './styles.css'
+import './styles.scss'
 
 class Questionary extends Component {
 

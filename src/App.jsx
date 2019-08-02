@@ -3,8 +3,8 @@ import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { Route, Switch } from 'react-router-dom';
-import QuestionnairesList from './pages/QuestionnairesList/pages/QuestionnairesList.js';
-import Questionnaire from './pages/Questionnaire/pages/Questionnaire/Questionnaire.js'
+import QuestionnairesList from './pages/QuestionnairesList/pages/QuestionnairesList.jsx';
+import Questionnaire from './pages/Questionnaire/pages/Questionnaire/Questionnaire.jsx'
 
 const QuuestionnairesList = () => (
   <div>

@@ -29,7 +29,7 @@ import ListSegment from "../../ListSegments/pages/ListSegments";
 import GenerationExpenses from "../../GenerationExpenses/GenerationExpenses"
 import Questionnaire from "../../Questionnaire/pages/Questionnaire/Questionnaire";
 import SplashPage from "../../SplashPage/SplashPage";
-import Questionnaires from "./../../QuestionnairesList/pages/QuestionnairesList";
+import Questionnaires from "../../QuestionnairesList/pages/QuestionnairesList";
 import AssignmentQuestionary from "../../AssignmentScreen/pages/AssignmentQuestionary";
 import GraphicsDetail from "../../AnswersQuestionnaire/pages/GraphicsDetail/GraphicsDetail";
 import {Growl} from 'primereact/growl';

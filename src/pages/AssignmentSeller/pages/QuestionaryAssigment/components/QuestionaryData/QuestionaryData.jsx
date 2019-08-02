@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.css'
+import './styles.scss'
 import {Button} from "../../../../../../../node_modules/primereact/button";
 import {Card} from 'primereact/card';
 import Link from "react-router-dom/es/Link";

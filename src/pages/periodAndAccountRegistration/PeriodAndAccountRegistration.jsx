@@ -6,7 +6,7 @@ import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import {Grid} from "@material-ui/core";
-import './PeriodAndAccountRegistration.css';
+import './PeriodAndAccountRegistration.scss';
 import connect from "react-redux/es/connect/connect";
 import {
     createAccountPeriodServerBi,

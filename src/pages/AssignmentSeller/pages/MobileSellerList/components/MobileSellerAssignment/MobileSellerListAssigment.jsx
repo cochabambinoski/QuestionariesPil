@@ -1,25 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
-import MobileSellerItem from "./components/MobileSellerItem/MobileSellerItem";
+import './styles.scss';
+import MobileSellerItem from "../MobileSellerItem/MobileSellerItem";
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
 import {
-    addAssignementUser,
-    deleteAssignementUser,
-    editAssignementUser,
-    saveMobileSellerListAux,
-} from "../../../../actions";
-import {
     getMobileAssignement,
-    getMobileSellers,
-    getMobileSellersAux,
-    getQueryMobileSeller,
-    getQueryMobileSellerBranch,
-    getQueryMobileSellerType,
-} from "../../../../reducers";
-import {getMobileSellersByQuestionnaire} from "../../../../actions/indexthunk";
+    getQueryMobileSellerAssigment,
+    getQueryMobileSellerAssignedBranch,
+    getQueryMobileSellerAssignedType
+} from "../../../../../../reducers";
+import {saveMobileSellerAssignedListAux} from "../../../../../../actions";
+import {getAssignedMobileSellersByQuestionnaire} from "../../../../../../actions/indexthunk";
 
 const styles = theme => ({
     root: {
@@ -39,20 +32,16 @@ const styles = theme => ({
     },
 });
 
-class MobileSellerList extends Component {
+class MobileSellerListAssigment extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             idQuestionary: props.idQuestionary,
+            mobilsellers: null,
             isEdit: props.isEdit,
-            filterListMobileSeller: null,
-        };
+        }
     }
-
-    getMobileSellers = (idQuestionary) => {
-        this.props.getMobileSellersByQuestionnaire(idQuestionary);
-    };
 
     filterItems = (mobileSellers, query) => {
         return mobileSellers.filter((el) =>
@@ -63,7 +52,8 @@ class MobileSellerList extends Component {
     filterTypeSeller = (mobileSellers, typesSeller) => {
         let list = [];
         typesSeller.forEach(function (typeSeller) {
-            list = list.concat(mobileSellers.filter((mobileSeller) =>
+            let listAux = mobileSellers;
+            list = list.concat(listAux.filter((mobileSeller) =>
                 mobileSeller.type.id === typeSeller.id
             ));
         });
@@ -74,6 +64,7 @@ class MobileSellerList extends Component {
         }
 
     };
+
     filterSellerByBranch = (mobileSellers, branches) => {
         let list = [];
         branches.forEach(function (branch) {
@@ -89,12 +80,12 @@ class MobileSellerList extends Component {
     };
 
     renderMobileSellersItem() {
-        let filterList = this.props.mobileSellers;
-        if (this.props.mobileSellers !== "") {
-            filterList = this.filterItems(this.props.mobileSellers, this.props.queryMobileSeller);
+        let filterList = this.props.assignmentUser.entities;
+        if (this.props.queryMobileSeller !== "") {
+            filterList = this.filterItems(this.props.assignmentUser.entities, this.props.queryMobileSellerAssigment);
         }
-        filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerType);
-        filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerBranch);
+        filterList = this.filterTypeSeller(filterList, this.props.queryMobileSellerAssignedType);
+        filterList = this.filterSellerByBranch(filterList, this.props.queryMobileSellerAssignedBranch);
         this.saveListAux(filterList);
         return <List className="list" subheader={<li/>}>
             {filterList.map(mobileSeller => (
@@ -102,29 +93,35 @@ class MobileSellerList extends Component {
                     mobileSeller={mobileSeller}
                     isEdit={this.state.isEdit}
                     key={mobileSeller.id}
-                    getAssignment={this.props.getAssignment}
-                    handleAddSeller={this.props.handleAddSeller}
-                    showRoutes={this.props.showRoutes}/>
+                    deleteAssignement={this.props.deleteAssignement}
+                    getAssignment={this.props.getAssignment}/>
             ))}
         </List>
     }
 
     saveListAux(filterList) {
-        if (filterList.length !== this.props.mobileSellersAux.length) {
-            this.props.saveMobileSellerListAux(filterList);
+        if (filterList.length !== this.props.assignmentUser.mobileSellerAssignedAux.length) {
+            this.props.saveMobileSellerAssignedListAux(filterList);
         }
     }
 
+    getAssignedMobileSellers = (idQuestionary) => {
+        this.props.getAssignedMobileSellersByQuestionnaire(idQuestionary)
+            .then((data) => {
+                this.props.loadAssignments(data);
+            });
+    };
+
     componentDidMount() {
-        this.getMobileSellers(this.state.idQuestionary);
+        this.getAssignedMobileSellers(this.state.idQuestionary);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.idQuestionary !== this.props.idQuestionary) {
             this.getMobileSellers(nextProps.idQuestionary);
         }
-        if (nextProps.queryMobileSellerType.length !== this.props.queryMobileSellerType.length ||
-            nextProps.queryMobileSellerType !== this.props.queryMobileSellerType) {
+        if (nextProps.queryMobileSellerAssignedType !== this.props.queryMobileSellerAssignedType ||
+            nextProps.queryMobileSellerAssignedBranch !== this.props.queryMobileSellerAssignedBranch) {
             this.renderMobileSellersItem()
         }
     }
@@ -140,25 +137,21 @@ class MobileSellerList extends Component {
     }
 }
 
-MobileSellerList.propTypes = {
+MobileSellerListAssigment.propTypes = {
     isEdit: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-    queryMobileSeller: getQueryMobileSeller(state),
     assignmentUser: getMobileAssignement(state),
-    mobileSellers: getMobileSellers(state),
-    mobileSellersAux: getMobileSellersAux(state),
-    queryMobileSellerType: getQueryMobileSellerType(state),
-    queryMobileSellerBranch: getQueryMobileSellerBranch(state),
+    queryMobileSellerAssigment: getQueryMobileSellerAssigment(state),
+    queryMobileSellerAssignedType: getQueryMobileSellerAssignedType(state),
+    queryMobileSellerAssignedBranch: getQueryMobileSellerAssignedBranch(state),
 });
+
 
 const mapDispatchToProps = dispatch => ({
-    addAssignementUser: value => dispatch(addAssignementUser(value)),
-    deleteAssignementUser: value => dispatch(deleteAssignementUser(value)),
-    editAssignementUser: value => dispatch(editAssignementUser(value)),
-    saveMobileSellerListAux: value => dispatch(saveMobileSellerListAux(value)),
-    getMobileSellersByQuestionnaire: value => dispatch(getMobileSellersByQuestionnaire(value)),
+    saveMobileSellerAssignedListAux: value => dispatch(saveMobileSellerAssignedListAux(value)),
+    getAssignedMobileSellersByQuestionnaire: value => dispatch(getAssignedMobileSellersByQuestionnaire(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MobileSellerList));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MobileSellerListAssigment));

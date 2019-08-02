@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AnswerList from "../AnswerList/AnswerList";
 import Title from "../../../Title/Title";
-import GraphicsDetail from "../GraphicsDetail/GraphicsDetail";
+import GraphicsDetail from "./GraphicsDetail";
 
 class GraphicsDetailContainer extends Component {
 
