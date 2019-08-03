@@ -4,20 +4,6 @@ import {
     LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST
 } from '../actions/actionTypes';
 
-const getResponse = response => ({
-    centerCost: [],
-    business: [],
-    lineCost: [],
-    organization: [],
-    channel: [],
-    region: [],
-    subRegion: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: true
-});
-
 const errorState = error => ({
     centerCost: [],
     business: [],
