@@ -30,7 +30,7 @@ class Graphics extends Component {
                     innerComponent = <GraphicsPie question={this.props.question}/>;
                     break;
                 case TIPPREG3:
-                    //innerComponent = <FreeAnswerTable data={data}/>;
+                    innerComponent = <FreeAnswerTable question={this.props.question}/>;
                     break;
                 case TIPPREG4:
                     innerComponent = <GraphicsPie question={this.props.question}/>;
