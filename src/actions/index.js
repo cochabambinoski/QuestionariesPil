@@ -91,7 +91,7 @@ import {
     UPDATE_MARKED_OPTIONS,
     UPDATE_OPERATING_ACCOUNTS_BI,
     UPDATE_TYPES_BI
-} from "../action-types/actionTypes";
+} from "./actionTypes";
 
 export function data() {
     return {

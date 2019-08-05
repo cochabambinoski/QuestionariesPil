@@ -5,7 +5,7 @@ import {
     JOB_EXECUTE,
     LOAD_COST_BASE_INFORMATION,
     LOAD_INPUT_BASE_INFORMATION
-} from "../action-types/actionTypes"
+} from "../actions/actionTypes"
 
 const initialState = ({
     generationExpenses: null,

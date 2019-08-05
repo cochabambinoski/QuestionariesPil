@@ -15,7 +15,7 @@ import {
     EDIT_QUERY_TEXT_MOBILE_SELLER_ASSIGNED_LIST,
     EDIT_QUERY_TEXT_MOBILE_SELLER_LIST,
     EDIT_QUERY_TEXT_QUESTIONARY_ASSIGNED_LIST
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const initialState = (
     {

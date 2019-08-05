@@ -1,5 +1,5 @@
 import Constants from "../Constants";
-import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
+import {getIndexQuestionary} from "../utils/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
     addMobileSellers,
@@ -52,7 +52,7 @@ import {
     updateOperatingAccountsBi,
     updateTypeBi,
 } from "./index";
-import * as StringFormatUtil from "../Util/StringFormatUtil";
+import * as StringFormatUtil from "../utils/StringFormatUtil";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
 export const SET_QUESTIONNAIRES_DATA = 'SET_QUESTIONNAIRES_DATA';

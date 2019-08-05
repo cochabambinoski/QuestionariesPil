@@ -5,7 +5,7 @@ import {
     SET_MARKED_OPTIONS,
     TRIED_TO_SAVE,
     UPDATE_MARKED_OPTIONS
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const initialState = (
     {

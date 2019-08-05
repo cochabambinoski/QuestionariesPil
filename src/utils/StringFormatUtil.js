@@ -1,4 +1,4 @@
-function format(fmt, ...args) {
+export function format(fmt, ...args) {
     if (!fmt.match(/^(?:(?:(?:[^{}]|(?:\{\{)|(?:\}\}))+)|(?:\{[0-9]+\}))+$/)) {
         throw new Error('invalid format string.');
     }
@@ -12,8 +12,4 @@ function format(fmt, ...args) {
             return args[index];
         }
     });
-}
-
-export function formatText(fmt, ...args) {
-    return format(fmt, ...args)
 }

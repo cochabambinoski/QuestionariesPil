@@ -3,7 +3,7 @@ import {
     CREATE_OPERATING_ACCOUNTS_BI, DELETE_OPERATING_ACCOUNTS_BI,
     GET_INITIAL_DATA_OPERATING_ACCOUNTS_BI,
     UPDATE_OPERATING_ACCOUNTS_BI
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const errorState = error => ({
     operatingAccounts: [],

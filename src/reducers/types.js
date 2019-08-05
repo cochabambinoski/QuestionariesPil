@@ -1,4 +1,4 @@
-import {CREATE_TYPES_BI, DELETE_TYPES_BI, GET_ALL_TYPES, UPDATE_TYPES_BI} from "../action-types/actionTypes";
+import {CREATE_TYPES_BI, DELETE_TYPES_BI, GET_ALL_TYPES, UPDATE_TYPES_BI} from "../actions/actionTypes";
 
 const initialState = ({
     types: [],

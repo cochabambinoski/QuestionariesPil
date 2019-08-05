@@ -1,19 +1,4 @@
-import {CREATE_CONCEPT_BI, DELETE_CONCEPT_BI, GET_ALL_CONCEPTS, UPDATE_CONCEPT_BI} from "../action-types/actionTypes";
-
-/*const getResponse = response => ({
-    concepts: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: true
-});
-
-const errorState = error => ({
-    concepts: [],
-    errorRequest: error,
-    showDialog: false,
-    load: false
-});*/
+import {CREATE_CONCEPT_BI, DELETE_CONCEPT_BI, GET_ALL_CONCEPTS, UPDATE_CONCEPT_BI} from "../actions/actionTypes";
 
 const initialState = ({
     concepts: [],
