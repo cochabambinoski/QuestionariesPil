@@ -22,6 +22,8 @@ import {
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
+        textAlign: 'center',
+        color: 'white',
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -32,10 +34,15 @@ const useStyles = makeStyles(theme => ({
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
     },
+    text_menu_item: {
+        textAlign: 'center',
+        color: 'white',
+        backgroundColor: '#4d505b'
+    }
 }));
 
 export default function SubMenuExpansionPanel(props) {
-    const {menu} = props;
+    const {menu, handleDrawerClose} = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -84,6 +91,11 @@ export default function SubMenuExpansionPanel(props) {
         }
     };
 
+    function closeNavAndMenu(props) {
+        handleClose();
+        props.handleDrawerClose()
+    }
+
     return (
         <Fragment>
             <div>
@@ -91,8 +103,8 @@ export default function SubMenuExpansionPanel(props) {
                 <Menu id={menu.id} anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                     {menu.items.map((item) => {
                         return (
-                            <Link to={{pathname: getUrl(item)}} key={item.id}>
-                                <MenuItem>
+                            <Link to={{pathname: getUrl(item)}} key={item.id} onClick={() => closeNavAndMenu(props)}>
+                                <MenuItem className={classes.text_menu_item}>
                                     {item.label}
                                 </MenuItem>
                             </Link>

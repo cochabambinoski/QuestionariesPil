@@ -18,12 +18,12 @@ class SubMenu extends Component {
     };
 
     render() {
-        const {menu} = this.props;
+        const {menu, handleDrawerClose} = this.props;
         return (
             <Fragment>
                 {!this.menuIsValid(menu) ? null : (
                     <ListItem button>
-                        <SubMenuExpansionPanel menu={menu}/>
+                        <SubMenuExpansionPanel menu={menu} handleDrawerClose={handleDrawerClose}/>
                     </ListItem>
                 )}
             </Fragment>

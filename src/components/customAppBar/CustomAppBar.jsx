@@ -45,9 +45,11 @@ const useStyles = makeStyles(theme => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
+        backgroundColor: '#4d505b'
     },
     drawerPaper: {
         width: drawerWidth,
+        backgroundColor: '#4d505b'
     },
     drawerHeader: {
         display: 'flex',
@@ -73,7 +75,8 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 0,
     },
     nameUser: {
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white'
     }
 }));
 
@@ -117,7 +120,7 @@ export default function CustomAppBar(props) {
                 <h4 className={classes.nameUser}>{props.user.username}</h4>
                 <List>
                     {menu.items.map((itemMenu) => {
-                        return <SubMenu menu={itemMenu} key={itemMenu.id}/>
+                        return <SubMenu menu={itemMenu} key={itemMenu.id} handleDrawerClose={handleDrawerClose}/>
                     })}
                 </List>
             </Drawer>

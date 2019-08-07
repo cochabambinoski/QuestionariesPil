@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {Chart} from "primereact/chart";
 import {Pie} from '../../../../models/Pie'
-import {TIPPREG1, TIPPREG2, TIPPREG3, TIPPREG4, TIPPREG5} from '../Graphics/typeQuestions'
-import FreeAnswerTable from "./components/FreeAnswerTable";
-import ImageAnswerView from "./components/ImageAnswerView";
+import {TIPPREG1, TIPPREG2, TIPPREG3, TIPPREG4, TIPPREG5} from '../../../../models/typeQuestions'
+import FreeAnswerTable from "../../../../components/freeAnswerTable/FreeAnswerTable";
+import ImageAnswerView from "../../../../components/imageAnswerView/ImageAnswerView";
 import GraphicsPie from "../../../../components/graphicsPie/GraphicsPie";
 
 class Graphics extends Component {

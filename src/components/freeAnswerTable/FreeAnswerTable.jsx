@@ -2,9 +2,9 @@ import React, {Component, Fragment} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import Constants from "../../../../../Constants";
-import * as StringFormatUtil from "../../../../../utils/StringFormatUtil";
-import TablePaginationCustom from "../../../../../components/tablePagination/TablePaginationCustom";
+import Constants from "../../Constants";
+import * as StringFormatUtil from "../../utils/StringFormatUtil";
+import TablePaginationCustom from "../tablePagination/TablePaginationCustom";
 
 const CustomTableCell = withStyles(theme => ({
     head: {backgroundColor: theme.palette.common.black, color: theme.palette.common.white,},
