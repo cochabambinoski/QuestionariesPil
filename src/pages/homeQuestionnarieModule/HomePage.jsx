@@ -55,7 +55,7 @@ class HomePage extends Component {
     render() {
         return (
             <Router>
-                <CustomAppBar menu={this.props.menu}>
+                <CustomAppBar menu={this.props.menu} user={this.props.user}>
                     <Growl ref={(el) => this.growl = el}/>
                     <Routes showSuccess={this.showSuccess} title={this.state.title} detail={this.state.detail}/>
                     {this.renderDialog()}

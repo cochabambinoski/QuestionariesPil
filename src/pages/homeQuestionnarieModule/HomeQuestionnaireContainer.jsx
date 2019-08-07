@@ -42,8 +42,9 @@ class HomeQuestionnaireContainer extends Component {
         }
         return (
             <Fragment>
-                {user !== null && menus !== null ? (<HomePage menu={itemsMenu} open={open} handleClose={this.handleClose}/>) : (
-                    <SplashPage/>
+                {user !== null && menus !== null ? (
+                    <HomePage menu={itemsMenu} open={open} handleClose={this.handleClose} user={user}/>)
+                    : (<SplashPage/>
                 )}
             </Fragment>
         );

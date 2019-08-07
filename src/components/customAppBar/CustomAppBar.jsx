@@ -11,6 +11,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import SubMenu from "../subMenu/SubMenu";
+import pilLogo from "../../images/pil.png";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
@@ -25,6 +26,7 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: '#4d505b'
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -70,12 +72,14 @@ const useStyles = makeStyles(theme => ({
         }),
         marginLeft: 0,
     },
+    nameUser: {
+        textAlign: 'center'
+    }
 }));
 
 export default function CustomAppBar(props) {
 
     const {menu} = props;
-    console.log(menu)
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -87,7 +91,6 @@ export default function CustomAppBar(props) {
     function handleDrawerClose() {
         setOpen(false);
     }
-
     return (
         <Fragment>
             <CssBaseline/>
@@ -110,6 +113,8 @@ export default function CustomAppBar(props) {
                     </IconButton>
                 </div>
                 <Divider/>
+                <img src={pilLogo} alt={'logo'}/>
+                <h4 className={classes.nameUser}>{props.user.username}</h4>
                 <List>
                     {menu.items.map((itemMenu) => {
                         return <SubMenu menu={itemMenu} key={itemMenu.id}/>
