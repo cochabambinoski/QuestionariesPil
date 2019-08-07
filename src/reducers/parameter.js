@@ -57,7 +57,6 @@ export const parameter = (state = initialState, action) => {
             return {state: initialState}
         }
         case CHANGE_STATE: {
-            console.log(action.payload, state);
             const index = action.payload;
             return {
                 ...state,
