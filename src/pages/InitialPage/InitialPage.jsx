@@ -5,8 +5,8 @@ import {bindActionCreators} from "redux";
 import * as actions from "../../actions";
 import {fetchInitialData, getMenuByUser} from "../../actions/indexthunk";
 import {getIdUser, getMenu, getUser} from "../../reducers";
-import Home from "../Home/pages/Home";
 import PublicQuestionnaires from "../PublicQuestionnaires/PublicQuestionnairesContainer";
+import HomeQuestionnaireContainer from "../homeQuestionnarieModule/HomeQuestionnaireContainer";
 
 class InitialPage extends Component {
 
@@ -43,7 +43,7 @@ class InitialPage extends Component {
         let component = null;
         switch (this.state.uploadUser) {
             case true:
-                component = <Home userIdSvm={this.state.userIdSvm}/>;
+                component = <HomeQuestionnaireContainer userIdSvm={this.state.userIdSvm}/>;
                 break;
             case false:
                 component = <PublicQuestionnaires/>;

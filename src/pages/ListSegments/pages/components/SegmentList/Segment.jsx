@@ -2,7 +2,7 @@ import React from 'react';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import SegmentationGenerator from "../../../../SegementationGenerator/pages/SegmentationGenerator";
+import SegmentationGenerator from "../../../../segmentationGenerator/SegmentationGenerator";
 import DialogActions from "@material-ui/core/DialogActions";
 import {Button} from "primereact/button";
 import Dialog from "@material-ui/core/Dialog";

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import connect from "react-redux/es/connect/connect";
 import {Button} from 'primereact/button';
-import {TIPPREG1, TIPPREG2, TIPPREG3, TIPPREG4} from "../AnswersQuestionnaire/pages/Graphics/typeQuestions";
+import {TIPPREG1, TIPPREG2, TIPPREG3, TIPPREG4} from "../../models/typeQuestions";
 import MultipleOption from "./components/MultipleOption";
 import MultipleSelection from "./components/MultipleSelection";
 import FreeAnswer from "./components/FreeAnswer";

@@ -1,4 +1,4 @@
-import {arrayColors} from "../pages/AnswersQuestionnaire/pages/Graphics/colors";
+import {arrayColors} from "./colors";
 
 export const data = {
     labels: [],

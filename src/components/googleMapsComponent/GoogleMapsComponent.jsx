@@ -61,7 +61,6 @@ class GoogleMapsComponent extends Component {
     onMapReady(event) {
         let overlaysAnswer = [];
         const {answers} = this.props;
-        console.log(answers)
         if (answers.length > 0) {
             answers.forEach((answer) => {
                 if (answer.latitude !== 0 && answer.longitude !== 0) {
@@ -83,7 +82,7 @@ class GoogleMapsComponent extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
+
     }
 
     render() {

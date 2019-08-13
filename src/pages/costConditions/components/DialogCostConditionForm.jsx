@@ -54,7 +54,6 @@ class DialogCostConditionForm extends Component {
     constructor(props) {
         super(props);
         const {item} = props;
-        console.log(item);
         if (item) {
             this.state = {
                 costCondition: item,
