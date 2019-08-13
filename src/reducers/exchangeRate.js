@@ -2,7 +2,7 @@ import {
     CHANGE_ERROR_EXCHANGE_RATE_BI, CLEAN_REQUEST_EXCHANGE_RATE_BI,
     CREATE_EXCHANGE_RATE_BI, DELETE_EXCHANGE_RATE_BI,
     GET_INITIAL_DATA_EXCHANGE_RATE_BI, UPDATE_EXCHANGE_RATE_BI
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const errorRequest = error => ({
     exchangesRate: [],

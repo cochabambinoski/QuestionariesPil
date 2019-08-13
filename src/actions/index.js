@@ -15,7 +15,7 @@ import {
     CHANGE_ID_EXISTING_QUESTIONARY,
     CHANGE_OPERATION_ID_BRANCH_SELLER,
     CHANGE_OPERATION_ID_BRANCH_SELLER_ASSIGNED,
-    CHANGE_STATE,
+    CHANGE_STATE, CLEAN_CURRENT_ANSWERS,
     CLEAN_FILTER,
     CLEAN_REQUEST_ACCOUNT_PERIOD_BI,
     CLEAN_REQUEST_BI,
@@ -91,7 +91,7 @@ import {
     UPDATE_MARKED_OPTIONS,
     UPDATE_OPERATING_ACCOUNTS_BI,
     UPDATE_TYPES_BI
-} from "../action-types/actionTypes";
+} from "./actionTypes";
 
 export function data() {
     return {
@@ -287,3 +287,4 @@ export const deleteTypeBi = payload => ({type: DELETE_TYPES_BI, payload});
 export const getAllParametersBi = payload => ({type: GET_ALL_PARAMETERS, payload});
 export const jobExecuteBi = payload => ({type: JOB_EXECUTE, payload});
 export const getInitialDataParametersBi = payload => ({type: GET_DATA_PARAMETERS, payload});
+export const cleanCurrentAnswer = () => ({type: CLEAN_CURRENT_ANSWERS});

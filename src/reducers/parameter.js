@@ -4,7 +4,7 @@ import {
     CLEAN_REQUEST_PARAMETER_BI,
     GET_ALL_PARAMETERS,
     GET_DATA_PARAMETERS,
-} from "../action-types/actionTypes";
+} from "../actions/actionTypes";
 
 const errorState = error => ({
     parameter: [],
@@ -57,7 +57,6 @@ export const parameter = (state = initialState, action) => {
             return {state: initialState}
         }
         case CHANGE_STATE: {
-            console.log(action.payload, state);
             const index = action.payload;
             return {
                 ...state,

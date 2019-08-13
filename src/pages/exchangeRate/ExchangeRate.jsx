@@ -12,7 +12,7 @@ import List from "@material-ui/core/es/List/List";
 import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import {Grid} from "@material-ui/core";
 import Button from "@material-ui/core/es/Button/Button";
-import ModalGeneric from "../../widgets/Modal/components/ModalGeneric";
+import ModalGeneric from "../../components/modal/components/ModalGeneric";
 import {cleanRequestExchangeRateBi} from "../../actions";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import {formatDateToString} from "../../utils/StringDateUtil";

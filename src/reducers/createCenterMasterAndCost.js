@@ -2,21 +2,7 @@ import {
     CHANGE_ERROR_REQUEST_CCMAC,
     CLEAN_REQUEST_CCMAC,
     LOAD_BASE_DATA_CREATE_CENTER_MASTER_AND_COST
-} from '../action-types/actionTypes';
-
-const getResponse = response => ({
-    centerCost: [],
-    business: [],
-    lineCost: [],
-    organization: [],
-    channel: [],
-    region: [],
-    subRegion: [],
-    responseRequest: response,
-    errorRequest: null,
-    showDialog: true,
-    load: true
-});
+} from '../actions/actionTypes';
 
 const errorState = error => ({
     centerCost: [],
