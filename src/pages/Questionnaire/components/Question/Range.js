@@ -129,7 +129,7 @@ class Range extends Component {
                         </div>
                     </div>
                 </div>
-
+                <br/>
                 {
                     readOnly ? <div/> :
                         <ButtonAcceptCancel addQuestion={this.addQuestion} handleClose={this.props.handleClose}/>
