@@ -16,7 +16,6 @@
     "dateformat": "^3.0.3",
     "downshift": "^2.1.5",
     "express": "^4.16.4",
-    "firebase": "^5.5.7",
     "font-awesome": "^4.7.0",
     "ignore-styles": "^5.0.1",
     "immutable": "^3.8.2",
