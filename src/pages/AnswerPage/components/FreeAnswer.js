@@ -116,6 +116,7 @@ class FreeAnswer extends Component {
                                     marginTop: '15px',
                                 }}
                                 value={selectedOption.answerDetail}
+                                keyfilter={this.state.inputType}
                                 onChange={(e) => this.selectOption(e.target.value)}
                                 rows={4} autoResize={false}/>
 
