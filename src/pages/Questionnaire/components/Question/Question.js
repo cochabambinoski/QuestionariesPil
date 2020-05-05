@@ -257,15 +257,13 @@ class Question extends Component {
 									</div>
 
 									<p></p>
-									{
-										this.state.squestion.type != null && this.state.squestion.id != null ?
-											<p>{'Tipo: ' + this.state.squestion.type.nombre}</p> :
-											<Dropdown value={this.state.squestion.type}
-											          options={this.props.questionTypes}
-											          onChange={this.onTypeChange} style={{width: '300px'}}
-											          placeholder="Seleccione un tipo"
-											          optionLabel="nombre"/>
-									}
+                                    <p>{'Tipo: '}</p>
+                                    <Dropdown value={this.state.squestion.type}
+                                              options={this.props.questionTypes}
+                                              onChange={this.onTypeChange} style={{width: '300px'}}
+                                              placeholder="Seleccione un tipo"
+                                              optionLabel="nombre"/>
+
 									{innerComponent}
 								</div>
 								{
