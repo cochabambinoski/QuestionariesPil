@@ -257,12 +257,12 @@ class Question extends Component {
 									</div>
 
 									<p></p>
-                                    <p>{'Tipo: '}</p>
-                                    <Dropdown value={this.state.squestion.type}
-                                              options={this.props.questionTypes}
-                                              onChange={this.onTypeChange} style={{width: '300px'}}
-                                              placeholder="Seleccione un tipo"
-                                              optionLabel="nombre"/>
+									<p>{'Tipo: '}</p>
+									<Dropdown value={this.state.squestion.type}
+											  options={this.props.questionTypes}
+											  onChange={this.onTypeChange} style={{width: '300px'}}
+											  placeholder={(this.props.selectedQuestionIndex >= 0) ? this.state.squestion.type.nombre : "Seleccione un tipo"}
+											  optionLabel="nombre"/>
 
 									{innerComponent}
 								</div>
