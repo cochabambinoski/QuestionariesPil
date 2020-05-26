@@ -5,7 +5,6 @@ import AddIcon from '@material-ui/icons/Add';
 import green from '@material-ui/core/colors/green';
 import Card from '@material-ui/core/Card';
 import * as utilDate from "../../../../../utils/dateUtils";
-import {Button} from 'primereact/button';
 import FButton from '@material-ui/core/Button';
 import Constants from '../../../../../Constants.json';
 import 'primereact/resources/themes/nova-dark/theme.css';
@@ -22,6 +21,8 @@ import DeleteDialog from "./DeleteDialog";
 import ReportDialog from "./ReportDialog";
 import Segment from "./Segment";
 import BaseSegment from "./BaseSegment";
+import Button from "@material-ui/core/Button/Button";
+import FilterIcon from "@material-ui/icons/FilterList"
 
 const styles = theme => ({
     root: {
@@ -289,7 +290,10 @@ class SegmentList extends Component {
                               selectionMode="range" readOnlyInput="true" className="calendar"/>
                 </div>
                 <div>
-                    <Button label="Buscar" onClick={this.handlerFilter} className="buttonBlue"/>
+                    <Button label="Buscar" onClick={this.handlerFilter} className="ui-button-success">
+                        <FilterIcon/>
+                        Buscar
+                    </Button>
                 </div>
             </Toolbar>
         );

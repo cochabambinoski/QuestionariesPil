@@ -2,10 +2,36 @@ import React, {Component} from 'react';
 import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import {Button} from 'primereact/button';
 import {Checkbox} from 'primereact/checkbox';
 import {InputText} from 'primereact/inputtext';
 import ButtonAcceptCancel from "./ButtonAcceptCancel";
+import Button from "@material-ui/core/Button";
+import {blue} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import Remove from '@material-ui/icons/Remove'
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+        marginRight: 5,
+    },
+}))(Button);
+
+const BlueButtonMinus = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+        width: 5,
+        marginLeft: 5,
+    },
+}))(Button);
 
 class MultipleSelection extends Component {
     constructor(props) {
@@ -118,7 +144,7 @@ class MultipleSelection extends Component {
                 }}>
                     {
                         lsOptions.map((option, index) => {
-                           return (
+                            return (
                                 option.operacionId === 1 ?
                                     <div style={{display: 'flex', flexDirection: 'row', marginBottom: '10px'}}>
                                         <Checkbox checked={false}/>
@@ -130,9 +156,11 @@ class MultipleSelection extends Component {
                                                     <InputText value={option.option}
                                                                placeholder="Opción"
                                                                onChange={(e) => this.updateOption(e.target.value, index)}/>
-                                                    <Button icon="pi pi-minus" onClick={() => {
+                                                    <BlueButtonMinus onClick={() => {
                                                         this.removeOption(index);
-                                                    }}/>
+                                                    }}>
+                                                        <Remove/>
+                                                    </BlueButtonMinus>
                                                 </div>
                                         }
                                         </span>
@@ -144,7 +172,10 @@ class MultipleSelection extends Component {
                 {
                     readOnly ? <div/> :
                         <ButtonAcceptCancel addQuestion={this.addQuestion} handleClose={this.props.handleClose}>
-                            <Button label="Añadir opcion" onClick={this.addOption}/>
+                            <BlueButton label="Añadir opcion" onClick={this.addOption}
+                                        className='ui-button-secondary'>
+                                Añadir Opción
+                            </BlueButton>
                         </ButtonAcceptCancel>
                 }
             </div>

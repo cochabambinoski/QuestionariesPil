@@ -3,7 +3,29 @@ import {Card} from "primereact/card";
 import Constants from "../../../Constants";
 import Link from "react-router-dom/es/Link";
 import {questionariesEditIdRouteParam, questionariesShowIdRouteParam} from "../../../routes/PathRoutes";
-import Button from "@material-ui/core/es/Button/Button";
+import Button from "@material-ui/core/Button";
+import {blue, red} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 function QuestionnaireItem(props) {
     const {item} = props;
@@ -21,23 +43,30 @@ function QuestionnaireItem(props) {
                     <br/>
                     <span>
                         <Link to={`${questionariesShowIdRouteParam}${item.id}`}>
-                            <Button variant={"contained"} color={"primary"}>Ver</Button>
+                            <BlueButton variant={"contained"} color={"primary"}>Ver</BlueButton>
                         </Link>
 
                         <Link to={`${questionariesEditIdRouteParam}${item.id}`}>
-                            <Button variant={"contained"} color={"primary"}>Editar</Button>
+                            <BlueButton variant={"contained"} color={"primary"}>Editar</BlueButton>
                         </Link>
 
-                        <Button variant={"contained"}
-                                color={"primary"}
-                                onClick={() => {props.enterModal(item);}}
-                                disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}
-                        >Cerrar</Button>
+                        <RedButton variant={"contained"}
+                                   color={"primary"}
+                                   onClick={() => {
+                                       props.enterModal(item);
+                                   }}
+                                   disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}>
+                            Cerrar
+                        </RedButton>
 
-                        <Button
+                        <RedButton
                             variant={"contained"}
                             color={"secondary"}
-                            onClick={() => {props.openModal(item);}}>Eliminar</Button>
+                            onClick={() => {
+                                props.openModal(item);
+                            }}>
+                            Eliminar
+                        </RedButton>
                     </span>
                 </div>
             </Card>
