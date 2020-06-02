@@ -84,13 +84,13 @@ class GraphicsDetail extends Component {
 
     render() {
         const {value} = this.state;
-        const { classes, theme } = this.props;
+        const { theme } = this.props;
         return (
             <div>
                 {
                     this.props.answerQuestionnaire ?
                         <div>
-                            <Title tilte={'Detalles de la encuesta'}
+                            <Title title={'Detalles de la encuesta'}
                                    subtitle={'Presione una pregunta para ver los detalles de la pregunta.'}/>
                             <br/>
                             <ExpansionPanel expanded={this.state.expandFirstSellerSearch}>

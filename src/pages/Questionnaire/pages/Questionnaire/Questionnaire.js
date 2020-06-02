@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import './Questionnaire.css';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Constants from '../../../../Constants';
-import {Button} from 'primereact/button';
 import {Growl} from 'primereact/growl';
 import {Messages} from 'primereact/messages';
 import {InputText} from 'primereact/inputtext';
@@ -46,11 +45,46 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import {
     getAssignmentsByQuestionnaire,
     getQuestionsTypes,
-    getQuetionnaireById, getTypeSystemByUser,
+    getQuetionnaireById,
+    getTypeSystemByUser,
     saveQuestionnaire
 } from "../../../../actions/indexthunk";
 import Link from "react-router-dom/es/Link";
 import {questionariesRoute} from "../../../../routes/PathRoutes";
+import Button from "@material-ui/core/Button";
+import {blue, green, red} from '@material-ui/core/colors';
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+        marginRight: 5,
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
+
+const GreenButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(green[700]),
+        backgroundColor: green[500],
+        '&:hover': {
+            backgroundColor: green[700],
+        },
+        marginRight: 5,
+    },
+}))(Button);
 
 const styles = theme => ({
     root: {
@@ -132,7 +166,7 @@ class Questionnaire extends Component {
             this.showWarning("", "Debe especificar el nombre del cuestionario");
             return;
         }
-        if(this.state.reach == null || this.state.system == null){
+        if (this.state.reach == null || this.state.system == null) {
             this.showWarning("", "Seleccione el sistema y el alcance de la encuesta")
             return;
         }
@@ -194,7 +228,8 @@ class Questionnaire extends Component {
         if (index === -1) {
             auxQuestions.push(question);
         } else {
-            auxQuestions[question];
+            // eslint-disable-next-line no-unused-vars
+            let auxQuestion = auxQuestions[question];
         }
         this.setState({lsQuestions: auxQuestions});
     }
@@ -404,15 +439,17 @@ class Questionnaire extends Component {
         return (
             <div>
                 <Growl ref={(el) => this.growl = el}/>
-                <Title tilte={title} subtitle={subtitle}/>
+                <Title title={title} subtitle={subtitle}/>
                 <Toolbar className="toolbarFullWidth">
                     <div style={{padding: '5px'}}>
                         {this.props.readOnly ?
                             <Row>
                                 <Col>
                                     <Link to={questionariesRoute}>
-                                        <Button label="Cancelar" className="ui-button-danger" onClick={() => {
-                                        }}/>
+                                        <RedButton label="Cancelar" className="ui-button-primary" onClick={() => {
+                                        }}>
+                                            Cancelar
+                                        </RedButton>
                                     </Link>
                                 </Col>
                             </Row>
@@ -420,19 +457,26 @@ class Questionnaire extends Component {
                             <Row>
 
                                 <Col>
-                                    <Button label="Guardar" onClick={() => {
+                                    <BlueButton label="Nueva pregunta" className="ui-button-primary"
+                                                onClick={this.handleNewQuestion}>
+                                        Nueva pregunta
+                                    </BlueButton>
+                                </Col>
+
+                                <Col>
+                                    <GreenButton label="Guardar" className="primary" onClick={() => {
                                         this.saveQuestionnaire()
-                                    }}/>
+                                    }}>
+                                        Guardar
+                                    </GreenButton>
                                 </Col>
 
                                 <Col>
                                     <Link to={questionariesRoute}>
-                                        <Button label="Cancelar" className="ui-button-danger"
-                                        />
+                                        <RedButton label="Cancelar" className="ui-button-primary">
+                                            Cancelar
+                                        </RedButton>
                                     </Link>
-                                </Col>
-                                <Col>
-                                    <Button label="Nueva pregunta" onClick={this.handleNewQuestion}/>
                                 </Col>
                             </Row>
                         }

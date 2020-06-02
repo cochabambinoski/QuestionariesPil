@@ -29,7 +29,7 @@ class GraphicsDetailContainer extends Component {
         return (
             <div>
 
-                <Title tilte={'Encuestas respondidas'}
+                <Title title={'Encuestas respondidas'}
                        subtitle={'Seleccione una pregunta para ver sus detalles.'}/>
 
                 <br/>

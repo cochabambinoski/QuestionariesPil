@@ -8,33 +8,33 @@ import {Messages} from 'primereact/messages';
 import Toolbar from "@material-ui/core/Toolbar";
 import {connect} from 'react-redux';
 import MobileSellerListAssigment
-	from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
+    from "../../AssignmentSeller/pages/MobileSellerList/components/MobileSellerAssignment/MobileSellerListAssigment";
 import {
-	addAssignementUser,
-	deleteAllAssignementUser,
-	deleteAssignementUser,
-	deleteMobileSellers,
-	editQueryTextAssignedQuestionary
+    addAssignementUser,
+    deleteAllAssignementUser,
+    deleteAssignementUser,
+    deleteMobileSellers,
+    editQueryTextAssignedQuestionary
 } from '../../../actions/index';
 import {Calendar} from '../../../../node_modules/primereact/calendar';
 import {
-	getAllCity,
-	getMobileAssignement,
-	getMobileSellers,
-	getMobileSellersAssigmentAux,
-	getMobileSellersAux,
-	getTypeByCodSapQuestionerQuestionary,
-	getTypesSeller,
-	getUser
+    getAllCity,
+    getMobileAssignement,
+    getMobileSellers,
+    getMobileSellersAssigmentAux,
+    getMobileSellersAux,
+    getTypeByCodSapQuestionerQuestionary,
+    getTypesSeller,
+    getUser
 } from "../../../reducers";
 import Constants from "../../../Constants";
 import {withStyles} from '@material-ui/core/styles';
 import SearchAdvancedSeller from "../../../components/SearchAdvancedSeller";
 import {
-	addAllAssignementUser,
-	deleteSaveMobileSellerAssignedListAux,
-	deleteSaveMobileSellerListAux,
-	removeAllAssignmentUser
+    addAllAssignementUser,
+    deleteSaveMobileSellerAssignedListAux,
+    deleteSaveMobileSellerListAux,
+    removeAllAssignmentUser
 } from "../../../actions";
 import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Modal from "../../../widgets/Modal/components/modal";
@@ -319,7 +319,7 @@ class AssignmentQuestionary extends Component {
 		};
 		return (
 			<div>
-				<Title tilte={'Asignación de Cuestionarios'}
+				<Title title={'Asignación de Cuestionarios'}
 				       subtitle={'En esta sección podrás asignar tus cuestionarios a una o varias personas encargadas de realizar la encuesta.'}/>
 				<ModalContainer>
 					<Modal open={this.state.open} title={"Asignacion"}

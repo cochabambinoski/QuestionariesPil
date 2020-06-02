@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import './QuestionnaireRange.css';
@@ -245,6 +245,7 @@ class QuestionnaireRange extends Component {
             this.setState({lsSelectedDepartments: cities});
             this.setState({lsSelectedBranches: branches});
         }
+        const {lsDepartments, system, lsBranches} = this.props;
         return (
             <div>
                 <div className="ui-g-12 text">
@@ -259,9 +260,9 @@ class QuestionnaireRange extends Component {
 
                         <h3>Regional</h3>
                         <div>
-                            {this.props.lsDepartments.map((dep) => {
+                            {lsDepartments.map((dep) => {
                                 return (
-                                    <div className="ui-g-12">
+                                    <div style={{margin: 4}}>
                                         <Checkbox inputId={dep.id} value={dep} onChange={this.onCityChange}
                                                   checked={this.contains(this.state.lsSelectedDepartments, dep)}
                                                   disabled={this.props.readOnly}/>
@@ -274,13 +275,14 @@ class QuestionnaireRange extends Component {
                     </div>
 
                     {
-                        this.props.system !== null && this.props.system.nombre === 'SVM' ?
+                        system !== null && system.nombre === 'SVM' ?
                             <div className="ui-g-6">
                                 <h3>Sucursal</h3>
-                                {this.props.lsBranches.map((branch, index) => {
+                                {lsBranches.map((branch, index) => {
                                     return (
-                                        <div className="ui-g-12">
-                                            <Checkbox inputId={branch.id} value={branch} onChange={this.onBranchChange}
+                                        <div style={{margin: 4}} key={index}>
+                                            <Checkbox inputId={branch.id} value={branch}
+                                                      onChange={this.onBranchChange}
                                                       checked={this.containsBranch(branch)}
                                                       disabled={this.props.readOnly}/>
                                             <label htmlFor={branch.id}>{branch.nombre}</label>

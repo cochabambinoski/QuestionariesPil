@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import Constants from './../../../Constants'
 import './QuestionnairesList.css';
-import 'primereact/resources/themes/omega/theme.css';
+import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
-import {Button} from 'primereact/button';
 import {Messages} from 'primereact/messages';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
@@ -22,6 +21,30 @@ import {
     questionariesNewRoute,
     questionariesShowIdRouteParam
 } from "../../../routes/PathRoutes";
+import Button from "@material-ui/core/Button";
+import {blue, red} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+        marginRight: 5,
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -35,22 +58,22 @@ class Questionnaires extends Component {
         };
     }
 
-	showError(summary, detail) {
-		this.messages.show({severity: 'error', summary: summary, detail: detail});
-	}
+    showError(summary, detail) {
+        this.messages.show({severity: 'error', summary: summary, detail: detail});
+    }
 
-	showSuccess(summary, detail) {
-		this.messages.show({severity: 'success', summary: summary, detail: detail});
-	}
+    showSuccess(summary, detail) {
+        this.messages.show({severity: 'success', summary: summary, detail: detail});
+    }
 
-	changeIdQuestionaryClick(value) {
-		this.props.changeIdQuestionarySelected(value);
-	}
+    changeIdQuestionaryClick(value) {
+        this.props.changeIdQuestionarySelected(value);
+    }
 
-	QuestionSelected(idQuestionary, action) {
-		this.idQuestionary = idQuestionary;
-		this.action = action;
-	}
+    QuestionSelected(idQuestionary, action) {
+        this.idQuestionary = idQuestionary;
+        this.action = action;
+    }
 
     componentDidMount() {
         this.getQuestionnaires();
@@ -66,21 +89,21 @@ class Questionnaires extends Component {
         this.props.fetchGetQuestionariesByUser(this.props.user.id);
     }
 
-	deleteQuestionary(item) {
-		this.props.deleteQuestionnaire(item)
-			.then((result) => {
-				switch (result) {
-					case "DELETED":
-						this.showSuccess("Cuestionario eliminado");
-						break;
-					case "ASSIGNED":
-						this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado");
-						break;
-					default:
-						break;
-				}
-			});
-	}
+    deleteQuestionary(item) {
+        this.props.deleteQuestionnaire(item)
+            .then((result) => {
+                switch (result) {
+                    case "DELETED":
+                        this.showSuccess("Cuestionario eliminado");
+                        break;
+                    case "ASSIGNED":
+                        this.showError("Error al eliminar", "No se puede eliminar un cuestinario asignado");
+                        break;
+                    default:
+                        break;
+                }
+            });
+    }
 
     closeQuestionary(item) {
         this.exitModal();
@@ -97,37 +120,37 @@ class Questionnaires extends Component {
             });
     }
 
-	openModal = (item) => {
-		this.setState({currentItem: item});
-		this.setState({open: true});
-	};
+    openModal = (item) => {
+        this.setState({currentItem: item});
+        this.setState({open: true});
+    };
 
-	enterModal = (item) => {
-		this.setState({currentItem: item});
-		this.setState({modal: true});
-	};
+    enterModal = (item) => {
+        this.setState({currentItem: item});
+        this.setState({modal: true});
+    };
 
-	closeModal = () => {
-		this.setState({open: false});
-	};
+    closeModal = () => {
+        this.setState({open: false});
+    };
 
-	exitModal = () => {
-		this.setState({modal: false});
-	};
+    exitModal = () => {
+        this.setState({modal: false});
+    };
 
-	handleRemove = () => {
-		this.closeModal();
-		this.setState((prevState, props) => {
-			this.deleteQuestionary(prevState.currentItem);
-		});
-	};
+    handleRemove = () => {
+        this.closeModal();
+        this.setState((prevState, props) => {
+            this.deleteQuestionary(prevState.currentItem);
+        });
+    };
 
-	handleClose = () => {
-		this.closeModal();
-		this.setState((prevState, props) => {
-			this.closeQuestionary(prevState.currentItem);
-		});
-	};
+    handleClose = () => {
+        this.closeModal();
+        this.setState((prevState, props) => {
+            this.closeQuestionary(prevState.currentItem);
+        });
+    };
 
     render() {
         return (
@@ -143,15 +166,17 @@ class Questionnaires extends Component {
                                handleConfirm={this.handleClose} handleCancel={this.exitModal}>
                         </Modal>
                     </ModalContainer>
-                    <Title tilte={'Lista de Encuestas'}
+                    <Title title={'Lista de Encuestas'}
                            subtitle={'En esta sección podrás encontrar la lista de encuestas disponibles.'}/>
                     <Toolbar className="toolbarFullWidth">
                         <div>
                             <Link to={questionariesNewRoute}>
-                                <Button label="Nuevo"
-                                        onClick={() => {
-                                            this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
-                                        }}/>
+                                <BlueButton label="Nuevo"
+                                            onClick={() => {
+                                                this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                            }}>
+                                    Nuevo
+                                </BlueButton>
                             </Link>
                         </div>
                     </Toolbar>
@@ -175,25 +200,32 @@ class Questionnaires extends Component {
                                             <br/>
                                             <span>
                                                 <Link to={`${questionariesShowIdRouteParam}${item.id}`}>
-                                                    <Button label="Ver"
-                                                            // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "SHOW"))}}
-                                                    />
+                                                    <BlueButton label="Ver" className="ui-button-primary">
+                                                        Ver
+                                                    </BlueButton>
                                                 </Link>
 
                                                 <Link to={`${questionariesEditIdRouteParam}${item.id}`}>
-                                                <Button label="Editar"
-                                                        // onClick={() => {this.changeIdQuestionaryClick(new this.QuestionSelected(item, "EDIT"))}}
-                                                />
+                                                <BlueButton className="ui-button-primary">
+                                                    Editar
+                                                </BlueButton>
                                                 </Link>
 
-                                                <Button label="Cerrar" onClick={() => {
-                                                    this.enterModal(item);
-                                                }}
-                                                        disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}/>
+                                                <BlueButton label="Cerrar" className="ui-button-primary"
+                                                            onClick={() => {
+                                                                this.enterModal(item);
+                                                            }}
+                                                            disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}
+                                                >
+                                                    Cerrar
+                                                </BlueButton>
 
-                                                <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-                                                    this.openModal(item);
-                                                }}/>
+                                                <RedButton label="Eliminar" className="ui-button-primary"
+                                                           onClick={() => {
+                                                               this.openModal(item);
+                                                           }}>
+                                                    Eliminar
+                                                </RedButton>
 
                                             </span>
                                         </div>

@@ -14,7 +14,6 @@ export function Pie() {
 
 
 Pie.prototype.addData = function (answers, isFreeAnswer) {
-    let index;
     let indexAux;
     answers.forEach((answer) => {
         indexAux = getIndex(answer, this.data.answers);
@@ -27,14 +26,6 @@ Pie.prototype.addData = function (answers, isFreeAnswer) {
         }
     })
 };
-
-// function includeOption(answerCurrent, answerList) {
-//     let value = false;
-//     answerList.forEach((answer) => {
-//         value = answer.answerDetail === answerCurrent.answerDetail;
-//     });
-//     return value;
-// }
 
 const getIndex = (answerCurrent, answerList) => {
     for (let i = 0; i < answerList.length; i++) {

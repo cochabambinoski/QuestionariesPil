@@ -2,20 +2,57 @@ import Constants from "../Constants";
 import {getIndexQuestionary} from "../Util/ArrayFilterUtil";
 import * as utilDate from "../utils/dateUtils";
 import {
+    addMobileSellers,
+    changeErrorBi,
+    changeErrorBiCCMAC,
+    changeErrorOperatingAccountsBi,
+    changeErrorRequest,
+    changeErrorRequestAccountPeriodBi,
+    changeErrorRequestExchangeRateBi,
+    createAccountPeriodBi,
+    createCenterCostConditionBi,
+    createConceptBi,
+    createExchangeRateBi,
+    createOperatingAccountsBi,
+    createTypeBi,
+    deleteAccountPeriodBi,
+    deleteCenterCostConditionBi,
+    deleteConceptBi,
+    deleteExchangeRateBi,
+    deleteOperatingAccountsBi,
+    deleteTypeBi,
+    filterCenterCostConditionBi,
+    getAllBranches,
+    getAllConcepts,
+    getAllDepartaments,
+    getAllParametersBi,
+    getAllTypesBi,
     getAnswers,
     getAnswersQuestionnarie,
-	addMobileSellers,
-	getAllBranches,
-	getAllDepartaments,
-	setInitialDataQuestionerQuestionary,
-	setInitialDataTypesSeller,
-	setMenu,
-	setQuestionnaireStatus,
-	setReachTypes,
-    setStatusTypes,
-	setSystemTypes,
-	setUser
+    getDataCreateAccountPeriodBi,
+    getInitialAccountPeriodBi,
+    getInitialDataCenterCostConditonBi,
+    getInitialDataExchangeRateBi,
+    getInitialDataOperatingAccountsBi,
+    getInitialDataParametersBi,
+    jobExecuteBi,
+    loadCostBaseInformation,
+    loadInputBaseInformation,
+    setInitialDataQuestionerQuestionary,
+    setInitialDataTypesSeller,
+    setMenu,
+    setQuestionnaireStatus,
+    setReachTypes,
+    setSystemTypes,
+    setUser,
+    updateAccountPeriodBi,
+    updateCenterConstConditionBi,
+    updateConceptBi,
+    updateExchangeRateBi,
+    updateOperatingAccountsBi,
+    updateTypeBi,
 } from "./index";
+import * as StringFormatUtil from "../Util/StringFormatUtil";
 
 export const UPLOAD_QUESTIONNNAIRES = 'UPLOAD_QUESTIONNNAIRES';
 export const SET_QUESTIONNAIRES_DATA = 'SET_QUESTIONNAIRES_DATA';
@@ -71,7 +108,7 @@ export const deleteQuestionnaire = item => {
 };
 
 export const closeQuestionnaire = item => {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         return dispatch(getAssignmentsNumberByQuestionnaire(item))
             .then(() => {
                 return dispatch(sendCloseRequest(item));
@@ -177,29 +214,11 @@ export const getTypesByClass = payload => {
     };
 };
 
-export const getQuestionnaireStateTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setInitialDataQuestionerQuestionary(response));
-            })
-    };
-};
-
 export const getQuestionsTypes = payload => {
     return dispatch => {
         return dispatch(getTypesByClass(payload))
             .then((response) => {
                 dispatch(setQuestionTypes(response));
-            })
-    };
-};
-
-export const getChargeTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setInitialDataTypesSeller(response));
             })
     };
 };
@@ -241,7 +260,7 @@ export const saveAssignment = assignments => {
                 return response;
             })
         ).catch(error => console.error('Error:', error)
-        ).then(response => {
+        ).then(() => {
             return "OK";
         });
     };
@@ -259,7 +278,7 @@ export const getMobileSellersByQuestionnaire = id => {
 };
 
 export const getAssignedMobileSellersByQuestionnaire = id => {
-    return dispatch => {
+    return () => {
         return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ASSIGNMENTS_BY_ID_QUESTIONARY + id)
             .then(results => {
                 return results.json();
@@ -270,7 +289,7 @@ export const getAssignedMobileSellersByQuestionnaire = id => {
 };
 
 export const getAnswersByQuestionnaire = id => {
-    return dispatch => {
+    return () => {
         return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id)
             .then(results => {
                 return results.json();
@@ -288,39 +307,6 @@ export const getMenuByUser = payload => {
             }).then(response => {
                 dispatch(setMenu(response));
                 return response;
-            });
-    };
-};
-
-export const getUserById = payload => {
-    return dispatch => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_USER_BY_ID + payload)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                dispatch(setUser(data));
-            });
-    };
-};
-
-export const getCities = () => {
-    return dispatch => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_DEPARTAMENTS)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                dispatch(getAllDepartaments(data));
-            });
-    };
-};
-
-export const getBranches = () => {
-    return dispatch => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ALL_BRANCHES)
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                dispatch(getAllBranches(data));
             });
     };
 };
@@ -362,7 +348,7 @@ export const deleteSegment = toDelete => {
             .then(response => {
                 return response;
             })
-            .catch(error => {
+            .catch(() => {
                 return "ERROR";
             });
     };
@@ -471,7 +457,7 @@ export const getClientsByNitOrNameInSystem = (searchTerm, systemName) => {
                 return results.json();
             }).then(
                 response => response,
-                error => "ERROR"
+                () => "ERROR"
             );
     };
 };
@@ -491,33 +477,33 @@ export const getClientUserByClient = clientId => {
 };
 
 export const getTypeSystemByUser = userId => {
-	return () => {
-		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_SYSTEM_BY_USER}${encodeURIComponent(userId)}`;
-		return fetch(url)
-			.then(results => {
-				return results.json();
-			}).then(response => {
-					return response;
-				},
-				error => {
-					return error;
-				});
-	};
+    return () => {
+        const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_SYSTEM_BY_USER}${encodeURIComponent(userId)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                    return response;
+                },
+                error => {
+                    return error;
+                });
+    };
 };
 
 export const getRoutesByMobileseller = mobileSeller => {
-	return () => {
-		const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ROUTES_BY_MOBILE_SELLER}${encodeURIComponent(mobileSeller)}`;
-		return fetch(url)
-			.then(results => {
-				return results.json();
-			}).then(response => {
-					return response;
-				},
-				error => {
-					return error;
-				});
-	};
+    return () => {
+        const url = `${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ROUTES_BY_MOBILE_SELLER}${encodeURIComponent(mobileSeller)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                    return response;
+                },
+                error => {
+                    return error;
+                });
+    };
 };
 
 export const saveClientUser = (clientUser, originalEmail) => {
@@ -537,37 +523,10 @@ export const saveClientUser = (clientUser, originalEmail) => {
                 response => {
                     return response;
                 },
-                error => {
+                () => {
                     return "ERROR";
                 });
     };
-};
-
-export const getSystemsTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setSystemTypes(response));
-            })
-    };
-};
-
-export const getReachesTypes = payload => {
-    return dispatch => {
-        return dispatch(getTypesByClass(payload))
-            .then((response) => {
-                dispatch(setReachTypes(response));
-            })
-    };
-};
-
-export const getQuestionnaryStatusTypes = payload => {
-	return dispatch => {
-		return dispatch(getTypesByClass(payload))
-			.then((response) => {
-				dispatch(setStatusTypes(response));
-			});
-	};
 };
 
 /**
@@ -588,7 +547,7 @@ export const fetchInitialData = user => {
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_TYPES_BY_CLASS}${encodeURIComponent(Constants.CLASS_NAME_QUESTIONNAIRE_STATUS)}`),
         ])
             .then(([res1, res2, res3, res4, res5, res6, res7, res8]) => Promise.all([res1.json(), res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json(), res8.json()]))
-            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, questionnaireStatus])=> {
+            .then(([questionnaireTypes, chargeTypes, userById, cities, branches, systemTypes, reachTypes, questionnaireStatus]) => {
                 dispatch(setInitialDataQuestionerQuestionary(questionnaireTypes));
                 dispatch(setInitialDataTypesSeller(chargeTypes));
                 dispatch(setUser(userById));
@@ -615,10 +574,10 @@ export const saveAnswers = answers => {
             .then(results => {
                 return results.json();
             }).then(
-                response => {
+                () => {
                     return "OK";
                 },
-                error => {
+                () => {
                     return "ERROR";
                 });
     };
@@ -631,24 +590,794 @@ export const getAnswersAnsQuestionnaireByQuestionnaire = id => {
             fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_QUESTIONNAIRE_BY_ID}?idQuestionary=${encodeURIComponent(id)}`),
         ])
             .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
-            .then(([answers, questionnarie])=> {
+            .then(([answers, questionnarie]) => {
                 dispatch(getAnswers(answers));
                 dispatch(getAnswersQuestionnarie(questionnarie));
             });
     };
 };
 
-export const getAnswersByidQuestionnaire = id => {
-    return () => {
-        return fetch(`${Constants.ROUTE_WEB_SERVICES}${Constants.GET_ANSwERS}${encodeURIComponent(id)}`)
-            .then(result => {
-
-            }).then(
-                response => {
-                    return response;
-                }, error => {
-                    return "ERROR";
+export const getGenerationExpenses = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadInputBaseInformation(response))
+                } else {
+                    dispatch(changeErrorRequest(response))
                 }
-            );
+                return response
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
+    }
+};
+
+export const getInputBaseInformation = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_INPUT_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadInputBaseInformation(response));
+                } else {
+                    dispatch(changeErrorRequest(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
+    }
+};
+
+export const getCostBaseInformation = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.RUN_COST_TRANSFORMATION}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(loadCostBaseInformation(response))
+                } else {
+                    dispatch(changeErrorRequest(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequest(error))
+            })
+    }
+};
+
+export const getInitialDataCenterCostConditionServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.COST_CENTER_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.BUSINESS_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.LINE_COST_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.ORGANIZATION_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.CHANNEL_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.REGION_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.SUB_REGION_BI}`)
+        ])
+            .then(([res1, res2, res3, res4, res5, res6, res7]) => Promise.all([res1.json(),
+                res2.json(), res3.json(), res4.json(), res5.json(), res6.json(), res7.json()]))
+            .then(([costCenter, business, lineCost, organization, channel, region, subRegion]) => {
+                if (costCenter.status === undefined &&
+                    business.status === undefined &&
+                    lineCost.status === undefined &&
+                    organization.status === undefined &&
+                    channel.status === undefined &&
+                    region.status === undefined &&
+                    subRegion.status === undefined) {
+                    dispatch(getInitialDataCenterCostConditonBi({
+                        centerCost: costCenter,
+                        business: business,
+                        lineCost: lineCost,
+                        organization: organization,
+                        channel: channel,
+                        region: region,
+                        subRegion: subRegion,
+                    }));
+                } else {
+                    if (costCenter.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(costCenter))
+                    } else if (business.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(business))
+                    } else if (lineCost.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(lineCost))
+                    } else if (organization.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(organization))
+                    } else if (channel.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(channel))
+                    } else if (region.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(region))
+                    } else if (subRegion.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(subRegion))
+                    }
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorBiCCMAC(error))
+            })
+    }
+};
+
+export const filterDataCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CENTER_COST_CONDITION_BI, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(filterCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const deleteCenterCostConditionServerBi = id => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CENTER_COST_CONDITION}${id}`;
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateCenterCostConditionSeverBi = (costCondition) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.UPDATE_CENTER_COST_CONDITION, costCondition.id, costCondition.centerCost, costCondition.business, costCondition.lineCost, costCondition.organization, costCondition.channel, costCondition.region, costCondition.subRegion)}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateCenterConstConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const createCenterCostConditionServerBi = (center, business, line, organization, channel, region, subRegion) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.CREATE_CENTER_COST_CONDITION, center, business, line, organization, channel, region, subRegion)}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createCenterCostConditionBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response.codeResult;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+
+export const getAllTypesServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.TYPES}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllTypesBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            });
+    };
+};
+
+export const createTypeServerBi = (type) => {
+    return dispatch => {
+        let create = StringFormatUtil.format(Constants.CREATE_TYPE, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const updateTypeServerBi = (type) => {
+    return dispatch => {
+        let update = StringFormatUtil.format(Constants.UPDATE_TYPE, type.id, type.idConcept, type.codeType, type.name, type.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const deleteTypeServerBi = id => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_TYPE}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteTypeBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const createConceptServerBi = (concept) => {
+    return dispatch => {
+        let create = StringFormatUtil.format(Constants.CREATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${create}`;
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+export const updateConceptServerBi = (concept) => {
+    return dispatch => {
+        let update = StringFormatUtil.format(Constants.UPDATE_CONCEPT, concept.id, concept.name, concept.abbreviation);
+        const url = `${Constants.ROUTE_WEB_BI}${update}`;
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getAllConceptsBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CONCEPTS}`;
+        return fetch(url)
+            .then(results => {
+                return results.json();
+            }).then(response => {
+                if (response.status === undefined) {
+                    dispatch(getAllConcepts(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            });
+    };
+};
+
+export const deleteConceptServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_CONCEPT}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteConceptBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+                return response;
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getInitialAccountPeriodServerBi = () => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNTS_PERIOD}`;
+        return fetch(url)
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(getInitialAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const getDataCreateAccountPeriodServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNT_DIMENSION}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TIME_DIMENSION}`)
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+            .then(([accountsDimension, dateDimension]) => {
+                if (accountsDimension.status === undefined &&
+                    dateDimension.status === undefined) {
+                    dispatch(getDataCreateAccountPeriodBi({
+                        accountsDimension: accountsDimension,
+                        dateDimension: dateDimension
+                    }))
+                } else {
+                    if (accountsDimension.status !== undefined) {
+                        dispatch(changeErrorRequestAccountPeriodBi(accountsDimension))
+                    } else if (dateDimension.status !== undefined) {
+                        dispatch(changeErrorRequestAccountPeriodBi(dateDimension))
+                    }
+                }
+            }).catch(error => {
+            dispatch(changeErrorRequestAccountPeriodBi(error))
+        })
+    }
+};
+
+export const createAccountPeriodServerBi = (dateId, accountId, amount) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CRATE_ACCOUNT_PERIOD}${dateId}&accountId=${accountId}&amount=${amount}`;
+        return fetch(url, {method: "POST"})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const updateAccountPeriodServerBi = (id, dateId, accountId, amount) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_ACCOUNT_PERIOD}${id}&dateId=${dateId}&accountId=${accountId}&amount=${amount}`;
+        return fetch(url, {method: 'PUT'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const deleteAccountPeriodServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_ACCOUNT_PERIOD}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteAccountPeriodBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const getDataInitialExchangeRateServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_EXCHANGE_RATE}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNT_DIMENSION}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TIME_DIMENSION}`)
+        ])
+            .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+            .then(([exchangesRate, accountsDimension, timeDimension]) => {
+                if (exchangesRate.status === undefined &&
+                    accountsDimension.status === undefined && timeDimension.status === undefined) {
+                    dispatch(getInitialDataExchangeRateBi({
+                        exchangesRate: exchangesRate,
+                        accountsDimension: accountsDimension,
+                        timeDimension: timeDimension
+                    }))
+                } else {
+                    if (accountsDimension.status !== undefined) {
+                        dispatch(changeErrorRequestExchangeRateBi(accountsDimension))
+                    } else if (exchangesRate.status !== undefined) {
+                        dispatch(changeErrorRequestExchangeRateBi(exchangesRate))
+                    } else if (timeDimension.status !== undefined) {
+                        dispatch(changeErrorRequestExchangeRateBi(timeDimension))
+                    }
+                }
+            }).catch(error => {
+            dispatch(changeErrorRequestExchangeRateBi(error))
+        })
+    }
+};
+
+export const createExchangeRateServerBi = (idDate, tc) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CREATE_EXCHANGE_RATE}${idDate}&tc=${tc}`;
+        return fetch(url, {method: 'POST'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createExchangeRateBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const updateExchangeRateServerBi = (exchangeRateId, idDate, tc) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_EXCHANGE_RATE}${exchangeRateId}&idDate=${idDate}&tc=${tc}`;
+        return fetch(url, {method: 'PUT'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateExchangeRateBi(response))
+                } else {
+                    dispatch(changeErrorRequestAccountPeriodBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorRequestAccountPeriodBi(error))
+            })
+    }
+};
+
+export const deleteExchangeRateServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_EXCHANGE_RATE}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteExchangeRateBi(response))
+                } else {
+                    dispatch(changeErrorRequestExchangeRateBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorRequestExchangeRateBi(error))
+            })
+    }
+};
+
+export const getDataInitialOperatingAccountsServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_OPERATING_ACCOUNTS_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ACCOUNT_DIMENSION}`)
+        ])
+            .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+            .then(([operatingAccounts, types, accountDimensions]) => {
+                if (operatingAccounts.status === undefined && types.status === undefined && accountDimensions.status === undefined) {
+                    dispatch(getInitialDataOperatingAccountsBi({
+                        operatingAccounts: operatingAccounts,
+                        types: types,
+                        accountDimensions: accountDimensions
+                    }))
+                } else {
+                    if (operatingAccounts.status !== undefined) {
+                        dispatch(changeErrorOperatingAccountsBi(operatingAccounts))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorOperatingAccountsBi(types))
+                    } else if (accountDimensions.status !== undefined) {
+                        dispatch(changeErrorOperatingAccountsBi(accountDimensions))
+                    }
+                }
+            }).catch(error => {
+            dispatch(changeErrorOperatingAccountsBi(error))
+        })
+    }
+};
+
+export const createOperatingAccountServerBi = (accountId, typeId) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.CREATE_OPERATING_ACCOUNTS_BI}${accountId}&typeId=${typeId}`;
+        return fetch(url, {method: 'POST'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(createOperatingAccountsBi(response))
+                } else {
+                    dispatch(changeErrorOperatingAccountsBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorOperatingAccountsBi(error))
+            })
+    }
+};
+
+export const updateOperatingAccountServerBi = (accountOperationId, accountId, typeId) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.UPDATE_OPERATING_ACCOUNTS_BI}${accountOperationId}&accountId=${accountId}&typeId=${typeId}`;
+        return fetch(url, {method: 'PUT'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(updateOperatingAccountsBi(response))
+                } else {
+                    dispatch(changeErrorOperatingAccountsBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorOperatingAccountsBi(error))
+            })
+    }
+};
+
+export const deleteOperatingAccountServerBi = (id) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${Constants.DELETE_OPERATING_ACCOUNTS_BI}${id}`;
+        return fetch(url, {method: 'DELETE'})
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(deleteOperatingAccountsBi(response))
+                } else {
+                    dispatch(changeErrorOperatingAccountsBi(response))
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorOperatingAccountsBi(error))
+            })
+    }
+};
+
+export const jobEtlServerBi = (code, date) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB_WITH_PARAMETER, code, date)}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            timeout: 3600000
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(jobExecuteBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
+    }
+};
+
+export const getInitialDataParametersServerBi = (dataParam) => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.GET_ALL_JOBS_BI, dataParam)}`)
+        ])
+            .then(([res1, res2, res3]) => Promise.all([res1.json(),
+                res2.json(), res3.json()]))
+            .then(([parameters, types, jobs]) => {
+                if (parameters.status === undefined &&
+                    types.status === undefined &&
+                    jobs.status === undefined) {
+                    dispatch(getInitialDataParametersBi({
+                        parameters: parameters,
+                        types: types,
+                        jobs: jobs
+                    }));
+                } else {
+                    if (parameters.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(parameters))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(types))
+                    } else if (jobs.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(jobs))
+                    }
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorBiCCMAC(error))
+            })
+    }
+};
+
+export const getMasterParametersServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`)
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(),
+                res2.json()]))
+            .then(([parameters, types]) => {
+                if (parameters.status === undefined &&
+                    types.status === undefined) {
+                    dispatch(getAllParametersBi({
+                        parameters: parameters,
+                        types: types
+                    }));
+                } else {
+                    if (parameters.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(parameters))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(types))
+                    }
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorBiCCMAC(error))
+            })
+    }
+};
+
+export const jobMasterEtlServerBi = (code) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB, code)}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            timeout: 3600000
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(jobExecuteBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
+            })
     }
 };

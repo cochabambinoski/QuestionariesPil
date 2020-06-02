@@ -1,4 +1,4 @@
-import {DATA, SEARCH_ASYNC_ENTITIES} from "../action-types/actionTypes";
+import {SEARCH_ASYNC_ENTITIES} from "../action-types/actionTypes";
 
 const initialState = (
     {
@@ -10,7 +10,6 @@ const initialState = (
 function data(state = initialState, action) {
     switch (action.type) {
         case SEARCH_ASYNC_ENTITIES:{
-            return console.log(DATA)
         }
         default:
             return state;

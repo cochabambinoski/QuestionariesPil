@@ -7,13 +7,23 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {setMenuContainer} from '../../../../actions'
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
     answersRoute,
     assigmentRoute,
+    conceptCenterRoute,
+    costConditionsRoute,
+    exchangeRateRoute,
+    expensesGenerationRoute,
     indexRoute,
+    jobsEtlRoute,
+    loadBaseInputRoute,
+    masterJobsRoute,
+    operatingAccountsRoute,
+    periodAndAccountRegistrationRoute,
     questionariesRoute,
-    segmentRoute
+    segmentRoute,
+    typeCenterRoute
 } from "../../../../routes/PathRoutes";
 
 const styles = theme => ({
@@ -48,7 +58,7 @@ class SubMenu extends Component {
     };
 
     handleMenuItemClick = (event, index, option) => {
-        let idSubMenu = this.props.submenus[index].id;
+        let idSubMenu = this.props.menus[index].id;
         this.props.setIdMenu(option);
         this.setState({selectedIndex: idSubMenu, anchorEl: null});
     };
@@ -57,7 +67,7 @@ class SubMenu extends Component {
         this.setState({anchorEl: null});
     };
 
-    getUrl=(option) => {
+    getUrl = (option) => {
         switch (option.transaccion.ruta) {
             case 'Start':
                 return "/";
@@ -69,13 +79,33 @@ class SubMenu extends Component {
                 return answersRoute;
             case 'ListSegment':
                 return segmentRoute;
+            case 'expensesGeneration':
+                return expensesGenerationRoute;
+            case 'loadInputAndExpensesBase':
+                return loadBaseInputRoute;
+            case 'costCondition':
+                return costConditionsRoute;
+            case 'accountPeriod':
+                return periodAndAccountRegistrationRoute;
+            case 'exchangeRate':
+                return exchangeRateRoute;
+            case 'operatingAccounts':
+                    return operatingAccountsRoute;
+            case 'conceptCenter':
+                return conceptCenterRoute;
+            case 'typeCenter':
+                return typeCenterRoute;
+            case 'jobsETL':
+                return jobsEtlRoute;
+            case 'MasterJobs':
+                return masterJobsRoute;
             default:
                 return indexRoute;
         }
     };
 
     render() {
-        const {classes, title, submenus} = this.props;
+        const {classes, title, menus} = this.props;
         const {anchorEl} = this.state;
         return (
             <div className={classes.root}>
@@ -99,8 +129,8 @@ class SubMenu extends Component {
                       anchorEl={anchorEl}
                       open={Boolean(anchorEl)}
                       onClose={this.handleClose}>
-                    {submenus.map((option, index) => (
-                        <Link to={{pathname: this.getUrl(option)}}>
+                    {menus.map((option, index) => (
+                        <Link to={{pathname: this.getUrl(option)}} key={option.id}>
                             <MenuItem style={{padding: 20}}
                                       key={option.id}
                                       onClick={event => this.handleMenuItemClick(event, index, option)}

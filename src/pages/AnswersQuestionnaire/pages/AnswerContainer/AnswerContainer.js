@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import AnswerList from "../AnswerList/AnswerList";
 import Title from "../../../Title/Title";
-import GraphicsDetail from "../GraphicsDetail/GraphicsDetail";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import SnackBarContentView from "../../../../components/SnackBarContent/SnackBarContentView";
 
@@ -48,7 +47,7 @@ class AnswerContainer extends Component {
         return (
             <div>
 
-                <Title tilte={'Encuestas respondidas'}
+                <Title title={'Encuestas respondidas'}
                        subtitle={'Presione una encuesta para ver los detalles de sus respuestas.'}/>
                 <br/>
                 <AnswerList changeCurrentAnswer={this.changeCurrentAnswer}
