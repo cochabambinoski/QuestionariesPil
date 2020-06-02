@@ -19,7 +19,7 @@
     "dateformat": "^3.0.3",
     "downshift": "^2.2.3",
     "express": "^4.16.4",
-    "firebase": "^5.10.0",
+    "firebase": "4.6.2",
     "font-awesome": "^4.7.0",
     "ignore-styles": "^5.0.1",
     "immutable": "^3.8.2",
