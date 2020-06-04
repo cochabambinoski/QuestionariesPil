@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { withStyles } from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -19,31 +19,38 @@ import {
     typeCenterRoute
 } from "../../routes/PathRoutes";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     root: {
         width: '100%',
-        textAlign: 'center',
+        textAlign: 'left',
         color: 'white',
+        fontWeight: 100,
     },
     heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(12),
         flexBasis: '33.33%',
         flexShrink: 0,
     },
     secondaryHeading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(12),
         color: theme.palette.text.secondary,
     },
     text_menu_item: {
         textAlign: 'center',
         color: 'white',
-        backgroundColor: '#4d505b'
+        backgroundColor: '#4d505b',
+        '&:hover': {
+            background: "#116fbf",
+        },
+        typography: {
+            "fontWeight": 100,
+        }
     }
-}));
+});
 
-export default function SubMenuExpansionPanel(props) {
+function SubMenuExpansionPanel(props) {
     const {menu, handleDrawerClose} = props;
-    const classes = useStyles();
+    const {classes} = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     function handleClick(event) {
@@ -114,3 +121,4 @@ export default function SubMenuExpansionPanel(props) {
         </Fragment>
     );
 }
+export default withStyles(useStyles)(SubMenuExpansionPanel)
