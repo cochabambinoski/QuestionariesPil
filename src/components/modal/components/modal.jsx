@@ -6,6 +6,28 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import {blue, red} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 function Modal(props) {
     return (
@@ -23,12 +45,12 @@ function Modal(props) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button label="Aceptar" onClick={props.handleConfirm} className="ui-button-secondary">
+                    <BlueButton label="Aceptar" onClick={props.handleConfirm} className="ui-button-primary">
                         Aceptar
-                    </Button>
-                    <Button label="Cancelar" onClick={props.handleCancel} className="ui-button-secondary">
+                    </BlueButton>
+                    <RedButton label="Cancelar" onClick={props.handleCancel} className="ui-button-primary">
                         Cancelar
-                    </Button>
+                    </RedButton>
                 </DialogActions>
             </Dialog>
         </div>

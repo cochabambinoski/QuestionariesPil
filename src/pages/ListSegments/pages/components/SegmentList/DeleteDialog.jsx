@@ -3,12 +3,36 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
-import {Button} from "primereact/button";
 import Dialog from "@material-ui/core/Dialog";
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import {blue, red} from "@material-ui/core/colors";
+import Button from "@material-ui/core/Button/Button";
+import DeleteIcon from "@material-ui/icons/Delete"
+import CancelIcon from "@material-ui/icons/Cancel"
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 function DeleteDialog(props) {
-    const { deleteOpen } = props;
-    return(
+    const {deleteOpen} = props;
+    return (
         <Dialog
             open={deleteOpen}
             onClose={props.handleClose}
@@ -24,10 +48,14 @@ function DeleteDialog(props) {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button label="Eliminar" icon="pi pi-check" onClick={props.handleDelete}
-                        className="ui-button-danger"/>
-                <Button label="Cancelar" icon="pi pi-times" onClick={props.handleClose}
-                        className="ui-button-secondary"/>
+                <BlueButton label="Eliminar" onClick={props.handleDelete} className="ui-button-success">
+                    <DeleteIcon/>
+                    Eliminar
+                </BlueButton>
+                <RedButton label="Cancelar" onClick={props.handleClose} className="ui-button-secondary">
+                    <CancelIcon/>
+                    Cancelar
+                </RedButton>
             </DialogActions>
         </Dialog>
     )

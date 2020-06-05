@@ -4,7 +4,21 @@
 import React, {Component} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Calendar} from "primereact/calendar";
-import {Button} from "primereact/button";
+import {withStyles} from "@material-ui/core";
+import {blue} from "@material-ui/core/colors";
+import Button from "@material-ui/core/Button/Button";
+import AddIcon from "@material-ui/icons/Add"
+import FilterIcon from "@material-ui/icons/FilterList"
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+    },
+}))(Button);
 
 class EnhancedTableToolbar extends Component {
 
@@ -42,7 +56,7 @@ class EnhancedTableToolbar extends Component {
 
     handlerFilter = () => {
         if (this.state.dates[0] !== null && this.state.dates[1] !== null) {
-            this.setState({ startDate : this.state.dates[0], endDate : this.state.dates[1]});
+            this.setState({startDate: this.state.dates[0], endDate: this.state.dates[1]});
             this.props.updateDates(this.state.startDate, this.state.endDate);
         }
     };
@@ -51,8 +65,11 @@ class EnhancedTableToolbar extends Component {
         return (
             <Toolbar classes="">
                 <div>
-                    <Button label="Nuevo" onClick={event => this.props.newBase(event, 0)} className="buttonBlue"
-                            classes=""/>
+                    <BlueButton label="Nuevo" onClick={event => this.props.newBase(event, 0)}
+                                className="ui-button-success">
+                        <AddIcon/>
+                        Nuevo
+                    </BlueButton>
                 </div>
                 <div className="spacer"/>
                 <div>
@@ -60,8 +77,11 @@ class EnhancedTableToolbar extends Component {
                               onChange={(e) => this.setState({dates: e.value})}
                               selectionMode="range" readOnlyInput="true" className="calendar"/>
                 </div>
-                <div >
-                    <Button label="Buscar" onClick={this.handlerFilter} className="buttonBlue"/>
+                <div>
+                    <Button label="Buscar" onClick={this.handlerFilter} className="ui-button-secondary">
+                        <FilterIcon/>
+                        Buscar
+                    </Button>
                 </div>
             </Toolbar>
         );

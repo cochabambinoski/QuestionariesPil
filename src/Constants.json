@@ -1,5 +1,6 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
+  "ROUTE_SVM": "http://192.168.241.79:8085/vmovil/business/login.jsf",
   "ROUTE_WEB_BI": "http://localhost:8086/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
@@ -119,6 +120,7 @@
   "GET_ALL_PARAMETERS": "parameters",
   "GET_ALL_JOBS_BI": "jobsParameter?dataParam={0}",
   "JOB_WITH_PARAMETER": "runJobWithParameter?location={0}&parameter={1}",
+  "JOB": "runJob?location={0}",
   "GET_DATA_GRAPHICS_QUESTION": "getDataOfGraphicsQuestion?questionId=",
   "GET_DATA_OF_FREE_QUESTION": "getDataOfFreeQuestion?questionId={0}&isRequestAnt=${1}&pivot={2}",
   "QUESTIONNAIRE_HAS_ANSWERS": "questionnaireHasAnswers?questionnaireId=",

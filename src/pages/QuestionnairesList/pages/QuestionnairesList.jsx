@@ -1,17 +1,16 @@
 import React, {Component, Fragment} from 'react';
 import Constants from './../../../Constants'
-import './QuestionnairesList.scss';
+import './QuestionnairesList.css';
 import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {Card} from 'primereact/card';
-import {Button} from 'primereact/button';
 import {Messages} from 'primereact/messages';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
-import Modal from "../../../components/modal/components/modal";
-import ModalContainer from "../../../components/modal/modal";
+import Modal from "../../../widgets/Modal/components/modal";
+import ModalContainer from "../../../widgets/Modal/pages/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';
@@ -22,6 +21,30 @@ import {
     questionariesNewRoute,
     questionariesShowIdRouteParam
 } from "../../../routes/PathRoutes";
+import Button from "@material-ui/core/Button";
+import {blue, red} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+
+const BlueButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+        marginRight: 5,
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 class Questionnaires extends Component {
     constructor(props) {
@@ -67,7 +90,8 @@ class Questionnaires extends Component {
     }
 
     deleteQuestionary(item) {
-        this.props.deleteQuestionnaire(item).then((result) => {
+        this.props.deleteQuestionnaire(item)
+            .then((result) => {
                 switch (result) {
                     case "DELETED":
                         this.showSuccess("Cuestionario eliminado");
@@ -77,7 +101,8 @@ class Questionnaires extends Component {
                         break;
                     default:
                         break;
-                }});
+                }
+            });
     }
 
     closeQuestionary(item) {
@@ -146,10 +171,12 @@ class Questionnaires extends Component {
                     <Toolbar className="toolbarFullWidth">
                         <div>
                             <Link to={questionariesNewRoute}>
-                                <Button label="Nuevo"
-                                        onClick={() => {
-                                            this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
-                                        }}/>
+                                <BlueButton label="Nuevo"
+                                            onClick={() => {
+                                                this.changeIdQuestionaryClick(new this.QuestionSelected(null, "NEW"))
+                                            }}>
+                                    Nuevo
+                                </BlueButton>
                             </Link>
                         </div>
                     </Toolbar>
@@ -157,42 +184,57 @@ class Questionnaires extends Component {
                 <Messages ref={(el) => this.messages = el}/>
                 <br/>
                 <ScrollPanel style={{width: '100vw - 100dp', height: '100vh', margin: '5px'}} className="custom">
-                    {this.props.questionnaires.map((item) => {
-                        return (
-                            <div key={item.id}>
-                                <Card title={item.name}>
-                                    <div className="text">
-                                        <div>Creado por {item.usuarioId}</div>
-                                        <div>{item.fechaId}</div>
-                                        {item.status !== null ? item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
-                                            <div className="open">Abierto</div> :
-                                            <div className="close">Cerrado</div> : null
-                                        }
-                                        <br/>
-                                        <span>
+                    {
+                        this.props.questionnaires.map((item) => {
+                            return (
+                                <div key={item.id}>
+                                    <Card title={item.name}>
+                                        <div className="text">
+                                            <div>Creado por {item.usuarioId}</div>
+                                            <div>{item.fechaId}</div>
+                                            {
+                                                item.status !== null ? item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_OPEN ?
+                                                    <div className="open">Abierto</div> :
+                                                    <div className="close">Cerrado</div> : null
+                                            }
+                                            <br/>
+                                            <span>
                                                 <Link to={`${questionariesShowIdRouteParam}${item.id}`}>
-                                                    <Button label="Ver"/>
+                                                    <BlueButton label="Ver" className="ui-button-primary">
+                                                        Ver
+                                                    </BlueButton>
                                                 </Link>
 
                                                 <Link to={`${questionariesEditIdRouteParam}${item.id}`}>
-                                                <Button label="Editar"/>
+                                                <BlueButton className="ui-button-primary">
+                                                    Editar
+                                                </BlueButton>
                                                 </Link>
 
-                                                <Button label="Cerrar" onClick={() => {
-                                                    this.enterModal(item);
-                                                }}
-                                                        disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}/>
+                                                <BlueButton label="Cerrar" className="ui-button-primary"
+                                                            onClick={() => {
+                                                                this.enterModal(item);
+                                                            }}
+                                                            disabled={item.status != null && item.status.codigoSap === Constants.CODSAP_QUESTIONER_QUESTIONARY_CLOSE}
+                                                >
+                                                    Cerrar
+                                                </BlueButton>
 
-                                                <Button label="Eliminar" className="ui-button-danger" onClick={() => {
-                                                    this.openModal(item);
-                                                }}/>
+                                                <RedButton label="Eliminar" className="ui-button-primary"
+                                                           onClick={() => {
+                                                               this.openModal(item);
+                                                           }}>
+                                                    Eliminar
+                                                </RedButton>
+
                                             </span>
-                                    </div>
-                                </Card>
-                                <br/>
-                            </div>
-                        );
-                    })}
+                                        </div>
+                                    </Card>
+                                    <br/>
+                                </div>
+                            );
+                        })
+                    }
                 </ScrollPanel>
             </div>
         );
