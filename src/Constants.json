@@ -1,6 +1,6 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbqa10.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
-  "ROUTE_SVM": "http://192.168.241.79:8085/vmovil/business/login.jsf",
+  "ROUTE_SVM": "https://bocbqa10.pilandina.com.bo/vmovil/business/login.jsf",
   "ROUTE_WEB_BI": "http://localhost:8086/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbqa9.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
@@ -13,7 +13,6 @@
   "GET_ALL_CITIES": "allDepartments/",
   "GET_ALL_BRANCHES": "getListBranchs/",
   "GET_ANSwERS": "filledAnswers?questionaryId=",
-  "ROUTE_SVM": "http://192.168.241.79:8085/vmovil/business/login.jsf",
   "GET_MOBILE_SELLER_BY_ID_QUESTIONARY": "getMobileSellerByIdQuestionary?idQuestionary=",
   "GET_ASSIGNMENTS_BY_ID_QUESTIONARY": "getAssignmentsByIdQuestionary?idQuestionary=",
   "GET_TYPES_BY_CLASS": "getTypesByClass?classId=",
