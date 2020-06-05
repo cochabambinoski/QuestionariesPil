@@ -58,7 +58,7 @@ class AnswerList extends Component {
     handleListItemClick = (event, questionnaire) => {
         this.props.getAnswersByQuestionnaire(questionnaire.id)
             .then((data) => {
-                if (data > 0) {
+                if (data.length > 0) {
                     this.handlePushClick(questionnaire)
                 } else {
                     this.props.handleClick()
