@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Constants from './../../../Constants'
-import './QuestionnairesList.css';
+import './QuestionnairesList.scss';
 import 'primereact/resources/themes/nova-dark/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -9,8 +9,8 @@ import {Messages} from 'primereact/messages';
 import {connect} from 'react-redux';
 import {changeIdExistingQuestionary} from '../../../actions/index';
 import {ScrollPanel} from "primereact/scrollpanel";
-import Modal from "../../../widgets/Modal/components/modal";
-import ModalContainer from "../../../widgets/Modal/pages/modal";
+import Modal from "../../../components/modal/modal";
+import ModalContainer from "../../../components/modal/modal";
 import Title from "../../Title/Title";
 import Toolbar from "@material-ui/core/Toolbar";
 import {closeQuestionnaire, deleteQuestionnaire, fetchGetQuestionariesByUser} from '../../../actions/indexthunk';

@@ -7,14 +7,14 @@ import {Dropdown} from 'primereact/dropdown';
 import {InputSwitch} from 'primereact/inputswitch';
 import {Messages} from 'primereact/messages';
 import Constants from '../../../../Constants.json';
-import MultipleOption from './MultipleOption.js';
-import MultipleSelection from './MultipleSelection.js';
-import FreeAnswer from './FreeAnswer.js';
-import Range from './Range.js';
-import Image from './Image.js';
+import MultipleOption from './MultipleOption.jsx';
+import MultipleSelection from './MultipleSelection.jsx';
+import FreeAnswer from './FreeAnswer.jsx';
+import Range from './Range.jsx';
+import Image from './Image.jsx';
 import {connect} from 'react-redux';
 import {getUser} from "../../../../reducers";
-import './Question.css';
+import './Question.scss';
 import Button from "@material-ui/core/Button";
 import {red} from '@material-ui/core/colors';
 import withStyles from "@material-ui/core/es/styles/withStyles";
@@ -271,17 +271,13 @@ class Question extends Component {
                                         <InputSwitch checked={squestion.required}
                                                      onChange={(e) => this.setRequired(e.value)} style={{}}/>
                                     </div>
+                                    <p>{'Tipo: '}</p>
+                                    <Dropdown value={this.state.squestion.type}
+                                              options={this.props.questionTypes}
+                                              onChange={this.onTypeChange} style={{width: '300px'}}
+                                              placeholder={(this.props.selectedQuestionIndex >= 0) ? this.state.squestion.type.nombre : "Seleccione un tipo"}
+                                              optionLabel="nombre"/>
 
-                                    <p/>
-                                    {
-                                        squestion.type != null && squestion.id != null ?
-                                            <p>{'Tipo: ' + squestion.type.nombre}</p> :
-                                            <Dropdown value={squestion.type}
-                                                      options={questionTypes}
-                                                      onChange={this.onTypeChange} style={{width: '300px'}}
-                                                      placeholder="Seleccione un tipo"
-                                                      optionLabel="nombre"/>
-                                    }
                                     {innerComponent}
                                 </div>
                                 {

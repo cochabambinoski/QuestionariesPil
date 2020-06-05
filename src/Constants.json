@@ -76,7 +76,6 @@
   "TEXT_VALIDATION": "Texto",
   "NUMBER_VALIDATION": "Numero",
   "DECIMAL_VALIDATION": "Decimal",
-  "SAVE_CLIENT_USER": "saveClientUser?originalEmail=",
   "MESSAGE_EXIST_EMAIL": "El Correo ya se encuentra registrado",
   "CREATED": "CREATED",
   "UPDATED": "UPDATED",
