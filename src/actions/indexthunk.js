@@ -25,8 +25,8 @@ import {
     getAllBranches,
     getAllConcepts,
     getAllDepartaments,
-    getAllTypesBi,
     getAllParametersBi,
+    getAllTypesBi,
     getAnswers,
     getAnswersQuestionnarie,
     getDataCreateAccountPeriodBi,
@@ -290,7 +290,7 @@ export const getAssignedMobileSellersByQuestionnaire = id => {
 
 export const getAnswersByQuestionnaire = id => {
     return () => {
-        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.QUESTIONNAIRE_HAS_ANSWERS + id)
+        return fetch(Constants.ROUTE_WEB_SERVICES + Constants.GET_ANSwERS + id)
             .then(results => {
                 return results.json();
             }).then(response => {
@@ -1265,25 +1265,6 @@ export const deleteOperatingAccountServerBi = (id) => {
     }
 };
 
-export const getAllParameterServerBi = () => {
-    return dispatch => {
-        const url = `${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`;
-        return fetch(url)
-            .then(results => {
-                return results.json()
-            })
-            .then(response => {
-                if (response.status === undefined) {
-                    dispatch(getAllParametersBi(response))
-                } else {
-                    dispatch(changeErrorBi(response))
-                }
-            }).catch(error => {
-                dispatch(changeErrorBi(error))
-            })
-    }
-};
-
 export const jobEtlServerBi = (code, date) => {
     return dispatch => {
         const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB_WITH_PARAMETER, code, date)}`;
@@ -1340,6 +1321,61 @@ export const getInitialDataParametersServerBi = (dataParam) => {
             })
             .catch(error => {
                 dispatch(changeErrorBiCCMAC(error))
+            })
+    }
+};
+
+export const getMasterParametersServerBi = () => {
+    return dispatch => {
+        Promise.all([
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_ALL_PARAMETERS}`),
+            fetch(`${Constants.ROUTE_WEB_BI}${Constants.GET_TYPES_BI}`)
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(),
+                res2.json()]))
+            .then(([parameters, types]) => {
+                if (parameters.status === undefined &&
+                    types.status === undefined) {
+                    dispatch(getAllParametersBi({
+                        parameters: parameters,
+                        types: types
+                    }));
+                } else {
+                    if (parameters.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(parameters))
+                    } else if (types.status !== undefined) {
+                        dispatch(changeErrorBiCCMAC(types))
+                    }
+                }
+            })
+            .catch(error => {
+                dispatch(changeErrorBiCCMAC(error))
+            })
+    }
+};
+
+export const jobMasterEtlServerBi = (code) => {
+    return dispatch => {
+        const url = `${Constants.ROUTE_WEB_BI}${StringFormatUtil.format(Constants.JOB, code)}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            timeout: 3600000
+        })
+            .then(results => {
+                return results.json()
+            })
+            .then(response => {
+                if (response.status === undefined) {
+                    dispatch(jobExecuteBi(response))
+                } else {
+                    dispatch(changeErrorBi(response))
+                }
+            }).catch(error => {
+                dispatch(changeErrorBi(error))
             })
     }
 };

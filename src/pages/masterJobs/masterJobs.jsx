@@ -12,18 +12,13 @@ import TableHead from "@material-ui/core/es/TableHead/TableHead";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import JsxStyles from "../../styles/JsxStyles";
 import connect from "react-redux/es/connect/connect";
-import {getProcessConfirmation, parameters} from "../../reducers";
-import {getInitialDataParametersServerBi, jobEtlServerBi} from "../../actions/indexthunk";
 import Button from "@material-ui/core/es/Button";
 import PlayArrow from "@material-ui/icons/PlayArrow";
-import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import {format} from 'date-fns/esm'
-import esLocale from "date-fns/locale/es";
-import startOfMonth from "date-fns/startOfMonth"
 import {Messages} from "primereact/messages";
 import Title from "../Title/Title";
 import AnswerDialog from "./dialogs/AnswerDialog";
+import {getProcessConfirmation, parameters} from "../../reducers";
+import {getMasterParametersServerBi, jobMasterEtlServerBi} from "../../actions/indexthunk";
 import {changeStateParameter, cleanRequestResponse} from "../../actions";
 
 const styles = theme => ({
@@ -49,8 +44,7 @@ const CustomTableCell = withStyles(theme => ({
     },
 }))(TableCell);
 
-class JobsEtl extends Component {
-
+class MasterJobs extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -69,12 +63,11 @@ class JobsEtl extends Component {
     }
 
     componentDidMount() {
-        this.getInitialData(new Date());
+        this.getInitialData();
     }
 
-    getInitialData = (date) => {
-        const dataParam = startOfMonth(date);
-        this.props.getInitialDataParameters(format(dataParam, 'yyyyMMdd'))
+    getInitialData = () => {
+        this.props.getMasterParametersServerBi()
     };
 
     componentWillUpdate(nextProps, nextState, nextContext) {
@@ -90,14 +83,8 @@ class JobsEtl extends Component {
 
     handleExecuteClick = () => {
         this.setState({answerOpen: false});
-        const date = startOfMonth(this.state.selectedDate);
-        this.props.jobEtl(this.state.toExecute.code, format(date, 'yyyyMMdd'));
+        this.props.jobEtl(this.state.toExecute.code);
         this.props.changeState(this.state.position);
-    };
-
-    handleDateChange = date => {
-        this.setState({selectedDate: date});
-        this.getInitialData(date);
     };
 
     handleChangePage = (event, page) => {
@@ -125,11 +112,11 @@ class JobsEtl extends Component {
                 if (codeResult === 1) {
                     this.showSuccess('Procesado', 'La transacción se realizó correctamente');
                     this.props.cleanRequestResponse();
-                    this.getInitialData(this.state.selectedDate)
+                    this.getInitialData()
                 } else {
                     this.props.cleanRequestResponse();
                     this.showError('Error', 'Ocurrió un error al procesar la transacción');
-                    this.getInitialData(this.state.selectedDate)
+                    this.getInitialData()
                 }
             }
         }
@@ -161,11 +148,10 @@ class JobsEtl extends Component {
                                     <CustomTableCell align="left">Grupo</CustomTableCell>
                                     <CustomTableCell align="left">Orden</CustomTableCell>
                                     <CustomTableCell align="left">Ejecutar</CustomTableCell>
-                                    <CustomTableCell align="left">Estado</CustomTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {parameter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item , index) => {
+                                {parameter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                                     const isProcess = item.state === "Procesando";
                                     const isExecute = item.state === "Ejecutado";
                                     return (<TableRow hover key={item.id}>
@@ -181,8 +167,6 @@ class JobsEtl extends Component {
                                             </Button>
 
                                         </TableCell>
-                                        <TableCell
-                                            style={isProcess ? {color: 'red'} : isExecute ? {color: 'green'} : {color: 'black'}}>{item.state}</TableCell>
                                     </TableRow>)
                                 })}
                             </TableBody>
@@ -204,7 +188,6 @@ class JobsEtl extends Component {
     }
 
     render() {
-        const {selectedDate} = this.state;
         {
             if (this.props.execute.jobExectute !== null) {
                 this.showResponse()
@@ -213,27 +196,14 @@ class JobsEtl extends Component {
         return (
             <div>
                 <div>
-                    <Title title={'Ejecución de Jobs'}
-                           subtitle={'En esta sección podras ejecuatar Jobs de manera completa o por partes segun su orden de prioridad'}/>
+                    <Title title={'Ejecución de Jobs Maestros SAP'}
+                           subtitle={'En esta sección podras ejecutar Jobs de manera completa o por partes segun su orden de prioridad de Maestros SAP'}/>
                     <Messages ref={(el) => this.messages = el}/>
                 </div>
                 <div>{this.renderAnswerDialog()}</div>
                 <div>
                     <Toolbar style={{background: '#FFFFFF', marginTop: '1em'}}>
-                        <div>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
-                                <DatePicker
-                                    format={format(selectedDate, '\'MMMM, yyyy\'')}
-                                    keyboard
-                                    clearable
-                                    label="Mes de ejecución"
-                                    value={selectedDate}
-                                    onChange={this.handleDateChange}
-                                    animateYearScrolling={true}
-                                    minDate={new Date('01/01/2019')}
-                                    onInputChange={e => console.log("Keyboard Input:", e.target.value)}/>
-                            </MuiPickersUtilsProvider>
-                        </div>
+
                     </Toolbar>
                     <div>
                         {this.renderTable()}
@@ -244,18 +214,17 @@ class JobsEtl extends Component {
     }
 }
 
-JobsEtl.propTypes = {};
-
+MasterJobs.propTypes = {};
 const mapStateToProps = state => ({
     parameter: parameters(state),
     execute: getProcessConfirmation(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    jobEtl: (code, date) => dispatch(jobEtlServerBi(code, date)),
-    getInitialDataParameters: (dataParam) => dispatch(getInitialDataParametersServerBi(dataParam)),
+    jobEtl: (code) => dispatch(jobMasterEtlServerBi(code)),
+    getMasterParametersServerBi: () => dispatch(getMasterParametersServerBi()),
     cleanRequestResponse: () => dispatch(cleanRequestResponse()),
     changeState: (position) => dispatch(changeStateParameter(position))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(JobsEtl));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, JsxStyles)(MasterJobs));

@@ -4,8 +4,32 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import BaseGenerator from "../../../../BaseGenerator/pages/BaseGenerator";
 import DialogActions from "@material-ui/core/DialogActions";
-import {Button} from "primereact/button";
 import Dialog from "@material-ui/core/Dialog";
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import {green, red} from "@material-ui/core/colors";
+import Button from "@material-ui/core/Button/Button";
+import SaveIcon from "@material-ui/icons/Save"
+import CancelIcon from "@material-ui/icons/Cancel"
+
+const GreenButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(green[700]),
+        backgroundColor: green[500],
+        '&:hover': {
+            backgroundColor: green[700],
+        },
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 function BaseSegment(props) {
     const {baseOpen, segment} = props;
@@ -28,10 +52,14 @@ function BaseSegment(props) {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button label="Guardar" icon="pi pi-check" onClick={props.setBaseClick}
-                        className="buttonBlue"/>
-                <Button label="Cancelar" icon="pi pi-times" onClick={props.handleCloseBase}
-                        className="ui-button-secondary buttonSecundary"/>
+                <GreenButton label="Guardar" onClick={props.setBaseClick} className="ui-button-success">
+                    <SaveIcon/>
+                    Guardar
+                </GreenButton>
+                <RedButton label="Cancelar" onClick={props.handleCloseBase} className="ui-button-secondary">
+                    <CancelIcon/>
+                    Cancelar
+                </RedButton>
             </DialogActions>
         </Dialog>
     )

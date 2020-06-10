@@ -21,7 +21,37 @@ class FreeAnswer extends Component {
         const selectedOptions = [this.createDetail(value)];
         let markedOptions = {...this.props.markedOptions};
         markedOptions[this.props.question.id] = selectedOptions;
-        this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+        switch (this.props.question.lsQuestionOptions[0].option) {
+            case Constants.TEXT_VALIDATION:
+                var isText = /^[a-z\_\s]+$/i;
+                if(isText.test(value)){
+                    this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                } else if (value === ""){
+                    this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                }
+                break;
+            case Constants.NUMBER_VALIDATION:
+                var isInt = /^-?[0-9]+$/;
+                if(isInt.test(value)){
+                    this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                } else if (value === ""){
+                    this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                }
+                break;
+            case Constants.DECIMAL_VALIDATION:
+                //var regexp = /^(?:\d*\.*\d{1,2}|\d+)$/;
+                if(parseFloat(value)){
+                    if(value >= 0){
+                        this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                    }
+                } else if (value === ""){
+                    this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                }
+                break;
+            default:
+                this.props.updateMarkedOptions({id: this.props.question.id, value: selectedOptions});
+                break;
+        }
     };
 
     verifyPrecondition = () => {
@@ -116,7 +146,6 @@ class FreeAnswer extends Component {
                                     marginTop: '15px',
                                 }}
                                 value={selectedOption.answerDetail}
-                                keyfilter={this.state.inputType}
                                 onChange={(e) => this.selectOption(e.target.value)}
                                 rows={4} autoResize={false}/>
 

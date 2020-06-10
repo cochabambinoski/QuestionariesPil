@@ -1,20 +1,41 @@
 import React from 'react';
-import {Button} from "primereact/button";
-import {Grid} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import {green, red} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import Grid from "@material-ui/core/es/Grid/Grid";
+
+const GreenButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(green[700]),
+        backgroundColor: green[500],
+        '&:hover': {
+            backgroundColor: green[700],
+        },
+        marginRight: 5,
+    },
+}))(Button);
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 function ButtonAcceptCancel(props) {
     return (
         <div style={{flexGrow: 1}}>
             <Grid container xs={12}>
-                <Grid item xs={6} sm={3}>
                     {props.children}
-                </Grid>
-                <Grid item xs={6} sm={3}>
-                    <Button label="Aceptar" onClick={props.addQuestion} className={'p-button-success'}/>
-                </Grid>
-                <Grid item xs={6} sm={3}>
-                    <Button label="Cancelar" onClick={props.handleClose} className={'p-button-danger'}/>
-                </Grid>
+                    <GreenButton label="Aceptar" onClick={props.addQuestion} className="ui-button-success">
+                        Aceptar
+                    </GreenButton>
+                    <RedButton label="Cancelar" onClick={props.handleClose} className="ui-button-secondary">
+                        Cancelar
+                    </RedButton>
             </Grid>
         </div>
     )

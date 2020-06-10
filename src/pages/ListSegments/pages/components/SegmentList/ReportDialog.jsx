@@ -3,12 +3,25 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
-import {Button} from "primereact/button";
 import Dialog from "@material-ui/core/Dialog";
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import {red} from "@material-ui/core/colors";
+import Button from "@material-ui/core/Button/Button";
+import CancelIcon from "@material-ui/core/SvgIcon/SvgIcon";
+
+const RedButton = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+        '&:hover': {
+            backgroundColor: red[700],
+        },
+    },
+}))(Button);
 
 function ReportDialog(props) {
     const {reportOpen} = props;
-    return(
+    return (
         <Dialog
             open={reportOpen}
             onClose={props.handleClose}
@@ -32,7 +45,10 @@ function ReportDialog(props) {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button label="Cancelar" icon="pi pi-times" onClick={props.handleCloseReport} className="ui-button-secondary"/>
+                <RedButton label="Cancelar" onClick={props.handleCloseReport} className="ui-button-secondary">
+                    <CancelIcon/>
+                    Cancelar
+                </RedButton>
             </DialogActions>
         </Dialog>
     )

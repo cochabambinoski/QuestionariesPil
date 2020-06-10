@@ -22,7 +22,23 @@ const initialState = ({
 export const parameter = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_PARAMETERS: {
-            return {...state, parameter: action.payload, errorRequest: null}
+            const {parameters, types} = action.payload;
+            console.log(parameters, types);
+            let listParams = [];
+            let type = types.find(t => {
+                if (t.codeType === 'MAESTRO') {
+                    return t;
+                }
+            });
+            for (let parameter of parameters){
+                if (parameter.group === type.typeId.toString()){
+                    parameter.groupName = type.name;
+                    listParams.push(parameter);
+                    listParams.sort((a, b) => (a.group > b.group) ? 1 : (a.group === b.group) ? ((a.order > b.order) ? 1 : -1) : -1);
+                }
+            }
+
+            return {...state, parameter: listParams, errorRequest: null}
         }
         case GET_DATA_PARAMETERS: {
             const {parameters, jobs, types} = action.payload;

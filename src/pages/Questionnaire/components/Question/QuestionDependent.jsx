@@ -1,8 +1,23 @@
 import React, {Component} from 'react';
 import {Dropdown} from "primereact/dropdown";
 import {Messages} from "primereact/messages";
-import {Button} from "primereact/button";
 import Constants from './../../../../Constants';
+import Button from "@material-ui/core/Button";
+import {blue} from '@material-ui/core/colors';
+import withStyles from "@material-ui/core/es/styles/withStyles";
+import Remove from '@material-ui/icons/Remove'
+
+const BlueButtonMinus = withStyles(theme => ({
+    root: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+        '&:hover': {
+            backgroundColor: blue[700],
+        },
+        width: 5,
+        marginLeft: 5,
+    },
+}))(Button);
 
 class QuestionDependent extends Component {
 
@@ -153,10 +168,11 @@ class QuestionDependent extends Component {
                         filterBy="option"
                         className="dropboxQuestion"
                         showClear={true}/>
-                    <Button icon="pi pi-minus" className="delOption"
-                            onClick={() => {
-                                this.setState({selOption: null});
-                            }}/>
+                    <BlueButtonMinus onClick={() => {
+                        this.setState({selOption: null});
+                    }}>
+                        <Remove/>
+                    </BlueButtonMinus>
                 </div>
 
             </div>

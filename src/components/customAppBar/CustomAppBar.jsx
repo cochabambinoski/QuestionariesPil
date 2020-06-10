@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react';
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import {useTheme} from "@material-ui/styles";
+import { withStyles } from '@material-ui/core/styles';
 import {CssBaseline} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import clsx from "clsx";
@@ -13,11 +12,10 @@ import List from "@material-ui/core/List";
 import SubMenu from "../subMenu/SubMenu";
 import pilLogo from "../../images/pil.png";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     root: {
         display: 'flex',
     },
@@ -37,7 +35,6 @@ const useStyles = makeStyles(theme => ({
         }),
     },
     menuButton: {
-        marginRight: theme.spacing(2),
     },
     hide: {
         display: 'none',
@@ -60,7 +57,6 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -77,14 +73,16 @@ const useStyles = makeStyles(theme => ({
     nameUser: {
         textAlign: 'center',
         color: 'white'
+    },
+    iconColor: {
+        color: "white"
     }
-}));
+});
 
-export default function CustomAppBar(props) {
+function CustomAppBar(props) {
 
     const {menu} = props;
-    const classes = useStyles();
-    const theme = useTheme();
+    const {classes} = props;
     const [open, setOpen] = React.useState(false);
 
     function handleDrawerOpen() {
@@ -111,8 +109,8 @@ export default function CustomAppBar(props) {
             <Drawer className={classes.drawer} variant={"persistent"} anchor={"left"} open={open}
                     classes={{paper: classes.drawerPaper}}>
                 <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+                    <IconButton className={classes.iconColor} onClick={handleDrawerClose}>
+                        { <ChevronLeftIcon/>}
                     </IconButton>
                 </div>
                 <Divider/>
@@ -131,3 +129,4 @@ export default function CustomAppBar(props) {
         </Fragment>
     );
 }
+export default withStyles(useStyles)(CustomAppBar)
