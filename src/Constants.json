@@ -1,7 +1,7 @@
 {
   "ROUTE_WEB_SERVICES": "https://bocbap8.pilandina.com.bo/vmovil/serviceRESTMovil/movil/datos/",
   "ROUTE_SVM": "https://bocbap8.pilandina.com.bo/vmovil/business/login.jsf",
-  "ROUTE_WEB_BI": "https://bocbbi.pilandina.com.bo:8086/bi/",
+  "ROUTE_WEB_BI": "https://bocbbi.pilandina.com.bo/bi/",
   "ROUTE_WEB_SERVICES_POS": "https://bocbap1.pilandina.com.bo/pos/serviceREST/administrador/cliente/",
   "GET_ALL_QUESTIONNAIRES": "getAllQuestionary/",
   "GET_ALL_QUESTIONNAIRES_BY_USER": "getAllQuestionaryByUserSystem",
