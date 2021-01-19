@@ -64,7 +64,7 @@ class FreeAnswerTable extends Component {
                         {answers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(answer => (
                             <TableRow key={answer.id}>
                                 <CustomTableCell component="th"
-                                                 scope="row"> {answer.answer.interviewedName !== null ? answer.answer.interviewedName : answer.answer.client.nombreFactura}</CustomTableCell>
+                                                 scope="row"> {answer.answer.interviewedName !== null ? answer.answer.interviewedName : answer.answer.client==null?'SIN NOMBRE':answer.answer.client.nombreFactura}</CustomTableCell>
                                 <CustomTableCell style={{textAlign: 'left',}}
                                                  numeric> {answer.answerDetail}</CustomTableCell>
                             </TableRow>
