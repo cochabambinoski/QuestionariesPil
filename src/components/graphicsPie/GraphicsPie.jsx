@@ -37,7 +37,8 @@ export default class GraphicsPie extends Component {
             <Fragment>
                 {
                     this.state.data != null ? (
-                        <Chart type="pie" data={this.state.data}/>) : (
+                        <Chart type="pie" data={this.state.data} width={500}
+                        height={250} />) : (
                         <h1>Error al cargar el componente</h1>)
                 }
             </Fragment>
